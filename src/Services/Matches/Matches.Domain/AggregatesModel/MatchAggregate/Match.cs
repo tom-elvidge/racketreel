@@ -50,6 +50,7 @@ public class Match : Entity, IAggregateRoot
     public bool IsComplete()
     {
         // Todo: Cache this and invalidate the cache whenever a new state is pushed
+        // Todo: For dev implement a cache which always misses and does nothing with the update
         // Todo: Compute from the latest state and the format
         return false;
     }

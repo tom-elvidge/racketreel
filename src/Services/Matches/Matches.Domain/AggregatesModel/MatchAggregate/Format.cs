@@ -7,11 +7,11 @@ namespace RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 public class Format : ValueObject
 {
     public int Sets { get; private set; }
-    // Todo: Use Enums for SetType and FinalSetType
-    public string SetType { get; private set; }
-    public string FinalSetType { get; private set; }
+    public SetType NormalSetType { get; private set; }
+    // Often matches uses a different set type for the final set
+    public SetType FinalSetType { get; private set; }
 
-    public Format(int sets, string setType, string finalSetType)
+    public Format(int sets, SetType setType, SetType finalSetType)
     {
         if (sets % 2 == 0)
         {
@@ -27,14 +27,14 @@ public class Format : ValueObject
         }
 
         Sets = sets;
-        SetType = setType;
+        NormalSetType = setType;
         FinalSetType = finalSetType;
     }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Sets;
-        yield return SetType;
+        yield return NormalSetType;
         yield return FinalSetType;
     }
 }
