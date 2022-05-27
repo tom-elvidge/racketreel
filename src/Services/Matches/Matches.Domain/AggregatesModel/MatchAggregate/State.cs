@@ -11,7 +11,7 @@ public class State : Entity
     public int Serving { get; private set; }
     public bool IsTieBreak { get; private set; }
     public int TieBreakPointCounter { get; private set; }
-    public string ServingAfterTieBreak { get; private set; }
+    public int ServingAfterTieBreak { get; private set; }
 
     public State(
         DateTime createdDateTime,
@@ -19,7 +19,7 @@ public class State : Entity
         int serving,
         bool isTieBreak = false,
         int tieBreakPointCounter = 0,
-        string servingAfterTieBreak = null
+        int servingAfterTieBreak = -1
     )
     {
         if (!(serving == 0 || serving == 1))
@@ -27,9 +27,9 @@ public class State : Entity
             throw new MatchesDomainException("serving must be either 0 or 1");
         }
 
-        if (isTieBreak && servingAfterTieBreak == null)
+        if (isTieBreak && !(servingAfterTieBreak == 0 || servingAfterTieBreak == 1))
         {
-            throw new MatchesDomainException("servingAfterTieBreak cannot be null when isTieBreak is true");
+            throw new MatchesDomainException("servingAfterTieBreak must be either 0 or 1 when isTieBreak is true");
         }
 
         CreatedDateTime = createdDateTime;

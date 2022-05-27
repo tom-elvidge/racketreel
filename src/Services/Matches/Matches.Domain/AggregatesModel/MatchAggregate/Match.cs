@@ -11,30 +11,31 @@ public class Match : Entity, IAggregateRoot
     public DateTime CreatedDateTime { get; private set; }
     public (string, string) Players { get; private set; }
     public Format Format { get; private set; }
-    public ICollection<State> States { get; private set; }
+    private readonly List<State> _states;
+    public IReadOnlyCollection<State> States => _states;
 
     public Match((string, string) players, Format format, int servingFirst)
     {
         CreatedDateTime = DateTime.Now;
         Players = players;
         Format = format;
-        States = new List<State> { State.InitialState(servingFirst) };
+        _states = new List<State> { State.InitialState(servingFirst) };
     }
 
     public State GetCurrentState()
     {
-        States.OrderByDescending(s => s.CreatedDateTime);
-        return States.First();
+        _states.OrderByDescending(s => s.CreatedDateTime);
+        return _states.First();
     }
 
     public void RemoveCurrentState()
     {
-        if (States.Count() == 1)
+        if (_states.Count() == 1)
         {
             throw new MatchesDomainException("cannot remove the initial state");
         }
 
-        States.Remove(GetCurrentState());
+        _states.Remove(GetCurrentState());
     }
 
     public void AddState(int player)
