@@ -11,12 +11,12 @@ class StateEntityTypeConfiguration : IEntityTypeConfiguration<State>
     {
         stateConfiguration.ToTable("states", MatchesContext.DEFAULT_SCHEMA);
 
-        stateConfiguration.HasKey(o => o.Id);
+        stateConfiguration.HasKey(s => s.Id);
 
-        stateConfiguration.Ignore(b => b.DomainEvents);
+        stateConfiguration.Ignore(s => s.DomainEvents);
 
         stateConfiguration.Property(s => s.Id)
-            .UseHiLo("stateseq");
+            .UseHiLo("stateseq", MatchesContext.DEFAULT_SCHEMA);
 
         stateConfiguration
             .OwnsOne(st => st.Score, sc =>

@@ -1,0 +1,36 @@
+using System;
+using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using RacketReel.Services.Matches.API.Application.Commands;
+
+namespace RacketReel.Services.Matches.API.Controllers;
+
+[Route("api/v1/[controller]")]
+[ApiController]
+public class MatchesController : ControllerBase
+{
+    private readonly IMediator _mediator;
+    private readonly ILogger<MatchesController> _logger;
+
+    public MatchesController(IMediator mediator, ILogger<MatchesController> logger)
+    {
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateMatch([FromBody] CreateMatchCommand createMatchCommand)
+    {
+        // Todo: Move logging into the MediatR pipeline
+        _logger.LogInformation(
+            "Sending command: {CommandName}: {@Command}",
+            "CreateMatchCommand", // Todo: Implement a GetGenericTypeName() extension method
+            createMatchCommand);
+
+        var commandResult = await _mediator.Send(createMatchCommand);
+
+        return commandResult ? (IActionResult) Ok() : (IActionResult) BadRequest();
+    }
+}

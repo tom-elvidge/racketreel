@@ -13,6 +13,10 @@ public class State : Entity
     public int TieBreakPointCounter { get; private set; }
     public int ServingAfterTieBreak { get; private set; }
 
+    public State()
+    {
+    }
+
     public State(
         DateTime createdDateTime,
         Score score,
@@ -42,6 +46,6 @@ public class State : Entity
 
     public static State InitialState(int serving)
     {
-        return new State(DateTime.Now, new Score((0,0),(0,0),(0,0)), serving);
+        return new State(DateTime.Now, new Score(0,0,0,0,0,0), serving);
     }
 }

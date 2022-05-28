@@ -9,15 +9,23 @@ namespace RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 public class Match : Entity, IAggregateRoot
 {
     public DateTime CreatedDateTime { get; private set; }
-    public (string, string) Players { get; private set; }
+    // Participant as it could be a player or a doubles pair
+    public string ParticipantOne { get; private set; }
+    public string ParticipantTwo { get; private set; }
     public Format Format { get; private set; }
     private readonly List<State> _states;
     public IReadOnlyCollection<State> States => _states;
 
-    public Match((string, string) players, Format format, int servingFirst)
+    public Match()
+    {
+        
+    }
+
+    public Match(string participantOne, string participantTwo, Format format, int servingFirst)
     {
         CreatedDateTime = DateTime.Now;
-        Players = players;
+        ParticipantOne = participantOne;
+        ParticipantTwo = participantTwo;
         Format = format;
         _states = new List<State> { State.InitialState(servingFirst) };
     }

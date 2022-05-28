@@ -11,6 +11,10 @@ public class Format : ValueObject
     // Often matches uses a different set type for the final set
     public SetType FinalSetType { get; private set; }
 
+    public Format()
+    {
+    }
+
     public Format(int sets, SetType setType, SetType finalSetType)
     {
         if (sets % 2 == 0)

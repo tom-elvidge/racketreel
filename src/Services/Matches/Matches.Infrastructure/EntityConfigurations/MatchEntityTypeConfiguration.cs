@@ -35,8 +35,13 @@ class MatchEntityTypeConfiguration : IEntityTypeConfiguration<Match>
             .IsRequired();
 
         matchConfiguration
-            .Property<(string, string)>("Players")
-            .HasColumnName("Players")
+            .Property<string>("ParticipantOne")
+            .HasColumnName("ParticipantOne")
+            .IsRequired();
+        
+        matchConfiguration
+            .Property<string>("ParticipantTwo")
+            .HasColumnName("ParticipantTwo")
             .IsRequired();
 
         var navigation = matchConfiguration.Metadata.FindNavigation(nameof(Match.States));

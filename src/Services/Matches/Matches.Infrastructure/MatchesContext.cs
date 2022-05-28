@@ -9,7 +9,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Data;
-using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 
 namespace RacketReel.Services.Matches.Infrastructure;
@@ -20,6 +19,7 @@ public class MatchesContext : DbContext, IUnitOfWork
     public const string DEFAULT_SCHEMA = "matches";
     public DbSet<Match> Matches { get; set; }
     public DbSet<State> MatchStates { get; set; }
+    public DbSet<SetType> SetTypes { get; set; }
 
     private readonly IMediator _mediator;
     private IDbContextTransaction _currentTransaction;
@@ -42,6 +42,7 @@ public class MatchesContext : DbContext, IUnitOfWork
     {
         modelBuilder.ApplyConfiguration(new MatchEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new StateEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new SetTypeEntityTypeConfiguration());
     }
 
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -116,12 +117,7 @@ public class MatchesContextDesignFactory : IDesignTimeDbContextFactory<MatchesCo
 {
     public MatchesContext CreateDbContext(string[] args)
     {
-        // Need to keep a connection open otherwise in memory database clears
-        var connection = new SqliteConnection("DataSource=:memory:");
-        connection.Open();
-
-        var optionsBuilder = new DbContextOptionsBuilder<MatchesContext>()
-            .UseSqlite(connection);
+        var optionsBuilder = new DbContextOptionsBuilder<MatchesContext>();
 
         return new MatchesContext(optionsBuilder.Options, new NoMediator());
     }
