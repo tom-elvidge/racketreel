@@ -19,7 +19,7 @@ public class MatchesContext : DbContext, IUnitOfWork
     public const string DEFAULT_SCHEMA = "matches";
     public DbSet<Match> Matches { get; set; }
     public DbSet<State> MatchStates { get; set; }
-    public DbSet<SetType> SetTypes { get; set; }
+    // public DbSet<SetType> SetTypes { get; set; }
 
     private readonly IMediator _mediator;
     private IDbContextTransaction _currentTransaction;
@@ -42,7 +42,6 @@ public class MatchesContext : DbContext, IUnitOfWork
     {
         modelBuilder.ApplyConfiguration(new MatchEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new StateEntityTypeConfiguration());
-        modelBuilder.ApplyConfiguration(new SetTypeEntityTypeConfiguration());
     }
 
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))

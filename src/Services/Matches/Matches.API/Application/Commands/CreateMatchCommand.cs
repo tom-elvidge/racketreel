@@ -1,42 +1,31 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using MediatR;
+using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
 namespace RacketReel.Services.Matches.API.Application.Commands;
 
-[DataContract]
-public class CreateMatchCommand : IRequest<bool>
+public class CreateMatchCommand : IRequest<Match>
 {
-    [DataMember]
-    private readonly List<string> _players;
-
-    [DataMember]
-    public IEnumerable<string> Players => _players;
-
-    [DataMember]
+    public IEnumerable<string> Players { get; set; }
     public string ServingFirst { get; private set; }
-
-    [DataMember]
     public int Sets { get; private set; }
-
-    [DataMember]
     public string SetType { get; private set; }
-
-    [DataMember]
     public string FinalSetType { get; private set; }
 
-    public CreateMatchCommand()
-    {
-        _players = new List<string>();
-    }
-
+    [JsonConstructor]
     public CreateMatchCommand(IEnumerable<string> players, string servingFirst, int sets, string setType, string finalSetType)
     {
-        _players = players.ToList();
+        Players = players;
         ServingFirst = servingFirst;
         Sets = sets;
         SetType = setType;
         FinalSetType = finalSetType;
+    }
+
+    public override string ToString()
+    {
+        return JsonSerializer.Serialize(this);
     }
 }

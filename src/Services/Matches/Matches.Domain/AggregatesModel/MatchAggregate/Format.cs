@@ -7,7 +7,9 @@ namespace RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 public class Format : ValueObject
 {
     public int Sets { get; private set; }
+
     public SetType NormalSetType { get; private set; }
+
     // Often matches uses a different set type for the final set
     public SetType FinalSetType { get; private set; }
 
@@ -15,7 +17,7 @@ public class Format : ValueObject
     {
     }
 
-    public Format(int sets, SetType setType, SetType finalSetType)
+    public Format(int sets, SetType normalSetType, SetType finalSetType)
     {
         if (sets % 2 == 0)
         {
@@ -31,7 +33,7 @@ public class Format : ValueObject
         }
 
         Sets = sets;
-        NormalSetType = setType;
+        NormalSetType = normalSetType;
         FinalSetType = finalSetType;
     }
 

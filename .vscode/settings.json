@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "Mediat"
+    ],
+    "dataworkspace.excludedProjects": [
+        "src/Services/Matches/Matches.Infrastructure/RacketReel.Services.Matches/RacketReel.Services.Matches.sqlproj"
     ]
 }

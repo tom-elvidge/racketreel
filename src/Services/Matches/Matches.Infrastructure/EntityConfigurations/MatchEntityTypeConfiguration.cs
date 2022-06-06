@@ -25,8 +25,20 @@ class MatchEntityTypeConfiguration : IEntityTypeConfiguration<Match>
                 // Explicit configuration of the shadow key property in the owned type 
                 // as a workaround for a documented issue in EF Core 5: https://github.com/dotnet/efcore/issues/20740
                 f.Property<int>("MatchId")
-                .UseHiLo("matchseq", MatchesContext.DEFAULT_SCHEMA);
+                    .UseHiLo("matchseq", MatchesContext.DEFAULT_SCHEMA);
                 f.WithOwner();
+
+                f.Property<int>("Sets")
+                    .HasColumnName("Sets")
+                    .IsRequired();
+
+                f.Property<SetType>("NormalSetType")
+                    .HasColumnName("NormalSetType")
+                    .IsRequired();
+
+                f.Property<SetType>("FinalSetType")
+                    .HasColumnName("FinalSetType")
+                    .IsRequired();
             });
 
         matchConfiguration

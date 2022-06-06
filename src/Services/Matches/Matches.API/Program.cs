@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RacketReel.Services.Matches.Infrastructure;
@@ -15,12 +14,7 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
-// var connection = new SqliteConnection("DataSource=:memory:");
-// connection.Open();
-
 services.AddDbContext<MatchesContext>(c =>
-    // c.UseSqlite(connection),
-    // ServiceLifetime.Scoped
     c.UseSqlServer(builder.Configuration["ConnectionString"],
     sqlServerOptionsAction: sqlOptions =>
     {

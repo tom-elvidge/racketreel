@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -7,7 +8,7 @@ using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
 namespace RacketReel.Services.Matches.API.Application.Commands;
 
-public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, bool>
+public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, Match>
 {
     private readonly IMatchRepository _matchRepository;
     private readonly IMediator _mediator;
@@ -22,18 +23,29 @@ public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, boo
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<bool> Handle(CreateMatchCommand request, CancellationToken cancellationToken)
+    public async Task<Match> Handle(CreateMatchCommand request, CancellationToken cancellationToken)
     {
-        // Todo: Validate request
+        _logger.LogInformation("Creating match with stes: {@Sets}", request.Sets);
 
-        // Todo: Use actual data from request
-        var format = new Format(3, SetType.SixAllAdvantageRule, SetType.SixAllAdvantageRule);
-        var match = new Match("one", "two", format, 0);
+        Enum.TryParse<SetType>(request.SetType, out var setType);
+        Enum.TryParse<SetType>(request.FinalSetType, out var finalSetType);
+        var format = new Format(request.Sets, setType, finalSetType);
+
+        var players = request.Players.ToList();
+        var playerOne = players[0];
+        var playerTwo = players[1];
+
+        var servingFirst = request.ServingFirst == playerOne ? 0 : 1;
+        
+        var match = new Match(playerOne, playerTwo, format, servingFirst);
 
         _logger.LogInformation("Creating Match: {@Match}", match);
 
         _matchRepository.Add(match);
+        await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-        return await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+        // Todo: Transform match to DTO and return
+
+        return match;
     }
 }
