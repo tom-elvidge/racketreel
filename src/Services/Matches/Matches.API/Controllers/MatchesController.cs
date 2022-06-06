@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RacketReel.Services.Matches.API.Application.Commands;
+using RacketReel.Services.Matches.API.Application.Dtos;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
 namespace RacketReel.Services.Matches.API.Controllers;
@@ -22,7 +23,7 @@ public class MatchesController : Controller
     }
 
     [HttpPost]
-    public async Task<ActionResult<Match>> CreateMatch([FromBody] CreateMatchCommand createMatchCommand)
+    public async Task<ActionResult<MatchDto>> CreateMatch([FromBody] CreateMatchCommand createMatchCommand)
     {
         // Todo: Move logging into the MediatR pipeline
         _logger.LogInformation(

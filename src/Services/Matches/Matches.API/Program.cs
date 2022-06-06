@@ -1,15 +1,16 @@
+using System;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using MediatR;
+using FluentValidation;
 using RacketReel.Services.Matches.Infrastructure;
 using RacketReel.Services.Matches.Infrastructure.Repositories;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
-using MediatR;
-using FluentValidation;
 using RacketReel.Services.Matches.API.Application.PipelineBehaviours;
-using Microsoft.Extensions.Hosting;
-using System.Reflection;
-using System;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -24,7 +25,10 @@ services.AddDbContext<MatchesContext>(c =>
     })
 );
 
-services.AddMvc();
+services.AddMvc().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
 
 services.AddScoped<IMatchRepository, MatchRepository>();
 

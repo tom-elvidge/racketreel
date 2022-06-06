@@ -4,11 +4,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using RacketReel.Services.Matches.API.Application.Dtos;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
 namespace RacketReel.Services.Matches.API.Application.Commands;
 
-public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, Match>
+public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, MatchDto>
 {
     private readonly IMatchRepository _matchRepository;
     private readonly IMediator _mediator;
@@ -23,7 +24,7 @@ public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, Mat
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<Match> Handle(CreateMatchCommand request, CancellationToken cancellationToken)
+    public async Task<MatchDto> Handle(CreateMatchCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Creating match with stes: {@Sets}", request.Sets);
 
@@ -44,8 +45,6 @@ public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, Mat
         _matchRepository.Add(match);
         await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-        // Todo: Transform match to DTO and return
-
-        return match;
+        return MatchDto.ConvertToDto(match);
     }
 }

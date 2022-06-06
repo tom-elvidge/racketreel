@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using MediatR;
-using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
+using RacketReel.Services.Matches.API.Application.Dtos;
 
 namespace RacketReel.Services.Matches.API.Application.Commands;
 
-public class CreateMatchCommand : IRequest<Match>
+public class CreateMatchCommand : IRequest<MatchDto>
 {
     public IEnumerable<string> Players { get; set; }
     public string ServingFirst { get; private set; }

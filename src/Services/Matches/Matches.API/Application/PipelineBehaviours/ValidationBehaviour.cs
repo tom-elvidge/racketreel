@@ -33,6 +33,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
         {
             _logger.LogWarning("Validation errors - Command: {@Command} - Errors: {@ValidationErrors}", request, failures);
 
+            // Todo: Respond with 400 Bad Request and error messages if any validations fail
             throw new MatchesDomainException(
                 $"Command Validation Errors for type {typeof(TRequest).Name}",
                 new ValidationException("Validation exception", failures)
