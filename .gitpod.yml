@@ -2,13 +2,25 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
+  - name: Docker development dependencies
+    init: docker-compose up -d
   - name: Restore & Build
     init: |
       cd src/Services
       dotnet dev-certs https 
       dotnet restore
       dotnet build
+
+ports:
+  - port: 5001
+    onOpen: ignore
+  - port: 1433
+    onOpen: ignore
+
 vscode:
   extensions:
     - muhammad-sammy.csharp
     - ms-azuretools.vscode-docker
+    - streetsidesoftware.code-spell-checker
+    - redhat.vscode-yaml
+    - yzhang.markdown-all-in-one
