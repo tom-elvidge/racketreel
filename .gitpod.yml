@@ -2,9 +2,7 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - name: Docker development dependencies
-    init: docker-compose up -d
-  - name: Restore & Build
+  - name: docker, restore, build
     init: |
       cd src/Services
       dotnet dev-certs https 
@@ -12,7 +10,7 @@ tasks:
       dotnet build
 
 ports:
-  - port: 5001
+  - port: 500
     onOpen: ignore
   - port: 1433
     onOpen: ignore
