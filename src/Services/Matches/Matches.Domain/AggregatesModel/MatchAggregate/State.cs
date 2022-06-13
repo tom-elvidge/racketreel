@@ -46,6 +46,6 @@ public class State : Entity
 
     public static State InitialState(int serving)
     {
-        return new State(DateTime.Now, new Score(0,0,0,0,0,0), serving);
+        return new State(DateTime.UtcNow, new Score(0,0,0,0,0,0), serving);
     }
 }

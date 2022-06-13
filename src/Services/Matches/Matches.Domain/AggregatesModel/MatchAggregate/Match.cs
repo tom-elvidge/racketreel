@@ -23,7 +23,7 @@ public class Match : Entity, IAggregateRoot
 
     public Match(string participantOne, string participantTwo, Format format, int servingFirst)
     {
-        CreatedDateTime = DateTime.Now;
+        CreatedDateTime = DateTime.UtcNow;
         ParticipantOne = participantOne;
         ParticipantTwo = participantTwo;
         Format = format;

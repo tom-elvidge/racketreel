@@ -16,13 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 services.AddDbContext<MatchesContext>(c =>
-    c.UseSqlServer(builder.Configuration["ConnectionString"],
-    sqlServerOptionsAction: sqlOptions =>
-    {
-        sqlOptions.MigrationsAssembly(typeof(Program).GetTypeInfo().Assembly.GetName().Name);
-        // Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-    })
+    c.UseNpgsql(builder.Configuration["ConnectionString"])
 );
 
 services.AddMvc().AddJsonOptions(options =>
