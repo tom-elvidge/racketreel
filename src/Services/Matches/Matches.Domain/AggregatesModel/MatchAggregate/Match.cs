@@ -28,12 +28,17 @@ public class Match : Entity, IAggregateRoot
         ParticipantTwo = participantTwo;
         Format = format;
         _states = new List<State> { State.InitialState(servingFirst) };
+        _states.OrderBy(s => s.CreatedDateTime);
     }
 
-    public State GetCurrentState()
+    public State GetLatestState()
     {
-        _states.OrderByDescending(s => s.CreatedDateTime);
-        return _states.First();
+        return _states.Last();
+    }
+
+    public State GetStateByIndex(int i)
+    {
+        return _states[i];
     }
 
     public void RemoveCurrentState()
@@ -43,7 +48,7 @@ public class Match : Entity, IAggregateRoot
             throw new MatchesDomainException("cannot remove the initial state");
         }
 
-        _states.Remove(GetCurrentState());
+        _states.Remove(GetLatestState());
     }
 
     public void AddState(int player)

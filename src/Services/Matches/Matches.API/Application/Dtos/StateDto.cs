@@ -26,4 +26,20 @@ public class StateDto
         TieBreakPointCounter = tieBreakPointCounter;
         ServingAfterTieBreak = servingAfterTieBreak;
     }
+
+    public static StateDto ConvertToDto(Match match, State state)
+    {
+        return new StateDto(
+            state.CreatedDateTime,
+            state.Serving == 0 ? match.ParticipantOne : match.ParticipantTwo,
+            new Dictionary<string, PlayerScoreDto>()
+            {
+                { match.ParticipantOne, new PlayerScoreDto(state.Score.ParticipantOnePoints, state.Score.ParticipantOneGames, state.Score.ParticipantOneSets) },
+                { match.ParticipantTwo, new PlayerScoreDto(state.Score.ParticipantTwoPoints, state.Score.ParticipantTwoGames, state.Score.ParticipantOneSets) }
+            },
+            state.IsTieBreak,
+            state.TieBreakPointCounter == 0 ? null : state.TieBreakPointCounter,
+            state.ServingAfterTieBreak == -1 ? null : (state.ServingAfterTieBreak == 0 ? match.ParticipantOne : match.ParticipantTwo)
+        );
+    }
 }

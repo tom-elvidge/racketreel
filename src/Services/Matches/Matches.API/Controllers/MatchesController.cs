@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,17 +14,19 @@ namespace RacketReel.Services.Matches.API.Controllers;
 [ApiController]
 public class MatchesController : Controller
 {
+    private readonly IMatchRepository _matchRepository;
     private readonly IMediator _mediator;
     private readonly ILogger<MatchesController> _logger;
 
-    public MatchesController(IMediator mediator, ILogger<MatchesController> logger)
+    public MatchesController(IMatchRepository matchRepository, IMediator mediator, ILogger<MatchesController> logger)
     {
+        _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpPost]
-    public async Task<ActionResult<MatchDto>> CreateMatch([FromBody] CreateMatchCommand createMatchCommand)
+    public async Task<ActionResult<MatchDto>> CreateMatchAsync([FromBody] CreateMatchCommand createMatchCommand)
     {
         // Todo: Move logging into the MediatR pipeline
         _logger.LogInformation(
@@ -33,5 +36,63 @@ public class MatchesController : Controller
 
         var commandResult = await _mediator.Send(createMatchCommand);
         return commandResult;
+    }
+
+    [Route("{matchId:int}")]
+    [HttpGet]
+    [ProducesResponseType(typeof(MatchDto), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<ActionResult> GetMatchAsync(int matchId)
+    {
+        var match = await _matchRepository.GetAsync(matchId);
+
+        if (match == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(MatchDto.ConvertToDto(match));
+    }
+
+    [Route("{matchId:int}/states/latest")]
+    [HttpGet]
+    [ProducesResponseType(typeof(StateDto), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<ActionResult> GetLatestMatchState(int matchId)
+    {
+        var match = await _matchRepository.GetAsync(matchId);
+        if (match == null)
+        {
+            return NotFound();
+        }
+
+        var state = match.GetLatestState();
+        if (state == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(StateDto.ConvertToDto(match, state));
+    }
+
+    [Route("{matchId:int}/states/{stateIndex:int}")]
+    [HttpGet]
+    [ProducesResponseType(typeof(StateDto), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<ActionResult> GetLatestMatchState(int matchId, int stateIndex)
+    {
+        var match = await _matchRepository.GetAsync(matchId);
+        if (match == null)
+        {
+            return NotFound();
+        }
+
+        var state = match.GetStateByIndex(stateIndex);
+        if (state == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(StateDto.ConvertToDto(match, state));
     }
 }

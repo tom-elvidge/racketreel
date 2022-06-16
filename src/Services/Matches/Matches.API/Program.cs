@@ -1,5 +1,3 @@
-using System;
-using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,8 +13,10 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
+var dbConnectionString = builder.Configuration["ConnectionString"];
+
 services.AddDbContext<MatchesContext>(c =>
-    c.UseNpgsql(builder.Configuration["ConnectionString"])
+    c.UseNpgsql(dbConnectionString)
 );
 
 services.AddMvc().AddJsonOptions(options =>

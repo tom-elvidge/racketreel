@@ -38,18 +38,7 @@ public class MatchDto
             match.Format.Sets,
             match.Format.NormalSetType.ToString(),
             match.Format.FinalSetType.ToString(),
-            match.States.Select(s => new StateDto(
-                s.CreatedDateTime,
-                s.Serving == 0 ? match.ParticipantOne : match.ParticipantTwo,
-                new Dictionary<string, PlayerScoreDto>()
-                {
-                    { match.ParticipantOne, new PlayerScoreDto(s.Score.ParticipantOnePoints, s.Score.ParticipantOneGames, s.Score.ParticipantOneSets) },
-                    { match.ParticipantTwo, new PlayerScoreDto(s.Score.ParticipantTwoPoints, s.Score.ParticipantTwoGames, s.Score.ParticipantOneSets) }
-                },
-                s.IsTieBreak,
-                s.TieBreakPointCounter == 0 ? null : s.TieBreakPointCounter,
-                s.ServingAfterTieBreak == -1 ? null : (s.ServingAfterTieBreak == 0 ? match.ParticipantOne : match.ParticipantTwo)
-            ))
+            match.States.Select(s => StateDto.ConvertToDto(match, s))
         );
     }
 }
