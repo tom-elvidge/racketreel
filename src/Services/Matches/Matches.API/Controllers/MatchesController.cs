@@ -42,8 +42,9 @@ public class MatchesController : Controller
     [HttpGet]
     [ProducesResponseType(typeof(MatchDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult> GetMatchAsync(int matchId)
+    public async Task<ActionResult> GetMatchAsync([FromRoute] int matchId)
     {
+        // Todo: Move these into queries following CQRS
         var match = await _matchRepository.GetAsync(matchId);
 
         if (match == null)
@@ -54,11 +55,29 @@ public class MatchesController : Controller
         return Ok(MatchDto.ConvertToDto(match));
     }
 
+    [Route("{matchId:int}/states")]
+    [HttpPost]
+    public async Task<ActionResult<StateDto>> NewMatchStateAsync([FromRoute] int matchId, [FromBody] NewMatchStateCommand newMatchStateCommand)
+    {
+        // Todo: Look into hybrid model binding
+        newMatchStateCommand.MatchId = matchId;
+
+        // Todo: Move logging into the MediatR pipeline
+        _logger.LogInformation(
+            "Sending command: {CommandName}: {@Command}",
+            "NewMatchStateCommand", // Todo: Implement a GetGenericTypeName() extension method
+            newMatchStateCommand);
+
+        var commandResult = await _mediator.Send(newMatchStateCommand);
+        return commandResult;
+    }
+
+
     [Route("{matchId:int}/states/latest")]
     [HttpGet]
     [ProducesResponseType(typeof(StateDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult> GetLatestMatchState(int matchId)
+    public async Task<ActionResult> GetLatestMatchState([FromRoute] int matchId)
     {
         var match = await _matchRepository.GetAsync(matchId);
         if (match == null)
@@ -79,7 +98,7 @@ public class MatchesController : Controller
     [HttpGet]
     [ProducesResponseType(typeof(StateDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult> GetLatestMatchState(int matchId, int stateIndex)
+    public async Task<ActionResult> GetLatestMatchState([FromRoute] int matchId, [FromRoute] int stateIndex)
     {
         var match = await _matchRepository.GetAsync(matchId);
         if (match == null)

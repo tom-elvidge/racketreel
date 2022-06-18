@@ -59,6 +59,11 @@ public class Match : Entity, IAggregateRoot
         }
 
         // Todo: Implement scoring logic
+        _states.Add(new State(
+            DateTime.UtcNow, 
+            new Score(1,1,1,1,1,1),
+            player
+        ));
     }
 
     public bool IsComplete()

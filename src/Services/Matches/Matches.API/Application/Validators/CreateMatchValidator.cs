@@ -56,7 +56,7 @@ public class CreateMatchCommandValidator : AbstractValidator<CreateMatchCommand>
             .WithMessage($"{nameof(CreateMatchCommand.ServingFirst)} is required");
             
         RuleFor(c => c.ServingFirst)
-            .Must((c, s) => c.Players.Contains(s))
+            .Must((c, servingFirst) => c.Players.Contains(servingFirst))
             .WithMessage($"{nameof(CreateMatchCommand.ServingFirst)} must be one of the players");
     }
 }
