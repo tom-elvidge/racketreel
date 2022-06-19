@@ -28,16 +28,16 @@ public class Match : Entity, IAggregateRoot
         ParticipantTwo = participantTwo;
         Format = format;
         _states = new List<State> { State.InitialState(servingFirst) };
-        _states.OrderBy(s => s.CreatedDateTime);
     }
 
     public State GetLatestState()
     {
-        return _states.Last();
+        return GetStateByIndex(_states.Count());
     }
 
     public State GetStateByIndex(int i)
     {
+        _states.OrderBy(s => s.CreatedDateTime);
         return _states[i];
     }
 

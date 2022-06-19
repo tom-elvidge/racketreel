@@ -30,11 +30,11 @@ public class MatchesController : Controller
     {
         try
         {
-            var match = await _mediator.Send(command);
+            var response = await _mediator.Send(command);
             return CreatedAtRoute(
                 routeName: "GetMatch",
-                routeValues: new { matchId = match.Id },
-                value: match);
+                routeValues: new { matchId = response.Id },
+                value: response);
         }
         catch (ValidationException e)
         {
@@ -45,14 +45,8 @@ public class MatchesController : Controller
     [HttpGet("{matchId:int}", Name = "GetMatch")]
     public async Task<ActionResult> GetMatchAsync([FromRoute] int matchId)
     {
-        // See how this handles queries: https://github.com/jasontaylordev/CleanArchitecture/blob/main/src/WebUI/Controllers/TodoItemsController.cs
-        // Todo: Move these into queries following CQRS
         var match = await _matchRepository.GetAsync(matchId);
-
-        if (match == null)
-        {
-            return NotFound();
-        }
+        if (match == null) return NotFound();
 
         return Ok(MatchDto.ConvertToDto(match));
     }
@@ -60,9 +54,7 @@ public class MatchesController : Controller
     [HttpPost("{matchId:int}/states", Name = "CreateMatchState")]
     public async Task<ActionResult> CreateMatchStateAsync([FromRoute] int matchId, [FromBody] CreateMatchStateCommand command)
     {
-        // Todo: Look into hybrid model binding, auto mapper?
         command.MatchId = matchId;
-
         try
         {
             var response = await _mediator.Send(command);
@@ -81,20 +73,26 @@ public class MatchesController : Controller
         }
     }
 
+    [HttpGet("{matchId:int}/states/{stateIndex:int}", Name = "GetMatchState")]
+    public async Task<ActionResult> GetMatchStateAsync([FromRoute] int matchId, [FromRoute] int stateIndex)
+    {
+        var match = await _matchRepository.GetAsync(matchId);
+        if (match == null)  return NotFound();
+
+        var state = match.GetStateByIndex(stateIndex);
+        if (state == null) return NotFound();
+
+        return Ok(StateDto.ConvertToDto(match, state));
+    }
+
     [HttpGet("{matchId:int}/states/latest", Name = "GetLatestMatchState")]
     public async Task<ActionResult> GetLatestMatchStateAsync([FromRoute] int matchId)
     {
         var match = await _matchRepository.GetAsync(matchId);
-        if (match == null)
-        {
-            return NotFound();
-        }
+        if (match == null) return NotFound();
 
         var state = match.GetLatestState();
-        if (state == null)
-        {
-            return NotFound();
-        }
+        if (state == null)return NotFound();
 
         return Ok(StateDto.ConvertToDto(match, state));
     }
@@ -103,7 +101,6 @@ public class MatchesController : Controller
     public async Task<ActionResult> DeleteLatestMatchStateAsync([FromRoute] int matchId)
     {
         var command = new DeleteLatestMatchStateCommand(matchId);
-
         try
         {
             await _mediator.Send(command);
@@ -121,23 +118,5 @@ public class MatchesController : Controller
         {
             return Conflict(new ErrorsDto { Errors = new string[] { e.Message } });
         }
-    }
-
-    [HttpGet("{matchId:int}/states/{stateIndex:int}", Name = "GetMatchState")]
-    public async Task<ActionResult> GetMatchStateAsync([FromRoute] int matchId, [FromRoute] int stateIndex)
-    {
-        var match = await _matchRepository.GetAsync(matchId);
-        if (match == null)
-        {
-            return NotFound();
-        }
-
-        var state = match.GetStateByIndex(stateIndex);
-        if (state == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(StateDto.ConvertToDto(match, state));
     }
 }
