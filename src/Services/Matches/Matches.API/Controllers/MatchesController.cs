@@ -1,49 +1,49 @@
 using System;
-using System.Net;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using RacketReel.Services.Matches.API.Application.Commands;
 using RacketReel.Services.Matches.API.Application.Dtos;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
+using RacketReel.Services.Matches.API.Application.Exceptions;
 
 namespace RacketReel.Services.Matches.API.Controllers;
 
-[Route("api/v1/[controller]")]
+[Route("api/v1/matches")]
 [ApiController]
 public class MatchesController : Controller
 {
     private readonly IMatchRepository _matchRepository;
     private readonly IMediator _mediator;
-    private readonly ILogger<MatchesController> _logger;
 
-    public MatchesController(IMatchRepository matchRepository, IMediator mediator, ILogger<MatchesController> logger)
+    public MatchesController(IMatchRepository matchRepository, IMediator mediator)
     {
         _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    [HttpPost]
-    public async Task<ActionResult<MatchDto>> CreateMatchAsync([FromBody] CreateMatchCommand createMatchCommand)
+    [HttpPost(Name = "CreateMatch")]
+    public async Task<ActionResult> CreateMatchAsync([FromBody] CreateMatchCommand command)
     {
-        // Todo: Move logging into the MediatR pipeline
-        _logger.LogInformation(
-            "Sending command: {CommandName}: {@Command}",
-            "CreateMatchCommand", // Todo: Implement a GetGenericTypeName() extension method
-            createMatchCommand);
-
-        var commandResult = await _mediator.Send(createMatchCommand);
-        return commandResult;
+        try
+        {
+            var match = await _mediator.Send(command);
+            return CreatedAtRoute(
+                routeName: "GetMatch",
+                routeValues: new { matchId = match.Id },
+                value: match);
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(new ErrorsDto { Errors = e.Message.Split("; ") });
+        }
     }
 
-    [Route("{matchId:int}")]
-    [HttpGet]
-    [ProducesResponseType(typeof(MatchDto), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [HttpGet("{matchId:int}", Name = "GetMatch")]
     public async Task<ActionResult> GetMatchAsync([FromRoute] int matchId)
     {
+        // See how this handles queries: https://github.com/jasontaylordev/CleanArchitecture/blob/main/src/WebUI/Controllers/TodoItemsController.cs
         // Todo: Move these into queries following CQRS
         var match = await _matchRepository.GetAsync(matchId);
 
@@ -55,29 +55,32 @@ public class MatchesController : Controller
         return Ok(MatchDto.ConvertToDto(match));
     }
 
-    [Route("{matchId:int}/states")]
-    [HttpPost]
-    public async Task<ActionResult<StateDto>> NewMatchStateAsync([FromRoute] int matchId, [FromBody] NewMatchStateCommand newMatchStateCommand)
+    [HttpPost("{matchId:int}/states", Name = "CreateMatchState")]
+    public async Task<ActionResult> CreateMatchStateAsync([FromRoute] int matchId, [FromBody] CreateMatchStateCommand command)
     {
-        // Todo: Look into hybrid model binding
-        newMatchStateCommand.MatchId = matchId;
+        // Todo: Look into hybrid model binding, auto mapper?
+        command.MatchId = matchId;
 
-        // Todo: Move logging into the MediatR pipeline
-        _logger.LogInformation(
-            "Sending command: {CommandName}: {@Command}",
-            "NewMatchStateCommand", // Todo: Implement a GetGenericTypeName() extension method
-            newMatchStateCommand);
-
-        var commandResult = await _mediator.Send(newMatchStateCommand);
-        return commandResult;
+        try
+        {
+            var response = await _mediator.Send(command);
+            return CreatedAtRoute(
+                routeName: "GetMatchState",
+                routeValues: new { matchId = matchId, stateIndex = response.StateIndex },
+                value: response.State);
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(new ErrorsDto { Errors = e.Message.Split("; ") });
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(new ErrorsDto { Errors = new string[] { e.Message } } );
+        }
     }
 
-
-    [Route("{matchId:int}/states/latest")]
-    [HttpGet]
-    [ProducesResponseType(typeof(StateDto), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult> GetLatestMatchState([FromRoute] int matchId)
+    [HttpGet("{matchId:int}/states/latest", Name = "GetLatestMatchState")]
+    public async Task<ActionResult> GetLatestMatchStateAsync([FromRoute] int matchId)
     {
         var match = await _matchRepository.GetAsync(matchId);
         if (match == null)
@@ -94,11 +97,32 @@ public class MatchesController : Controller
         return Ok(StateDto.ConvertToDto(match, state));
     }
 
-    [Route("{matchId:int}/states/{stateIndex:int}")]
-    [HttpGet]
-    [ProducesResponseType(typeof(StateDto), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult> GetLatestMatchState([FromRoute] int matchId, [FromRoute] int stateIndex)
+    [HttpDelete("{matchId:int}/states/latest", Name = "DeleteLatestMatchState")]
+    public async Task<ActionResult> DeleteLatestMatchStateAsync([FromRoute] int matchId)
+    {
+        var command = new DeleteLatestMatchStateCommand(matchId);
+
+        try
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(new ErrorsDto { Errors = e.Message.Split("; ") });
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(new ErrorsDto { Errors = new string[] { e.Message } });
+        }
+        catch (DeleteInitialStateException e)
+        {
+            return Conflict(new ErrorsDto { Errors = new string[] { e.Message } });
+        }
+    }
+
+    [HttpGet("{matchId:int}/states/{stateIndex:int}", Name = "GetMatchState")]
+    public async Task<ActionResult> GetMatchStateAsync([FromRoute] int matchId, [FromRoute] int stateIndex)
     {
         var match = await _matchRepository.GetAsync(matchId);
         if (match == null)

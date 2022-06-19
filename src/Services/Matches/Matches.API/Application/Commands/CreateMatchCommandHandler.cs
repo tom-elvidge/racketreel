@@ -24,23 +24,19 @@ public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, Mat
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<MatchDto> Handle(CreateMatchCommand request, CancellationToken cancellationToken)
+    public async Task<MatchDto> Handle(CreateMatchCommand command, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Creating match with stes: {@Sets}", request.Sets);
+        Enum.TryParse<SetType>(command.SetType, out var setType);
+        Enum.TryParse<SetType>(command.FinalSetType, out var finalSetType);
+        var format = new Format(command.Sets, setType, finalSetType);
 
-        Enum.TryParse<SetType>(request.SetType, out var setType);
-        Enum.TryParse<SetType>(request.FinalSetType, out var finalSetType);
-        var format = new Format(request.Sets, setType, finalSetType);
-
-        var players = request.Players.ToList();
+        var players = command.Players.ToList();
         var playerOne = players[0];
         var playerTwo = players[1];
 
-        var servingFirst = request.ServingFirst == playerOne ? 0 : 1;
+        var servingFirst = command.ServingFirst == playerOne ? 0 : 1;
         
         var match = new Match(playerOne, playerTwo, format, servingFirst);
-
-        _logger.LogInformation("Creating Match: {@Match}", match);
 
         _matchRepository.Add(match);
         await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);

@@ -5,18 +5,17 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using RacketReel.Services.Matches.Domain.Exceptions;
 
-namespace RacketReel.Services.Matches.API.Application.PipelineBehaviours;
+namespace RacketReel.Services.Matches.API.Application.Behaviors;
 
 // https://codewithmukesh.com/blog/mediatr-pipeline-behaviour/
 // https://github.com/jasontaylordev/CleanArchitecture/blob/main/src/Application/Common/Behaviours/ValidationBehaviour.cs
-public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
-    private readonly ILogger<ValidationBehaviour<TRequest, TResponse>> _logger;
+    private readonly ILogger<ValidationBehavior<TRequest, TResponse>> _logger;
 
-    public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators, ILogger<ValidationBehaviour<TRequest, TResponse>> logger)
+    public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators, ILogger<ValidationBehavior<TRequest, TResponse>> logger)
     {
         _validators = validators;
         _logger = logger;
@@ -39,13 +38,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
 
             if (failures.Any())
             {
-                _logger.LogWarning("Validation errors - Command: {@Command} - Errors: {@ValidationErrors}", request, failures);
-
-                // Todo: Respond with 400 Bad Request and error messages if any validations fail
-                throw new MatchesDomainException(
-                    $"Command Validation Errors for type {typeof(TRequest).Name}",
-                    new ValidationException("Validation exception", failures)
-                );
+                throw new ValidationException(string.Join("; ", failures.Select(f => f.ErrorMessage)));
             }
         }
 

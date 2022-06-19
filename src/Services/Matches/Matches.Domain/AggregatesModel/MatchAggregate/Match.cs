@@ -41,11 +41,11 @@ public class Match : Entity, IAggregateRoot
         return _states[i];
     }
 
-    public void RemoveCurrentState()
+    public void RemoveLastState()
     {
         if (_states.Count() == 1)
         {
-            throw new MatchesDomainException("cannot remove the initial state");
+            throw new MatchesDomainException("Cannot remove the initial state");
         }
 
         _states.Remove(GetLatestState());

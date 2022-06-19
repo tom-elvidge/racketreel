@@ -5,14 +5,14 @@ using RacketReel.Services.Matches.API.Application.Dtos;
 
 namespace RacketReel.Services.Matches.API.Application.Commands;
 
-public class NewMatchStateCommand : IRequest<StateDto>
+public class CreateMatchStateCommand : IRequest<CreateMatchStateCommandResponse>
 {
 
     public string PointTo { get; private set; }
     public int MatchId { get; set; }
 
     [JsonConstructor]
-    public NewMatchStateCommand(string pointTo, int matchId)
+    public CreateMatchStateCommand(string pointTo, int matchId)
     {
         PointTo = pointTo;
         MatchId = matchId;
