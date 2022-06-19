@@ -3,10 +3,12 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using RacketReel.Services.Matches.API.Application.Commands;
-using RacketReel.Services.Matches.API.Application.Dtos;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 using RacketReel.Services.Matches.API.Application.Exceptions;
+using RacketReel.Services.Matches.API.Application.Dtos;
+using RacketReel.Services.Matches.API.Application.Commands.CreateMatchState;
+using RacketReel.Services.Matches.API.Application.Commands.DeleteLatestMatchState;
+using RacketReel.Services.Matches.API.Application.Commands.CreateMatch;
 
 namespace RacketReel.Services.Matches.API.Controllers;
 

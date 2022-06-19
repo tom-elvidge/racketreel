@@ -1,8 +1,7 @@
 using FluentValidation;
-using RacketReel.Services.Matches.API.Application.Commands;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
-namespace RacketReel.Services.Matches.API.Application.Validators;
+namespace RacketReel.Services.Matches.API.Application.Commands.CreateMatchState;
 
 public class CreateMatchStateCommandValidator : AbstractValidator<CreateMatchStateCommand>
 {

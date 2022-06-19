@@ -1,7 +1,7 @@
 using System.Text.Json;
 using MediatR;
 
-namespace RacketReel.Services.Matches.API.Application.Commands;
+namespace RacketReel.Services.Matches.API.Application.Commands.DeleteLatestMatchState;
 
 public class DeleteLatestMatchStateCommand : IRequest<Unit>
 {

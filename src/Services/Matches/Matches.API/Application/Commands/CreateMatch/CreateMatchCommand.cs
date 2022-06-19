@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using MediatR;
 using RacketReel.Services.Matches.API.Application.Dtos;
 
-namespace RacketReel.Services.Matches.API.Application.Commands;
+namespace RacketReel.Services.Matches.API.Application.Commands.CreateMatch;
 
 public class CreateMatchCommand : IRequest<MatchDto>
 {

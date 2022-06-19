@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using RacketReel.Services.Matches.API.Application.Dtos;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
-namespace RacketReel.Services.Matches.API.Application.Commands;
+namespace RacketReel.Services.Matches.API.Application.Commands.CreateMatch;
 
 public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, MatchDto>
 {

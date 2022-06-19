@@ -1,6 +1,6 @@
 using RacketReel.Services.Matches.API.Application.Dtos;
 
-namespace RacketReel.Services.Matches.API.Application.Commands;
+namespace RacketReel.Services.Matches.API.Application.Commands.CreateMatchState;
 
 public class CreateMatchStateCommandResponse
 {

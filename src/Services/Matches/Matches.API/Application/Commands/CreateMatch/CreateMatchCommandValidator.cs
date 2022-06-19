@@ -1,10 +1,9 @@
 using System;
 using System.Linq;
 using FluentValidation;
-using RacketReel.Services.Matches.API.Application.Commands;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
-namespace RacketReel.Services.Matches.API.Application.Validators;
+namespace RacketReel.Services.Matches.API.Application.Commands.CreateMatch;
 
 public class CreateMatchCommandValidator : AbstractValidator<CreateMatchCommand>
 {

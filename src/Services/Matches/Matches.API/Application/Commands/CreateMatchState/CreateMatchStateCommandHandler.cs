@@ -10,7 +10,7 @@ using RacketReel.Services.Matches.API.Application.Dtos;
 using RacketReel.Services.Matches.API.Application.Exceptions;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
-namespace RacketReel.Services.Matches.API.Application.Commands;
+namespace RacketReel.Services.Matches.API.Application.Commands.CreateMatchState;
 
 public class CreateMatchStateCommandHandler : IRequestHandler<CreateMatchStateCommand, CreateMatchStateCommandResponse>
 {

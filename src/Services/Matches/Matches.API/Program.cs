@@ -24,6 +24,7 @@ services.AddScoped<IMatchRepository, MatchRepository>();
 services.AddMediatR(typeof(Program));
 services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
 services.AddControllers();
 

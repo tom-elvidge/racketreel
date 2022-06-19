@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using RacketReel.Services.Matches.API.Application.Exceptions;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
-namespace RacketReel.Services.Matches.API.Application.Commands;
+namespace RacketReel.Services.Matches.API.Application.Commands.DeleteLatestMatchState;
 
 public class DeleteLatestMatchStateCommandHandler : IRequestHandler<DeleteLatestMatchStateCommand, Unit>
 {

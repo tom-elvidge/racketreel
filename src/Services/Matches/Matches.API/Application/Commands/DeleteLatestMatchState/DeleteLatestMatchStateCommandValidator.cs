@@ -1,10 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
-using RacketReel.Services.Matches.API.Application.Commands;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
-namespace RacketReel.Services.Matches.API.Application.Validators;
+namespace RacketReel.Services.Matches.API.Application.Commands.DeleteLatestMatchState;
 
 public class DeleteLatestMatchStateValidator : AbstractValidator<DeleteLatestMatchStateCommand>
 {
@@ -16,7 +15,7 @@ public class DeleteLatestMatchStateValidator : AbstractValidator<DeleteLatestMat
         _matchRepository = matchRepository;
 
         RuleFor(c => c.MatchId)
-            .NotEmpty().WithMessage($"{nameof(CreateMatchStateCommand.MatchId)} is required")
+            .NotEmpty().WithMessage($"{nameof(DeleteLatestMatchStateCommand.MatchId)} is required")
             .MustAsync(MatchIdExistsAsync).WithMessage("There is no match with this id");
     }
 
