@@ -28,6 +28,7 @@ public class MatchesController : Controller
     [HttpPost(Name = "CreateMatch")]
     public async Task<ActionResult> CreateMatchAsync([FromBody] CreateMatchCommand command)
     {
+        // Todo: Auth so only registered users can create matches
         try
         {
             var response = await _mediator.Send(command);
@@ -54,6 +55,7 @@ public class MatchesController : Controller
     [HttpPost("{matchId:int}/states", Name = "CreateMatchState")]
     public async Task<ActionResult> CreateMatchStateAsync([FromRoute] int matchId, [FromBody] CreateMatchStateCommand command)
     {
+        // Todo: Auth so only creator can update the match
         command.MatchId = matchId;
         try
         {
@@ -79,10 +81,15 @@ public class MatchesController : Controller
         var match = await _matchRepository.GetAsync(matchId);
         if (match == null)  return NotFound();
 
-        var state = match.GetStateByIndex(stateIndex);
-        if (state == null) return NotFound();
-
-        return Ok(StateDto.ConvertToDto(match, state));
+        try
+        {
+            var state = match.GetStateByIndex(stateIndex);
+             return Ok(StateDto.ConvertToDto(match, state));
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpGet("{matchId:int}/states/latest", Name = "GetLatestMatchState")]
@@ -92,7 +99,7 @@ public class MatchesController : Controller
         if (match == null) return NotFound();
 
         var state = match.GetLatestState();
-        if (state == null)return NotFound();
+        if (state == null) return NotFound();
 
         return Ok(StateDto.ConvertToDto(match, state));
     }

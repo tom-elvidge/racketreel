@@ -32,7 +32,7 @@ public class Match : Entity, IAggregateRoot
 
     public State GetLatestState()
     {
-        return GetStateByIndex(_states.Count());
+        return GetStateByIndex(_states.Count()-1);
     }
 
     public State GetStateByIndex(int i)
