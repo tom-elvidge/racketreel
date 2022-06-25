@@ -9,6 +9,10 @@ Upcoming features
 
 To request features raise GitHub issues against this project.
 
-## Contents
+## Source Index
 
-- [Matches.API](src/Services/Matches/Matches.API/README.md) is a REST service to configure and score tennis matches
+- [Services](src/Services/)
+    - [Matches](src/Services/Matches/) is a REST service to configure and score matches
+    - (todo) MatchStateStreaming is a SignalR service to stream match states to clients
+- [Web](src/Web/) is a web client to watch matches live or replay old matches
+- (todo) Mobile is a mobile client to configure and score matches

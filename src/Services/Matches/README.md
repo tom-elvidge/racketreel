@@ -2,7 +2,7 @@
 
 A REST service to configure and score tennis matches.
 
-This has been written following Domain Driven Design patterns for C# .NET Core projects, read more [here](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice). As such there are other C# projects for the [Domain](../Matches.Domain/) and [Infrastructure](../Matches.Infrastructure/).
+This has been written following Domain Driven Design patterns for C# .NET Core projects, read more [here](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice). As such there are three C# projects for the [API](Matches.API/), [Domain](Matches.Domain/) and [Infrastructure](Matches.Infrastructure/).
 
 ## Examples
 

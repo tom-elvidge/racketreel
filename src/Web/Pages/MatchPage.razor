@@ -1,0 +1,31 @@
+@page "/matches/{matchId:int}"
+@namespace RacketReel.Web.Pages
+
+<PageTitle>Match @MatchId | Racket Reel</PageTitle>
+
+@using RacketReel.Web.Data
+@inject MatchService MatchService
+
+<h1>Match @MatchId</h1>
+
+@if (match == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>Created on @match.CreatedDateTime.ToShortDateString() at @match.CreatedDateTime.ToShortTimeString()</p>
+    <p>Players: @String.Join(", ", match.Players)</p>
+}
+
+@code {
+    [Parameter]
+    public int MatchId { get; set; }
+
+    private Web.Data.Match? match;
+
+    protected override async Task OnInitializedAsync()
+    {
+        match = await MatchService.GetMatchAsync(MatchId);
+    }
+}
