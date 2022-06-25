@@ -58,10 +58,12 @@ public class Match : Entity, IAggregateRoot
             throw new MatchesDomainException("player must be either 0 or 1");
         }
 
+        var latestState = GetLatestState();
+
         // Todo: Implement scoring logic
         _states.Add(new State(
             DateTime.UtcNow, 
-            new Score(1,1,1,1,1,1),
+            new Score(latestState.Score.ParticipantOnePoints + 1, 1, 1, 1, 1, 1),
             player
         ));
     }

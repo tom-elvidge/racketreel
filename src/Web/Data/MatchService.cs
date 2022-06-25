@@ -20,4 +20,9 @@ public class MatchService
     {
         return await _httpClient.GetFromJsonAsync<Match>(matchId.ToString());
     }
+
+    public async Task<State?> GetLatestMatchStateAsync(int matchId)
+    {
+        return await _httpClient.GetFromJsonAsync<State>(matchId.ToString() + "/states/latest");
+    }
 }
