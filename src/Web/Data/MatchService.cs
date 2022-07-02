@@ -8,7 +8,7 @@ public class MatchService
     {
         _httpClient = httpClient;
         // todo: get from configuration
-        _httpClient.BaseAddress = new Uri("https://localhost:5002/api/v1/matches/");
+        _httpClient.BaseAddress = new Uri("https://localhost:5012/api/v1/matches/");
     }
 
     public Task<Match[]> GetAllMatchesAsync()

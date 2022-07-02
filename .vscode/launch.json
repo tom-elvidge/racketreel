@@ -11,7 +11,7 @@
             "cwd": "${workspaceFolder}/src/Services/Matches/Matches.API",
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://*:5001;https://*:5002"
+                "ASPNETCORE_URLS": "http://*:5011;https://*:5012"
             }
         },
         {
