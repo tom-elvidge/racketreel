@@ -19,10 +19,12 @@ public class MatchRepository : IMatchRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async Task<IEnumerable<Match>> GetAsync(bool includeStates = false)
+    public async Task<IEnumerable<Match>> GetAsync(int pageNumber, int pageSize, bool includeStates)
     {
         var matches = await _context
             .Matches
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
             .Include(x => x.Format)
             .ToListAsync();
 

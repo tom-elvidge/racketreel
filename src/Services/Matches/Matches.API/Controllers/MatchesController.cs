@@ -12,6 +12,8 @@ using RacketReel.Services.Matches.API.Application.Commands.CreateMatchState;
 using RacketReel.Services.Matches.API.Application.Commands.DeleteLatestMatchState;
 using RacketReel.Services.Matches.API.Application.Commands.CreateMatch;
 using System.Linq;
+using System.Collections.Generic;
+using RacketReel.Services.Matches.API.Application.Filters;
 
 namespace RacketReel.Services.Matches.API.Controllers;
 
@@ -29,10 +31,19 @@ public class MatchesController : Controller
     }
 
     [HttpGet(Name = "GetMatches")]
-    public async Task<ActionResult> GetMatchesAsync()
+    public async Task<ActionResult> GetMatchesAsync([FromQuery] PaginationFilter filter)
     {
-        var matches = await _matchRepository.GetAsync();
-        return Ok(matches.Select(m => MatchDto.ConvertToDto(m)));
+        // todo: validate and throw exceptions instead
+        var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+        var matches = await _matchRepository.GetAsync(validFilter.PageNumber, validFilter.PageSize, false);
+        
+        if (matches.Count() == 0)
+        {
+            return NotFound();
+        }
+
+        return Ok(new PagedResponse<IEnumerable<MatchDto>>(matches.Select(m => MatchDto.ConvertToDto(m)), validFilter.PageNumber, validFilter.PageSize));
     }
 
     [HttpPost(Name = "CreateMatch")]
@@ -41,15 +52,15 @@ public class MatchesController : Controller
         // Todo: Auth so only registered users can create matches
         try
         {
-            var response = await _mediator.Send(command);
+            var match = await _mediator.Send(command);
             return CreatedAtRoute(
                 routeName: "GetMatch",
-                routeValues: new { matchId = response.Id },
-                value: response);
+                routeValues: new { matchId = match.Id },
+                value: new Response<MatchDto>(match));
         }
         catch (ValidationException e)
         {
-            return BadRequest(new ErrorsDto { Errors = e.Message.Split("; ") });
+            return BadRequest(new Response<MatchDto>(e.Message.Split("; ")));
         }
     }
 
@@ -59,7 +70,7 @@ public class MatchesController : Controller
         var match = await _matchRepository.GetAsync(matchId);
         if (match == null) return NotFound();
 
-        return Ok(MatchDto.ConvertToDto(match));
+        return Ok(new Response<MatchDto>(MatchDto.ConvertToDto(match)));
     }
 
     [HttpPost("{matchId:int}/states", Name = "CreateMatchState")]
@@ -69,19 +80,19 @@ public class MatchesController : Controller
         command.MatchId = matchId;
         try
         {
-            var response = await _mediator.Send(command);
+            var match = await _mediator.Send(command);
             return CreatedAtRoute(
                 routeName: "GetMatchState",
-                routeValues: new { matchId = matchId, stateIndex = response.StateIndex },
-                value: response.State);
+                routeValues: new { matchId = matchId, stateIndex = match.StateIndex },
+                value: new Response<StateDto>(match.State));
         }
         catch (ValidationException e)
         {
-            return BadRequest(new ErrorsDto { Errors = e.Message.Split("; ") });
+            return BadRequest(new Response<StateDto>(e.Message.Split("; ")));
         }
         catch (NotFoundException e)
         {
-            return NotFound(new ErrorsDto { Errors = new string[] { e.Message } } );
+            return NotFound(new Response<StateDto>(new string[] { e.Message }));
         }
     }
 
@@ -94,7 +105,7 @@ public class MatchesController : Controller
         try
         {
             var state = match.GetStateByIndex(stateIndex);
-             return Ok(StateDto.ConvertToDto(match, state));
+             return Ok(new Response<StateDto>(StateDto.ConvertToDto(match, state)));
         }
         catch (ArgumentOutOfRangeException)
         {
@@ -111,7 +122,7 @@ public class MatchesController : Controller
         var state = match.GetLatestState();
         if (state == null) return NotFound();
 
-        return Ok(StateDto.ConvertToDto(match, state));
+        return Ok(new Response<StateDto>(StateDto.ConvertToDto(match, state)));
     }
 
     [HttpDelete("{matchId:int}/states/latest", Name = "DeleteLatestMatchState")]
@@ -120,20 +131,21 @@ public class MatchesController : Controller
         var command = new DeleteLatestMatchStateCommand(matchId);
         try
         {
+            // todo: return the deleted state?
             await _mediator.Send(command);
             return Ok();
         }
         catch (ValidationException e)
         {
-            return BadRequest(new ErrorsDto { Errors = e.Message.Split("; ") });
+            return BadRequest(new Response<StateDto>( e.Message.Split("; ")));
         }
         catch (NotFoundException e)
         {
-            return NotFound(new ErrorsDto { Errors = new string[] { e.Message } });
+            return NotFound(new Response<StateDto>(new string[] { e.Message }));
         }
         catch (DeleteInitialStateException e)
         {
-            return Conflict(new ErrorsDto { Errors = new string[] { e.Message } });
+            return Conflict(new Response<StateDto>(new string[] { e.Message }));
         }
     }
 }

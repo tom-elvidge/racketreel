@@ -10,7 +10,7 @@ public interface IMatchRepository : IRepository<Match>
 
     void Update(Match match);
 
-    Task<Match> GetAsync(int matchId);
+    Task<Match> GetAsync(int matchId, bool includeStates = true);
 
-    Task<IEnumerable<Match>> GetAsync();
+    Task<IEnumerable<Match>> GetAsync(int pageNumber, int pageSize, bool includeStates = false);
 }

@@ -17,6 +17,8 @@ var services = builder.Services;
 
 var dbConnectionString = builder.Configuration["ConnectionString"];
 
+var AllOrigins = "_allOrigins";
+
 services.AddDbContext<MatchesContext>(
     c => c.UseNpgsql(dbConnectionString)
 );
@@ -40,7 +42,18 @@ services.AddMvc().AddJsonOptions(options =>
 //     fv.DisableDataAnnotationsValidation = false;
 // });
 
+services.AddCors(options =>
+{
+    options.AddPolicy(name: AllOrigins,
+                      policy  =>
+                      {
+                          policy.WithOrigins("*");
+                      });
+});
+
 var app = builder.Build();
+
+app.UseCors(AllOrigins);
 
 if (app.Environment.IsDevelopment())
 {
