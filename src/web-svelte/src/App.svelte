@@ -1,7 +1,16 @@
-<main>
-  <h1>Racket Reel</h1>
+<script>
+  import Router from './routes/index.svelte';
+</script>
 
-  <p>
-    Welcome to Racket Reel! Share your tennis matches live with friends, family, or your existing audience.
-  </p>
+<style>
+  main {
+    text-align: center;
+    padding: 1em;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+</style>
+
+<main>
+  <Router />
 </main>
