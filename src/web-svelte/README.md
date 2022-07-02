@@ -1,14 +1,10 @@
-# Svelte + Vite
+# Racket Reel: Web Client
 
-This template should help get you started developing with Svelte in Vite.
+This is a web client to watch matches live or replay old matches. The project has been based off the official Svelte + Vite template.
 
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
-
-## Need an official Svelte framework?
-
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+```shell
+npm run dev
+```
 
 ## Technical considerations
 
