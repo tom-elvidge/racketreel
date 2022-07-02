@@ -1,3 +1,5 @@
+#nullable disable
+
 using System;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -9,6 +11,7 @@ using RacketReel.Services.Matches.API.Application.Dtos;
 using RacketReel.Services.Matches.API.Application.Commands.CreateMatchState;
 using RacketReel.Services.Matches.API.Application.Commands.DeleteLatestMatchState;
 using RacketReel.Services.Matches.API.Application.Commands.CreateMatch;
+using System.Linq;
 
 namespace RacketReel.Services.Matches.API.Controllers;
 
@@ -23,6 +26,13 @@ public class MatchesController : Controller
     {
         _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
+
+    [HttpGet(Name = "GetMatches")]
+    public async Task<ActionResult> GetMatchesAsync()
+    {
+        var matches = await _matchRepository.GetAsync();
+        return Ok(matches.Select(m => MatchDto.ConvertToDto(m)));
     }
 
     [HttpPost(Name = "CreateMatch")]

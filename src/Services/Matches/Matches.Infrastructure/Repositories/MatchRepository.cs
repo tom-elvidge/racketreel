@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +19,33 @@ public class MatchRepository : IMatchRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
+    public async Task<IEnumerable<Match>> GetAsync(bool includeStates = false)
+    {
+        var matches = await _context
+            .Matches
+            .Include(x => x.Format)
+            .ToListAsync();
+
+        // Get the states for each match
+        if (includeStates) {
+            foreach (var match in matches)
+            {
+                await _context.Entry(match)
+                    .Collection(m => m.States)
+                    .LoadAsync();
+            }
+        }
+
+        return matches;
+    }
+
     public Match Add(Match match)
     {
         return _context.Matches.Add(match).Entity;
 
     }
 
-    public async Task<Match> GetAsync(int matchId)
+    public async Task<Match> GetAsync(int matchId, bool includeStates = true)
     {
         var match = await _context
                             .Matches
@@ -37,7 +58,7 @@ public class MatchRepository : IMatchRepository
                         .Local
                         .FirstOrDefault(m => m.Id == matchId);
         }
-        if (match != null)
+        if (match != null && includeStates)
         {
             await _context.Entry(match)
                 .Collection(m => m.States).LoadAsync();

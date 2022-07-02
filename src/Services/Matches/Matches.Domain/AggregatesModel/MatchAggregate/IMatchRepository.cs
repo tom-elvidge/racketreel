@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using RacketReel.Services.Matches.Domain.SeedWork;
 
@@ -10,4 +11,6 @@ public interface IMatchRepository : IRepository<Match>
     void Update(Match match);
 
     Task<Match> GetAsync(int matchId);
+
+    Task<IEnumerable<Match>> GetAsync();
 }

@@ -1,10 +1,12 @@
+#nullable disable
+
 using System;
 using System.Collections.Generic;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
 namespace RacketReel.Services.Matches.API.Application.Dtos;
 
-#nullable enable
+#nullable restore
 
 public class StateDto
 {

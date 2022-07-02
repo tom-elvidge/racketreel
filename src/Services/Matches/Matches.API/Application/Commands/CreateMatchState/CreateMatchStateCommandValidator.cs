@@ -1,3 +1,5 @@
+#nullable disable
+
 using FluentValidation;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 

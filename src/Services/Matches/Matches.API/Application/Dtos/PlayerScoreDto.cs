@@ -1,3 +1,5 @@
+#nullable disable
+
 namespace RacketReel.Services.Matches.API.Application.Dtos;
 
 public class PlayerScoreDto

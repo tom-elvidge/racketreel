@@ -1,3 +1,5 @@
+#nullable disable
+
 using RacketReel.Services.Matches.API.Application.Dtos;
 
 namespace RacketReel.Services.Matches.API.Application.Commands.CreateMatchState;
