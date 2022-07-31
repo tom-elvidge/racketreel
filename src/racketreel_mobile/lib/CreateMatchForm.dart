@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
-import 'SetType.dart';
-import 'CreateMatchFormData.dart';
+import 'matches/set_type.dart';
+import 'matches/create_match_command.dart';
 
 class CreateMatchForm extends StatefulWidget {
   const CreateMatchForm({super.key, required this.onSubmit});
 
-  final void Function(CreateMatchFormData data) onSubmit;
+  final void Function(CreateMatchCommand data) onSubmit;
 
   @override
   CreateMatchFormState createState() {
@@ -175,7 +175,7 @@ class CreateMatchFormState extends State<CreateMatchForm> {
                 );
 
                 // Create form data object
-                var data = CreateMatchFormData(
+                var data = CreateMatchCommand(
                   [_playerOneName, _playerTwoName],
                   _servingFirst,
                   _sets,

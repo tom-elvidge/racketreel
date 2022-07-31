@@ -6,7 +6,7 @@ using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 
 namespace RacketReel.Services.Matches.API.Application.Dtos;
 
-#nullable restore
+#nullable enable
 
 public class StateDto
 {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:racket_reel_mobile/ScoreMatch.dart';
+import 'package:racket_reel_mobile/matches/matches_service.dart';
 import 'CreateMatchForm.dart';
 import 'Scoring.dart';
 
@@ -13,6 +14,8 @@ class RacketReel extends StatefulWidget {
 class RacketReelState extends State<RacketReel> {
   String _matchId = "";
 
+  MatchesService _matchesService = getIt<MatchesService>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,21 +25,21 @@ class RacketReelState extends State<RacketReel> {
         ),
         body: _matchId == ""
             ? CreateMatchForm(
-                onSubmit: (data) {
-                  var json = data.toJson();
-                  debugPrint('data: $json');
-
+                onSubmit: (data) async {
                   // make request
-                  // return error for form to display
-                  // update matchid here
+                  var match = await _matchesService.createMatch(data);
+
+                  // todo: handle error with creating match
+
                   setState(() {
-                    _matchId = "test";
+                    _matchId = match.id.toString();
                   });
                 },
               )
             : Scoring(
                 matchId: _matchId,
                 onQuit: () {
+                  // reset _matchId to show the CreateMatchForm again
                   setState(() {
                     _matchId = "";
                   });
