@@ -15,6 +15,10 @@ public class Format : ValueObject
 
     public Format()
     {
+        // Initialize a format with defaults
+        Sets = 3;
+        NormalSetType = SetType.SixAllTwelvePointTiebreaker;
+        FinalSetType = SetType.SixAllTwelvePointTiebreaker;
     }
 
     public Format(int sets, SetType normalSetType, SetType finalSetType)

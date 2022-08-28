@@ -96,3 +96,15 @@ This should respond with a `201 Created` status and the new match state resource
 This service depends on a Postgres database which can be set up for development with `docker-compose up -d` from the root of this repository.
 
 Run locally with a debugger in Visual Studio Code by going to Run > Start Debugging or just press F5.
+
+### Todo
+
+- Complete MatchAggregate scoring logic
+- Fully unit test scoring logic
+- Handle errors from MatchAggregate in API layer
+- Add IsTieBreak, IsGamePoint, IsComplete etc to API responses
+- Scaffold caching system for these states?
+- Add auth0 authentication with user ids
+- Add created user to match
+- Add authorization check for create match and add state endpoints
+- Create bot which ensures there is always a demo match in progress with regular updates (random cron job az func to update score)

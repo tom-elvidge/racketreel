@@ -45,7 +45,7 @@ public class CreateMatchStateCommandHandler : IRequestHandler<CreateMatchStateCo
             throw new ValidationException($"'{command.PointTo}' is not a participant in the match");
         }
 
-        int pointTo = command.PointTo == match.ParticipantOne ? 0 : 1;
+        Participant pointTo = command.PointTo == match.ParticipantOne ? Participant.One : Participant.Two;
         match.AddState(pointTo);
         await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 

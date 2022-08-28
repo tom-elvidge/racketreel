@@ -1,10 +1,25 @@
 {
     "cSpell.words": [
+        "azuretools",
+        "Bloggs",
         "CQRS",
         "Dtos",
+        "Elvidge",
         "MediatR",
         "Npgsql",
-        "azuretools",
+        "Xunit",
         "yzhang"
+    ],
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "local_matches",
+            "database": "postgres",
+            "username": "postgres",
+            "password": "1StrongPassword"
+        }
     ]
 }

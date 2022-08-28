@@ -36,7 +36,7 @@ public class CreateMatchCommandHandler : IRequestHandler<CreateMatchCommand, Mat
         var playerOne = players[0];
         var playerTwo = players[1];
 
-        var servingFirst = command.ServingFirst == playerOne ? 0 : 1;
+        var servingFirst = command.ServingFirst == playerOne ? Participant.One : Participant.Two;
         
         var match = new Match(playerOne, playerTwo, format, servingFirst);
 

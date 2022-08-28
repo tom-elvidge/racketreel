@@ -4,6 +4,9 @@
     "svelte.svelte-vscode",
     "ms-azuretools.vscode-docker",
     "streetsidesoftware.code-spell-checker",
-    "yzhang.markdown-all-in-one"
+    "yzhang.markdown-all-in-one",
+    "formulahendry.dotnet-test-explorer",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg"
   ]
 }

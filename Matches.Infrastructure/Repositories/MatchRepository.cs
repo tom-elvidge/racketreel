@@ -47,7 +47,7 @@ public class MatchRepository : IMatchRepository
 
     }
 
-    public async Task<Match> GetAsync(int matchId, bool includeStates = true)
+    public async Task<Match> GetAsync(int matchId, bool includeStates)
     {
         var match = await _context
                             .Matches

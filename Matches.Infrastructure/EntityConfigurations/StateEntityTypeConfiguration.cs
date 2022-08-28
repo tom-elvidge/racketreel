@@ -38,23 +38,8 @@ class StateEntityTypeConfiguration : IEntityTypeConfiguration<State>
             .IsRequired();
 
         stateConfiguration
-            .Property<int>("Serving")
+            .Property<Participant>("Serving")
             .HasColumnName("Serving")
-            .IsRequired();
-
-        stateConfiguration
-            .Property<bool>("IsTieBreak")
-            .HasColumnName("IsTieBreak")
-            .IsRequired();
-
-        stateConfiguration
-            .Property<int>("TieBreakPointCounter")
-            .HasColumnName("TieBreakPointCounter")
-            .IsRequired();
-
-        stateConfiguration
-            .Property<int>("ServingAfterTieBreak")
-            .HasColumnName("ServingAfterTieBreak")
             .IsRequired();
     }
 }
