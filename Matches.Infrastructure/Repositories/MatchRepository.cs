@@ -49,6 +49,7 @@ public class MatchRepository : IMatchRepository
 
     public async Task<Match> GetAsync(int matchId, bool includeStates)
     {
+        // todo: bug here it is getting a match state which zero score and date time now
         var match = await _context
                             .Matches
                             .Include(x => x.Format)

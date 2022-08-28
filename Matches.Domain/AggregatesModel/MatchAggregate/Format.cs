@@ -15,7 +15,7 @@ public class Format : ValueObject
 
     public Format()
     {
-        // Initialize a format with defaults
+        // Setting non-null values but these will be overwritten by EF on get
         Sets = 3;
         NormalSetType = SetType.SixAllTwelvePointTiebreaker;
         FinalSetType = SetType.SixAllTwelvePointTiebreaker;

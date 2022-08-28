@@ -15,17 +15,17 @@ public class Match : Entity, IAggregateRoot
     public string ParticipantOne { get; private set; }
     public string ParticipantTwo { get; private set; }
     public Format Format { get; private set; }
-    private readonly List<State> _states;
-    public IReadOnlyCollection<State> States => _states;
+    // nullable as may not want to get states when getting all matches
+    private readonly List<State>? _states;
+    public IReadOnlyCollection<State>? States => _states;
 
     public Match()
     {
-        // Initialize a match with defaults
+        // Setting non-null values but these will be overwritten by EF on get
         CreatedDateTime = DateTime.UtcNow;
         ParticipantOne = "Player One";
         ParticipantTwo = "Player Two";
         Format = new Format();
-        _states = new List<State> { State.InitialState(Participant.One) };
     }
 
     public Match(string participantOne, string participantTwo, Format format, Participant servingFirst)
@@ -39,17 +39,32 @@ public class Match : Entity, IAggregateRoot
 
     public State GetLatestState()
     {
+        if (_states == null) 
+        {
+            throw new MatchesDomainOperationRequiresStatesException();
+        }
+
         return GetStateByIndex(_states.Count()-1);
     }
 
     public State GetStateByIndex(int i)
     {
+        if (_states == null) 
+        {
+            throw new MatchesDomainOperationRequiresStatesException();
+        }
+
         _states.OrderBy(s => s.CreatedDateTime);
         return _states[i];
     }
 
     public void RemoveLastState()
     {
+        if (_states == null) 
+        {
+            throw new MatchesDomainOperationRequiresStatesException();
+        }
+
         if (_states.Count() == 1)
         {
             throw new MatchesDomainException("Cannot remove the initial state");
@@ -60,6 +75,11 @@ public class Match : Entity, IAggregateRoot
 
     public void AddState(Participant participant)
     {
+        if (_states == null) 
+        {
+            throw new MatchesDomainOperationRequiresStatesException();
+        }
+
         var latestState = GetLatestState();
         if (IsComplete(latestState))
         {
@@ -155,6 +175,11 @@ public class Match : Entity, IAggregateRoot
 
     private Participant GetPostTieBreakServing()
     {
+        if (_states == null) 
+        {
+            throw new MatchesDomainOperationRequiresStatesException();
+        }
+
         if (IsTieBreak(GetLatestState()))
         {
             throw new MatchesDomainException("cannot get post tie break serving if not in a tie break");
