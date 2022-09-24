@@ -1,12 +1,16 @@
 {
     "cSpell.words": [
+        "ASPNETCORE",
         "azuretools",
         "Bloggs",
         "CQRS",
         "Dtos",
         "Elvidge",
+        "gcloud",
         "MediatR",
         "Npgsql",
+        "racketreel",
+        "tomelvidge",
         "Xunit",
         "yzhang"
     ],

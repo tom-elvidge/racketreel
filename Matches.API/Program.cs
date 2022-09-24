@@ -11,16 +11,19 @@ using RacketReel.Services.Matches.Infrastructure.Repositories;
 using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
 using RacketReel.Services.Matches.API.Application.Behaviors;
 using System.Text.Json.Serialization;
+using System;
+using Microsoft.Extensions.Configuration;
+using RacketReel.Services.Matches.API.Application.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
-var dbConnectionString = builder.Configuration["ConnectionString"];
-
-var AllOrigins = "_allOrigins";
+var databaseConfigSection = builder.Configuration.GetSection(nameof(DatabaseConfig));
+var databaseConfig = databaseConfigSection.Get<DatabaseConfig>();
+var connectionString = databaseConfig.GetConnectionString();
 
 services.AddDbContext<MatchesContext>(
-    c => c.UseNpgsql(dbConnectionString)
+    c => c.UseNpgsql(connectionString)
 );
 
 services.AddScoped<IMatchRepository, MatchRepository>();
@@ -37,18 +40,14 @@ services.AddMvc().AddJsonOptions(options =>
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
 
-// Todo: Attempt to disable ASP.NET built-in validation to allow async FluentValidations
-// .AddFluentValidation(fv => {
-//     fv.DisableDataAnnotationsValidation = false;
-// });
+var AllOrigins = "_allOrigins";
 
 services.AddCors(options =>
 {
-    options.AddPolicy(name: AllOrigins,
-                      policy  =>
-                      {
-                          policy.WithOrigins("*");
-                      });
+    options.AddPolicy(name: AllOrigins, policy  =>
+    {
+        policy.WithOrigins("*");
+    });
 });
 
 var app = builder.Build();
@@ -58,17 +57,19 @@ app.UseCors(AllOrigins);
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+}
 
-    // Automatically create database tables when developing
-    // Need this as cannot get scoped service from root provider
-    using (var scope = app.Services.CreateScope())
-    {
-        var db = scope.ServiceProvider.GetRequiredService<MatchesContext>();
-        db.Database.EnsureCreated();
-    }
+// Need to create a scope as cannot get scoped service from root provider
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<MatchesContext>();
+    db.Database.EnsureCreated();
 }
 
 app.UseHttpsRedirection();
 app.MapControllers();
 
-app.Run();
+// Use the $PORT environment variable if set otherwise default to 8080
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+var url = $"http://0.0.0.0:{port}";
+app.Run(url);

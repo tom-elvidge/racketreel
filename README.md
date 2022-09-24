@@ -97,14 +97,37 @@ This service depends on a Postgres database which can be set up for development 
 
 Run locally with a debugger in Visual Studio Code by going to Run > Start Debugging or just press F5.
 
+## Deployment
+
+Install `gcloud`  and login
+
+```sh
+gcloud auth login
+```
+
+I have already created a project in with the id `tomelvidge` for POC projects so set this as the current project
+
+```sh
+gcloud config set project tomelvidge
+```
+
+Deploy the application to Cloud Run from source
+
+```sh
+gcloud run deploy racketreel-matches \
+	--source=./ \
+	--region=europe-west1 \
+	--min-instances=0 \
+	--max-instances=4 \
+	--allow-unauthenticated \
+	--set-env-vars='DatabaseConfig__Host'='...','DatabaseConfig__Port'='...','DatabaseConfig__Username'='...','DatabaseConfig__Password'='...','DatabaseConfig__Database'='...','AuthConfig__Authority'='...','AuthConfig__Audience'='...'
+```
+
 ### Todo
 
-- Complete MatchAggregate scoring logic
-- Fully unit test scoring logic
 - Handle errors from MatchAggregate in API layer
 - Add IsTieBreak, IsGamePoint, IsComplete etc to API responses
-- Scaffold caching system for these states?
-- Add auth0 authentication with user ids
 - Add created user to match
-- Add authorization check for create match and add state endpoints
+- Only allow users to add states or delete their own matches
 - Create bot which ensures there is always a demo match in progress with regular updates (random cron job az func to update score)
+- Interactive notebook for onboarding
