@@ -9,6 +9,7 @@
         "gcloud",
         "MediatR",
         "Npgsql",
+        "openapi",
         "racketreel",
         "tomelvidge",
         "Xunit",

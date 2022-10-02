@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "5000:8080"
+    volumes:
+      - ./petstore.oas3.json:/usr/share/nginx/html/doc/petstore.oas3.json:ro
+    environment:
+      API_URL: doc/petstore.oas3.json
