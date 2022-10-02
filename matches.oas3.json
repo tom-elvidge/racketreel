@@ -7,7 +7,7 @@
   "servers": [
     {
       "description": "development",
-      "url": "https://localhost:5012"
+      "url": "http://localhost:8080"
     },
     {
       "description": "mock",
@@ -18,7 +18,7 @@
     "/api/v1/matches": {
       "get": {
         "summary": "List all matches",
-        "operationId": "listMatches",
+        "operationId": "ListMatches",
         "tags": [
           "matches"
         ],
@@ -30,7 +30,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "format": "int64"
+              "format": "int32"
             }
           },
           {
@@ -40,7 +40,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "format": "int64"
+              "format": "int32"
             }
           }
         ],
@@ -58,7 +58,7 @@
       }, 
       "post": {
         "summary": "Create a new match",
-        "operationId": "createMatch",
+        "operationId": "CreateMatch",
         "tags": [
           "matches"
         ],
@@ -81,7 +81,7 @@
     "/api/v1/matches/{matchId}": {
       "get": {
         "summary": "Get a match",
-        "operationId": "getMatchById",
+        "operationId": "GetMatch",
         "tags": [
           "match"
         ],
@@ -92,7 +92,8 @@
             "required": true,
             "description": "The id of the match to get",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -112,7 +113,7 @@
     "/api/v1/matches/{matchId}/states": {
       "post": {
         "summary": "Create a new match state",
-        "operationId": "createState",
+        "operationId": "CreateMatchState",
         "tags": [
           "match",
           "state"
@@ -124,7 +125,8 @@
             "required": true,
             "description": "The id of the match to create a state for",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -147,6 +149,7 @@
     "/api/v1/matches/{matchId}/states/{stateId}": {
       "get": {
         "summary": "Get match state",
+        "operationId": "GetMatchState",
         "tags": [
           "match",
           "state"
@@ -158,7 +161,8 @@
             "required": true,
             "description": "The id of the match to get",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -167,7 +171,8 @@
             "required": true,
             "description": "The id of the state to get",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -187,6 +192,7 @@
     "/api/v1/matches/{matchId}/states/latest": {
       "get": {
         "summary": "Get latest match state",
+        "operationId": "GetLatestMatchState",
         "tags": [
           "match",
           "state"
@@ -198,7 +204,8 @@
             "required": true,
             "description": "The id of the match to get",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -216,6 +223,8 @@
       },
       "delete": {
         "summary": "Delete latest match state",
+
+        "operationId": "DeleteLatestMatchState",
         "tags": [
           "match",
           "state"
@@ -227,7 +236,8 @@
             "required": true,
             "description": "The id of the match to get",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -274,7 +284,7 @@
                 },
                 "sets": {
                   "type": "integer",
-                  "format": "int64"
+                  "format": "int32"
                 },
                 "setType": {
                   "type": "string"
@@ -416,7 +426,7 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int32"
           },
           "players": {
             "type": "array",
@@ -429,7 +439,7 @@
           },
           "sets": {
             "type": "integer",
-            "format": "int64"
+            "format": "int32"
           },
           "setType": {
             "type": "string"
@@ -477,15 +487,15 @@
         "properties": {
           "points": {
             "type": "integer",
-            "format": "int64"
+            "format": "int32"
           },
           "games": {
             "type": "integer",
-            "format": "int64"
+            "format": "int32"
           },
           "sets": {
             "type": "integer",
-            "format": "int64"
+            "format": "int32"
           }
         }
       },
@@ -498,7 +508,7 @@
         "properties": {
           "code": {
             "type": "integer",
-            "format": "int64"
+            "format": "int32"
           },
           "message": {
             "type": "string"

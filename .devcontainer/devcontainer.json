@@ -52,7 +52,7 @@
 	//    * If only using Remote - Containers with a local container, uncomment this line instead:
 	//      "mounts": [ "source=${env:HOME}${env:USERPROFILE}/.aspnet/https,target=/home/vscode/.aspnet/https,type=bind" ],
 
-	"onCreateCommand": "docker pull swaggerapi/swagger-ui && docker pull openapitools/openapi-generator-cli",
+	"onCreateCommand": "docker pull swaggerapi/swagger-ui && docker pull openapitools/openapi-generator-cli && docker pull postgres",
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	//"postCreateCommand": "",

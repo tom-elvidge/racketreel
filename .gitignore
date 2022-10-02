@@ -16,3 +16,8 @@ node_modules
 dist
 dist-ssr
 *.local
+
+RacketReel.Services.Matches.Generated.Server*
+.openapi-generator/*
+build.bat
+build.sh
