@@ -1,9 +1,21 @@
 # Contributing
 
-Start a postgres server locally.
+Start a Postgres server locally.
 
-```shell
-docker-compose up -d
+```sh
+docker compose -f postgres.docker-compose.yaml up -d
+```
+
+Run the Swagger Viewer for interacting with the API on http://localhost:5000.
+
+```sh
+docker compose -f swagger.docker-compose.yaml up -d
+```
+
+Run a mock server based on the OpenAPI specification.
+
+```sh
+prism mock matches.oas3.json
 ```
 
 ## Codespaces
