@@ -1,90 +1,492 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "version": "0.1.0",
-      "title": "Matches Service"
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.1.0",
+    "title": "Matches Service"
+  },
+  "servers": [
+    {
+      "description": "development",
+      "url": "https://localhost:5012"
     },
-    "servers": [
-      {
-        "description": "development",
-        "url": "localhost:5012"
-      },
-      {
-        "description": "mock",
-        "url": "localhost:4010"
-      }
-    ],
-    "paths": {
-      "/matches": {
-        "get": {
-          "summary": "List all matches",
-          "operationId": "listMatches",
-          "tags": [
-            "matches"
-          ],
-          "parameters": [
-            {
-              "name": "limit",
-              "in": "query",
-              "description": "How many items to return at one time (max 100)",
-              "required": false,
-              "schema": {
-                "type": "integer",
-                "format": "int32"
-              }
+    {
+      "description": "mock",
+      "url": "http://localhost:4010"
+    }
+  ],
+  "paths": {
+    "/api/v1/matches": {
+      "get": {
+        "summary": "List all matches",
+        "operationId": "listMatches",
+        "tags": [
+          "matches"
+        ],
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "How many items to return per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "A paged array of matches",
-              "headers": {
-                "x-next": {
-                  "description": "A link to the next page of responses",
-                  "schema": {
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Which page to return",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ListMatchesResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }, 
+      "post": {
+        "summary": "Create a new match",
+        "operationId": "createMatch",
+        "tags": [
+          "matches"
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CreateMatchCommand"
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/MatchResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/api/v1/matches/{matchId}": {
+      "get": {
+        "summary": "Get a match",
+        "operationId": "getMatchById",
+        "tags": [
+          "match"
+        ],
+        "parameters": [
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the match to get",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/MatchResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/api/v1/matches/{matchId}/states": {
+      "post": {
+        "summary": "Create a new match state",
+        "operationId": "createState",
+        "tags": [
+          "match",
+          "state"
+        ],
+        "parameters": [
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the match to create a state for",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CreateMatchStateCommand"
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/StateResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/api/v1/matches/{matchId}/states/{stateId}": {
+      "get": {
+        "summary": "Get match state",
+        "tags": [
+          "match",
+          "state"
+        ],
+        "parameters": [
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the match to get",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "stateId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the state to get",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/StateResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/api/v1/matches/{matchId}/states/latest": {
+      "get": {
+        "summary": "Get latest match state",
+        "tags": [
+          "match",
+          "state"
+        ],
+        "parameters": [
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the match to get",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/StateResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete latest match state",
+        "tags": [
+          "match",
+          "state"
+        ],
+        "parameters": [
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the match to get",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/DeleteStateResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "requestBodies": {
+      "CreateMatchCommand": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "required": [
+                "players",
+                "servingFirst",
+                "sets",
+                "setType",
+                "finalSetType"
+              ],
+              "properties": {
+                "players": {
+                  "type": "array",
+                  "items": {
                     "type": "string"
                   }
-                }
-              },
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Matches"
-                  }
+                },
+                "servingFirst": {
+                  "type": "string"
+                },
+                "sets": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "setType": {
+                  "type": "string"
+                },
+                "finalSetType": {
+                  "type": "string"
                 }
               }
-            },
-            "default": {
-              "description": "unexpected error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "CreateMatchStateCommand": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "required": [
+                "pointTo"
+              ],
+              "properties": {
+                "pointTo": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "NotFoundResponse": {
+        "description": "Not found"
+      },
+      "BadRequestResponse": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ConflictResponse": {
+        "description": "Conflict request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "description": "An unexpected error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "ListMatchesResponse": {
+        "description": "A paged list of matches",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "pageSize",
+                "pageNumber",
+                "data"
+              ],
+              "properties": {
+                "pageSize": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "pageNumber": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Match"
                   }
                 }
               }
             }
           }
         }
-    }
-  },
-  "components": {
+      },
+      "MatchResponse": {
+        "description": "The match",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Match"
+            }
+          }
+        }
+      },
+      "StateResponse": {
+        "description": "A match state",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/State"
+            }
+          }
+        }
+      },
+      "DeleteStateResponse": {
+        "description": "Delete latest match state"
+      }
+    },
     "schemas": {
       "Match": {
         "type": "object",
         "required": [
-          "id"
+          "id",
+          "createdDateTime",
+          "players",
+          "sets",
+          "setType",
+          "finalSetType"
         ],
         "properties": {
           "id": {
             "type": "integer",
             "format": "int64"
+          },
+          "players": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "servingFirst": {
+            "type": "string"
+          },
+          "sets": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "setType": {
+            "type": "string"
+          },
+          "finalSetType": {
+            "type": "string"
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/State"
+            }
           }
         }
       },
-      "Matches": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/Match"
+      "State": {
+        "type": "object",
+        "required": [
+          "createdDateTime",
+          "serving",
+          "score"
+        ],
+        "properties": {
+          "createdDateTime": {
+            "type": "string"
+          },
+          "serving": {
+            "type": "string"
+          },
+          "score": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/PlayerScore"
+            }
+          }
+        }
+      },
+      "PlayerScore": {
+        "type": "object",
+        "required": [
+          "points",
+          "games",
+          "sets"
+        ],
+        "properties": {
+          "points": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "games": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sets": {
+            "type": "integer",
+            "format": "int64"
+          }
         }
       },
       "Error": {
@@ -96,7 +498,7 @@
         "properties": {
           "code": {
             "type": "integer",
-            "format": "int32"
+            "format": "int64"
           },
           "message": {
             "type": "string"
