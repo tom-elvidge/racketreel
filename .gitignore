@@ -17,7 +17,14 @@ dist
 dist-ssr
 *.local
 
+# Generated code
 RacketReel.Matches.Generated.Server*
 .openapi-generator/*
 build.bat
 build.sh
+Client/Dart/*
+!Client/Dart/LICENSE
+!Client/Dart/CHANGELOG.md
+!Client/Dart/README.md
+!Client/Dart/pubspec.yaml
+!Client/Dart/.openapi-generator-ignore

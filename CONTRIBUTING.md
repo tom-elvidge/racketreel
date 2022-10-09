@@ -18,10 +18,17 @@ Run a mock server based on the OpenAPI specification.
 prism mock matches.oas3.json
 ```
 
-Generate the server code.
+Generate the client code.
 
 ```sh
 openapi-generator-cli generate
+```
+
+Publish the client.
+
+```sh
+cd Client/Dart
+dart pub publish
 ```
 
 ## Codespaces

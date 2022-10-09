@@ -1,29 +1,24 @@
 {
-    "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
-    "spaces": 2,
-    "generator-cli": {
-      "version": "6.0.1",
-      "useDocker": true,
-      "generators": {
-        "server": {
-          "generatorName": "aspnetcore",
-          "output": ".",
-          "glob": "matches.oas3.json",
-          "additionalProperties": {
-            "aspnetCoreVersion": "6.0",
-            "newtonsoftVersion": "6.0.8",
-            "sourceFolder": "",
-            "buildTarget": "library",
-            "classModifier": "abstract",
-            "generateBody": false,
-            "operationResultTask": true,
-            "packageAuthors": "Tom Elvidge",
-            "packageDescription": "Generated server library for Racket Reel's Matches service",
-            "packageName": "RacketReel.Matches.Generated.Server",
-            "packageTitle": "Matches Server Library",
-            "packageVersion": "0.1.0"
-          }
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "6.0.1",
+    "useDocker": true,
+    "generators": {
+      "dart-client": {
+        "generatorName": "dart",
+        "output": "Client/Dart",
+        "glob": "matches.oas3.json",
+        "additionalProperties": {
+          "pubAuthor": "Tom Elvidge",
+          "pubAuthorEmail": "tom@racketreel.com",
+          "pubDescription": "Client for interacting with the Matches service for Racket Reel.",
+          "pubHomepage": "https://www.racketreel.com",
+          "pubLibrary": "racketreel.matches",
+          "pubName": "racket_reel_matches",
+          "pubVersion": "0.1.0"
         }
       }
     }
   }
+}
