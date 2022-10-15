@@ -3,7 +3,7 @@
 #
 
 name: 'racket_reel_matches'
-version: '0.1.0'
+version: '0.1.1'
 description: 'Client for interacting with the Matches service for Racket Reel.'
 homepage: 'https://www.racketreel.com'
 environment:

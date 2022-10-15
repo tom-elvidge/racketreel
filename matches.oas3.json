@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "0.1.0",
+    "version": "0.1.1",
     "title": "Matches Service"
   },
   "servers": [
@@ -393,7 +393,15 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Match"
+              "type": "object",
+              "required": [
+                "data"
+              ],
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/Match"
+                }
+              }
             }
           }
         }
@@ -403,7 +411,15 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/State"
+              "type": "object",
+              "required": [
+                "data"
+              ],
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/MatchState"
+                }
+              }
             }
           }
         }
@@ -450,12 +466,12 @@
           "states": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/State"
+              "$ref": "#/components/schemas/MatchState"
             }
           }
         }
       },
-      "State": {
+      "MatchState": {
         "type": "object",
         "required": [
           "createdDateTime",

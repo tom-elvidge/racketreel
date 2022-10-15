@@ -24,6 +24,8 @@ Generate the client code.
 openapi-generator-cli generate
 ```
 
+Due to a bug in the generator you must manually change line 72 in `match_state.dart` from `score: PlayerScore.mapFromJson(json[r'score'!,` to `score: PlayerScore.mapFromJson(json[r'score']!)`.
+
 Publish the client.
 
 ```sh
