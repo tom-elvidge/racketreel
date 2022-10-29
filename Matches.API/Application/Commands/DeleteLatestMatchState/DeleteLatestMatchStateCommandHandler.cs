@@ -28,7 +28,7 @@ public class DeleteLatestMatchStateCommandHandler : IRequestHandler<DeleteLatest
 
     public async Task<Unit> Handle(DeleteLatestMatchStateCommand command, CancellationToken cancellationToken)
     {
-        var match = await _matchRepository.GetAsync(command.MatchId);
+        var match = await _matchRepository.GetAsync(command.MatchId, true);
 
         if (match == null)
         {

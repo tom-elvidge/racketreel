@@ -31,12 +31,12 @@ public class MatchesController : Controller
     }
 
     [HttpGet(Name = "GetMatches")]
-    public async Task<ActionResult> GetMatchesAsync([FromQuery] PaginationFilter filter)
+    public async Task<ActionResult> GetMatchesAsync([FromQuery] PaginationFilter filter, [FromQuery] bool? complete)
     {
         // todo: validate and throw exceptions instead
         var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
-        var matches = await _matchRepository.GetAsync(validFilter.PageNumber, validFilter.PageSize, false);
+        var matches = await _matchRepository.GetAsync(validFilter.PageNumber, validFilter.PageSize, complete, false);
         
         if (matches.Count() == 0)
         {
@@ -67,7 +67,7 @@ public class MatchesController : Controller
     [HttpGet("{matchId:int}", Name = "GetMatch")]
     public async Task<ActionResult> GetMatchAsync([FromRoute] int matchId)
     {
-        var match = await _matchRepository.GetAsync(matchId);
+        var match = await _matchRepository.GetAsync(matchId, true);
         if (match == null) return NotFound();
 
         return Ok(new Response<MatchDto>(MatchDto.ConvertToDto(match)));
@@ -99,7 +99,7 @@ public class MatchesController : Controller
     [HttpGet("{matchId:int}/states/{stateIndex:int}", Name = "GetMatchState")]
     public async Task<ActionResult> GetMatchStateAsync([FromRoute] int matchId, [FromRoute] int stateIndex)
     {
-        var match = await _matchRepository.GetAsync(matchId);
+        var match = await _matchRepository.GetAsync(matchId, true);
         if (match == null)  return NotFound();
 
         try
@@ -116,7 +116,7 @@ public class MatchesController : Controller
     [HttpGet("{matchId:int}/states/latest", Name = "GetLatestMatchState")]
     public async Task<ActionResult> GetLatestMatchStateAsync([FromRoute] int matchId)
     {
-        var match = await _matchRepository.GetAsync(matchId);
+        var match = await _matchRepository.GetAsync(matchId, true);
         if (match == null) return NotFound();
 
         var state = match.GetLatestState();

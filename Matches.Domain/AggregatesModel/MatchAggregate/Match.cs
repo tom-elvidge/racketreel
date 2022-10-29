@@ -18,6 +18,10 @@ public class Match : Entity, IAggregateRoot
     // nullable as may not want to get states when getting all matches
     private readonly List<State>? _states;
     public IReadOnlyCollection<State>? States => _states;
+    
+    // Recompute Complete every time a state is added or removed
+    // Todo: Cache IsComplete and invalidate every time a new state is added or removed
+    public bool Complete { get; set; }
 
     public Match()
     {
@@ -26,6 +30,7 @@ public class Match : Entity, IAggregateRoot
         ParticipantOne = "Player One";
         ParticipantTwo = "Player Two";
         Format = new Format();
+        Complete = false;
     }
 
     public Match(string participantOne, string participantTwo, Format format, Participant servingFirst)
@@ -35,6 +40,7 @@ public class Match : Entity, IAggregateRoot
         ParticipantTwo = participantTwo;
         Format = format;
         _states = new List<State> { State.InitialState(servingFirst) };
+        Complete = false;
     }
 
     public State GetLatestState()
@@ -71,6 +77,7 @@ public class Match : Entity, IAggregateRoot
         }
 
         _states.Remove(GetLatestState());
+        Complete = IsComplete(GetLatestState());
     }
 
     public void AddState(Participant participant)
@@ -81,7 +88,7 @@ public class Match : Entity, IAggregateRoot
         }
 
         var latestState = GetLatestState();
-        if (IsComplete(latestState))
+        if (Complete)
         {
             throw new MatchesDomainException("cannot add a new state to a complete match");
         }
@@ -171,6 +178,7 @@ public class Match : Entity, IAggregateRoot
         }
 
         _states.Add(newState);
+        Complete = IsComplete(newState);
     }
 
     private Participant GetPostTieBreakServing()
@@ -236,8 +244,6 @@ public class Match : Entity, IAggregateRoot
 
     public bool IsComplete(State state)
     {
-        // Todo: Cache this and invalidate the cache whenever a new state is pushed
-        // Todo: For dev implement a cache which always misses and does nothing with the update
         var requiredSets = Math.Ceiling((double) this.Format.Sets/2);
         return (state.Score.ParticipantOneSets == requiredSets || state.Score.ParticipantTwoSets == requiredSets);
     }

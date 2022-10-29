@@ -56,6 +56,11 @@ class MatchEntityTypeConfiguration : IEntityTypeConfiguration<Match>
             .HasColumnName("ParticipantTwo")
             .IsRequired();
 
+        matchConfiguration
+            .Property<bool>("Complete")
+            .HasColumnName("Complete")
+            .IsRequired();
+
         var navigation = matchConfiguration.Metadata.FindNavigation(nameof(Match.States));
         // Set as field to access the States collection property through its field
         navigation.SetPropertyAccessMode(PropertyAccessMode.Field);

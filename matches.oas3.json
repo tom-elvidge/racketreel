@@ -42,6 +42,15 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "complete",
+            "in": "query",
+            "description": "Filter matches based on if they are complete",
+            "required": false,
+            "schema": {
+              "type": "bool"
+            }
           }
         ],
         "responses": {
@@ -437,7 +446,8 @@
           "players",
           "sets",
           "setType",
-          "finalSetType"
+          "finalSetType",
+          "complete"
         ],
         "properties": {
           "id": {
@@ -462,6 +472,9 @@
           },
           "finalSetType": {
             "type": "string"
+          },
+          "complete": {
+            "type": "bool"
           },
           "states": {
             "type": "array",

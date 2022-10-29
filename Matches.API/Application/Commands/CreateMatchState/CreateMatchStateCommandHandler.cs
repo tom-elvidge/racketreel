@@ -32,7 +32,7 @@ public class CreateMatchStateCommandHandler : IRequestHandler<CreateMatchStateCo
 
     public async Task<CreateMatchStateCommandResponse> Handle(CreateMatchStateCommand command, CancellationToken cancellationToken)
     {
-        var match = await _matchRepository.GetAsync(command.MatchId);
+        var match = await _matchRepository.GetAsync(command.MatchId, true);
         
         if (match == null)
         {

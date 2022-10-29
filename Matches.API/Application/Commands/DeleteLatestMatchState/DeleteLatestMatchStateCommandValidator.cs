@@ -23,7 +23,7 @@ public class DeleteLatestMatchStateValidator : AbstractValidator<DeleteLatestMat
 
     public async Task<bool> MatchIdExistsAsync(int matchId, CancellationToken cancellationToken)
     {
-        var match = await _matchRepository.GetAsync(matchId);
+        var match = await _matchRepository.GetAsync(matchId, false);
         return match == null ? false : true;
     }
 }
