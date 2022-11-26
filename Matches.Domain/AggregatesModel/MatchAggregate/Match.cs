@@ -93,7 +93,6 @@ public class Match : Entity, IAggregateRoot
             throw new MatchesDomainException("cannot add a new state to a complete match");
         }
 
-        var isTieBreak = IsTieBreak(latestState);
         var gamePointTo = IsGamePointTo(latestState);
         var setPointTo = IsSetPointTo(latestState);
 
@@ -103,7 +102,7 @@ public class Match : Entity, IAggregateRoot
         if (participant == Participant.One)
         {
             // points
-            if (!isTieBreak && latestState.Score.ParticipantTwoPoints == 4)
+            if (!latestState.IsTieBreak && latestState.Score.ParticipantTwoPoints == 4)
             {
                 // back from advantage to deuce
                 newState.Score.ParticipantTwoPoints -= 1;
@@ -128,7 +127,7 @@ public class Match : Entity, IAggregateRoot
         if (participant == Participant.Two)
         {
             // points
-            if (!isTieBreak && latestState.Score.ParticipantOnePoints == 4)
+            if (!latestState.IsTieBreak && latestState.Score.ParticipantOnePoints == 4)
             {
                 // back from advantage to deuce
                 newState.Score.ParticipantOnePoints -= 1;
@@ -152,10 +151,10 @@ public class Match : Entity, IAggregateRoot
         }
 
         // check if still tie break now new score is known
-        var newStateIsTieBreak = IsTieBreak(newState);
+        newState.IsTieBreak = IsTieBreak(newState);
 
         // swap serve after an odd number of points during a tie break
-        if (newStateIsTieBreak)
+        if (newState.IsTieBreak)
         {
             var totalTieBreakPoints = newState.Score.ParticipantOnePoints + newState.Score.ParticipantTwoPoints;
             if (totalTieBreakPoints % 2 != 0)
@@ -172,7 +171,7 @@ public class Match : Entity, IAggregateRoot
 
         // reset the serving player after a tiebreak
         // this will take precedence the swap serve if new game is starting rule
-        if (isTieBreak && !newStateIsTieBreak)
+        if (latestState.IsTieBreak && !newState.IsTieBreak)
         {
             newState.Serving = GetPostTieBreakServing();
         }
@@ -188,7 +187,7 @@ public class Match : Entity, IAggregateRoot
             throw new MatchesDomainOperationRequiresStatesException();
         }
 
-        if (IsTieBreak(GetLatestState()))
+        if (!GetLatestState().IsTieBreak)
         {
             throw new MatchesDomainException("cannot get post tie break serving if not in a tie break");
         }
@@ -270,21 +269,20 @@ public class Match : Entity, IAggregateRoot
 
     private int GetRequiredPoints(State state)
     {
-        var isTieBreak = IsTieBreak(state);
         var setType = GetSetType(state);
         if (setType == SetType.SuperTiebreaker)
         {
             return 10;
         }
-        if (setType == SetType.SixAllTwelvePointTiebreaker && isTieBreak)
+        if (setType == SetType.SixAllTwelvePointTiebreaker && state.IsTieBreak)
         {
             return 7;
         }
-        if (setType == SetType.SixAllTenPointTiebreaker && isTieBreak)
+        if (setType == SetType.SixAllTenPointTiebreaker && state.IsTieBreak)
         {
             return 10;
         }
-        if (setType == SetType.WimbledonFinalSet && isTieBreak)
+        if (setType == SetType.WimbledonFinalSet && state.IsTieBreak)
         {
             return 7;
         }
@@ -327,7 +325,7 @@ public class Match : Entity, IAggregateRoot
             return Participant.Two;
         }
         // if we make it to a tie break then game point is set point
-        if (IsTieBreak(state))
+        if (state.IsTieBreak)
         {
             return gamePointTo;
         }

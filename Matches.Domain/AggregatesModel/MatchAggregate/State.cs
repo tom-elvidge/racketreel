@@ -9,6 +9,7 @@ public class State : Entity
     public DateTime CreatedDateTime { get; private set; }
     public Score Score { get; set; }
     public Participant Serving { get; set; }
+    public bool IsTieBreak { get; set; }
 
     public State()
     {
@@ -17,17 +18,19 @@ public class State : Entity
     public State(
         DateTime createdDateTime,
         Score score,
-        Participant serving
+        Participant serving,
+        bool isTieBreak
     )
     {
         CreatedDateTime = createdDateTime;
         Score = score;
         Serving = serving;
+        IsTieBreak = isTieBreak;
     }
 
     public static State InitialState(Participant serving)
     {
-        return new State(DateTime.UtcNow, new Score(0,0,0,0,0,0), serving);
+        return new State(DateTime.UtcNow, new Score(0,0,0,0,0,0), serving, false);
     }
 
     public State Copy()
@@ -35,7 +38,8 @@ public class State : Entity
         return new State(
             DateTime.UtcNow,
             this.Score.Copy(),
-            this.Serving
+            this.Serving,
+            this.IsTieBreak
         );
     }
 }

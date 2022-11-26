@@ -102,7 +102,8 @@ public class TestMatchAggregate
             new State(
                 new DateTime(2022, 1, 1, 0, 0, 0),
                 new Score(0, 0, 6, 6, 0, 0),
-                Participant.One
+                Participant.One,
+                true
             ),
             true,
             "6-6 in games so must be in tie break"
@@ -133,7 +134,8 @@ public class TestMatchAggregate
             new State(
                 new DateTime(2022, 1, 1, 0, 0, 0),
                 new Score(0, 0, 0, 0, 2, 0),
-                Participant.One
+                Participant.One,
+                false
             ),
             true,
             "2 sets to love in a match with 3 sets"

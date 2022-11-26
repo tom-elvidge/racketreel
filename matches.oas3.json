@@ -489,7 +489,8 @@
         "required": [
           "createdDateTime",
           "serving",
-          "score"
+          "score",
+          "isTieBreak"
         ],
         "properties": {
           "createdDateTime": {
@@ -503,6 +504,9 @@
             "additionalProperties": {
               "$ref": "#/components/schemas/PlayerScore"
             }
+          },
+          "isTieBreak": {
+            "type": "bool"
           }
         }
       },

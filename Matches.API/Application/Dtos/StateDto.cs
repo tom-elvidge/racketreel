@@ -13,12 +13,14 @@ public class StateDto
     public DateTime CreatedDateTime { get; private set; }
     public string Serving { get; private set; }
     public IDictionary<string, PlayerScoreDto> Score { get; private set; }
+    public bool IsTieBreak { get; private set; }
 
-    public StateDto(DateTime createdDateTime, string serving, IDictionary<string, PlayerScoreDto> score)
+    public StateDto(DateTime createdDateTime, string serving, IDictionary<string, PlayerScoreDto> score, bool isTieBreak)
     {
         CreatedDateTime = createdDateTime;
         Serving = serving;
         Score = score;
+        IsTieBreak = isTieBreak;
     }
 
     public static StateDto ConvertToDto(Match match, State state)
@@ -30,7 +32,8 @@ public class StateDto
             {
                 { match.ParticipantOne, new PlayerScoreDto(state.Score.ParticipantOnePoints, state.Score.ParticipantOneGames, state.Score.ParticipantOneSets) },
                 { match.ParticipantTwo, new PlayerScoreDto(state.Score.ParticipantTwoPoints, state.Score.ParticipantTwoGames, state.Score.ParticipantTwoSets) }
-            }
+            },
+            state.IsTieBreak
         );
     }
 }

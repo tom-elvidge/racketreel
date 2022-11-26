@@ -22,7 +22,8 @@ public class IsGameSetMatchPointTests
             new State(
                 new DateTime(2022, 1, 1, 0, 0, 0),
                 new Score(2, 0, 0, 0, 0, 0),
-                Participant.One
+                Participant.One,
+                false
             ),
             null,
             "normal game which is 30-love so participant one needs two points not one"
@@ -39,7 +40,8 @@ public class IsGameSetMatchPointTests
             new State(
                 new DateTime(2022, 1, 1, 0, 0, 0),
                 new Score(3, 3, 0, 0, 0, 0),
-                Participant.One
+                Participant.One,
+                false
             ),
             null,
             "normal game which is deuce so either participant needs two points not one"
@@ -56,7 +58,8 @@ public class IsGameSetMatchPointTests
             new State(
                 new DateTime(2022, 1, 1, 0, 0, 0),
                 new Score(3, 0, 0, 0, 0, 0),
-                Participant.One
+                Participant.One,
+                false
             ),
             Participant.One,
             "normal game which is 40-love so participant one only needs one more point"
@@ -76,7 +79,8 @@ public class IsGameSetMatchPointTests
             new State(
                 new DateTime(2022, 1, 1, 0, 0, 0),
                 new Score(9, 0, 6, 6, 0, 0),
-                Participant.One
+                Participant.One,
+                true
             ),
             Participant.One,
             "in the first set so 10 point tie breaker and participant one only needs one point for the required 10"
@@ -96,7 +100,8 @@ public class IsGameSetMatchPointTests
             new State(
                 new DateTime(2022, 1, 1, 0, 0, 0),
                 new Score(6, 0, 6, 6, 1, 1), // final set twelve point tie break
-                Participant.One
+                Participant.One,
+                true
             ),
             Participant.One,
             "in the final set which is a 12 point tie break and participant one only needs one point for the required 7"
