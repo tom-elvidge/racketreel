@@ -447,7 +447,8 @@
           "sets",
           "setType",
           "finalSetType",
-          "complete"
+          "complete",
+          "servingFirst"
         ],
         "properties": {
           "id": {
