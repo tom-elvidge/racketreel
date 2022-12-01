@@ -113,6 +113,30 @@ public class MatchesController : Controller
         }
     }
 
+    [HttpPut("{matchId:int}/states/{stateIndex:int}", Name = "UpdateMatchState")]
+    public async Task<ActionResult> UpdateMatchStateAsync([FromRoute] int matchId, [FromRoute] int stateIndex, [FromBody] UpdateMatchStateCommand command)
+    {
+        command.MatchId = matchId;
+        command.StateIndex = stateIndex;
+        try
+        {
+            var state = await _mediator.Send(command);
+            return Ok(new Response<StateDto>(state));
+        } 
+        catch (ValidationException e)
+        {
+            return BadRequest(new Response<StateDto>( e.Message.Split("; ")));
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(new Response<StateDto>(new string[] { e.Message }));
+        }
+        catch (UpdateInitialStateException e)
+        {
+            return Conflict(new Response<StateDto>(new string[] { e.Message }));
+        }
+    }
+
     [HttpGet("{matchId:int}/states/latest", Name = "GetLatestMatchState")]
     public async Task<ActionResult> GetLatestMatchStateAsync([FromRoute] int matchId)
     {
@@ -123,6 +147,29 @@ public class MatchesController : Controller
         if (state == null) return NotFound();
 
         return Ok(new Response<StateDto>(StateDto.ConvertToDto(match, state)));
+    }
+
+    [HttpPut("{matchId:int}/states/latest", Name = "UpdateLatestMatchState")]
+    public async Task<ActionResult> UpdateLatestMatchStateAsync([FromRoute] int matchId, [FromBody] UpdateMatchStateCommand command)
+    {
+        command.MatchId = matchId;
+        try
+        {
+            var state = await _mediator.Send(command);
+            return Ok(new Response<StateDto>(state));
+        } 
+        catch (ValidationException e)
+        {
+            return BadRequest(new Response<StateDto>( e.Message.Split("; ")));
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(new Response<StateDto>(new string[] { e.Message }));
+        }
+        catch (UpdateInitialStateException e)
+        {
+            return Conflict(new Response<StateDto>(new string[] { e.Message }));
+        }
     }
 
     [HttpDelete("{matchId:int}/states/latest", Name = "DeleteLatestMatchState")]

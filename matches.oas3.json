@@ -196,6 +196,50 @@
             "$ref": "#/components/responses/ErrorResponse"
           }
         }
+      },
+      "put": {
+        "summary": "Update the match state",
+        "operationId": "UpdateMatchState",
+        "tags": [
+          "match",
+          "state"
+        ],
+        "parameters": [
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the match to update",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "stateId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the state to update",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/UpdateMatchStateCommand"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/StateResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
       }
     },
     "/api/v1/matches/{matchId}/states/latest": {
@@ -264,6 +308,40 @@
             "$ref": "#/components/responses/ErrorResponse"
           }
         }
+      },
+      "put": {
+        "summary": "Update the latest match state",
+        "operationId": "UpdateLatestMatchState",
+        "tags": [
+          "match",
+          "state"
+        ],
+        "parameters": [
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the match to update the latest state of",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/UpdateMatchStateCommand"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/StateResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
       }
     }
   },
@@ -317,6 +395,23 @@
               "properties": {
                 "pointTo": {
                   "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UpdateMatchStateCommand": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "required": [
+                "highlight"
+              ],
+              "properties": {
+                "highlight": {
+                  "type": "bool"
                 }
               }
             }
@@ -491,7 +586,8 @@
           "createdDateTime",
           "serving",
           "score",
-          "isTieBreak"
+          "isTieBreak",
+          "highlight"
         ],
         "properties": {
           "createdDateTime": {
@@ -507,6 +603,9 @@
             }
           },
           "isTieBreak": {
+            "type": "bool"
+          },
+          "highlight": {
             "type": "bool"
           }
         }

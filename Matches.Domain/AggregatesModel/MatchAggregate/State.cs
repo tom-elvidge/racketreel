@@ -10,6 +10,7 @@ public class State : Entity
     public Score Score { get; set; }
     public Participant Serving { get; set; }
     public bool IsTieBreak { get; set; }
+    public bool Highlight { get; set; }
 
     public State()
     {
@@ -26,6 +27,7 @@ public class State : Entity
         Score = score;
         Serving = serving;
         IsTieBreak = isTieBreak;
+        Highlight = false;
     }
 
     public static State InitialState(Participant serving)
