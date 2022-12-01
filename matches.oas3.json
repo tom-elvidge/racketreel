@@ -354,7 +354,6 @@
             "schema": {
               "required": [
                 "players",
-                "servingFirst",
                 "sets",
                 "setType",
                 "finalSetType"
