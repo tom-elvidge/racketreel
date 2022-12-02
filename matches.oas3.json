@@ -532,6 +532,70 @@
       }
     },
     "schemas": {
+      "MatchSummary": {
+        "type": "object",
+        "required": [
+          "completedDateTime",
+          "winner",
+          "sets"
+        ],
+        "properties": {
+          "completedDateTime": {
+            "type": "string"
+          },
+          "winner": {
+            "type": "string"
+          },
+          "sets": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/SetSummary"
+            }
+          }
+        }
+      },
+      "SetSummary": {
+        "type": "object",
+        "required": [
+          "completedDateTime",
+          "winner",
+          "tiebreak"
+        ],
+        "properties": {
+          "completedDateTime": {
+            "type": "string"
+          },
+          "winner": {
+            "type": "string"
+          },
+          "tiebreak": {
+            "type": "bool"
+          },
+          "score": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/PlayerSetScore"
+            }
+          }
+        }
+      },
+      "PlayerSetScore": {
+        "type": "object",
+        "required": [
+          "games",
+          "tiebreakPoints"
+        ],
+        "properties": {
+          "games": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tiebreakPoints": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "Match": {
         "type": "object",
         "required": [
@@ -570,6 +634,9 @@
           },
           "complete": {
             "type": "bool"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/MatchSummary"
           },
           "states": {
             "type": "array",
