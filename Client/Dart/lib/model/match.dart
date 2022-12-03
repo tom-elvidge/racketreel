@@ -15,7 +15,7 @@ class Match {
   Match({
     required this.id,
     this.players = const [],
-    required this.servingFirst,
+    this.servingFirst,
     required this.sets,
     required this.setType,
     required this.finalSetType,
@@ -28,7 +28,13 @@ class Match {
 
   List<String> players;
 
-  String servingFirst;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? servingFirst;
 
   int sets;
 
@@ -67,7 +73,7 @@ class Match {
       // ignore: unnecessary_parenthesis
       (id.hashCode) +
       (players.hashCode) +
-      (servingFirst.hashCode) +
+      (servingFirst == null ? 0 : servingFirst!.hashCode) +
       (sets.hashCode) +
       (setType.hashCode) +
       (finalSetType.hashCode) +
@@ -83,7 +89,11 @@ class Match {
     final _json = <String, dynamic>{};
     _json[r'id'] = id;
     _json[r'players'] = players;
-    _json[r'servingFirst'] = servingFirst;
+    if (servingFirst != null) {
+      _json[r'servingFirst'] = servingFirst;
+    } else {
+      _json[r'servingFirst'] = null;
+    }
     _json[r'sets'] = sets;
     _json[r'setType'] = setType;
     _json[r'finalSetType'] = finalSetType;
@@ -122,7 +132,7 @@ class Match {
         players: json[r'players'] is List
             ? (json[r'players'] as List).cast<String>()
             : const [],
-        servingFirst: mapValueOfType<String>(json, r'servingFirst')!,
+        servingFirst: mapValueOfType<String>(json, r'servingFirst'),
         sets: mapValueOfType<int>(json, r'sets')!,
         setType: mapValueOfType<String>(json, r'setType')!,
         finalSetType: mapValueOfType<String>(json, r'finalSetType')!,
@@ -189,7 +199,6 @@ class Match {
   static const requiredKeys = <String>{
     'id',
     'players',
-    'servingFirst',
     'sets',
     'setType',
     'finalSetType',

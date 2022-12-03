@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | 
 **players** | **List<String>** |  | [default to const []]
-**servingFirst** | **String** |  | 
+**servingFirst** | **String** |  | [optional] 
 **sets** | **int** |  | 
 **setType** | **String** |  | 
 **finalSetType** | **String** |  | 

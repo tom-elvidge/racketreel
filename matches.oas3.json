@@ -605,8 +605,7 @@
           "sets",
           "setType",
           "finalSetType",
-          "complete",
-          "servingFirst"
+          "complete"
         ],
         "properties": {
           "id": {
