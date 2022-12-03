@@ -22,9 +22,9 @@ RacketReel.Matches.Generated.Server*
 .openapi-generator/*
 build.bat
 build.sh
-Client/Dart/*
-!Client/Dart/LICENSE
-!Client/Dart/CHANGELOG.md
-!Client/Dart/README.md
-!Client/Dart/pubspec.yaml
-!Client/Dart/.openapi-generator-ignore
+Client/Dart/.gitignore
+Client/Dart/.openapi-generator/*
+Client/Dart/.travis.yml
+Client/Dart/analysis_options.yaml
+Client/Dart/git_push.sh
+Client/Dart/openapitools.json

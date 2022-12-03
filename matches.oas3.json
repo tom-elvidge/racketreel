@@ -559,7 +559,7 @@
         "required": [
           "completedDateTime",
           "winner",
-          "tiebreak"
+          "tieBreak"
         ],
         "properties": {
           "completedDateTime": {
@@ -568,7 +568,7 @@
           "winner": {
             "type": "string"
           },
-          "tiebreak": {
+          "tieBreak": {
             "type": "bool"
           },
           "score": {
@@ -583,14 +583,14 @@
         "type": "object",
         "required": [
           "games",
-          "tiebreakPoints"
+          "tieBreakPoints"
         ],
         "properties": {
           "games": {
             "type": "integer",
             "format": "int32"
           },
-          "tiebreakPoints": {
+          "tieBreakPoints": {
             "type": "integer",
             "format": "int32"
           }
