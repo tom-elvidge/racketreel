@@ -1,4 +1,5 @@
 {
+    "dotnet-test-explorer.testProjectPath": "**/*Tests.@(csproj|vbproj|fsproj)",
     "cSpell.words": [
         "ASPNETCORE",
         "azuretools",

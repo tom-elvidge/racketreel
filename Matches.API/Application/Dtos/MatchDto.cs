@@ -20,8 +20,9 @@ public class MatchDto
     public bool Complete { get; private set; }
     // nullable as can send match without states to save bandwidth
     public IEnumerable<StateDto>? States { get; private set; }
+    public MatchSummaryDto? Summary { get; private set; }
 
-    public MatchDto(int id, DateTime createdDateTime, IEnumerable<string> players, string? servingFirst, int sets, string setType, string finalSetType, bool complete, IEnumerable<StateDto>? states)
+    public MatchDto(int id, DateTime createdDateTime, IEnumerable<string> players, string? servingFirst, int sets, string setType, string finalSetType, bool complete, IEnumerable<StateDto>? states, MatchSummaryDto? summary)
     {
         Id = id;
         CreatedDateTime = createdDateTime;
@@ -32,6 +33,7 @@ public class MatchDto
         FinalSetType = finalSetType;
         Complete = complete;
         States = states;
+        Summary = summary;
     }
 
     public static MatchDto ConvertToDto(Match match)
@@ -45,7 +47,8 @@ public class MatchDto
             match.Format.NormalSetType.ToString(),
             match.Format.FinalSetType.ToString(),
             match.Complete,
-            match.States == null ? null : match.States.Select(s => StateDto.ConvertToDto(match, s))
+            match.States == null ? null : match.States.Select(s => StateDto.ConvertToDto(match, s)),
+            match.Summary == null ? null : MatchSummaryDto.ConvertToDto(match, match.Summary)
         );
     }
 }

@@ -19,9 +19,8 @@ public class Match : Entity, IAggregateRoot
     private readonly List<State>? _states;
     public IReadOnlyCollection<State>? States => _states;
     
-    // Recompute Complete every time a state is added or removed
-    // Todo: Cache IsComplete and invalidate every time a new state is added or removed
     public bool Complete { get; set; }
+    public MatchSummary? Summary { get; set; }
 
     public Match()
     {
@@ -78,6 +77,9 @@ public class Match : Entity, IAggregateRoot
 
         _states.Remove(GetLatestState());
         Complete = IsComplete(GetLatestState());
+        if (!Complete) {
+            Summary = null;
+        }
     }
 
     public void AddState(Participant participant)
@@ -178,6 +180,95 @@ public class Match : Entity, IAggregateRoot
 
         _states.Add(newState);
         Complete = IsComplete(newState);
+        if (Complete) {
+            Summary = ComputeMatchSummary();
+        }
+    }
+
+    public MatchSummary ComputeMatchSummary() {
+        State lastState = States!.Last();
+
+        var summary = new MatchSummary();
+        summary.CompletedDateTime = lastState.CreatedDateTime;
+        
+        if (lastState.Score.ParticipantOneSets > lastState.Score.ParticipantTwoSets)
+        {
+            summary.Winner = Participant.One;
+        } else {
+            summary.Winner = Participant.Two;
+        }
+
+        for (int i = 0; i < Format.Sets; i++)
+        {
+            var setSummary = ComputeSetSummary(i);
+            if (setSummary != null)
+            {
+                summary.Sets.Add(setSummary);
+            }
+        }
+        return summary;
+    }
+
+    public SetSummary? ComputeSetSummary(int set)
+    {
+        // Find last state of set and first state of next set
+        var currentSet = 0;
+        var stateIndex = 0;
+        var stateCount = _states!.Count();
+        while (currentSet <= set)
+        {
+            // This set was never played
+            if (stateIndex >= stateCount) return null;
+
+            currentSet = _states![stateIndex].Score.ParticipantOneSets + _states![stateIndex].Score.ParticipantTwoSets;
+            stateIndex++;
+        }
+        var firstStateOfNextSet = _states![stateIndex-1];
+        var lastStateOfSet = _states![stateIndex-2];
+
+        var summary = new SetSummary();
+        summary.Set = set;
+        summary.CompletedDateTime = firstStateOfNextSet.CreatedDateTime;
+
+        // Determine winner of this set
+        if (firstStateOfNextSet.Score.ParticipantOneSets > lastStateOfSet.Score.ParticipantOneSets)
+        {
+            summary.Winner = Participant.One;
+        }
+        else
+        {
+            summary.Winner = Participant.Two;
+        }
+
+        // Games
+        summary.ParticipantOneGames = lastStateOfSet.Score.ParticipantOneGames;
+        summary.ParticipantTwoGames = lastStateOfSet.Score.ParticipantTwoGames;
+        if (summary.Winner == Participant.One)
+        {
+            summary.ParticipantOneGames++;
+        }
+        else
+        {
+            summary.ParticipantTwoGames++;
+        }
+
+        // TieBreak
+        summary.TieBreak = lastStateOfSet.IsTieBreak;
+        if (summary.TieBreak)
+        {
+            summary.ParticipantOneTieBreakPoints = lastStateOfSet.Score.ParticipantOnePoints;
+            summary.ParticipantTwoTieBreakPoints = lastStateOfSet.Score.ParticipantTwoPoints;
+            if (summary.Winner == Participant.One)
+            {
+                summary.ParticipantOneTieBreakPoints++;
+            }
+            else
+            {
+                summary.ParticipantTwoTieBreakPoints++;
+            }
+        }
+        
+        return summary;
     }
 
     private Participant GetPostTieBreakServing()

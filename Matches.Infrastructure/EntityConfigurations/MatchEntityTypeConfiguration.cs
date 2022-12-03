@@ -61,6 +61,60 @@ class MatchEntityTypeConfiguration : IEntityTypeConfiguration<Match>
             .HasColumnName("Complete")
             .IsRequired();
 
+        matchConfiguration
+            .OwnsOne(m => m.Summary, summary =>
+            {
+                // Explicit configuration of the shadow key property in the owned type 
+                // as a workaround for a documented issue in EF Core 5: https://github.com/dotnet/efcore/issues/20740
+                summary.Property<int>("MatchId")
+                .UseHiLo("matchseq", MatchesContext.DEFAULT_SCHEMA);
+                summary.WithOwner();
+
+                summary
+                    .Property<DateTime>("CompletedDateTime")
+                    .HasColumnName("CompletedDateTime")
+                    .IsRequired();
+                summary
+                    .Property<Participant>("Winner")
+                    .HasColumnName("Winner")
+                    .IsRequired();
+
+                summary.OwnsMany(summary => summary.Sets, setSummary =>
+                {
+                    setSummary
+                        .Property<int>("MatchId")
+                        .UseHiLo("matchseq", MatchesContext.DEFAULT_SCHEMA);
+                    setSummary
+                        .WithOwner();
+                    setSummary
+                        .Property<DateTime>("CompletedDateTime")
+                        .HasColumnName("CompletedDateTime")
+                        .IsRequired();
+                    setSummary
+                        .Property<Participant>("Winner")
+                        .HasColumnName("Winner")
+                        .IsRequired();
+                    setSummary
+                        .Property<int>("ParticipantOneGames")
+                        .HasColumnName("ParticipantOneGames")
+                        .IsRequired();
+                    setSummary
+                        .Property<int>("ParticipantTwoGames")
+                        .HasColumnName("ParticipantTwoGames")
+                        .IsRequired();
+                    setSummary
+                        .Property<bool>("TieBreak")
+                        .HasColumnName("TieBreak")
+                        .IsRequired();
+                    setSummary
+                        .Property<int?>("ParticipantOneTieBreakPoints")
+                        .HasColumnName("ParticipantOneTieBreakPoints");
+                    setSummary
+                        .Property<int?>("ParticipantTwoTieBreakPoints")
+                        .HasColumnName("ParticipantTwoTieBreakPoints");
+                });
+            });
+
         var navigation = matchConfiguration.Metadata.FindNavigation(nameof(Match.States));
         // Set as field to access the States collection property through its field
         navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
