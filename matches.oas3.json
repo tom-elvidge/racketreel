@@ -582,8 +582,7 @@
       "PlayerSetScore": {
         "type": "object",
         "required": [
-          "games",
-          "tieBreakPoints"
+          "games"
         ],
         "properties": {
           "games": {

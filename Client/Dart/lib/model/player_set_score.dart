@@ -14,12 +14,18 @@ class PlayerSetScore {
   /// Returns a new [PlayerSetScore] instance.
   PlayerSetScore({
     required this.games,
-    required this.tieBreakPoints,
+    this.tieBreakPoints,
   });
 
   int games;
 
-  int tieBreakPoints;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? tieBreakPoints;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is PlayerSetScore &&
@@ -30,7 +36,7 @@ class PlayerSetScore {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (games.hashCode) +
-    (tieBreakPoints.hashCode);
+    (tieBreakPoints == null ? 0 : tieBreakPoints!.hashCode);
 
   @override
   String toString() => 'PlayerSetScore[games=$games, tieBreakPoints=$tieBreakPoints]';
@@ -38,7 +44,11 @@ class PlayerSetScore {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
       _json[r'games'] = games;
+    if (tieBreakPoints != null) {
       _json[r'tieBreakPoints'] = tieBreakPoints;
+    } else {
+      _json[r'tieBreakPoints'] = null;
+    }
     return _json;
   }
 
@@ -62,7 +72,7 @@ class PlayerSetScore {
 
       return PlayerSetScore(
         games: mapValueOfType<int>(json, r'games')!,
-        tieBreakPoints: mapValueOfType<int>(json, r'tieBreakPoints')!,
+        tieBreakPoints: mapValueOfType<int>(json, r'tieBreakPoints'),
       );
     }
     return null;
@@ -113,7 +123,6 @@ class PlayerSetScore {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'games',
-    'tieBreakPoints',
   };
 }
 
