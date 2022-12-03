@@ -22,25 +22,23 @@ class PlayerSetScore {
   int tieBreakPoints;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PlayerSetScore &&
-          other.games == games &&
-          other.tieBreakPoints == tieBreakPoints;
+  bool operator ==(Object other) => identical(this, other) || other is PlayerSetScore &&
+     other.games == games &&
+     other.tieBreakPoints == tieBreakPoints;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (games.hashCode) + (tieBreakPoints.hashCode);
+    // ignore: unnecessary_parenthesis
+    (games.hashCode) +
+    (tieBreakPoints.hashCode);
 
   @override
-  String toString() =>
-      'PlayerSetScore[games=$games, tieBreakPoints=$tieBreakPoints]';
+  String toString() => 'PlayerSetScore[games=$games, tieBreakPoints=$tieBreakPoints]';
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json[r'games'] = games;
-    _json[r'tieBreakPoints'] = tieBreakPoints;
+      _json[r'games'] = games;
+      _json[r'tieBreakPoints'] = tieBreakPoints;
     return _json;
   }
 
@@ -56,10 +54,8 @@ class PlayerSetScore {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key),
-              'Required key "PlayerSetScore[$key]" is missing from JSON.');
-          assert(json[key] != null,
-              'Required key "PlayerSetScore[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "PlayerSetScore[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "PlayerSetScore[$key]" has a null value in JSON.');
         });
         return true;
       }());
@@ -72,10 +68,7 @@ class PlayerSetScore {
     return null;
   }
 
-  static List<PlayerSetScore>? listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<PlayerSetScore>? listFromJson(dynamic json, {bool growable = false,}) {
     final result = <PlayerSetScore>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -103,18 +96,12 @@ class PlayerSetScore {
   }
 
   // maps a json object with a list of PlayerSetScore-objects as value to a dart map
-  static Map<String, List<PlayerSetScore>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<PlayerSetScore>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<PlayerSetScore>>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = PlayerSetScore.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        final value = PlayerSetScore.listFromJson(entry.value, growable: growable,);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -129,3 +116,4 @@ class PlayerSetScore {
     'tieBreakPoints',
   };
 }
+

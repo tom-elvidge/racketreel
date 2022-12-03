@@ -11,3 +11,7 @@ Added functionality for interacting with the Matches service for Racket Reel; vi
 ## [0.1.1] - 2022-10-15
  
 Fixed failure to initialize Apis.
+
+## [0.2.0] - 2022-12-03
+
+Added support for displaying the summary of completed matches.
