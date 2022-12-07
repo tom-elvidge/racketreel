@@ -469,7 +469,7 @@
               "required": [
                 "pageSize",
                 "pageNumber",
-                "totalPages",
+                "pageCount",
                 "data"
               ],
               "properties": {
@@ -481,7 +481,7 @@
                   "type": "integer",
                   "format": "int32"
                 },
-                "totalPages": {
+                "pageCount": {
                   "type": "integer",
                   "format": "int32"
                 },
