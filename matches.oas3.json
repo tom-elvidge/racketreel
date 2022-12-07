@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "0.1.1",
+    "version": "0.2.1",
     "title": "Matches Service"
   },
   "servers": [
@@ -469,6 +469,7 @@
               "required": [
                 "pageSize",
                 "pageNumber",
+                "totalPages",
                 "data"
               ],
               "properties": {
@@ -477,6 +478,10 @@
                   "format": "int32"
                 },
                 "pageNumber": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "totalPages": {
                   "type": "integer",
                   "format": "int32"
                 },

@@ -24,6 +24,7 @@ public class MatchRepository : IMatchRepository
         var matches = await _context
             .Matches
             .Where(match => complete == null ? true : match.Complete == complete)
+            .OrderBy(match => match.CreatedDateTime)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .Include(x => x.Format)
@@ -74,5 +75,19 @@ public class MatchRepository : IMatchRepository
     public void Update(Match match)
     {
         _context.Entry(match).State = EntityState.Modified;
+    }
+
+    public async Task<int> GetPageCountAsync(int pageSize, bool? complete)
+    {
+        var matchesCount = await _context
+            .Matches
+            .Where(match => complete == null ? true : match.Complete == complete)
+            .CountAsync();
+
+        int pageCount = (int) Math.Floor((double) matchesCount / pageSize);
+        // Add an extra page if there are any left over matches
+        if (matchesCount % pageSize != 0) pageCount++;
+
+        return pageCount;
     }
 }

@@ -37,13 +37,14 @@ public class MatchesController : Controller
         var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
         var matches = await _matchRepository.GetAsync(validFilter.PageNumber, validFilter.PageSize, complete, false);
-        
+        var pageCount = await _matchRepository.GetPageCountAsync(validFilter.PageSize, complete);
+
         if (matches.Count() == 0)
         {
             return NotFound();
         }
 
-        return Ok(new PagedResponse<IEnumerable<MatchDto>>(matches.Select(m => MatchDto.ConvertToDto(m)), validFilter.PageNumber, validFilter.PageSize));
+        return Ok(new PagedResponse<IEnumerable<MatchDto>>(matches.Select(m => MatchDto.ConvertToDto(m)), validFilter.PageNumber, validFilter.PageSize, pageCount));
     }
 
     [HttpPost(Name = "CreateMatch")]

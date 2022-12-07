@@ -39,3 +39,13 @@ To connect to a service in Codespaces which has been port forwarded privately fr
 
 Build the public url as follows `https://{{codespaces_name}}-{{port}}.githubpreview.dev`. Get the Codespace name by executeing `echo $CODESPACE_NAME`.
 ml
+
+## Publishing changes
+
+Update the CHANGELOG.md of the client. Update the service version in `matches.oas3.json`. Update the version to match in `openapitools.json`.
+
+Run the generator. Go through the diff of the changes in git, keeping any necessary changes where the generator failed. 
+
+Publish the Dart package with the new version.
+
+Commit and push to git.

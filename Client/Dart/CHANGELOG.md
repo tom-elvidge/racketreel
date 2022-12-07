@@ -15,3 +15,7 @@ Fixed failure to initialize Apis.
 ## [0.2.0] - 2022-12-03
 
 Added support for displaying the summary of completed matches.
+
+## [0.2.1] - 2022-12-05
+
+Added page count for paginated responses.

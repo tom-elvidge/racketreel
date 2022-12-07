@@ -15,6 +15,7 @@ class ListMatches200Response {
   ListMatches200Response({
     required this.pageSize,
     required this.pageNumber,
+    required this.totalPages,
     this.data = const [],
   });
 
@@ -22,12 +23,15 @@ class ListMatches200Response {
 
   int pageNumber;
 
+  int totalPages;
+
   List<Match> data;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ListMatches200Response &&
      other.pageSize == pageSize &&
      other.pageNumber == pageNumber &&
+     other.totalPages == totalPages &&
      other.data == data;
 
   @override
@@ -35,15 +39,17 @@ class ListMatches200Response {
     // ignore: unnecessary_parenthesis
     (pageSize.hashCode) +
     (pageNumber.hashCode) +
+    (totalPages.hashCode) +
     (data.hashCode);
 
   @override
-  String toString() => 'ListMatches200Response[pageSize=$pageSize, pageNumber=$pageNumber, data=$data]';
+  String toString() => 'ListMatches200Response[pageSize=$pageSize, pageNumber=$pageNumber, totalPages=$totalPages, data=$data]';
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
       _json[r'pageSize'] = pageSize;
       _json[r'pageNumber'] = pageNumber;
+      _json[r'totalPages'] = totalPages;
       _json[r'data'] = data;
     return _json;
   }
@@ -69,6 +75,7 @@ class ListMatches200Response {
       return ListMatches200Response(
         pageSize: mapValueOfType<int>(json, r'pageSize')!,
         pageNumber: mapValueOfType<int>(json, r'pageNumber')!,
+        totalPages: mapValueOfType<int>(json, r'totalPages')!,
         data: Match.listFromJson(json[r'data'])!,
       );
     }
@@ -121,6 +128,7 @@ class ListMatches200Response {
   static const requiredKeys = <String>{
     'pageSize',
     'pageNumber',
+    'totalPages',
     'data',
   };
 }
