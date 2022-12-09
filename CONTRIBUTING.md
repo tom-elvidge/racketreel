@@ -49,3 +49,17 @@ Run the generator. Go through the diff of the changes in git, keeping any necess
 Publish the Dart package with the new version.
 
 Commit and push to git.
+
+## Swashbuckle
+
+Starting from a fully documented ASP.NET service. Use Swashbuckle to generate a OpenAPI specification. This should be done at build time to enable client generation during CI. This is documented [here](https://khalidabuhakmeh.com/generate-aspnet-core-openapi-spec-at-build-time).
+
+Proposed change process:
+
+- Make changes to `Matches.Application`, `Matches.Domain` and `Matches.Infrastructure` as necessary
+- Make changes to `Matches.Presentation` to add API endpoints, DTOs and documentation
+- Commit and push to trigger CI process
+  - Build `Matches.Presentation` which will generate an OpenAPI specification
+  - Build a Docker image for the server
+  - Generate a Dart client from the generated OpenAPI specification
+  - Publish the Docker image and Helm chart for the server, and the Dart client
