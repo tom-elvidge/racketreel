@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matches.Domain.Tests", "Mat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacketReel.Matches.Presentation", "RacketReel.Matches.Presentation\RacketReel.Matches.Presentation.csproj", "{0FF2125F-7A42-4179-BFEF-DC33FCFF1FDC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matches.Presentation", "Matches.Presentation\Matches.Presentation.csproj", "{0FC885EE-0F7B-4461-B125-E07A6DE3A275}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{0FF2125F-7A42-4179-BFEF-DC33FCFF1FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FF2125F-7A42-4179-BFEF-DC33FCFF1FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FF2125F-7A42-4179-BFEF-DC33FCFF1FDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FC885EE-0F7B-4461-B125-E07A6DE3A275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FC885EE-0F7B-4461-B125-E07A6DE3A275}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FC885EE-0F7B-4461-B125-E07A6DE3A275}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FC885EE-0F7B-4461-B125-E07A6DE3A275}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
