@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace Matches.Application.DTOs;
 
 /// <summary>
-/// 
+/// Data Transfer Object for describing a single page from a collection of data.
 /// </summary>
 [DataContract]
 public class Paginated<T>

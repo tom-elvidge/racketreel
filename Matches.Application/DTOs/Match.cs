@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 namespace Matches.Application.DTOs;
 
 /// <summary>
+/// Data Transfer Object for describing a match.
 /// </summary>
 [DataContract]
 public class Match

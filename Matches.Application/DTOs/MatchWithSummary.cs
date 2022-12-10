@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace Matches.Application.DTOs;
 
 /// <summary>
-/// A completed match with the summary of the match included.
+/// Data Transfer Object for describing a completed match with the summary included.
 /// </summary>
 public sealed class MatchWithSummary : Match
 {

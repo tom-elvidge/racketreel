@@ -1,13 +1,24 @@
+using System.Reflection;
+using System.Text;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+
+string XmlCommentsPath(Assembly assembly)
+{
+    var sb = new StringBuilder();
+    sb.Append(AppContext.BaseDirectory);
+    sb.Append(Path.DirectorySeparatorChar);
+    sb.Append(assembly.GetName().Name);
+    sb.Append(".xml");
+    return sb.ToString();
+}
+
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 // Separate project for Presentation so it cannot access infrastructure directly
 var presentationAssembly = typeof(Matches.Presentation.AssemblyReference).Assembly;
-var applicationAssembly = typeof(Matches.Application.AssemblyReference).Assembly;
-
 services
     .AddControllers()
     .AddApplicationPart(presentationAssembly)
@@ -22,7 +33,7 @@ services
 
 services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("0.2.2", new OpenApiInfo
+    c.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "Racket Reel Matches",
         Description = "A web services for configuring and scoring tennis matches.",
@@ -41,16 +52,15 @@ services.AddSwaggerGen(c =>
         Version = "0.2.2",
     });
 
-    // adds documentation from the C# generated documentation file (this must be enabled in the csproj files)
-    // get documentation for controllers
-    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{presentationAssembly.GetName().Name}.xml");
-    // get documentation for DTOs
-    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{applicationAssembly.GetName().Name}.xml");
+    // adds documentation for the controllers and DTOs
+    // documentation generation must be enabled in the csproj files
+    c.IncludeXmlComments(XmlCommentsPath(presentationAssembly));
+    var applicationAssembly = typeof(Matches.Application.AssemblyReference).Assembly;
+    c.IncludeXmlComments(XmlCommentsPath(applicationAssembly));
 });
 services.AddSwaggerGenNewtonsoftSupport();
 
 var AllOrigins = "_allOrigins";
-
 services.AddCors(options =>
 {
     options.AddPolicy(name: AllOrigins, policy  =>
@@ -60,37 +70,30 @@ services.AddCors(options =>
 });
 
 var app = builder.Build();
-
 app.UseCors(AllOrigins);
 app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseHsts();
-
-if (app.Environment.IsDevelopment())
-{
-    {
-        app.UseDeveloperExceptionPage();
-        app.UseSwagger(c =>
-            {
-                c.RouteTemplate = "openapi/{documentName}/openapi.json";
-            })
-            .UseSwaggerUI(c =>
-            {
-                // set route prefix to openapi, e.g. http://localhost:8080/openapi/index.html
-                c.RoutePrefix = "openapi";
-                c.SwaggerEndpoint("/openapi/0.2.2/openapi.json", "Matches Service");
-            });
-    }
-}
-
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
 
-// Use the $PORT environment variable if set otherwise default to 8080
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-var url = $"http://0.0.0.0:{port}";
-app.Run(url);
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger(c =>
+    {
+        c.RouteTemplate = "openapi/{documentName}/openapi.json";
+    });
+    app.UseSwaggerUI(c =>
+    {
+        // http://localhost:8080/openapi/index.html
+        c.RoutePrefix = "openapi";
+        c.SwaggerEndpoint("/openapi/v1/openapi.json", "v1");
+    });
+}
+
+app.Run();

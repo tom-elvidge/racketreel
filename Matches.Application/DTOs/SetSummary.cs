@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace Matches.Application.DTOs;
 
 /// <summary>
-/// The summary of the score for a set.
+/// Data Transfer Object for describing the summary of a set for a completed match.
 /// </summary>
 [DataContract]
 public class SetSummary

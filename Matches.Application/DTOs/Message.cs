@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Matches.Application.DTOs;
 
 /// <summary>
-/// 
+/// Data Transfer Object for describing a message.
 /// </summary>
 [DataContract]
 public class Message

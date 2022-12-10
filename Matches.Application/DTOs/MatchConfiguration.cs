@@ -6,10 +6,10 @@ using Newtonsoft.Json;
 namespace Matches.Application.DTOs;
 
 /// <summary>
-/// 
+/// Data Transfer Object for describing the configuration of a match.
 /// </summary>
 [DataContract]
-public class MatchConfiguration
+public sealed class MatchConfiguration
 {
     /// <summary>
     /// The list of players participating in this match.
