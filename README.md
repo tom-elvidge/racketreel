@@ -131,3 +131,8 @@ gcloud run deploy racketreel-matches \
 - Only allow users to add states or delete their own matches
 - Create bot which ensures there is always a demo match in progress with regular updates (random cron job az func to update score)
 - Interactive notebook for onboarding
+
+
+todo:
+- separate presentation from infrastructure, and explain why
+- generate openapi spec at build time (find a way to generate clients in CI and/or locally)

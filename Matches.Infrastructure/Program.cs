@@ -1,4 +1,3 @@
-using System.Reflection;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -6,8 +5,12 @@ using Newtonsoft.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
+// Separate project for Presentation so it cannot access infrastructure directly
+var presentationAssembly = typeof(Matches.Presentation.AssemblyReference).Assembly;
+
 services
     .AddControllers()
+    .AddApplicationPart(presentationAssembly)
     .AddNewtonsoftJson(opts =>
     {
         opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -40,7 +43,7 @@ services.AddSwaggerGen(c =>
 
     // adds documentation from the C# generated documentation file
     // this must be enabled in the csproj
-    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetEntryAssembly()!.GetName().Name}.xml");
+    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{presentationAssembly.GetName().Name}.xml");
 });
 services.AddSwaggerGenNewtonsoftSupport();
 
