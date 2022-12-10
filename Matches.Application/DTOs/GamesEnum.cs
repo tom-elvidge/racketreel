@@ -1,4 +1,4 @@
-namespace Matches.Presentation.Models;
+namespace Matches.Application.DTOs;
 
 /// <summary>
 /// Enumeration of valid values for games in a match configuration.

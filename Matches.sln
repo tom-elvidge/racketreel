@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matches.Presentation", "Mat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matches.Infrastructure", "Matches.Infrastructure\Matches.Infrastructure.csproj", "{DA52CBF3-71B7-43CE-AAFF-DC812387DDA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matches.Application", "Matches.Application\Matches.Application.csproj", "{02140B9E-8B84-45EF-B3AF-D30EC6EE9148}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{DA52CBF3-71B7-43CE-AAFF-DC812387DDA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA52CBF3-71B7-43CE-AAFF-DC812387DDA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA52CBF3-71B7-43CE-AAFF-DC812387DDA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02140B9E-8B84-45EF-B3AF-D30EC6EE9148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02140B9E-8B84-45EF-B3AF-D30EC6EE9148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02140B9E-8B84-45EF-B3AF-D30EC6EE9148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02140B9E-8B84-45EF-B3AF-D30EC6EE9148}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

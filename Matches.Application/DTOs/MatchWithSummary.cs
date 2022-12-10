@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace Matches.Presentation.Models;
+namespace Matches.Application.DTOs;
 
 /// <summary>
 /// A completed match with the summary of the match included.

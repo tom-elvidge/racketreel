@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Matches.Presentation.Models;
+using Matches.Application.DTOs;
 
 namespace Matches.Presentation.Controllers
 { 

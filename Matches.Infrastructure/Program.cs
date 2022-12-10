@@ -1,12 +1,12 @@
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 // Separate project for Presentation so it cannot access infrastructure directly
 var presentationAssembly = typeof(Matches.Presentation.AssemblyReference).Assembly;
+var applicationAssembly = typeof(Matches.Application.AssemblyReference).Assembly;
 
 services
     .AddControllers()
@@ -41,9 +41,11 @@ services.AddSwaggerGen(c =>
         Version = "0.2.2",
     });
 
-    // adds documentation from the C# generated documentation file
-    // this must be enabled in the csproj
+    // adds documentation from the C# generated documentation file (this must be enabled in the csproj files)
+    // get documentation for controllers
     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{presentationAssembly.GetName().Name}.xml");
+    // get documentation for DTOs
+    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{applicationAssembly.GetName().Name}.xml");
 });
 services.AddSwaggerGenNewtonsoftSupport();
 

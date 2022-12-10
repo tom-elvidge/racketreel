@@ -3,18 +3,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace Matches.Presentation.Models;
+namespace Matches.Application.DTOs;
 
 /// <summary>
-/// The summary of a completed match.
+/// The summary of the score for a set.
 /// </summary>
 [DataContract]
-public sealed class MatchSummary
+public class SetSummary
 {
     /// <summary>
-    /// The date and time at which this match was completed. String formatted as an ISO 8601 date and time in UTC.
+    /// The date and time at which this set was completed. String formatted as an ISO 8601 date and time in UTC.
     /// </summary>
-    /// <value>The date and time at which this match was completed. String formatted as an ISO 8601 date and time in UTC.</value>
+    /// <value>The date and time at which this set was completed. String formatted as an ISO 8601 date and time in UTC.</value>
     [Required]
     [DataMember(Name="completedAt", EmitDefaultValue=false)]
     public string CompletedAt { get; set; } = string.Empty;
@@ -28,12 +28,20 @@ public sealed class MatchSummary
     public string Winner { get; set; } = string.Empty;
 
     /// <summary>
-    /// The summary of the score for each set. Represented as a mapping from the set index (0, 1, 2, etc) to the summary of that set.
+    /// A boolean flag to indicate this set went to a tiebreak.
     /// </summary>
-    /// <value>The summary of the score for each set. Represented as a mapping from the set index (0, 1, 2, etc) to the summary of that set.</value>
+    /// <value>A boolean flag to indicate this set went to a tiebreak.</value>
     [Required]
-    [DataMember(Name="sets", EmitDefaultValue=false)]
-    public Dictionary<string, SetSummary> Sets { get; set; } = new Dictionary<string, SetSummary>();
+    [DataMember(Name="tiebreak", EmitDefaultValue=true)]
+    public bool Tiebreak { get; set; }
+
+    /// <summary>
+    /// The summary of the score of the set for each player. Represented as a mapping from the name of each player to the summary for that player.
+    /// </summary>
+    /// <value>The summary of the score of the set for each player. Represented as a mapping from the name of each player to the summary for that player.</value>
+    [Required]
+    [DataMember(Name="score", EmitDefaultValue=false)]
+    public Dictionary<string, PlayerSetSummary> Score { get; set; } = new Dictionary<string, PlayerSetSummary>();
 
     /// <summary>
     /// Returns the string presentation of the object
@@ -42,10 +50,11 @@ public sealed class MatchSummary
     public override string ToString()
     {
         var sb = new StringBuilder();
-        sb.Append("class MatchSummary {\n");
+        sb.Append("class SetSummary {\n");
         sb.Append("  CompletedAt: ").Append(CompletedAt).Append("\n");
         sb.Append("  Winner: ").Append(Winner).Append("\n");
-        sb.Append("  Sets: ").Append(Sets).Append("\n");
+        sb.Append("  Tiebreak: ").Append(Tiebreak).Append("\n");
+        sb.Append("  Score: ").Append(Score).Append("\n");
         sb.Append("}\n");
         return sb.ToString();
     }
