@@ -1,4 +1,4 @@
-namespace Matches.Domain.AggregatesModel.MatchAggregate.Configuration;
+namespace Matches.Domain.AggregatesModel.MatchAggregate.Formats;
 
 /// <summary>
 /// The rule to use for tiebreaks.

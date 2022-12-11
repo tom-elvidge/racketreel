@@ -47,6 +47,9 @@ public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, DTO
 
         // todo: refactor dtos which could just be domain objects into the domain
 
+        // mapping of matchconfig enum to the actual configs
+        // check it is one of the known match configs to return in matchdto
+
         // Convert to DTO
         var matchDto = new DTOs.Match
         {

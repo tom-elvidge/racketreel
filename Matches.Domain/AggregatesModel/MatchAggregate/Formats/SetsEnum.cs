@@ -1,4 +1,4 @@
-namespace Matches.Domain.AggregatesModel.MatchAggregate.Configuration;
+namespace Matches.Domain.AggregatesModel.MatchAggregate.Formats;
 
 /// <summary>
 /// Enumeration of valid values for sets in a match configuration.
