@@ -4,6 +4,11 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Matches.Infrastructure.Configuration;
+using Matches.Infrastructure;
+using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
+using Matches.Infrastructure.Repositories;
 
 string XmlCommentsPath(Assembly assembly)
 {
@@ -18,14 +23,16 @@ string XmlCommentsPath(Assembly assembly)
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
-var applicationAssembly = typeof(Matches.Application.AssemblyReference).Assembly;
-// services.Scan(
-//     selector => selector
-//         .FromAssemblies(applicationAssembly)
-//         .AddClasses(false)
-//         .AsImplementedInterfaces()
-//         .WithScopedLifetime());
+var postgres = builder.Configuration.GetSection(nameof(Postgres)).Get<Postgres>();
+var connectionString = postgres.GetConnectionString();
 
+services.AddDbContext<MatchesContext>(
+    c => c.UseNpgsql(connectionString)
+);
+
+services.AddScoped<IMatchRepository, MatchRepository>();
+
+var applicationAssembly = typeof(Matches.Application.AssemblyReference).Assembly;
 services.AddMediatR(applicationAssembly);
 
 // Separate project for Presentation so it cannot access infrastructure directly

@@ -2,13 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Matches.API",
+            "name": "Matches.Infrastructure",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build-matches-api",
-            "program": "./bin/Debug/net6.0/Matches.API.dll",
+            "preLaunchTask": "build",
+            "program": "./bin/Debug/net6.0/Matches.Infrastructure.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Matches.API",
+            "cwd": "${workspaceFolder}/Matches.Infrastructure",
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_URLS": "http://*:5011;https://*:5012"

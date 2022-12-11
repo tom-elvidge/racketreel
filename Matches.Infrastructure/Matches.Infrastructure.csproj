@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Matches.Presentation\Matches.Presentation.csproj" />
+    <ProjectReference Include="..\Matches.Domain\Matches.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,7 +21,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.0.0" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-    <PackageReference Include="Scrutor" Version="4.2.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.4" />
   </ItemGroup>
 
 </Project>
