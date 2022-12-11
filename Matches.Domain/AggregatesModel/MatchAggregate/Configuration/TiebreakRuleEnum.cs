@@ -1,4 +1,4 @@
-namespace Matches.Application;
+namespace RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate.Configuration;
 
 /// <summary>
 /// The rule to use for tiebreaks.

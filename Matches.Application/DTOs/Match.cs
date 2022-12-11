@@ -50,7 +50,7 @@ public class Match
     /// <value>The configuration of the match. This controls the participants, rules and scoring.</value>
     [Required]
     [DataMember(Name="configuration", EmitDefaultValue=false)]
-    public MatchConfiguration Configuration { get; set; } = new MatchConfiguration { };
+    public MatchConfiguration Configuration { get; set; }
 
     /// <summary>
     /// Returns the string presentation of the object

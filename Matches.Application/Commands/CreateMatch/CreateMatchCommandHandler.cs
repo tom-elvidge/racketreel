@@ -54,17 +54,7 @@ public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, DTO
             CreatedAt = match.CreatedDateTime.ToString(),
             Players = command.Players,
             ServingFirst = command.ServingFirst,
-            Configuration = new MatchConfiguration
-            {
-                Sets = command.Sets,
-                SuddenDeathDeuce = command.SuddenDeathDeuce,
-                Games = command.Games,
-                GamesFinalSet = command.GamesFinalSet,
-                GameAdvantage = command.GameAdvantage,
-                GameAdvantageFinalSet = command.GameAdvantageFinalSet,
-                TiebreakRule = command.TiebreakRule,
-                TiebreakRuleFinalSet = command.TiebreakRuleFinalSet
-            }
+            Configuration = command.Configuration
         };
         return matchDto;
     }

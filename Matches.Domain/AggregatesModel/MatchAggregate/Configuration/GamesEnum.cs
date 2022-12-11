@@ -1,11 +1,10 @@
-namespace Matches.Application.DTOs;
+namespace RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate.Configuration;
 
 /// <summary>
 /// Enumeration of valid values for games in a match configuration.
 /// </summary>
 public enum GamesEnum
 {
-    
     /// <summary>
     /// Enum _1Enum for 1
     /// </summary>
