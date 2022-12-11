@@ -28,6 +28,23 @@ public class Match
     public string CreatedAt { get; set; } = string.Empty;
 
     /// <summary>
+    /// The list of players participating in this match.
+    /// </summary>
+    /// <value>The list of players participating in this match.</value>
+    [Required]
+    [DataMember(Name="players", EmitDefaultValue=false)]
+    public List<string> Players { get; set; } = new List<string>();
+
+    /// <summary>
+    /// The player who is serving first.
+    /// </summary>
+    /// <value>The player who is serving first.</value>
+    [Required]
+    [DataMember(Name="servingFirst", EmitDefaultValue=false)]
+    public string ServingFirst { get; set; } = string.Empty;
+
+
+    /// <summary>
     /// The configuration of the match. This controls the participants, rules and scoring.
     /// </summary>
     /// <value>The configuration of the match. This controls the participants, rules and scoring.</value>
@@ -45,6 +62,8 @@ public class Match
         sb.Append("class Match {\n");
         sb.Append("  Id: ").Append(Id).Append("\n");
         sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
+        sb.Append("  Players: ").Append(Players).Append("\n");
+        sb.Append("  ServingFirst: ").Append(ServingFirst).Append("\n");
         sb.Append("  Configuration: ").Append(Configuration).Append("\n");
         sb.Append("}\n");
         return sb.ToString();

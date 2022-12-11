@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Matches.Application.DTOs;
+using MediatR;
+using Matches.Application.Queries.GetMatchById;
+using Matches.Application.Queries.GetMatchSummaryById;
 
 namespace Matches.Presentation.Controllers;
 
@@ -9,6 +12,16 @@ namespace Matches.Presentation.Controllers;
 [ApiController]
 public class MatchController : ControllerBase
 { 
+    private readonly ISender _sender;
+
+    /// <summary>
+    /// Constructor for MatchController.
+    /// </summary>
+    public MatchController(ISender sender)
+    {
+        _sender = sender;
+    }    
+
     /// <summary>
     /// Get the match with id.
     /// </summary>
@@ -21,11 +34,12 @@ public class MatchController : ControllerBase
     [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public IActionResult GetMatch([FromRoute] int matchId)
+    public async Task<IActionResult> GetMatch([FromRoute] int matchId)
     {
-        // return new OkObjectResult(match);
-        // return new NotFoundResult();
-        throw new NotImplementedException();
+        // return new NotFound();
+        var query = new GetMatchByIdQuery(matchId);
+        var match = await _sender.Send(query);
+        return Ok(match);
     }
 
     /// <summary>
@@ -33,7 +47,6 @@ public class MatchController : ControllerBase
     /// </summary>
     /// <param name="matchId">The id of the match to delete.</param>
     /// <response code="200">The match with id was deleted.</response>
-    /// <response code="303">The match with id has been completed.</response>
     /// <response code="404">The match with id does not exist.</response>
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpDelete]
@@ -41,9 +54,12 @@ public class MatchController : ControllerBase
     [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public IActionResult DeleteMatch([FromRoute] int matchId)
+    public async Task<IActionResult> DeleteMatch([FromRoute] int matchId)
     {
-        throw new NotImplementedException();
+        // return NotFound();
+        var command = DeleteMatch(matchId);
+        await _sender.Send(command);
+        return Ok();
     }
 
     /// <summary>
@@ -60,10 +76,11 @@ public class MatchController : ControllerBase
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status405MethodNotAllowed, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public IActionResult GetMatchSummary([FromRoute] int matchId)
+    public async Task<IActionResult> GetMatchSummary([FromRoute] int matchId)
     {
-        // return new OkObjectResult(match);
-        // return new NotFoundResult();
-        throw new NotImplementedException();
+        // return new NotFound();
+        var query = new GetMatchSummaryByIdQuery(matchId);
+        var matchWithSummary = await _sender.Send(query);
+        return Ok(matchWithSummary);
     }
 }

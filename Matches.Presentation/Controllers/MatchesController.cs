@@ -1,5 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Matches.Application.DTOs;
+using Matches.Application.Commands.CreateMatch;
+using MediatR;
+using Matches.Application.Queries.GetMatches;
+using Matches.Application.Queries.GetMatchesWithSummaries;
 
 namespace Matches.Presentation.Controllers;
 
@@ -9,10 +13,21 @@ namespace Matches.Presentation.Controllers;
 [ApiController]
 public class MatchesController : ControllerBase
 { 
+    private readonly ISender _sender;
+
+    /// <summary>
+    /// Constructor for MatchesController.
+    /// </summary>
+    public MatchesController(ISender sender)
+    {
+        _sender = sender;
+    }    
+
     /// <summary>
     /// Create a new match from a configuration.
     /// </summary>
-    /// <param name="configuration">Configuration defining the participants and rules of the match.</param>
+    /// <param name="command">Configuration defining the participants and rules of the match.</param>
+    /// <param name="cancellationToken"></param>
     /// <response code="201">Successfully created a match with the requested configuration.</response>
     /// <response code="400">The is something wrong with the requested configuration.</response>
     /// <response code="500">An unexpected error occurred while processing the request.</response>
@@ -22,15 +37,12 @@ public class MatchesController : ControllerBase
     [ProducesResponseType(statusCode: StatusCodes.Status201Created, type: typeof(Match))]
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(Messages))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public IActionResult CreateMatch([FromBody] MatchConfiguration configuration)
+    public async Task<IActionResult> CreateMatch([FromBody] CreateMatchCommand command, CancellationToken cancellationToken)
     {
-        // return CreatedAtRoute(
-        //     routeName: "GetMatch",
-        //     routeValues: new { matchId = match.Id },
-        //     value: match);
-        // return new BadRequestObjectResult(messages);
-        // return new NotFoundResult();
-        throw new NotImplementedException();
+        // return new BadRequest(messages);
+        // return new NotFound();
+        var match = await _sender.Send(command, cancellationToken);
+        return Created($"/api/v1/matches/{match.Id}", match);
     }
 
     /// <summary>
@@ -49,16 +61,17 @@ public class MatchesController : ControllerBase
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(Messages))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public IActionResult GetMatches(
+    public async Task<IActionResult> GetMatches(
         [FromQuery (Name = "pageSize")] int? pageSize,
         [FromQuery (Name = "pageNumber")] int? pageNumber,
         [FromQuery (Name = "orderBy")] MatchesOrderByEnum? orderBy
     )
     {
-        // return new OkObjectResult(new Paginated<Match>(...));
-        // return new BadRequestObjectResult(messages);
-        // return new NotFoundResult();
-        throw new NotImplementedException();
+        // return new BadRequest(messages);
+        // return new NotFound();
+        var query = new GetMatchesQuery(pageSize, pageNumber, orderBy);
+        var paginatedMatches = await _sender.Send(query);
+        return Ok(paginatedMatches);
     }
 
     /// <summary>
@@ -77,15 +90,16 @@ public class MatchesController : ControllerBase
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(Messages))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public IActionResult GetMatchesSummary(
+    public async Task<IActionResult> GetMatchesSummary(
         [FromQuery (Name = "pageSize")] int? pageSize,
         [FromQuery (Name = "pageNumber")] int? pageNumber,
         [FromQuery (Name = "orderBy")] MatchesOrderByEnum? orderBy
     )
     {
-        // return new OkObjectResult(new Paginated<MatchWithSummary>(...));
-        // return new BadRequestObjectResult(messages);
-        // return new NotFoundResult();
-        throw new NotImplementedException();
+        // return new BadRequest(messages);
+        // return new NotFound();
+        var query = new GetMatchesWithSummariesQuery(pageSize, pageNumber, orderBy);
+        var paginatedMatchesWithSummaries = await _sender.Send(query);
+        return Ok(paginatedMatchesWithSummaries);
     } 
 }

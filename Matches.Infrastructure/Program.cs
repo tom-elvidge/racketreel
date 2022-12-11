@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using MediatR;
 
 string XmlCommentsPath(Assembly assembly)
 {
@@ -16,6 +17,16 @@ string XmlCommentsPath(Assembly assembly)
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+
+var applicationAssembly = typeof(Matches.Application.AssemblyReference).Assembly;
+// services.Scan(
+//     selector => selector
+//         .FromAssemblies(applicationAssembly)
+//         .AddClasses(false)
+//         .AsImplementedInterfaces()
+//         .WithScopedLifetime());
+
+services.AddMediatR(applicationAssembly);
 
 // Separate project for Presentation so it cannot access infrastructure directly
 var presentationAssembly = typeof(Matches.Presentation.AssemblyReference).Assembly;
@@ -55,7 +66,6 @@ services.AddSwaggerGen(c =>
     // adds documentation for the controllers and DTOs
     // documentation generation must be enabled in the csproj files
     c.IncludeXmlComments(XmlCommentsPath(presentationAssembly));
-    var applicationAssembly = typeof(Matches.Application.AssemblyReference).Assembly;
     c.IncludeXmlComments(XmlCommentsPath(applicationAssembly));
 });
 services.AddSwaggerGenNewtonsoftSupport();
