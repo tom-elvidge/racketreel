@@ -25,7 +25,6 @@ var services = builder.Services;
 
 var postgres = builder.Configuration.GetSection(nameof(Postgres)).Get<Postgres>();
 var connectionString = postgres.GetConnectionString();
-
 services.AddDbContext<MatchesContext>(
     c => c.UseNpgsql(connectionString)
 );
