@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Matches.Infrastructure.Configuration;
 using Matches.Infrastructure;
-using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
+using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Infrastructure.Repositories;
 
 string XmlCommentsPath(Assembly assembly)

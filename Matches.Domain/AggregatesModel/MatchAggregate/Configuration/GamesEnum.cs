@@ -1,4 +1,4 @@
-namespace RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate.Configuration;
+namespace Matches.Domain.AggregatesModel.MatchAggregate.Configuration;
 
 /// <summary>
 /// Enumeration of valid values for games in a match configuration.

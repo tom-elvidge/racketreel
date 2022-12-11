@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
-using RacketReel.Services.Matches.Domain.SeedWork;
+using Matches.Domain.AggregatesModel.MatchAggregate;
+using Matches.Domain.SeedWork;
 
 namespace Matches.Infrastructure.Repositories;
 

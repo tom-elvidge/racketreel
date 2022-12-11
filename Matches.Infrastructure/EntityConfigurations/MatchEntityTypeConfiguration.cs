@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
+using Matches.Domain.AggregatesModel.MatchAggregate;
 
 namespace Matches.Infrastructure.EntityConfigurations;
 

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage;
-using RacketReel.Services.Matches.Domain.SeedWork;
-using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
+using Matches.Domain.SeedWork;
+using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Infrastructure.EntityConfigurations;
 using MediatR;
 using System.Data;

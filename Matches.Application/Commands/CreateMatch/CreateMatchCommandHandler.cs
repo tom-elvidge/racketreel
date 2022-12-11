@@ -2,8 +2,8 @@ using Matches.Application.DTOs;
 using Matches.Application.Abstractions.Messaging;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate;
-using Match = RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate.Match;
+using Matches.Domain.AggregatesModel.MatchAggregate;
+using Match = Matches.Domain.AggregatesModel.MatchAggregate.Match;
 
 namespace Matches.Application.Commands.CreateMatch;
 

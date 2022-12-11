@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using System.Text;
-using RacketReel.Services.Matches.Domain.SeedWork;
+using Matches.Domain.SeedWork;
 
-namespace RacketReel.Services.Matches.Domain.AggregatesModel.MatchAggregate.Configuration;
+namespace Matches.Domain.AggregatesModel.MatchAggregate.Configuration;
 
 /// <summary>
 /// Describes the rules for scoring a tennis match.

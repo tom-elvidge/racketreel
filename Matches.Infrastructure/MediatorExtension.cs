@@ -1,5 +1,5 @@
 using MediatR;
-using RacketReel.Services.Matches.Domain.SeedWork;
+using Matches.Domain.SeedWork;
 
 namespace Matches.Infrastructure;
 
