@@ -16,7 +16,7 @@ public static class Scorer
     /// <param name="state">The state to check if the match is complete.</param>
     public static bool IsComplete(Format format, State state)
     {
-        var minimumSetsToWin = format.MinimumSetsToWin();
+        var minimumSetsToWin = GetMinimumSetsToWinMatch(format);
 
         if (state.Score.P1Sets >= minimumSetsToWin || state.Score.P2Sets >= minimumSetsToWin)
         {
@@ -61,7 +61,7 @@ public static class Scorer
     public static bool IsTiebreak(Format format, State state)
     {
         var isFinalSet = IsFinalSet(format, state);
-        
+
         var gameAdvantage = isFinalSet
             ? format.GameAdvantageFinalSet
             : format.GameAdvantage;
@@ -92,5 +92,88 @@ public static class Scorer
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Returns the minimum number of sets needed to win the match.
+    /// </summary>
+    /// <param name="format">The format of the match.</param>
+    public static int GetMinimumSetsToWinMatch(Format format)
+    {
+        switch(format.Sets) {
+            case SetsEnum._1Enum:
+                return 1;
+            case SetsEnum._3Enum:
+                return 2;
+            case SetsEnum._5Enum:
+                return 3;
+            default:
+                throw new DomainException($"{nameof(GetMinimumSetsToWinMatch)} is missing a case statement for {format.Sets}");
+        }
+    }
+
+    /// <summary>
+    /// Returns the minimum number of points needed to win the states current game.
+    /// </summary>
+    /// <param name="format">The format of the match.</param>
+    /// <param name="state">The state to get the current game for.</param>
+    public static int GetMinimumPointsToWinCurrentGame(Format format, State state)
+    {
+        // ordinary game so must win at least 4 points
+        if (!IsTiebreak(format, state))
+        {
+            return 4;
+        }
+
+        var isFinalSet = IsFinalSet(format, state);
+        
+        var tiebreakRule = isFinalSet
+            ? format.TiebreakRule
+            : format.TiebreakRuleFinalSet;
+        
+        switch (tiebreakRule)
+        {
+            case TiebreakRuleEnum.None:
+                throw new DomainException($"The set should never be in a tiebreak if the {nameof(TiebreakRuleEnum)} is {TiebreakRuleEnum.None}");
+            case TiebreakRuleEnum.SevenPointTiebreaker:
+                return 7;
+            case TiebreakRuleEnum.TenPointTiebreaker:
+                return 10;
+            default:
+                throw new DomainException($"{nameof(GetMinimumPointsToWinCurrentGame)} is missing a case statement for {tiebreakRule}");
+        }
+    }
+
+    public static ParticipantSelectorEnum GetGamePointParticipant(Format format, State state)
+    {
+        var minPoints = GetMinimumPointsToWinCurrentGame(format, state);
+        var isTiebreak = IsTiebreak(format, state);
+        var p1Points = state.Score.P1Points;
+        var p2Points = state.Score.P2Points;
+
+        // advantage point scoring
+        if (!format.SuddenDeathDeuce || isTiebreak)
+        {
+            if ((p1Points >= minPoints - 1) && (p1Points > p2Points))
+            {
+                return ParticipantSelectorEnum.One;
+            }
+
+            if ((p2Points >= minPoints - 1) && (p2Points > p1Points))
+            {
+                return ParticipantSelectorEnum.Two;
+            }
+
+            return ParticipantSelectorEnum.Neither;
+        }
+
+        // sudden death scoring
+        if ((p1Points >= minPoints - 1)
+            && (p2Points >= minPoints - 1))
+        {
+            return ParticipantSelectorEnum.Both;
+        }
+        
+        return ParticipantSelectorEnum.Neither;
     }
 }

@@ -109,21 +109,4 @@ public sealed class Format : ValueObject
         yield return TiebreakRule;
         yield return TiebreakRuleFinalSet;
     }
-
-    /// <summary>
-    /// Returns the minimum number of sets needed to win the match.
-    /// </summary>
-    internal int MinimumSetsToWin()
-    {
-        switch(Sets) {
-            case SetsEnum._1Enum:
-                return 1;
-            case SetsEnum._3Enum:
-                return 2;
-            case SetsEnum._5Enum:
-                return 3;
-            default:
-                throw new DomainException($"{nameof(MinimumSetsToWin)} is missing a case statement for {Sets}");
-        }
-    }
 }

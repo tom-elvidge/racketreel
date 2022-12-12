@@ -167,4 +167,107 @@ public class ScorerTests
     {
         Scorer.IsTiebreak(format, state).Should().Be(expected, because);
     }
+
+    public static IEnumerable<object[]> GetMinimumPointsToWinCurrentGameData()
+    {
+        yield return new object[]
+        {
+            BestOfThreeSevenPointTiebreaker.Create(),
+            State.Initial(ParticipantEnum.One),
+            4,
+            "the BestOfThreeSevenPointTiebreaker format initial state is an ordinary game so the minimum points to win the game must be 4"
+        };
+        yield return new object[]
+        {
+            BestOfThreeSevenPointTiebreaker.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(0, 0, 6, 6, 0, 0)),
+            7,
+            "the BestOfThreeSevenPointTiebreaker format in the first set at 6-6 so the current game is a 7 point tiebreak so the minimum points to win the game must be 7"
+        };
+        yield return new object[]
+        {
+            TiebreakToTen.Create(),
+            State.Initial(ParticipantEnum.One),
+            10,
+            "the TiebreakToTen format is only a tiebreak so the current game is a 10 point tiebreak so the minimum points to win the game must be 10"
+        };
+        yield return new object[]
+        {
+            FastFour.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(0, 0, 0, 0, 1, 1)),
+            7,
+            "the FastFour format in the final set at 0-0 so the current game is a 10 point tiebreak so the minimum points to win the game must be 10"
+        };
+    }
+
+    [Theory]
+    [MemberData(nameof(GetMinimumPointsToWinCurrentGameData))]
+    public void TestGetMinimumPointsToWinCurrentGame(Format format, State state, int expected, string because)
+    {
+        Scorer.GetMinimumPointsToWinCurrentGame(format, state).Should().Be(expected, because);
+    }
+
+    public static IEnumerable<object[]> GetGamePointParticipantData()
+    {
+        yield return new object[]
+        {
+            TiebreakToTen.Create(),
+            State.Initial(ParticipantEnum.One),
+            ParticipantSelectorEnum.Neither,
+            "there cannot be a game point to either player on the initial state"
+        };
+        yield return new object[]
+        {
+            TiebreakToTen.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(9, 8, 0, 0, 0, 0)),
+            ParticipantSelectorEnum.One,
+            "the TiebreakToTen format and the first participant is one point off the needed 10"
+        };
+        yield return new object[]
+        {
+            TiebreakToTen.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(9, 9, 0, 0, 0, 0)),
+            ParticipantSelectorEnum.Neither,
+            "the TiebreakToTen format and participant one is a single point off the needed 10 but so is participant two"
+        };
+        yield return new object[]
+        {
+            BestOfThreeSevenPointTiebreaker.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(3, 0, 0, 0, 0, 0)),
+            ParticipantSelectorEnum.One,
+            "the BestOfThreeSevenPointTiebreaker format and an ordinary game where participant one is a single point off the needed 4"
+        };
+        yield return new object[]
+        {
+            FastFour.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(3, 3, 0, 0, 0, 0)),
+            ParticipantSelectorEnum.Both,
+            "the FastFour format with sudden death deuce and both participants are a single point off the needed 4"
+        };
+    }
+
+    [Theory]
+    [MemberData(nameof(GetGamePointParticipantData))]
+    public void TestGetGamePointParticipant(Format format, State state, ParticipantSelectorEnum expected, string because)
+    {
+        Scorer.GetGamePointParticipant(format, state).Should().Be(expected, because);
+    }
 }

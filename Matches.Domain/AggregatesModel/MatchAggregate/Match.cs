@@ -59,7 +59,7 @@ public class Match : Entity, IAggregateRoot
     }
 
     /// <summary>
-    /// Return true if the match is complete and false otherwise.
+    /// Return true if this match is complete and false otherwise.
     /// </summary>
     public bool IsComplete()
     {
