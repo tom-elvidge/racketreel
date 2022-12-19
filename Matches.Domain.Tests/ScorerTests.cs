@@ -200,8 +200,18 @@ public class ScorerTests
             new State(
                 DateTime.MinValue,
                 ParticipantEnum.One,
-                new Score(0, 0, 0, 0, 1, 1)),
+                new Score(0, 0, 3, 3, 0, 0)),
             7,
+            "the FastFour format in the first set at 3-3 so the current game is a 7 point tiebreak so the minimum points to win the game must be 7"
+        };
+        yield return new object[]
+        {
+            FastFour.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(0, 0, 0, 0, 1, 1)),
+            10,
             "the FastFour format in the final set at 0-0 so the current game is a 10 point tiebreak so the minimum points to win the game must be 10"
         };
     }
@@ -269,5 +279,154 @@ public class ScorerTests
     public void TestGetGamePointParticipant(Format format, State state, ParticipantSelectorEnum expected, string because)
     {
         Scorer.GetGamePointParticipant(format, state).Should().Be(expected, because);
+    }
+
+    public static IEnumerable<object[]> GetSetPointParticipantData()
+    {
+        yield return new object[]
+        {
+            TiebreakToTen.Create(),
+            State.Initial(ParticipantEnum.One),
+            ParticipantSelectorEnum.Neither,
+            "there cannot be a set point to either player on the initial state"
+        };
+        yield return new object[]
+        {
+            TiebreakToTen.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(9, 8, 0, 0, 0, 0)),
+            ParticipantSelectorEnum.One,
+            "the TiebreakToTen format so only one game in the set and the first participant is one point off the needed 10 for the game and set"
+        };
+        yield return new object[]
+        {
+            BestOfThreeSevenPointTiebreaker.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(3, 0, 0, 0, 0, 0)),
+            ParticipantSelectorEnum.Neither,
+            "the BestOfThreeSevenPointTiebreaker format where it is game point but only the first game of the set so not set point"
+        };
+        yield return new object[]
+        {
+            FastFour.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(0, 6, 3, 3, 0, 0)),
+            ParticipantSelectorEnum.Two,
+            "the FastFour format where participant two is one point off winning the tiebreak for the set so must be set point"
+        };
+    }
+
+    [Theory]
+    [MemberData(nameof(GetSetPointParticipantData))]
+    public void TestGetSetPointParticipant(Format format, State state, ParticipantSelectorEnum expected, string because)
+    {
+        Scorer.GetSetPointParticipant(format, state).Should().Be(expected, because);
+    }
+
+    public static IEnumerable<object[]> GetMatchPointParticipantData()
+    {
+        yield return new object[]
+        {
+            TiebreakToTen.Create(),
+            State.Initial(ParticipantEnum.One),
+            ParticipantSelectorEnum.Neither,
+            "there cannot be a match point to either player on the initial state"
+        };
+        yield return new object[]
+        {
+            TiebreakToTen.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(9, 0, 0, 0, 0, 0)),
+            ParticipantSelectorEnum.One,
+            "participant one is one point winning the game in a match which only has one set and one game"
+        };
+        yield return new object[]
+        {
+            BestOfThreeSevenPointTiebreaker.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(0, 3, 0, 5, 1, 1)),
+            ParticipantSelectorEnum.Two,
+            "participant two is one point off winning the last game to win the last set 6-0"
+        };
+    }
+
+    [Theory]
+    [MemberData(nameof(GetMatchPointParticipantData))]
+    public void TestGetMatchPointParticipant(Format format, State state, ParticipantSelectorEnum expected, string because)
+    {
+        Scorer.GetSetPointParticipant(format, state).Should().Be(expected, because);
+    }
+
+    public static IEnumerable<object[]> GewNewScoreData()
+    {
+        yield return new object[]
+        {
+            BestOfThreeSevenPointTiebreaker.Create(),
+            State.Initial(ParticipantEnum.One),
+            ParticipantEnum.One,
+            new Score(1, 0, 0, 0, 0, 0),
+            "when participant one scores the first point of the match it should be one love"
+        };
+        yield return new object[]
+        {
+            BestOfThreeSevenPointTiebreaker.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(3, 4, 0, 0, 0, 0)),
+            ParticipantEnum.One,
+            new Score(3, 3, 0, 0, 0, 0),
+            "it is advantage to participant two but participant one scores so it should go back to deuce"
+        };
+        yield return new object[]
+        {
+            BestOfThreeSevenPointTiebreaker.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(4, 3, 0, 0, 0, 0)),
+            ParticipantEnum.Two,
+            new Score(3, 3, 0, 0, 0, 0),
+            "it is advantage to participant one but participant two scores so it should go back to deuce"
+        };
+        yield return new object[]
+        {
+            BestOfThreeSevenPointTiebreaker.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(3, 0, 0, 0, 0, 0)),
+            ParticipantEnum.One,
+            new Score(0, 0, 1, 0, 0, 0),
+            "it is game point to participant one and then they score so their games should be incremented"
+        };
+        yield return new object[]
+        {
+            BestOfThreeSevenPointTiebreaker.Create(),
+            new State(
+                DateTime.MinValue,
+                ParticipantEnum.One,
+                new Score(0, 3, 0, 5, 0, 0)),
+            ParticipantEnum.Two,
+            new Score(0, 0, 0, 0, 0, 1),
+            "it is set point to participant two and then they score so their sets should be incremented"
+        };
+    }
+
+    [Theory]
+    [MemberData(nameof(GewNewScoreData))]
+    public void TestGetNewScore(Format format, State state, ParticipantEnum participant, Score expected, string because)
+    {
+        Scorer.GetNewScore(format, state, participant).Should().Be(expected, because);
     }
 }

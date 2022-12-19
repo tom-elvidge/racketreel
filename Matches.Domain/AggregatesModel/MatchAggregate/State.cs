@@ -6,19 +6,22 @@ public class State : Entity
 {
     public DateTime CreatedAtDateTime { get; private set; } = DateTime.MinValue;
 
-    public ParticipantEnum Serving { get; private set; } = ParticipantEnum.One;
+    public ParticipantEnum Serving { get; set; } = ParticipantEnum.One;
 
     public Score Score { get; private set; } = Score.Initial();
 
-    public bool Tiebreak { get; private set; }
-
     public bool Highlight { get; set; }
 
-    public State(DateTime createdAtDateTime, ParticipantEnum serving, Score score)
+    public State(
+        DateTime createdAtDateTime,
+        ParticipantEnum serving,
+        Score score,
+        bool highlight = false)
     {
         CreatedAtDateTime = createdAtDateTime;
         Serving = serving;
         Score = score;
+        Highlight = highlight;
     }
 
     public static State Initial(ParticipantEnum servingFirst)
