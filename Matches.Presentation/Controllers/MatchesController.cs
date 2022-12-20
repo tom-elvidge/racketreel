@@ -5,9 +5,6 @@ using MediatR;
 
 namespace Matches.Presentation.Controllers;
 
-/// <summary>
-/// A controller for handling HTTP requests to collections of matches.
-/// </summary>
 [ApiController]
 public class MatchesController : ApiController
 {
@@ -55,7 +52,7 @@ public class MatchesController : ApiController
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(Messages))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetMatches(
+    public Task<IActionResult> GetMatches(
         [FromQuery (Name = "pageSize")] int? pageSize,
         [FromQuery (Name = "pageNumber")] int? pageNumber,
         [FromQuery (Name = "orderBy")] MatchesOrderByEnum? orderBy
@@ -80,7 +77,7 @@ public class MatchesController : ApiController
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(Messages))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetMatchesSummary(
+    public Task<IActionResult> GetMatchesSummary(
         [FromQuery (Name = "pageSize")] int? pageSize,
         [FromQuery (Name = "pageNumber")] int? pageNumber,
         [FromQuery (Name = "orderBy")] MatchesOrderByEnum? orderBy

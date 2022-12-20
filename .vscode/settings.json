@@ -8,6 +8,8 @@
         "Dtos",
         "Elvidge",
         "gcloud",
+        "matcheseq",
+        "matchseq",
         "MediatR",
         "Npgsql",
         "openapi",

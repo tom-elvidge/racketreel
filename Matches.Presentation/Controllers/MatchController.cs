@@ -5,9 +5,6 @@ using Matches.Application.Queries.GetMatchById;
 
 namespace Matches.Presentation.Controllers;
 
-/// <summary>
-/// A controller for handling HTTP requests to the match resource.
-/// </summary>
 [ApiController]
 public class MatchController : ApiController
 { 
@@ -50,12 +47,8 @@ public class MatchController : ApiController
     [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> DeleteMatch([FromRoute] int matchId)
+    public Task<IActionResult> DeleteMatch([FromRoute] int matchId)
     {
-        // return NotFound();
-        // var command = DeleteMatch(matchId);
-        // await _sender.Send(command);
-        // return Ok();
         throw new NotImplementedException();
     }
 
@@ -73,7 +66,7 @@ public class MatchController : ApiController
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status405MethodNotAllowed, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetMatchSummary([FromRoute] int matchId)
+    public Task<IActionResult> GetMatchSummary([FromRoute] int matchId)
     {
         throw new NotImplementedException();
     }

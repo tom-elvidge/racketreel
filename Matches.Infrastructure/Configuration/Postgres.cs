@@ -8,27 +8,27 @@ public sealed class Postgres
     /// <summary>
     /// Host
     /// </summary>
-    public string? Host { get; init; }
+    public string Host { get; init; }
 
     /// <summary>
     /// Port
     /// </summary>
-    public string? Port { get; init; }
+    public string Port { get; init; }
 
     /// <summary>
     /// Username
     /// </summary>
-    public string? Username { get; init; }
+    public string Username { get; init; }
 
     /// <summary>
     /// Password
     /// </summary>
-    public string? Password { get; init; }
+    public string Password { get; init; }
 
     /// <summary>
     /// Database
     /// </summary>
-    public string? Database { get; init; }
+    public string Database { get; init; }
 
     /// <summary>
     /// Return the connection string for this database

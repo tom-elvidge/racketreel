@@ -53,7 +53,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse>
             .GetGenericTypeDefinition()
             .MakeGenericType(typeof(TResult).GenericTypeArguments[0])
             .GetMethod(nameof(ValidationResult.WithErrors))!
-            .Invoke(null, new object?[] { errors })!;
+            .Invoke(null, new object[] { errors })!;
 
         return (TResult) validationResult;
     }
