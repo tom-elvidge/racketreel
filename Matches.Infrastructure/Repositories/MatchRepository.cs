@@ -15,14 +15,29 @@ public class MatchRepository : IMatchRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async Task<IEnumerable<Match>> GetAsync(int pageNumber, int pageSize, bool includeStates)
+    public async Task<Tuple<IEnumerable<Match>, int>> GetAsync(int pageNumber, int pageSize, MatchesOrderByEnum orderBy, bool includeStates)
     {
-        var matches = await _context
+        var matchesQuery = _context
             .Matches
-            .OrderBy(match => match.CreatedAtDateTime)
+            // only get completed matches if ordering by completed at date time
+            .Where(m => orderBy == MatchesOrderByEnum.CompletedAt ? m.CompletedAtDateTime != DateTime.MaxValue : true);
+
+        var matchesCount = await matchesQuery.CountAsync();
+        int totalPages = (int) Math.Floor((double) matchesCount / pageSize);
+        // Add an extra page if there are any left over matches
+        if (matchesCount % pageSize != 0)
+            totalPages++;
+
+        if (pageNumber > totalPages)
+        {
+            throw new ArgumentException("requesting a page that is greater than the total number of pages");
+        }
+
+        var matches = await matchesQuery
+            .OrderBy(m => orderBy == MatchesOrderByEnum.CompletedAt ? m.CompletedAtDateTime : m.CreatedAtDateTime)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Include(x => x.Format)
+            .Include(m => m.Format)
             .ToListAsync();
 
         // Get the states for each match
@@ -35,7 +50,7 @@ public class MatchRepository : IMatchRepository
             }
         }
 
-        return matches;
+        return new Tuple<IEnumerable<Match>, int>(matches, totalPages);
     }
 
     public Match Add(Match match)
@@ -70,18 +85,5 @@ public class MatchRepository : IMatchRepository
     public void Update(Match match)
     {
         _context.Entry(match).State = EntityState.Modified;
-    }
-
-    public async Task<int> GetPageCountAsync(int pageSize)
-    {
-        var matchesCount = await _context
-            .Matches
-            .CountAsync();
-
-        int pageCount = (int) Math.Floor((double) matchesCount / pageSize);
-        // Add an extra page if there are any left over matches
-        if (matchesCount % pageSize != 0) pageCount++;
-
-        return pageCount;
     }
 }

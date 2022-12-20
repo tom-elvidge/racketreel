@@ -18,6 +18,7 @@ public class MatchTests
         {
             new Match(
                 DateTime.MinValue,
+                DateTime.MaxValue,
                 new NoUserParticipant("Tom Elvidge"),
                 new NoUserParticipant("Joe Bloggs"),
                 ParticipantEnum.One,
@@ -36,6 +37,7 @@ public class MatchTests
         {
             new Match(
                 DateTime.MinValue,
+                DateTime.MaxValue,
                 new NoUserParticipant("Tom Elvidge"),
                 new NoUserParticipant("Joe Bloggs"),
                 ParticipantEnum.One,

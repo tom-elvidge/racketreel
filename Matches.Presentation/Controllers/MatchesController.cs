@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Matches.Application.DTOs;
 using Matches.Application.Commands.CreateMatch;
 using MediatR;
+using Matches.Domain.AggregatesModel.MatchAggregate;
+using Matches.Application.Queries.GetMatchesQuery;
 
 namespace Matches.Presentation.Controllers;
 
@@ -42,6 +44,7 @@ public class MatchesController : ApiController
     /// <param name="pageSize">The maximum number of matches to include on a page.</param>
     /// <param name="pageNumber">The page of matches to get.</param>
     /// <param name="orderBy">How to order the collection of matches.</param>
+    /// <param name="cancellationToken"></param>
     /// <response code="200">The requested page of matches.</response>
     /// <response code="400">The was something wrong with the request.</response>
     /// <response code="404">The requested page of matches does not exist.</response>
@@ -52,13 +55,19 @@ public class MatchesController : ApiController
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(Messages))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public Task<IActionResult> GetMatches(
-        [FromQuery (Name = "pageSize")] int? pageSize,
-        [FromQuery (Name = "pageNumber")] int? pageNumber,
-        [FromQuery (Name = "orderBy")] MatchesOrderByEnum? orderBy
-    )
+    public async Task<IActionResult> GetMatches(
+        [FromQuery (Name = "pageSize")] int pageSize,
+        [FromQuery (Name = "pageNumber")] int pageNumber,
+        [FromQuery (Name = "orderBy")] MatchesOrderByEnum orderBy,
+        CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var query = new GetMatchesQuery(pageSize, pageNumber, orderBy);
+        var result = await Sender.Send(query, cancellationToken);
+
+        if (result.IsSuccess)
+            return Ok(result.Value);
+
+        return HandleFailure(result);
     }
 
     /// <summary>

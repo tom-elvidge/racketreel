@@ -10,7 +10,13 @@ public interface IMatchRepository : IRepository<Match>
 
     Task<Match> GetAsync(int matchId, bool includeStates);
 
-    Task<IEnumerable<Match>> GetAsync(int pageNumber, int pageSize, bool includeStates);
-
-    Task<int> GetPageCountAsync(int pageSize);
+    /// <summary>
+    /// Get a page of matches.
+    /// </summary>
+    /// <param name="pageSize">The maximum number of matches to include on a page.</param>
+    /// <param name="pageNumber">The page of matches to get.</param>
+    /// <param name="orderBy">How to order the collection of matches.</param>
+    /// <param name="includeStates">Get all the states for each match.</param>
+    /// <returns>A tuple where the first element is the ordered collection of matches on the requested page, and the second element is the total number of pages.</returns>
+    Task<Tuple<IEnumerable<Match>, int>> GetAsync(int pageNumber, int pageSize, MatchesOrderByEnum orderBy, bool includeStates);
 }

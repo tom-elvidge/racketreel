@@ -2,6 +2,8 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Matches.Domain.AggregatesModel.MatchAggregate;
+using Matches.Domain.AggregatesModel.MatchAggregate.Formats;
 
 namespace Matches.Application.DTOs;
 
@@ -26,6 +28,13 @@ public class MatchDTO
     [Required]
     [DataMember(Name="createdAt", EmitDefaultValue=false)]
     public string CreatedAt { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The date and time at which this match was completed. String formatted as an ISO 8601 date and time in UTC.
+    /// </summary>
+    /// <value>The date and time at which this match was completed. String formatted as an ISO 8601 date and time in UTC.</value>
+    [DataMember(Name="completedAt", EmitDefaultValue=false)]
+    public string CompletedAt { get; set; } = string.Empty;
 
     /// <summary>
     /// The list of players participating in this match.
@@ -62,6 +71,7 @@ public class MatchDTO
         sb.Append("class Match {\n");
         sb.Append("  Id: ").Append(Id).Append("\n");
         sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
+        sb.Append("  CompletedAt: ").Append(CompletedAt).Append("\n");
         sb.Append("  Players: ").Append(Players).Append("\n");
         sb.Append("  ServingFirst: ").Append(ServingFirst).Append("\n");
         sb.Append("  Format: ").Append(Format).Append("\n");
@@ -76,5 +86,46 @@ public class MatchDTO
     public string ToJson()
     {
         return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+    }
+
+    public static MatchDTO Create(Match match)
+    {
+        return new MatchDTO
+        {
+            Id = match.Id,
+            CreatedAt = match.CreatedAtDateTime.ToString(),
+            CompletedAt = match.CompletedAtDateTime == DateTime.MaxValue
+                ? null // not yet completed
+                : match.CompletedAtDateTime.ToString(),
+            Players = new List<string>() {
+                match.ParticipantOne.Name,
+                match.ParticipantTwo.Name
+            },
+            ServingFirst = match.ServingFirst == ParticipantEnum.One
+                ? match.ParticipantOne.Name
+                : match.ParticipantTwo.Name,
+            Format = GetMatchFormatEnum(match.Format)
+        };
+    }
+
+    private static MatchFormatEnum GetMatchFormatEnum(Format format)
+    {
+        if (format.Equals(TiebreakToTen.Create()))
+        {
+            return MatchFormatEnum.TiebreakToTen;
+        }
+        if (format.Equals(BestOfThreeSevenPointTiebreaker.Create()))
+        {
+            return MatchFormatEnum.BestOfThreeSevenPointTiebreaker;
+        }
+        if (format.Equals(BestOfFiveSevenPointTiebreaker.Create()))
+        {
+            return MatchFormatEnum.BestOfFiveSevenPointTiebreaker;
+        }
+        if (format.Equals(FastFour.Create()))
+        {
+            return MatchFormatEnum.FastFour;
+        }
+        throw new ApplicationException($"format {format} is not recognized as an option");
     }
 }

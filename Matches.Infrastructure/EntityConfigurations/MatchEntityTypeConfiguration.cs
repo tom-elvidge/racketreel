@@ -25,6 +25,11 @@ class MatchEntityTypeConfiguration : IEntityTypeConfiguration<Match>
             .IsRequired();
 
         match
+            .Property<DateTime>("CompletedAtDateTime")
+            .HasColumnName("CompletedAtDateTime")
+            .IsRequired();
+
+        match
             .OwnsOne(m => m.ParticipantOne, p =>
             {
                 // Explicit configuration of the shadow key property in the owned type 

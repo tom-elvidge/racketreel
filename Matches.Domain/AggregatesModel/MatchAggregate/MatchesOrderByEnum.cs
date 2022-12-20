@@ -1,4 +1,4 @@
-namespace Matches.Application.DTOs;
+namespace Matches.Domain.AggregatesModel.MatchAggregate;
 
 /// <summary>
 /// Enumeration of valid values for ordering matches in a collection of matches.

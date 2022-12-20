@@ -8,6 +8,8 @@ namespace Matches.Domain.AggregatesModel.MatchAggregate;
 public class Match : Entity, IAggregateRoot
 {
     public DateTime CreatedAtDateTime { get; private set; } = DateTime.MinValue;
+    
+    public DateTime CompletedAtDateTime { get; private set; } = DateTime.MaxValue;
 
     public NoUserParticipant ParticipantOne { get; private set; } = new NoUserParticipant("Player One");
 
@@ -31,6 +33,7 @@ public class Match : Entity, IAggregateRoot
 
     public Match(
         DateTime createdAtDateTime,
+        DateTime completedAtDateTime,
         NoUserParticipant participantOne,
         NoUserParticipant participantTwo,
         ParticipantEnum servingFirst,
@@ -38,6 +41,7 @@ public class Match : Entity, IAggregateRoot
         List<State> states)
     {
         CreatedAtDateTime = createdAtDateTime;
+        CompletedAtDateTime = completedAtDateTime;
         ParticipantOne = participantOne;
         ParticipantTwo = participantTwo;
         ServingFirst = servingFirst;
@@ -53,6 +57,7 @@ public class Match : Entity, IAggregateRoot
     {
         return new Match(
             DateTime.UtcNow,
+            DateTime.MaxValue, // DateTime.MaxValue indicates this match is not complete
             participantOne,
             participantTwo,
             servingFirst,
@@ -104,6 +109,11 @@ public class Match : Entity, IAggregateRoot
         newState.Serving = GetNewStateServing(newState, lastState);
 
         _states.Add(newState);
+
+        if (IsComplete())
+        {
+            CompletedAtDateTime = DateTime.UtcNow;
+        }
     }
 
     private ParticipantEnum GetNewStateServing(State newState, State lastState)
@@ -161,6 +171,12 @@ public class Match : Entity, IAggregateRoot
         if (States.Count == 1)
         {
             throw new CannotUndoInitialStateDomainException();
+        }
+
+        // If the match was already completed then reset the CompletedAtDateTime
+        if (IsComplete())
+        {
+            CompletedAtDateTime = DateTime.MaxValue;
         }
 
         var lastState = States

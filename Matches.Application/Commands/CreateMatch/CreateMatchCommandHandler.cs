@@ -9,18 +9,12 @@ using Matches.Domain.SeedWork;
 
 namespace Matches.Application.Commands.CreateMatch;
 
-/// <summary>
-/// Handler for CreateMatchCommand
-/// </summary>
 public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, MatchDTO>
 {
     private readonly IMediator _mediator;
     private readonly ILogger<CreateMatchCommandHandler> _logger;
     private readonly IMatchRepository _matchRepository;
 
-    /// <summary>
-    /// Constructor for CreateMatchCommandHandler
-    /// </summary>
     public CreateMatchCommandHandler(
         IMediator mediator,
         ILogger<CreateMatchCommandHandler> logger,
@@ -31,9 +25,6 @@ public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, Mat
         _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
     }
 
-    /// <summary>
-    /// Handle CreateMatchCommand commands
-    /// </summary>
     public async Task<Result<MatchDTO>> Handle(CreateMatchCommand command, CancellationToken cancellationToken)
     {
         var playerOne = command.Players[0];
@@ -49,16 +40,7 @@ public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, Mat
         _matchRepository.Add(match);
         await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-        var dto = new MatchDTO
-        {
-            Id = match.Id,
-            CreatedAt = match.CreatedAtDateTime.ToString(),
-            Players = command.Players,
-            ServingFirst = command.ServingFirst,
-            Format = command.Format
-        };
-
-        return Result.Success<MatchDTO>(dto);
+        return Result.Success<MatchDTO>(MatchDTO.Create(match));
     }
 
     private Format CreateFormat(MatchFormatEnum format)
