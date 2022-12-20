@@ -7,7 +7,7 @@ namespace Matches.Application.Commands.CreateMatch;
 /// <summary>
 /// Command for creating a new match.
 /// </summary>
-public sealed class CreateMatchCommand : ICommand<Match>
+public sealed class CreateMatchCommand : ICommand<MatchDTO>
 {
     /// <summary>
     /// The list of players participating in this match.
@@ -20,9 +20,9 @@ public sealed class CreateMatchCommand : ICommand<Match>
     public string ServingFirst { get; set; } = string.Empty;
 
     /// <summary>
-    /// The configuration to use for scoring this match.
+    /// The format to use for scoring this match.
     /// </summary>
-    public MatchConfiguration Configuration { get; set; }
+    public MatchFormatEnum Format { get; set; }
 
     /// <summary>
     /// Returns the string presentation of the object
@@ -34,7 +34,7 @@ public sealed class CreateMatchCommand : ICommand<Match>
         sb.Append("class CreateMatchCommand {\n");
         sb.Append("  Players: ").Append(Players).Append("\n");
         sb.Append("  ServingFirst: ").Append(ServingFirst).Append("\n");
-        sb.Append("  Configuration: ").Append(Configuration).Append("\n");
+        sb.Append("  Format: ").Append(Format).Append("\n");
         sb.Append("}\n");
         return sb.ToString();
     }

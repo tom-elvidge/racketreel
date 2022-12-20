@@ -32,13 +32,18 @@ class StateEntityTypeConfiguration : IEntityTypeConfiguration<State>
             .IsRequired();
 
         stateConfiguration
-            .Property<DateTime>("CreatedDateTime")
-            .HasColumnName("CreatedDateTime")
+            .Property<DateTime>("CreatedAtDateTime")
+            .HasColumnName("CreatedAtDateTime")
             .IsRequired();
 
         stateConfiguration
-            .Property<Participant>("Serving")
+            .Property<ParticipantEnum>("Serving")
             .HasColumnName("Serving")
+            .IsRequired();
+
+        stateConfiguration
+            .Property<bool>("Highlight")
+            .HasColumnName("Highlight")
             .IsRequired();
     }
 }

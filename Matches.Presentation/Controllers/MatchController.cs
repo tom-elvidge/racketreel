@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Matches.Application.DTOs;
 using MediatR;
 using Matches.Application.Queries.GetMatchById;
-using Matches.Application.Queries.GetMatchSummaryById;
 
 namespace Matches.Presentation.Controllers;
 
@@ -13,13 +12,15 @@ namespace Matches.Presentation.Controllers;
 public class MatchController : ControllerBase
 { 
     private readonly ISender _sender;
+    private readonly ILogger<MatchesController> _logger;
 
     /// <summary>
     /// Constructor for MatchController.
     /// </summary>
-    public MatchController(ISender sender)
+    public MatchController(ISender sender, ILogger<MatchesController> logger)
     {
         _sender = sender;
+        _logger = logger;
     }    
 
     /// <summary>
@@ -31,15 +32,24 @@ public class MatchController : ControllerBase
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpGet]
     [Route("/api/v1/matches/{matchId:int}")]
-    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(MatchDTO))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetMatch([FromRoute] int matchId)
     {
-        // return new NotFound();
         var query = new GetMatchByIdQuery(matchId);
-        var match = await _sender.Send(query);
-        return Ok(match);
+        var result = await _sender.Send(query);
+
+        if (result.IsSuccess)
+            return Ok(result.Value);
+
+        // todo: collection of static errors
+        if (result.Error.Code == "GetMatchById.NotFound")
+            return NotFound();
+
+        // todo: logging pipeline behavior
+        _logger.LogCritical($"Unexpected Error {result.Error.ToString()}");
+        return Problem();
     }
 
     /// <summary>
@@ -57,9 +67,10 @@ public class MatchController : ControllerBase
     public async Task<IActionResult> DeleteMatch([FromRoute] int matchId)
     {
         // return NotFound();
-        var command = DeleteMatch(matchId);
-        await _sender.Send(command);
-        return Ok();
+        // var command = DeleteMatch(matchId);
+        // await _sender.Send(command);
+        // return Ok();
+        throw new NotImplementedException();
     }
 
     /// <summary>
@@ -72,15 +83,12 @@ public class MatchController : ControllerBase
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpGet]
     [Route("/api/v1/matches/{matchId:int}/summary")]
-    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(MatchDTO))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status405MethodNotAllowed, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetMatchSummary([FromRoute] int matchId)
     {
-        // return new NotFound();
-        var query = new GetMatchSummaryByIdQuery(matchId);
-        var matchWithSummary = await _sender.Send(query);
-        return Ok(matchWithSummary);
+        throw new NotImplementedException();
     }
 }

@@ -3,7 +3,7 @@ namespace Matches.Application.DTOs;
 /// <summary>
 /// The rule to use for tiebreaks.
 /// </summary>
-public enum MatchConfiguration
+public enum MatchFormatEnum
 {
     /// <summary>
     /// Tiebreak to 10 points

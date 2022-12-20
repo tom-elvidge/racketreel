@@ -12,6 +12,8 @@ public class State : Entity
 
     public bool Highlight { get; set; }
 
+    public State() {}
+
     public State(
         DateTime createdAtDateTime,
         ParticipantEnum serving,

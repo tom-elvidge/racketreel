@@ -9,9 +9,9 @@ public class Match : Entity, IAggregateRoot
 {
     public DateTime CreatedAtDateTime { get; private set; } = DateTime.MinValue;
 
-    public BaseParticipant ParticipantOne { get; private set; } = new NoUserParticipant("Player One");
+    public NoUserParticipant ParticipantOne { get; private set; } = new NoUserParticipant("Player One");
 
-    public BaseParticipant ParticipantTwo { get; private set; } = new NoUserParticipant("Player Two");
+    public NoUserParticipant ParticipantTwo { get; private set; } = new NoUserParticipant("Player Two");
 
     public ParticipantEnum ServingFirst { get; private set; } = ParticipantEnum.One;
 
@@ -27,10 +27,12 @@ public class Match : Entity, IAggregateRoot
 
     private readonly List<State> _states = new List<State>();
 
+    public Match() {}
+
     public Match(
         DateTime createdAtDateTime,
-        BaseParticipant participantOne,
-        BaseParticipant participantTwo,
+        NoUserParticipant participantOne,
+        NoUserParticipant participantTwo,
         ParticipantEnum servingFirst,
         Format format,
         List<State> states)
@@ -44,8 +46,8 @@ public class Match : Entity, IAggregateRoot
     }
 
     public static Match Create(
-        BaseParticipant participantOne,
-        BaseParticipant participantTwo,
+        NoUserParticipant participantOne,
+        NoUserParticipant participantTwo,
         ParticipantEnum servingFirst,
         Format format)
     {

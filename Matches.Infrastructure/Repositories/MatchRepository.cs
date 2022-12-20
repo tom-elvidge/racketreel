@@ -15,12 +15,11 @@ public class MatchRepository : IMatchRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async Task<IEnumerable<Match>> GetAsync(int pageNumber, int pageSize, bool? complete, bool includeStates)
+    public async Task<IEnumerable<Match>> GetAsync(int pageNumber, int pageSize, bool includeStates)
     {
         var matches = await _context
             .Matches
-            .Where(match => complete == null ? true : match.Complete == complete)
-            .OrderBy(match => match.CreatedDateTime)
+            .OrderBy(match => match.CreatedAtDateTime)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .Include(x => x.Format)
@@ -73,11 +72,10 @@ public class MatchRepository : IMatchRepository
         _context.Entry(match).State = EntityState.Modified;
     }
 
-    public async Task<int> GetPageCountAsync(int pageSize, bool? complete)
+    public async Task<int> GetPageCountAsync(int pageSize)
     {
         var matchesCount = await _context
             .Matches
-            .Where(match => complete == null ? true : match.Complete == complete)
             .CountAsync();
 
         int pageCount = (int) Math.Floor((double) matchesCount / pageSize);

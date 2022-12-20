@@ -6,6 +6,6 @@ namespace Matches.Application.Queries.GetMatchById;
 /// <summary>
 /// Query for getting a match by its id
 /// </summary>
-public sealed record GetMatchByIdQuery(int MatchId): IQuery<Match>
+public sealed record GetMatchByIdQuery(int MatchId): IQuery<MatchDTO>
 {
 }

@@ -9,7 +9,7 @@ namespace Matches.Application.DTOs;
 /// Data Transfer Object for describing a match.
 /// </summary>
 [DataContract]
-public class Match
+public class MatchDTO
 {
     /// <summary>
     /// A unique identifier for this match.
@@ -43,14 +43,14 @@ public class Match
     [DataMember(Name="servingFirst", EmitDefaultValue=false)]
     public string ServingFirst { get; set; } = string.Empty;
 
-
     /// <summary>
-    /// The configuration of the match. This controls the participants, rules and scoring.
+    /// The format of the match. This controls the participants, rules and scoring.
     /// </summary>
-    /// <value>The configuration of the match. This controls the participants, rules and scoring.</value>
+    /// <value>The format of the match. This controls the participants, rules and scoring.</value>
     [Required]
-    [DataMember(Name="configuration", EmitDefaultValue=false)]
-    public MatchConfiguration Configuration { get; set; }
+    [DataMember(Name="format", EmitDefaultValue=false)]
+    [JsonProperty]
+    public MatchFormatEnum Format { get; set; }
 
     /// <summary>
     /// Returns the string presentation of the object
@@ -64,7 +64,7 @@ public class Match
         sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
         sb.Append("  Players: ").Append(Players).Append("\n");
         sb.Append("  ServingFirst: ").Append(ServingFirst).Append("\n");
-        sb.Append("  Configuration: ").Append(Configuration).Append("\n");
+        sb.Append("  Format: ").Append(Format).Append("\n");
         sb.Append("}\n");
         return sb.ToString();
     }

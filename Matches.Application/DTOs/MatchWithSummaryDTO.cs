@@ -8,7 +8,7 @@ namespace Matches.Application.DTOs;
 /// <summary>
 /// Data Transfer Object for describing a completed match with the summary included.
 /// </summary>
-public sealed class MatchWithSummary : Match
+public sealed class MatchWithSummaryDTO : MatchDTO
 {
     /// <summary>
     /// The summary of a completed match.
@@ -28,7 +28,7 @@ public sealed class MatchWithSummary : Match
         sb.Append("class MatchWithSummary {\n");
         sb.Append("  Id: ").Append(Id).Append("\n");
         sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
-        sb.Append("  Configuration: ").Append(Configuration).Append("\n");
+        sb.Append("  Configuration: ").Append(Format).Append("\n");
         sb.Append("  Summary: ").Append(Summary).Append("\n");
         sb.Append("}\n");
         return sb.ToString();

@@ -41,11 +41,10 @@ services
     .AddApplicationPart(presentationAssembly)
     .AddNewtonsoftJson(opts =>
     {
+        // Use camelCase for properties
         opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-        opts.SerializerSettings.Converters.Add(new StringEnumConverter
-        {
-            NamingStrategy = new CamelCaseNamingStrategy()
-        });
+        // Use PascalCase for enum string conversions
+        opts.SerializerSettings.Converters.Add(new StringEnumConverter());
     });
 
 services.AddSwaggerGen(c =>
@@ -110,6 +109,13 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = "openapi";
         c.SwaggerEndpoint("/openapi/v1/openapi.json", "v1");
     });
+}
+
+// Need to create a scope as cannot get scoped service from root provider
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<MatchesContext>();
+    db.Database.EnsureCreated();
 }
 
 app.Run();

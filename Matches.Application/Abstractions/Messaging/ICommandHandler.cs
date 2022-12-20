@@ -1,3 +1,4 @@
+using Matches.Domain.SeedWork;
 using MediatR;
 
 namespace Matches.Application.Abstractions.Messaging;
@@ -6,7 +7,7 @@ namespace Matches.Application.Abstractions.Messaging;
 /// ICommandHandler interface for CQRS separation with MediatR IRequestHandler with response
 /// </summary>
 public interface ICommandHandler<TCommand, TResponse>
-    : IRequestHandler<TCommand, TResponse>
+    : IRequestHandler<TCommand, Result<TResponse>>
     where TCommand: ICommand<TResponse>
 {   
 }
@@ -15,8 +16,7 @@ public interface ICommandHandler<TCommand, TResponse>
 /// ICommandHandler interface for CQRS separation with MediatR IRequestHandler
 /// </summary>
 public interface ICommandHandler<TCommand>
-    : IRequestHandler<TCommand> 
+    : IRequestHandler<TCommand, Result> 
     where TCommand : ICommand
 {
-    
 }

@@ -3,14 +3,16 @@ using Matches.Application.Abstractions.Messaging;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Matches.Domain.AggregatesModel.MatchAggregate;
-using Match = Matches.Domain.AggregatesModel.MatchAggregate.Match;
+using Matches.Domain.AggregatesModel.MatchAggregate.Formats;
+using Matches.Domain.AggregatesModel.MatchAggregate.Participants;
+using Matches.Domain.SeedWork;
 
 namespace Matches.Application.Commands.CreateMatch;
 
 /// <summary>
 /// Handler for CreateMatchCommand
 /// </summary>
-public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, DTOs.Match>
+public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, MatchDTO>
 {
     private readonly IMediator _mediator;
     private readonly ILogger<CreateMatchCommandHandler> _logger;
@@ -32,33 +34,58 @@ public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, DTO
     /// <summary>
     /// Handle CreateMatchCommand commands
     /// </summary>
-    public async Task<DTOs.Match> Handle(CreateMatchCommand command, CancellationToken cancellationToken)
+    public async Task<Result<MatchDTO>> Handle(CreateMatchCommand command, CancellationToken cancellationToken)
     {
-        // Create match from command
         var playerOne = command.Players[0];
         var playerTwo = command.Players[1];
-        var servingFirst = command.ServingFirst == playerOne ? Participant.One : Participant.Two;
-        // todo: use new format in Match
-        var format = new Format(3, SetType.SixAllAdvantageRule, SetType.SixAllTenPointTiebreaker);
-        // todo: static Create method rather than complex constructor
-        var match = new Match(playerOne, playerTwo, format, servingFirst);
+        var servingFirst = command.ServingFirst == playerOne ? ParticipantEnum.One : ParticipantEnum.Two;
+
+        // todo: move to validation
+        Format format;
+        try
+        {
+            format = CreateFormat(command.Format);
+        }
+        catch (ApplicationException)
+        {
+            return Result.Failure<MatchDTO>(new Error("CreateMatch.UnknownFormat", $"Unknown format {command.Format}"));
+        }
+
+        var match = Match.Create(
+            new NoUserParticipant(playerOne),
+            new NoUserParticipant(playerTwo),
+            servingFirst,
+            format);
+
         _matchRepository.Add(match);
         await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-        // todo: refactor dtos which could just be domain objects into the domain
-
-        // mapping of matchconfig enum to the actual configs
-        // check it is one of the known match configs to return in matchdto
-
-        // Convert to DTO
-        var matchDto = new DTOs.Match
+        var dto = new MatchDTO
         {
             Id = match.Id,
-            CreatedAt = match.CreatedDateTime.ToString(),
+            CreatedAt = match.CreatedAtDateTime.ToString(),
             Players = command.Players,
             ServingFirst = command.ServingFirst,
-            Configuration = command.Configuration
+            Format = command.Format
         };
-        return matchDto;
+
+        return Result.Success<MatchDTO>(dto);
+    }
+
+    private Format CreateFormat(MatchFormatEnum format)
+    {
+        switch (format)
+        {
+            case MatchFormatEnum.TiebreakToTen:
+                return TiebreakToTen.Create();
+            case MatchFormatEnum.BestOfThreeSevenPointTiebreaker:
+                return BestOfFiveSevenPointTiebreaker.Create();
+            case MatchFormatEnum.BestOfFiveSevenPointTiebreaker:
+                return BestOfFiveSevenPointTiebreaker.Create();
+            case MatchFormatEnum.FastFour:
+                return FastFour.Create();
+            default:
+                throw new ApplicationException($"missing case statement for {format}");
+        }
     }
 }
