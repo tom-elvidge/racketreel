@@ -9,17 +9,11 @@ namespace Matches.Presentation.Controllers;
 /// A controller for handling HTTP requests to collections of matches.
 /// </summary>
 [ApiController]
-public class MatchesController : ControllerBase
-{ 
-    private readonly ISender _sender;
-
-    /// <summary>
-    /// Constructor for MatchesController.
-    /// </summary>
-    public MatchesController(ISender sender)
+public class MatchesController : ApiController
+{
+    public MatchesController(ISender sender) : base(sender)
     {
-        _sender = sender;
-    }    
+    }
 
     /// <summary>
     /// Create a new match from a configuration.
@@ -37,14 +31,12 @@ public class MatchesController : ControllerBase
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreateMatch([FromBody] CreateMatchCommand command, CancellationToken cancellationToken)
     {
-        // return new BadRequest(messages);
-        // return new NotFound();
-        var result = await _sender.Send(command, cancellationToken);
+        var result = await Sender.Send(command, cancellationToken);
 
         if (result.IsSuccess)
             return Created($"/api/v1/matches/{result.Value.Id}", result.Value);
 
-        return Problem();
+        return HandleFailure(result);
     }
 
     /// <summary>

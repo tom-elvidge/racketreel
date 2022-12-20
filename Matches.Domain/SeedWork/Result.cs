@@ -38,13 +38,3 @@ public class Result
         return new Result<T>(true, Error.None(), value);
     }
 }
-
-public class Result<T> : Result
-{
-    public T Value { get; private set; }
-
-    public Result(bool isSuccess, Error error, T value) : base(isSuccess, error)
-    {
-        Value = value;
-    }
-}

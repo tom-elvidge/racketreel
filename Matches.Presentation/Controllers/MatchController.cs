@@ -9,19 +9,11 @@ namespace Matches.Presentation.Controllers;
 /// A controller for handling HTTP requests to the match resource.
 /// </summary>
 [ApiController]
-public class MatchController : ControllerBase
+public class MatchController : ApiController
 { 
-    private readonly ISender _sender;
-    private readonly ILogger<MatchesController> _logger;
-
-    /// <summary>
-    /// Constructor for MatchController.
-    /// </summary>
-    public MatchController(ISender sender, ILogger<MatchesController> logger)
+    public MatchController(ISender sender) : base(sender)
     {
-        _sender = sender;
-        _logger = logger;
-    }    
+    }
 
     /// <summary>
     /// Get the match with id.
@@ -38,18 +30,12 @@ public class MatchController : ControllerBase
     public async Task<IActionResult> GetMatch([FromRoute] int matchId)
     {
         var query = new GetMatchByIdQuery(matchId);
-        var result = await _sender.Send(query);
+        var result = await Sender.Send(query);
 
         if (result.IsSuccess)
             return Ok(result.Value);
 
-        // todo: collection of static errors
-        if (result.Error.Code == "GetMatchById.NotFound")
-            return NotFound();
-
-        // todo: logging pipeline behavior
-        _logger.LogCritical($"Unexpected Error {result.Error.ToString()}");
-        return Problem();
+        return HandleFailure(result);
     }
 
     /// <summary>

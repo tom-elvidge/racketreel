@@ -1,5 +1,6 @@
 using Matches.Application.Abstractions.Messaging;
 using Matches.Application.DTOs;
+using Matches.Application.Errors;
 using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Domain.AggregatesModel.MatchAggregate.Formats;
 using Matches.Domain.SeedWork;
@@ -39,7 +40,7 @@ public sealed class GetMatchByIdQueryHandler : IQueryHandler<GetMatchByIdQuery, 
         
         if (match == null)
         {
-            return Result.Failure<MatchDTO>(new Error("GetMatchById.NotFound", $"There is no Match with id {query.MatchId}"));
+            return Result.Failure<MatchDTO>(ApplicationErrors.NotFound);
         }
 
         var dto = new MatchDTO

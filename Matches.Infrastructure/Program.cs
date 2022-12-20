@@ -4,11 +4,13 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using MediatR;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Matches.Infrastructure.Configuration;
 using Matches.Infrastructure;
 using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Infrastructure.Repositories;
+using Matches.Application.Behaviors;
 
 string XmlCommentsPath(Assembly assembly)
 {
@@ -33,6 +35,9 @@ services.AddScoped<IMatchRepository, MatchRepository>();
 
 var applicationAssembly = typeof(Matches.Application.AssemblyReference).Assembly;
 services.AddMediatR(applicationAssembly);
+
+services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+services.AddValidatorsFromAssembly(applicationAssembly, includeInternalTypes: true);
 
 // Separate project for Presentation so it cannot access infrastructure directly
 var presentationAssembly = typeof(Matches.Presentation.AssemblyReference).Assembly;

@@ -40,22 +40,11 @@ public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, Mat
         var playerTwo = command.Players[1];
         var servingFirst = command.ServingFirst == playerOne ? ParticipantEnum.One : ParticipantEnum.Two;
 
-        // todo: move to validation
-        Format format;
-        try
-        {
-            format = CreateFormat(command.Format);
-        }
-        catch (ApplicationException)
-        {
-            return Result.Failure<MatchDTO>(new Error("CreateMatch.UnknownFormat", $"Unknown format {command.Format}"));
-        }
-
         var match = Match.Create(
             new NoUserParticipant(playerOne),
             new NoUserParticipant(playerTwo),
             servingFirst,
-            format);
+            CreateFormat(command.Format));
 
         _matchRepository.Add(match);
         await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
