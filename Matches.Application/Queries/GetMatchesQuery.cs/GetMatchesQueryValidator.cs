@@ -8,7 +8,7 @@ internal class GetMatchesQueryValidator : AbstractValidator<GetMatchesQuery>
     {
         RuleFor(c => c.PageNumber)
             .NotNull()
-            .WithMessage($"{nameof(GetMatchesQuery.PageNumber)} is required.");
+            .WithMessage($"{nameof(GetMatchesQuery.PageNumber)} cannot be null.");
 
         RuleFor(c => c.PageNumber)
             .GreaterThan(0)
@@ -16,7 +16,7 @@ internal class GetMatchesQueryValidator : AbstractValidator<GetMatchesQuery>
 
         RuleFor(c => c.PageSize)
             .NotNull()
-            .WithMessage($"{nameof(GetMatchesQuery.PageSize)} is required.");
+            .WithMessage($"{nameof(GetMatchesQuery.PageSize)} cannot be null.");
         
         RuleFor(c => c.PageSize)
             .GreaterThan(0)
@@ -28,6 +28,6 @@ internal class GetMatchesQueryValidator : AbstractValidator<GetMatchesQuery>
 
         RuleFor(c => c.OrderBy)
             .NotNull()
-            .WithMessage($"{nameof(GetMatchesQuery.OrderBy)} is required.");
+            .WithMessage($"{nameof(GetMatchesQuery.OrderBy)} cannot be null.");
     }
 }
