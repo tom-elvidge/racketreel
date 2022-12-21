@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Matches.Application.Errors;
 using Matches.Domain.SeedWork;
 using MediatR;
@@ -24,28 +25,30 @@ public abstract class ApiController : ControllerBase
             var validationResult = (IValidationResult) result;
             return BadRequest(
                 CreateProblemDetails(
-                    "Validation Error",
                     StatusCodes.Status400BadRequest,
                     result.Error,
                     validationResult.Errors));
         }
 
         if (result.Error == ApplicationErrors.NotFound)
-            return NotFound();
+            return NotFound(
+                CreateProblemDetails(
+                    StatusCodes.Status404NotFound,
+                    result.Error
+                )
+            );
 
         return Problem();
     }
 
-    private static ProblemDetails CreateProblemDetails(
-        string title,
+    protected static ProblemDetails CreateProblemDetails(
         int status,
         Error error,
-        Error[]? errors)
+        Error[]? errors = null)
     {
         return new ProblemDetails
         {
-            Title = title,
-            Type = error.Code,
+            Title = error.Code,
             Detail = error.Message,
             Status = status,
             Extensions = { { nameof(errors), errors } }

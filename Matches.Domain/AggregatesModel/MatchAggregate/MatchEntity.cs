@@ -90,7 +90,7 @@ public class MatchEntity : Entity, IAggregateRoot
     {
         if (States.Count == 0)
         {
-            throw new MatchHasNoStatesDomainException($"{nameof(Undo)} requires the match to have states");
+            throw new MatchHasNoStatesDomainException($"{nameof(Update)} requires the match to have states");
         }
 
         if (IsComplete()) {
@@ -102,7 +102,7 @@ public class MatchEntity : Entity, IAggregateRoot
             .LastOrDefault()!;
 
         var newState = new StateEntity(
-            DateTime.Now,
+            DateTime.UtcNow,
             ParticipantEnum.One, // placeholder
             Scorer.GetNewScore(Format, lastState, participant),
             false);

@@ -38,6 +38,8 @@ public class State
     /// A flag to mark the time from the previous state until this state as a highlight.
     /// </summary>
     /// <value>A flag to mark the time from the previous state until this state as a highlight.</value>
+    [Required]
+    [DataMember(Name="highlight", EmitDefaultValue=true)]
     public bool Highlight { get; private set; }
 
     public static State Create(MatchEntity matchEntity, StateEntity stateEntity)
