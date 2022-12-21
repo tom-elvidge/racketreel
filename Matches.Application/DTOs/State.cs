@@ -4,6 +4,10 @@ using Matches.Domain.AggregatesModel.MatchAggregate;
 
 namespace Matches.Application.DTOs;
 
+/// <summary>
+/// Data Transfer Object for describing a match.
+/// </summary>
+[DataContract]
 public class State
 {
     /// <summary>
@@ -11,8 +15,8 @@ public class State
     /// </summary>
     /// <value>The date and time at which this state was created. String formatted as an ISO 8601 date and time in UTC.</value>
     [Required]
-    [DataMember(Name="createdAtDateTime", EmitDefaultValue=true)]
-    public string CreatedAtDateTime { get; private set; }
+    [DataMember(Name="createdAt", EmitDefaultValue=true)]
+    public string CreatedAt { get; private set; }
 
     /// <summary>
     /// The participant who is serving.
@@ -40,7 +44,7 @@ public class State
     {
         return new State
         {
-            CreatedAtDateTime = stateEntity.CreatedAtDateTime.ToUniversalTime().ToString("o"),
+            CreatedAt = stateEntity.CreatedAtDateTime.ToUniversalTime().ToString("o"),
             Serving = stateEntity.Serving == ParticipantEnum.One ? matchEntity.ParticipantOne.Name : matchEntity.ParticipantTwo.Name,
             Score = new Dictionary<string, ParticipantScore>()
             {

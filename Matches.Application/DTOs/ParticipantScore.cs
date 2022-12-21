@@ -6,6 +6,7 @@ namespace Matches.Application.DTOs;
 /// <summary>
 /// The score for a participant at a certain state.
 /// </summary>
+[DataContract]
 public class ParticipantScore
 {
     /// <summary>
