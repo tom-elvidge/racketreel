@@ -13,8 +13,8 @@ namespace Matches.Infrastructure;
 public class MatchesContext : DbContext, IUnitOfWork
 {
     public const string DEFAULT_SCHEMA = "matches";
-    public DbSet<Match> Matches { get; set; }
-    public DbSet<State> MatchStates { get; set; }
+    public DbSet<MatchEntity> Matches { get; set; }
+    public DbSet<StateEntity> MatchStates { get; set; }
     // public DbSet<SetType> SetTypes { get; set; }
 
     private readonly IMediator _mediator;

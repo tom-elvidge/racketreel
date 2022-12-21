@@ -21,7 +21,7 @@ public class MatchController : ApiController
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpGet]
     [Route("/api/v1/matches/{matchId:int}")]
-    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(MatchDTO))]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetMatch([FromRoute] int matchId)
@@ -62,7 +62,7 @@ public class MatchController : ApiController
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpGet]
     [Route("/api/v1/matches/{matchId:int}/summary")]
-    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(MatchDTO))]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status405MethodNotAllowed, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]

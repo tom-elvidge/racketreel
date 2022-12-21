@@ -11,7 +11,7 @@ namespace Matches.Application.DTOs;
 /// Data Transfer Object for describing a match.
 /// </summary>
 [DataContract]
-public class MatchDTO
+public class Match
 {
     /// <summary>
     /// A unique identifier for this match.
@@ -88,15 +88,15 @@ public class MatchDTO
         return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
     }
 
-    public static MatchDTO Create(Match match)
+    public static Match Create(MatchEntity match)
     {
-        return new MatchDTO
+        return new Match
         {
             Id = match.Id,
-            CreatedAt = match.CreatedAtDateTime.ToString(),
+            CreatedAt = match.CreatedAtDateTime.ToUniversalTime().ToString("o"),
             CompletedAt = match.CompletedAtDateTime == DateTime.MaxValue
                 ? null // not yet completed
-                : match.CompletedAtDateTime.ToString(),
+                : match.CompletedAtDateTime.ToUniversalTime().ToString("o"),
             Players = new List<string>() {
                 match.ParticipantOne.Name,
                 match.ParticipantTwo.Name

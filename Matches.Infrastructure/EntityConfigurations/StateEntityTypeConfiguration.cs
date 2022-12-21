@@ -4,9 +4,9 @@ using Matches.Domain.AggregatesModel.MatchAggregate;
 
 namespace Matches.Infrastructure.EntityConfigurations;
 
-class StateEntityTypeConfiguration : IEntityTypeConfiguration<State>
+class StateEntityTypeConfiguration : IEntityTypeConfiguration<StateEntity>
 {
-    public void Configure(EntityTypeBuilder<State> stateConfiguration)
+    public void Configure(EntityTypeBuilder<StateEntity> stateConfiguration)
     {
         stateConfiguration.ToTable("states", MatchesContext.DEFAULT_SCHEMA);
 

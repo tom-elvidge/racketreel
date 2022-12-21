@@ -6,9 +6,9 @@ using Matches.Domain.AggregatesModel.MatchAggregate.Formats;
 
 namespace Matches.Infrastructure.EntityConfigurations;
 
-class MatchEntityTypeConfiguration : IEntityTypeConfiguration<Match>
+class MatchEntityTypeConfiguration : IEntityTypeConfiguration<MatchEntity>
 {
-    public void Configure(EntityTypeBuilder<Match> match)
+    public void Configure(EntityTypeBuilder<MatchEntity> match)
     {
         match.ToTable("matches", MatchesContext.DEFAULT_SCHEMA);
 
@@ -95,7 +95,7 @@ class MatchEntityTypeConfiguration : IEntityTypeConfiguration<Match>
             });
 
 
-        var navigation = match.Metadata.FindNavigation(nameof(Match.States));
+        var navigation = match.Metadata.FindNavigation(nameof(MatchEntity.States));
         // Set as field to access the States collection property through its field
         navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
     }

@@ -7,7 +7,7 @@ namespace Matches.Application.Commands.CreateMatch;
 /// <summary>
 /// Command for creating a new match.
 /// </summary>
-public sealed class CreateMatchCommand : ICommand<MatchDTO>
+public sealed class CreateMatchCommand : ICommand<Match>
 {
     /// <summary>
     /// The list of players participating in this match.

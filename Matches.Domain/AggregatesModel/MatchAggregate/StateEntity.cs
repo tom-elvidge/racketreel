@@ -2,7 +2,7 @@ using Matches.Domain.SeedWork;
 
 namespace Matches.Domain.AggregatesModel.MatchAggregate;
 
-public class State : Entity
+public class StateEntity : Entity
 {
     public DateTime CreatedAtDateTime { get; private set; } = DateTime.MinValue;
 
@@ -12,9 +12,9 @@ public class State : Entity
 
     public bool Highlight { get; set; }
 
-    public State() {}
+    public StateEntity() {}
 
-    public State(
+    public StateEntity(
         DateTime createdAtDateTime,
         ParticipantEnum serving,
         Score score,
@@ -26,8 +26,8 @@ public class State : Entity
         Highlight = highlight;
     }
 
-    public static State Initial(ParticipantEnum servingFirst)
+    public static StateEntity Initial(ParticipantEnum servingFirst)
     {
-        return new State(DateTime.UtcNow, servingFirst, Score.Initial());
+        return new StateEntity(DateTime.UtcNow, servingFirst, Score.Initial());
     }
 }

@@ -16,15 +16,15 @@ public class MatchTests
     {
         yield return new object[]
         {
-            new Match(
+            new MatchEntity(
                 DateTime.MinValue,
                 DateTime.MaxValue,
                 new NoUserParticipant("Tom Elvidge"),
                 new NoUserParticipant("Joe Bloggs"),
                 ParticipantEnum.One,
                 BestOfThreeSevenPointTiebreaker.Create(),
-                new List<State>() {
-                    new State(
+                new List<StateEntity>() {
+                    new StateEntity(
                         DateTime.MinValue,
                         ParticipantEnum.One,
                         new Score(3, 0, 0, 0, 0, 0))
@@ -35,15 +35,15 @@ public class MatchTests
         };
         yield return new object[]
         {
-            new Match(
+            new MatchEntity(
                 DateTime.MinValue,
                 DateTime.MaxValue,
                 new NoUserParticipant("Tom Elvidge"),
                 new NoUserParticipant("Joe Bloggs"),
                 ParticipantEnum.One,
                 TiebreakToTen.Create(),
-                new List<State>() {
-                    State.Initial(ParticipantEnum.One)
+                new List<StateEntity>() {
+                    StateEntity.Initial(ParticipantEnum.One)
                 }),
             ParticipantEnum.One,
             ParticipantEnum.Two,
@@ -53,7 +53,7 @@ public class MatchTests
 
     [Theory]
     [MemberData(nameof(TestUpdateServingData))]
-    public void TestUpdateServing(Match match, ParticipantEnum participant, ParticipantEnum expected, string because)
+    public void TestUpdateServing(MatchEntity match, ParticipantEnum participant, ParticipantEnum expected, string because)
     {
         match.Update(participant);
         var newState = match.States
@@ -65,7 +65,7 @@ public class MatchTests
     [Fact]
     public void TestUpdateServingAfterTiebreak()
     {
-        var match = Match.Create(
+        var match = MatchEntity.Create(
             new NoUserParticipant("Tom Elvidge"),
             new NoUserParticipant("Joe Bloggs"),
             ParticipantEnum.One,

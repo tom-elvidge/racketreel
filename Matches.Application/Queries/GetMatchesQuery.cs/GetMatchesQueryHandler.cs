@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Matches.Application.Queries.GetMatchesQuery;
 
-public class GetMatchesQueryHandler : IQueryHandler<GetMatchesQuery, Paginated<MatchDTO>>
+public class GetMatchesQueryHandler : IQueryHandler<GetMatchesQuery, Paginated<Match>>
 {
     private readonly IMediator _mediator;
     private readonly ILogger<GetMatchesQueryHandler> _logger;
@@ -24,26 +24,26 @@ public class GetMatchesQueryHandler : IQueryHandler<GetMatchesQuery, Paginated<M
         _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
     }
 
-    public async Task<Result<Paginated<MatchDTO>>> Handle(GetMatchesQuery query, CancellationToken cancellationToken)
+    public async Task<Result<Paginated<Match>>> Handle(GetMatchesQuery query, CancellationToken cancellationToken)
     {
-        Tuple<IEnumerable<Match>, int> result;
+        Tuple<IEnumerable<MatchEntity>, int> result;
         try
         { 
             result = await _matchRepository.GetAsync(query.PageNumber, query.PageSize, query.OrderBy ?? MatchesOrderByEnum.CreatedAt, false);
         } catch (ArgumentException)
         {
-            return Result.Failure<Paginated<MatchDTO>>(ApplicationErrors.NotFound);
+            return Result.Failure<Paginated<Match>>(ApplicationErrors.NotFound);
         }
 
-        var matches = result.Item1;
+        var matchEntities = result.Item1;
         var totalPages = result.Item2;
 
-        return Result.Success<Paginated<MatchDTO>>(new Paginated<MatchDTO>
+        return Result.Success<Paginated<Match>>(new Paginated<Match>
         {
             PageSize = query.PageSize,
             PageNumber = query.PageNumber,
             PageCount = totalPages,
-            Data = matches.Select(m => MatchDTO.Create(m)).ToList()
+            Data = matchEntities.Select(m => Match.Create(m)).ToList()
         });
     }
 }

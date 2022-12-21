@@ -25,7 +25,7 @@ public class MatchesController : ApiController
     [HttpPost]
     [Route("/api/v1/matches")]
     [Consumes("application/json")]
-    [ProducesResponseType(statusCode: StatusCodes.Status201Created, type: typeof(MatchDTO))]
+    [ProducesResponseType(statusCode: StatusCodes.Status201Created, type: typeof(Match))]
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(Messages))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreateMatch([FromBody] CreateMatchCommand command, CancellationToken cancellationToken)
@@ -51,7 +51,7 @@ public class MatchesController : ApiController
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpGet]
     [Route("/api/v1/matches")]
-    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Paginated<MatchDTO>))]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Paginated<Match>))]
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(Messages))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
@@ -82,7 +82,7 @@ public class MatchesController : ApiController
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpGet]
     [Route("/api/v1/matches/summary")]
-    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Paginated<MatchWithSummaryDTO>))]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Paginated<MatchWithSummary>))]
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(Messages))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]

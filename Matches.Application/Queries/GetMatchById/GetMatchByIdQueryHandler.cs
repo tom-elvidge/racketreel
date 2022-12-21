@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Matches.Application.Queries.GetMatchById;
 
-public sealed class GetMatchByIdQueryHandler : IQueryHandler<GetMatchByIdQuery, MatchDTO>
+public sealed class GetMatchByIdQueryHandler : IQueryHandler<GetMatchByIdQuery, Match>
 {
     private readonly IMediator _mediator;
     private readonly ILogger<GetMatchByIdQueryHandler> _logger;
@@ -25,15 +25,15 @@ public sealed class GetMatchByIdQueryHandler : IQueryHandler<GetMatchByIdQuery, 
         _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
     }
 
-    public async Task<Result<MatchDTO>> Handle(GetMatchByIdQuery query, CancellationToken cancellationToken)
+    public async Task<Result<Match>> Handle(GetMatchByIdQuery query, CancellationToken cancellationToken)
     {
-        var match = await _matchRepository.GetAsync(query.MatchId, true);
+        var matchEntity = await _matchRepository.GetAsync(query.MatchId, true);
         
-        if (match == null)
+        if (matchEntity == null)
         {
-            return Result.Failure<MatchDTO>(ApplicationErrors.NotFound);
+            return Result.Failure<Match>(ApplicationErrors.NotFound);
         }
 
-        return Result.Success<MatchDTO>(MatchDTO.Create(match));
+        return Result.Success<Match>(Match.Create(matchEntity));
     }
 }

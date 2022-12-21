@@ -15,21 +15,21 @@ public class ScorerTests
         yield return new object[]
         {
             TiebreakToTen.Create(),
-            State.Initial(ParticipantEnum.One),
+            StateEntity.Initial(ParticipantEnum.One),
             true,
             "the TiebreakToTen format has a single set so the initial state must be the final set"
         };
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            State.Initial(ParticipantEnum.One),
+            StateEntity.Initial(ParticipantEnum.One),
             false,
             "the BestOfThreeSevenPointTiebreaker format has three sets so the initial state cannot be the final set"
         };
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 0, 0, 0, 1, 1)),
@@ -39,7 +39,7 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfFiveSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 0, 0, 0, 2, 1)),
@@ -49,7 +49,7 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfFiveSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 0, 0, 0, 2, 2)),
@@ -60,7 +60,7 @@ public class ScorerTests
 
     [Theory]
     [MemberData(nameof(TestIsFinalSetData))]
-    public void TestIsFinalSet(Format format, State state, bool expected, string because)
+    public void TestIsFinalSet(Format format, StateEntity state, bool expected, string because)
     {
         Scorer.IsFinalSet(format, state).Should().Be(expected, because);
     }
@@ -70,14 +70,14 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfFiveSevenPointTiebreaker.Create(),
-            State.Initial(ParticipantEnum.One),
+            StateEntity.Initial(ParticipantEnum.One),
             false,
             "the initial state cannot be complete"
         };
         yield return new object[]
         {
             BestOfFiveSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 0, 0, 0, 3, 2)),
@@ -87,7 +87,7 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 0, 0, 0, 2, 0)),
@@ -98,7 +98,7 @@ public class ScorerTests
 
     [Theory]
     [MemberData(nameof(TestIsCompleteData))]
-    public void TestIsComplete(Format format, State state, bool expected, string because)
+    public void TestIsComplete(Format format, StateEntity state, bool expected, string because)
     {
         Scorer.IsComplete(format, state).Should().Be(expected, because);
     }
@@ -108,14 +108,14 @@ public class ScorerTests
         yield return new object[]
         {
             TiebreakToTen.Create(),
-            State.Initial(ParticipantEnum.One),
+            StateEntity.Initial(ParticipantEnum.One),
             true,
             "the TiebreakToTen format is only a tiebreak so the initial state must be a tiebreak"
         };
         yield return new object[]
         {
             TiebreakToTen.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(5, 3, 0, 0, 0, 0)),
@@ -125,14 +125,14 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            State.Initial(ParticipantEnum.One),
+            StateEntity.Initial(ParticipantEnum.One),
             false,
             "the BestOfThreeSevenPointTiebreaker format has six games per set so the initial state cannot be a tiebreak"
         };
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 0, 6, 6, 0, 0)),
@@ -142,7 +142,7 @@ public class ScorerTests
         yield return new object[]
         {
             FastFour.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 0, 3, 3, 0, 0)),
@@ -152,7 +152,7 @@ public class ScorerTests
         yield return new object[]
         {
             FastFour.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 0, 0, 0, 1, 1)),
@@ -163,7 +163,7 @@ public class ScorerTests
 
     [Theory]
     [MemberData(nameof(TestIsTiebreakData))]
-    public void TestIsTiebreak(Format format, State state, bool expected, string because)
+    public void TestIsTiebreak(Format format, StateEntity state, bool expected, string because)
     {
         Scorer.IsTiebreak(format, state).Should().Be(expected, because);
     }
@@ -173,14 +173,14 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            State.Initial(ParticipantEnum.One),
+            StateEntity.Initial(ParticipantEnum.One),
             4,
             "the BestOfThreeSevenPointTiebreaker format initial state is an ordinary game so the minimum points to win the game must be 4"
         };
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 0, 6, 6, 0, 0)),
@@ -190,14 +190,14 @@ public class ScorerTests
         yield return new object[]
         {
             TiebreakToTen.Create(),
-            State.Initial(ParticipantEnum.One),
+            StateEntity.Initial(ParticipantEnum.One),
             10,
             "the TiebreakToTen format is only a tiebreak so the current game is a 10 point tiebreak so the minimum points to win the game must be 10"
         };
         yield return new object[]
         {
             FastFour.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 0, 3, 3, 0, 0)),
@@ -207,7 +207,7 @@ public class ScorerTests
         yield return new object[]
         {
             FastFour.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 0, 0, 0, 1, 1)),
@@ -218,7 +218,7 @@ public class ScorerTests
 
     [Theory]
     [MemberData(nameof(GetMinimumPointsToWinCurrentGameData))]
-    public void TestGetMinimumPointsToWinCurrentGame(Format format, State state, int expected, string because)
+    public void TestGetMinimumPointsToWinCurrentGame(Format format, StateEntity state, int expected, string because)
     {
         Scorer.GetMinimumPointsToWinCurrentGame(format, state).Should().Be(expected, because);
     }
@@ -228,14 +228,14 @@ public class ScorerTests
         yield return new object[]
         {
             TiebreakToTen.Create(),
-            State.Initial(ParticipantEnum.One),
+            StateEntity.Initial(ParticipantEnum.One),
             ParticipantSelectorEnum.Neither,
             "there cannot be a game point to either player on the initial state"
         };
         yield return new object[]
         {
             TiebreakToTen.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(9, 8, 0, 0, 0, 0)),
@@ -245,7 +245,7 @@ public class ScorerTests
         yield return new object[]
         {
             TiebreakToTen.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(9, 9, 0, 0, 0, 0)),
@@ -255,7 +255,7 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(3, 0, 0, 0, 0, 0)),
@@ -265,7 +265,7 @@ public class ScorerTests
         yield return new object[]
         {
             FastFour.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(3, 3, 0, 0, 0, 0)),
@@ -276,7 +276,7 @@ public class ScorerTests
 
     [Theory]
     [MemberData(nameof(GetGamePointParticipantData))]
-    public void TestGetGamePointParticipant(Format format, State state, ParticipantSelectorEnum expected, string because)
+    public void TestGetGamePointParticipant(Format format, StateEntity state, ParticipantSelectorEnum expected, string because)
     {
         Scorer.GetGamePointParticipant(format, state).Should().Be(expected, because);
     }
@@ -286,14 +286,14 @@ public class ScorerTests
         yield return new object[]
         {
             TiebreakToTen.Create(),
-            State.Initial(ParticipantEnum.One),
+            StateEntity.Initial(ParticipantEnum.One),
             ParticipantSelectorEnum.Neither,
             "there cannot be a set point to either player on the initial state"
         };
         yield return new object[]
         {
             TiebreakToTen.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(9, 8, 0, 0, 0, 0)),
@@ -303,7 +303,7 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(3, 0, 0, 0, 0, 0)),
@@ -313,7 +313,7 @@ public class ScorerTests
         yield return new object[]
         {
             FastFour.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 6, 3, 3, 0, 0)),
@@ -324,7 +324,7 @@ public class ScorerTests
 
     [Theory]
     [MemberData(nameof(GetSetPointParticipantData))]
-    public void TestGetSetPointParticipant(Format format, State state, ParticipantSelectorEnum expected, string because)
+    public void TestGetSetPointParticipant(Format format, StateEntity state, ParticipantSelectorEnum expected, string because)
     {
         Scorer.GetSetPointParticipant(format, state).Should().Be(expected, because);
     }
@@ -334,14 +334,14 @@ public class ScorerTests
         yield return new object[]
         {
             TiebreakToTen.Create(),
-            State.Initial(ParticipantEnum.One),
+            StateEntity.Initial(ParticipantEnum.One),
             ParticipantSelectorEnum.Neither,
             "there cannot be a match point to either player on the initial state"
         };
         yield return new object[]
         {
             TiebreakToTen.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(9, 0, 0, 0, 0, 0)),
@@ -351,7 +351,7 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 3, 0, 5, 1, 1)),
@@ -362,7 +362,7 @@ public class ScorerTests
 
     [Theory]
     [MemberData(nameof(GetMatchPointParticipantData))]
-    public void TestGetMatchPointParticipant(Format format, State state, ParticipantSelectorEnum expected, string because)
+    public void TestGetMatchPointParticipant(Format format, StateEntity state, ParticipantSelectorEnum expected, string because)
     {
         Scorer.GetSetPointParticipant(format, state).Should().Be(expected, because);
     }
@@ -372,7 +372,7 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            State.Initial(ParticipantEnum.One),
+            StateEntity.Initial(ParticipantEnum.One),
             ParticipantEnum.One,
             new Score(1, 0, 0, 0, 0, 0),
             "when participant one scores the first point of the match it should be one love"
@@ -380,7 +380,7 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(3, 4, 0, 0, 0, 0)),
@@ -391,7 +391,7 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(4, 3, 0, 0, 0, 0)),
@@ -402,7 +402,7 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(3, 0, 0, 0, 0, 0)),
@@ -413,7 +413,7 @@ public class ScorerTests
         yield return new object[]
         {
             BestOfThreeSevenPointTiebreaker.Create(),
-            new State(
+            new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
                 new Score(0, 3, 0, 5, 0, 0)),
@@ -425,7 +425,7 @@ public class ScorerTests
 
     [Theory]
     [MemberData(nameof(GewNewScoreData))]
-    public void TestGetNewScore(Format format, State state, ParticipantEnum participant, Score expected, string because)
+    public void TestGetNewScore(Format format, StateEntity state, ParticipantEnum participant, Score expected, string because)
     {
         Scorer.GetNewScore(format, state, participant).Should().Be(expected, because);
     }

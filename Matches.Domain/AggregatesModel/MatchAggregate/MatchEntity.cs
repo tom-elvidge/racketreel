@@ -5,7 +5,7 @@ using Matches.Domain.SeedWork;
 
 namespace Matches.Domain.AggregatesModel.MatchAggregate;
 
-public class Match : Entity, IAggregateRoot
+public class MatchEntity : Entity, IAggregateRoot
 {
     public DateTime CreatedAtDateTime { get; private set; } = DateTime.MinValue;
     
@@ -25,20 +25,20 @@ public class Match : Entity, IAggregateRoot
     /// <summary>
     /// The collection of all unique states in the match in no particular order.
     /// </summary>
-    public IReadOnlyCollection<State> States => _states;
+    public IReadOnlyCollection<StateEntity> States => _states;
 
-    private readonly List<State> _states = new List<State>();
+    private readonly List<StateEntity> _states = new List<StateEntity>();
 
-    public Match() {}
+    public MatchEntity() {}
 
-    public Match(
+    public MatchEntity(
         DateTime createdAtDateTime,
         DateTime completedAtDateTime,
         NoUserParticipant participantOne,
         NoUserParticipant participantTwo,
         ParticipantEnum servingFirst,
         Format format,
-        List<State> states)
+        List<StateEntity> states)
     {
         CreatedAtDateTime = createdAtDateTime;
         CompletedAtDateTime = completedAtDateTime;
@@ -49,20 +49,20 @@ public class Match : Entity, IAggregateRoot
         _states = states;
     }
 
-    public static Match Create(
+    public static MatchEntity Create(
         NoUserParticipant participantOne,
         NoUserParticipant participantTwo,
         ParticipantEnum servingFirst,
         Format format)
     {
-        return new Match(
+        return new MatchEntity(
             DateTime.UtcNow,
             DateTime.MaxValue, // DateTime.MaxValue indicates this match is not complete
             participantOne,
             participantTwo,
             servingFirst,
             format,
-            new List<State> { State.Initial(servingFirst) });
+            new List<StateEntity> { StateEntity.Initial(servingFirst) });
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ public class Match : Entity, IAggregateRoot
             .OrderBy(s => s.CreatedAtDateTime)
             .LastOrDefault()!;
 
-        var newState = new State(
+        var newState = new StateEntity(
             DateTime.Now,
             ParticipantEnum.One, // placeholder
             Scorer.GetNewScore(Format, lastState, participant),
@@ -116,7 +116,7 @@ public class Match : Entity, IAggregateRoot
         }
     }
 
-    private ParticipantEnum GetNewStateServing(State newState, State lastState)
+    private ParticipantEnum GetNewStateServing(StateEntity newState, StateEntity lastState)
     {
         var lastStateTiebreak = Scorer.IsTiebreak(Format, lastState);
         var newStateTiebreak = Scorer.IsTiebreak(Format, newState);

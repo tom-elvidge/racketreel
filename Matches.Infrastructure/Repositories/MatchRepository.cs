@@ -15,7 +15,7 @@ public class MatchRepository : IMatchRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async Task<Tuple<IEnumerable<Match>, int>> GetAsync(int pageNumber, int pageSize, MatchesOrderByEnum orderBy, bool includeStates)
+    public async Task<Tuple<IEnumerable<MatchEntity>, int>> GetAsync(int pageNumber, int pageSize, MatchesOrderByEnum orderBy, bool includeStates)
     {
         var matchesQuery = _context
             .Matches
@@ -50,16 +50,16 @@ public class MatchRepository : IMatchRepository
             }
         }
 
-        return new Tuple<IEnumerable<Match>, int>(matches, totalPages);
+        return new Tuple<IEnumerable<MatchEntity>, int>(matches, totalPages);
     }
 
-    public Match Add(Match match)
+    public MatchEntity Add(MatchEntity match)
     {
         return _context.Matches.Add(match).Entity;
 
     }
 
-    public async Task<Match> GetAsync(int matchId, bool includeStates)
+    public async Task<MatchEntity> GetAsync(int matchId, bool includeStates)
     {
         // todo: bug here it is getting a match state which zero score and date time now
         var match = await _context
@@ -82,7 +82,7 @@ public class MatchRepository : IMatchRepository
         return match;
     }
 
-    public void Update(Match match)
+    public void Update(MatchEntity match)
     {
         _context.Entry(match).State = EntityState.Modified;
     }

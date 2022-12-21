@@ -8,7 +8,7 @@ namespace Matches.Application.DTOs;
 /// <summary>
 /// Data Transfer Object for describing a completed match with the summary included.
 /// </summary>
-public sealed class MatchWithSummaryDTO : MatchDTO
+public sealed class MatchWithSummary : Match
 {
     /// <summary>
     /// The summary of a completed match.

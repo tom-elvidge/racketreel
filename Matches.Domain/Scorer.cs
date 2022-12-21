@@ -14,7 +14,7 @@ public static class Scorer
     /// </summary>
     /// <param name="format">The format of the match.</param>
     /// <param name="state">The state to check if the match is complete.</param>
-    public static bool IsComplete(Format format, State state)
+    public static bool IsComplete(Format format, StateEntity state)
     {
         var minimumSetsToWin = GetMinimumSetsToWinMatch(format);
 
@@ -31,7 +31,7 @@ public static class Scorer
     /// </summary>
     /// <param name="format">The format of the match.</param>
     /// <param name="state">The state to check if it is in the final set.</param>
-    public static bool IsFinalSet(Format format, State state)
+    public static bool IsFinalSet(Format format, StateEntity state)
     {
         var set = state.Score.P1Sets + state.Score.P2Sets;
         
@@ -58,7 +58,7 @@ public static class Scorer
     /// </summary>
     /// <param name="format">The format of the match.</param>
     /// <param name="state">The state to check if it is in a tiebreak.</param>
-    public static bool IsTiebreak(Format format, State state)
+    public static bool IsTiebreak(Format format, StateEntity state)
     {
         var isFinalSet = IsFinalSet(format, state);
 
@@ -117,7 +117,7 @@ public static class Scorer
     /// </summary>
     /// <param name="format">The format of the match.</param>
     /// <param name="state">The state to get the current game for the minimum points to win computation.</param>
-    public static int GetMinimumPointsToWinCurrentGame(Format format, State state)
+    public static int GetMinimumPointsToWinCurrentGame(Format format, StateEntity state)
     {
         // ordinary game so must win at least 4 points
         if (!IsTiebreak(format, state))
@@ -149,7 +149,7 @@ public static class Scorer
     /// </summary>
     /// <param name="format">The format of the match.</param>
     /// <param name="state">The state to do the game point check against.</param>
-    public static ParticipantSelectorEnum GetGamePointParticipant(Format format, State state)
+    public static ParticipantSelectorEnum GetGamePointParticipant(Format format, StateEntity state)
     {
         var minPoints = GetMinimumPointsToWinCurrentGame(format, state);
         var minPointsDec = minPoints - 1;
@@ -192,7 +192,7 @@ public static class Scorer
     /// </summary>
     /// <param name="format">The format of the match.</param>
     /// <param name="state">The state to do the set point check against.</param>
-    public static ParticipantSelectorEnum GetSetPointParticipant(Format format, State state)
+    public static ParticipantSelectorEnum GetSetPointParticipant(Format format, StateEntity state)
     {
         var gamePointParticipant = GetGamePointParticipant(format, state);
 
@@ -246,7 +246,7 @@ public static class Scorer
     /// </summary>
     /// <param name="format">The format of the match.</param>
     /// <param name="state">The state to do the match point check against.</param>
-    public static ParticipantSelectorEnum GetMatchPointParticipant(Format format, State state)
+    public static ParticipantSelectorEnum GetMatchPointParticipant(Format format, StateEntity state)
     {
         var setPointParticipant = GetSetPointParticipant(format, state);
         var sets = GetMinimumSetsToWinMatch(format);
@@ -275,7 +275,7 @@ public static class Scorer
     /// <param name="format">The format of the match.</param>
     /// <param name="state">The state after which the participant scored.</param>
     /// <param name="participant">The participant which scored the point.</param>
-    public static Score GetNewScore(Format format, State state, ParticipantEnum participant)
+    public static Score GetNewScore(Format format, StateEntity state, ParticipantEnum participant)
     {
         var newScore = state.Score.Copy();
 

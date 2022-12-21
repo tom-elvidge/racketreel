@@ -9,7 +9,7 @@ using Matches.Domain.SeedWork;
 
 namespace Matches.Application.Commands.CreateMatch;
 
-public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, MatchDTO>
+public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, Match>
 {
     private readonly IMediator _mediator;
     private readonly ILogger<CreateMatchCommandHandler> _logger;
@@ -25,13 +25,13 @@ public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, Mat
         _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
     }
 
-    public async Task<Result<MatchDTO>> Handle(CreateMatchCommand command, CancellationToken cancellationToken)
+    public async Task<Result<Match>> Handle(CreateMatchCommand command, CancellationToken cancellationToken)
     {
         var playerOne = command.Players[0];
         var playerTwo = command.Players[1];
         var servingFirst = command.ServingFirst == playerOne ? ParticipantEnum.One : ParticipantEnum.Two;
 
-        var match = Match.Create(
+        var match = MatchEntity.Create(
             new NoUserParticipant(playerOne),
             new NoUserParticipant(playerTwo),
             servingFirst,
@@ -40,7 +40,7 @@ public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, Mat
         _matchRepository.Add(match);
         await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-        return Result.Success<MatchDTO>(MatchDTO.Create(match));
+        return Result.Success<Match>(Match.Create(match));
     }
 
     private Format CreateFormat(MatchFormatEnum format)
