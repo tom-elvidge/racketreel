@@ -82,7 +82,7 @@ public class MatchesController : ApiController
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpGet]
     [Route("/api/v1/matches/summary")]
-    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Paginated<MatchWithSummary>))]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Paginated<Match>))]
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(Messages))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]

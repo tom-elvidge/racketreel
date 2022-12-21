@@ -30,36 +30,52 @@ public class Match
     public string CreatedAt { get; set; } = string.Empty;
 
     /// <summary>
-    /// The date and time at which this match was completed. String formatted as an ISO 8601 date and time in UTC.
+    /// The date and time at which this match was completed. String formatted as an ISO 8601 date and time in UTC. Only included if the match has been completed.
     /// </summary>
-    /// <value>The date and time at which this match was completed. String formatted as an ISO 8601 date and time in UTC.</value>
+    /// <value>The date and time at which this match was completed. String formatted as an ISO 8601 date and time in UTC. Only included if the match has been completed.</value>
     [DataMember(Name="completedAt", EmitDefaultValue=false)]
     public string CompletedAt { get; set; } = string.Empty;
 
     /// <summary>
-    /// The list of players participating in this match.
+    /// The list of participants in this match.
     /// </summary>
-    /// <value>The list of players participating in this match.</value>
+    /// <value>The list of participants in this match.</value>
     [Required]
-    [DataMember(Name="players", EmitDefaultValue=false)]
-    public List<string> Players { get; set; } = new List<string>();
+    [DataMember(Name="participants", EmitDefaultValue=false)]
+    public List<string> Participants { get; set; } = new List<string>();
 
     /// <summary>
-    /// The player who is serving first.
+    /// The participant who is serving first.
     /// </summary>
-    /// <value>The player who is serving first.</value>
+    /// <value>The participant who is serving first.</value>
     [Required]
     [DataMember(Name="servingFirst", EmitDefaultValue=false)]
     public string ServingFirst { get; set; } = string.Empty;
 
     /// <summary>
-    /// The format of the match. This controls the participants, rules and scoring.
+    /// The format of the match. This controls the rules and scoring.
     /// </summary>
-    /// <value>The format of the match. This controls the participants, rules and scoring.</value>
+    /// <value>The format of the match. This controls the rules and scoring.</value>
     [Required]
     [DataMember(Name="format", EmitDefaultValue=false)]
     [JsonProperty]
     public MatchFormatEnum Format { get; set; }
+
+    /// <summary>
+    /// The list of all the states in the match ordered by the created date and time.
+    /// </summary>
+    /// <value>The list of all the states in the match ordered by the created date and time.</value>
+    [DataMember(Name="states", EmitDefaultValue=false)]
+    [JsonProperty]
+    public IList<State> States { get; set; }
+
+    /// <summary>
+    /// The summary of a completed match. Only included if the match has been completed.
+    /// </summary>
+    /// <value>The summary of a completed match. Only included if the match has been completed.</value>
+    [DataMember(Name="summary", EmitDefaultValue=false)]
+    public MatchSummary Summary { get; set; } = new MatchSummary();
+
 
     /// <summary>
     /// Returns the string presentation of the object
@@ -72,9 +88,10 @@ public class Match
         sb.Append("  Id: ").Append(Id).Append("\n");
         sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
         sb.Append("  CompletedAt: ").Append(CompletedAt).Append("\n");
-        sb.Append("  Players: ").Append(Players).Append("\n");
+        sb.Append("  Players: ").Append(Participants).Append("\n");
         sb.Append("  ServingFirst: ").Append(ServingFirst).Append("\n");
         sb.Append("  Format: ").Append(Format).Append("\n");
+        sb.Append("  Summary: ").Append(Summary).Append("\n");
         sb.Append("}\n");
         return sb.ToString();
     }
@@ -97,14 +114,18 @@ public class Match
             CompletedAt = match.CompletedAtDateTime == DateTime.MaxValue
                 ? null // not yet completed
                 : match.CompletedAtDateTime.ToUniversalTime().ToString("o"),
-            Players = new List<string>() {
+            Participants = new List<string>() {
                 match.ParticipantOne.Name,
                 match.ParticipantTwo.Name
             },
             ServingFirst = match.ServingFirst == ParticipantEnum.One
                 ? match.ParticipantOne.Name
                 : match.ParticipantTwo.Name,
-            Format = GetMatchFormatEnum(match.Format)
+            Format = GetMatchFormatEnum(match.Format),
+            States = match.States
+                .OrderBy(s => s.CreatedAtDateTime)
+                .Select(s => State.Create(match, s))
+                .ToList()
         };
     }
 
