@@ -58,7 +58,7 @@ public class MatchesController : ApiController
     public async Task<IActionResult> GetMatches(
         [FromQuery (Name = "pageSize")] int pageSize,
         [FromQuery (Name = "pageNumber")] int pageNumber,
-        [FromQuery (Name = "orderBy")] MatchesOrderByEnum orderBy,
+        [FromQuery (Name = "orderBy")] MatchesOrderByEnum? orderBy,
         CancellationToken cancellationToken)
     {
         var query = new GetMatchesQuery(pageSize, pageNumber, orderBy);

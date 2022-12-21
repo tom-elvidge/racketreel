@@ -29,7 +29,7 @@ public class GetMatchesQueryHandler : IQueryHandler<GetMatchesQuery, Paginated<M
         Tuple<IEnumerable<Match>, int> result;
         try
         { 
-            result = await _matchRepository.GetAsync(query.PageNumber, query.PageSize, query.OrderBy, false);
+            result = await _matchRepository.GetAsync(query.PageNumber, query.PageSize, query.OrderBy ?? MatchesOrderByEnum.CreatedAt, false);
         } catch (ArgumentException)
         {
             return Result.Failure<Paginated<MatchDTO>>(ApplicationErrors.NotFound);
