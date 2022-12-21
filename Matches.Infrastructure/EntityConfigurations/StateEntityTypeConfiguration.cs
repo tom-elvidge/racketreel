@@ -22,13 +22,13 @@ class StateEntityTypeConfiguration : IEntityTypeConfiguration<StateEntity>
             {
                 // Explicit configuration of the shadow key property in the owned type 
                 // as a workaround for a documented issue in EF Core 5: https://github.com/dotnet/efcore/issues/20740
-                sc.Property<int>("StateId")
+                sc.Property<int>("StateEntityId")
                 .UseHiLo("stateseq", MatchesContext.DEFAULT_SCHEMA);
                 sc.WithOwner();
             });
 
         stateConfiguration
-            .Property<int>("MatchId")
+            .Property<int>("MatchEntityId")
             .IsRequired();
 
         stateConfiguration

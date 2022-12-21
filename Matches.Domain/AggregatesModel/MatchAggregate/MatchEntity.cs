@@ -201,7 +201,7 @@ public class MatchEntity : Entity, IAggregateRoot
 
         if (!Scorer.IsTiebreak(Format, lastState))
         {
-            throw new DomainException($"{nameof(GetServingAfterTiebreak)} cannot be called when the last state is not in a tiebreal");
+            throw new DomainException($"{nameof(GetServingAfterTiebreak)} cannot be called when the last state is not in a tiebreak");
         }
 
         // iterate backwards through the states until the start of the tiebreak is found

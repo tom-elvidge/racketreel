@@ -46,8 +46,7 @@ services
     .AddApplicationPart(presentationAssembly)
     .AddNewtonsoftJson(opts =>
     {
-        // Use camelCase for properties
-        opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        opts.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
         // Use PascalCase for enum string conversions
         opts.SerializerSettings.Converters.Add(new StringEnumConverter());
     });

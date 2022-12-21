@@ -91,6 +91,7 @@ public class Match
         sb.Append("  Players: ").Append(Participants).Append("\n");
         sb.Append("  ServingFirst: ").Append(ServingFirst).Append("\n");
         sb.Append("  Format: ").Append(Format).Append("\n");
+        sb.Append("  States: ").Append(States).Append("\n");
         sb.Append("  Summary: ").Append(Summary).Append("\n");
         sb.Append("}\n");
         return sb.ToString();
@@ -105,27 +106,30 @@ public class Match
         return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
     }
 
-    public static Match Create(MatchEntity match)
+    public static Match Create(MatchEntity matchEntity)
     {
         return new Match
         {
-            Id = match.Id,
-            CreatedAt = match.CreatedAtDateTime.ToUniversalTime().ToString("o"),
-            CompletedAt = match.CompletedAtDateTime == DateTime.MaxValue
+            Id = matchEntity.Id,
+            CreatedAt = matchEntity.CreatedAtDateTime.ToUniversalTime().ToString("o"),
+            CompletedAt = matchEntity.CompletedAtDateTime == DateTime.MaxValue
                 ? null // not yet completed
-                : match.CompletedAtDateTime.ToUniversalTime().ToString("o"),
+                : matchEntity.CompletedAtDateTime.ToUniversalTime().ToString("o"),
             Participants = new List<string>() {
-                match.ParticipantOne.Name,
-                match.ParticipantTwo.Name
+                matchEntity.ParticipantOne.Name,
+                matchEntity.ParticipantTwo.Name
             },
-            ServingFirst = match.ServingFirst == ParticipantEnum.One
-                ? match.ParticipantOne.Name
-                : match.ParticipantTwo.Name,
-            Format = GetMatchFormatEnum(match.Format),
-            States = match.States
-                .OrderBy(s => s.CreatedAtDateTime)
-                .Select(s => State.Create(match, s))
-                .ToList()
+            ServingFirst = matchEntity.ServingFirst == ParticipantEnum.One
+                ? matchEntity.ParticipantOne.Name
+                : matchEntity.ParticipantTwo.Name,
+            Format = GetMatchFormatEnum(matchEntity.Format),
+            States = matchEntity.States.Count() == 0
+                ? null
+                : matchEntity.States
+                    .OrderBy(s => s.CreatedAtDateTime)
+                    .Select(s => State.Create(matchEntity, s))
+                    .ToList(),
+            Summary = null
         };
     }
 
