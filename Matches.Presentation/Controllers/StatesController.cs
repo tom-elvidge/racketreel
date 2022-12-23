@@ -6,6 +6,8 @@ using Matches.Application.RequestBodies;
 using Matches.Application.Errors;
 using Matches.Application.Queries.GetStateByIndex;
 using Matches.Application.Queries.GetLatestState;
+using Matches.Application.Commands.UpdateState;
+using Matches.Application.Commands.UpdateLatestState;
 
 namespace Matches.Presentation.Controllers;
 
@@ -103,6 +105,64 @@ public class StatesController : ApiController
 
         if (result.IsSuccess)
             return Ok(result.Value);
+
+        return HandleFailure(result);
+    }
+
+    /// <summary>
+    /// Update the state with index stateIndex from the match with id matchId.
+    /// </summary>
+    /// <param name="matchId">The id of the match to update the state from.</param>
+    /// <param name="stateIndex">The index of state in the match to update.</param>
+    /// <param name="cancellationToken"></param>
+    /// <param name="body"></param>
+    /// <response code="200">The state was updated successfully.</response>
+    /// <response code="404">Either the state or match does not exist.</response>
+    /// <response code="500">An unexpected error occurred while processing the request.</response>
+    [HttpPut]
+    [Route("/api/v1/matches/{matchId:int}/states/{stateIndex:int}")]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
+    [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateState(
+        [FromRoute] int matchId,
+        [FromRoute] int stateIndex,
+        [FromBody] UpdateStateRequestBody body,
+        CancellationToken cancellationToken)
+    {
+        var query = new UpdateStateCommand(matchId, stateIndex, body.Highlight);
+        var result = await Sender.Send(query, cancellationToken);
+
+        if (result.IsSuccess)
+            return Ok();
+
+        return HandleFailure(result);
+    }
+
+    /// <summary>
+    /// Update the latest state from the match with id matchId.
+    /// </summary>
+    /// <param name="matchId">The id of the match to update the state from.</param>
+    /// <param name="cancellationToken"></param>
+    /// <param name="body"></param>
+    /// <response code="200">The state was updated successfully.</response>
+    /// <response code="404">Either the state or match does not exist.</response>
+    /// <response code="500">An unexpected error occurred while processing the request.</response>
+    [HttpPut]
+    [Route("/api/v1/matches/{matchId:int}/states/latest")]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
+    [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateLatestState(
+        [FromRoute] int matchId,
+        [FromBody] UpdateStateRequestBody body,
+        CancellationToken cancellationToken)
+    {
+        var query = new UpdateLatestStateCommand(matchId, body.Highlight);
+        var result = await Sender.Send(query, cancellationToken);
+
+        if (result.IsSuccess)
+            return Ok();
 
         return HandleFailure(result);
     }

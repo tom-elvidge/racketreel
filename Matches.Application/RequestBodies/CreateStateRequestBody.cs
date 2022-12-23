@@ -16,7 +16,7 @@ public sealed class CreateStateRequestBody
     public override string ToString()
     {
         var sb = new StringBuilder();
-        sb.Append("class CreateStateCommand {\n");
+        sb.Append("class CreateStateRequestBody {\n");
         sb.Append("  Participant: ").Append(Participant).Append("\n");
         sb.Append("}\n");
         return sb.ToString();
