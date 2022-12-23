@@ -22,7 +22,8 @@ Matches.Infrastructure/wwwroot/*
 .openapi-generator/*
 build.bat
 build.sh
-Client/Dart/*
-!Client/Dart/CHANGELOG.md
-!Client/Dart/LICENSE
-!Client/Dart/.openapi-generator-ignore
+.travis.yml
+analysis_options.yaml
+git_push.sh
+pubspec.lock
+.gitignore
