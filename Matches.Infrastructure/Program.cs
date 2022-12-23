@@ -10,7 +10,6 @@ using Matches.Infrastructure;
 using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Infrastructure.Repositories;
 using Matches.Application.Behaviors;
-using Matches.Application.Services;
 
 string XmlCommentsPath(Assembly assembly)
 {
@@ -103,10 +102,6 @@ app.UseEndpoints(endpoints =>
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger(c =>
-    {
-        c.RouteTemplate = "openapi/{documentName}/openapi.json";
-    });
     app.UseSwaggerUI(c =>
     {
         // http://localhost:8080/openapi/index.html

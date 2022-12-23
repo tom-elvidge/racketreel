@@ -18,7 +18,7 @@ dist-ssr
 *.local
 
 # Generated code
-RacketReel.Matches.Generated.Server*
+Matches.Infrastructure/wwwroot/*
 .openapi-generator/*
 build.bat
 build.sh
