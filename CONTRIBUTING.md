@@ -48,7 +48,7 @@ Then run the `generate` command. This will use the configuration in `openapitool
 openapi-generator-cli generate
 ```
 
-Update `Dart/Client/CHANGELOG.md` with the new version.
+Update `Dart/Client/CHANGELOG.md` with the new version. Some adjustments may have to be made to the generated code to ensure it compiles.
 
 Publish the client.
 

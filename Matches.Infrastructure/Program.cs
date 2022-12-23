@@ -66,7 +66,7 @@ services.AddSwaggerGen(c =>
         License = new OpenApiLicense
         {
             Name = "NoLicense",
-            Url = new Uri("http://localhost")
+            Url = new Uri("https://localhost:5011")
         },
         Version = "0.3.0",
     });
