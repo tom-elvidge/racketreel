@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Domain.AggregatesModel.MatchAggregate.Formats;
+using Matches.Domain;
 
 namespace Matches.Application.DTOs;
 
@@ -127,7 +128,10 @@ public class Match
                 ? null
                 : matchEntity.States
                     .OrderBy(s => s.CreatedAtDateTime)
-                    .Select(s => State.Create(matchEntity, s))
+                    .Select(s => State.Create(
+                        matchEntity,
+                        s,
+                        Scorer.IsTiebreak(matchEntity.Format, s)))
                     .ToList(),
             Summary = null
         };

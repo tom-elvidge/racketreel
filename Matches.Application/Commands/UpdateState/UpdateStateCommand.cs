@@ -1,9 +1,10 @@
 using System.Text;
 using Matches.Application.Abstractions.Messaging;
+using Matches.Application.DTOs;
 
 namespace Matches.Application.Commands.UpdateState;
 
-public sealed class UpdateStateCommand : ICommand
+public sealed class UpdateStateCommand : ICommand<State>
 {
     public int MatchId { get; set; }
 

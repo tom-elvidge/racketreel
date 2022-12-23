@@ -35,6 +35,14 @@ public class State
     public IDictionary<string, ParticipantScore> Score { get; private set; }
 
     /// <summary>
+    /// A flag to mark the time from the previous state until this state as in a tiebreak.
+    /// </summary>
+    /// <value>A flag to mark the time from the previous state until this state as in a tiebreak.</value>
+    [Required]
+    [DataMember(Name="tiebreak", EmitDefaultValue=true)]
+    public bool Tiebreak { get; private set; }
+
+    /// <summary>
     /// A flag to mark the time from the previous state until this state as a highlight.
     /// </summary>
     /// <value>A flag to mark the time from the previous state until this state as a highlight.</value>
@@ -42,7 +50,7 @@ public class State
     [DataMember(Name="highlight", EmitDefaultValue=true)]
     public bool Highlight { get; private set; }
 
-    public static State Create(MatchEntity matchEntity, StateEntity stateEntity)
+    public static State Create(MatchEntity matchEntity, StateEntity stateEntity, bool tiebreak)
     {
         return new State
         {
@@ -53,6 +61,7 @@ public class State
                 { matchEntity.ParticipantOne.Name, new ParticipantScore(stateEntity.Score.P1Points, stateEntity.Score.P1Games, stateEntity.Score.P1Sets) },
                 { matchEntity.ParticipantTwo.Name, new ParticipantScore(stateEntity.Score.P2Points, stateEntity.Score.P2Games, stateEntity.Score.P2Sets) },
             },
+            Tiebreak = tiebreak,
             Highlight = stateEntity.Highlight
         };
     }

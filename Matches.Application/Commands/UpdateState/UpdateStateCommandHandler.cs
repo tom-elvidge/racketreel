@@ -5,10 +5,11 @@ using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Domain.SeedWork;
 using Matches.Application.DTOs;
 using Matches.Application.Errors;
+using Matches.Domain;
 
 namespace Matches.Application.Commands.UpdateState;
 
-public class UpdateStateCommandHandler : ICommandHandler<UpdateStateCommand>
+public class UpdateStateCommandHandler : ICommandHandler<UpdateStateCommand, State>
 {
     private readonly IMediator _mediator;
     private readonly ILogger<UpdateStateCommandHandler> _logger;
@@ -24,13 +25,13 @@ public class UpdateStateCommandHandler : ICommandHandler<UpdateStateCommand>
         _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
     }
 
-    public async Task<Result> Handle(UpdateStateCommand command, CancellationToken cancellationToken)
+    public async Task<Result<State>> Handle(UpdateStateCommand command, CancellationToken cancellationToken)
     {
         var matchEntity = await _matchRepository.GetAsync(command.MatchId, true);
         
         if (matchEntity == null)
         {
-            return Result.Failure(ApplicationErrors.NotFound);
+            return Result.Failure<State>(ApplicationErrors.NotFound);
         }
 
         StateEntity stateEntity = null;
@@ -45,12 +46,15 @@ public class UpdateStateCommandHandler : ICommandHandler<UpdateStateCommand>
 
         if (stateEntity == null)
         {
-            return Result.Failure(ApplicationErrors.NotFound);
+            return Result.Failure<State>(ApplicationErrors.NotFound);
         }
 
         stateEntity.Highlight = command.Highlight;
         await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         
-        return Result.Success();
+        return Result.Success<State>(State.Create(
+            matchEntity,
+            stateEntity,
+            Scorer.IsTiebreak(matchEntity.Format, stateEntity)));
     }
 }
