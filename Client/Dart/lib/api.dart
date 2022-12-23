@@ -12,7 +12,6 @@ library racketreel.matches;
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:html';
 import 'dart:io';
 
 import 'package:http/http.dart';
