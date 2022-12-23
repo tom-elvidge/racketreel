@@ -33,7 +33,7 @@ public sealed class MatchSummary
     /// <value>The summary of the score for each set. Represented as a mapping from the set index (0, 1, 2, etc) to the summary of that set.</value>
     [Required]
     [DataMember(Name="sets", EmitDefaultValue=false)]
-    public Dictionary<string, SetSummary> Sets { get; set; } = new Dictionary<string, SetSummary>();
+    public Dictionary<int, SetSummary> Sets { get; set; } = new Dictionary<int, SetSummary>();
 
     /// <summary>
     /// Returns the string presentation of the object

@@ -41,7 +41,7 @@ public class SetSummary
     /// <value>The summary of the score of the set for each player. Represented as a mapping from the name of each player to the summary for that player.</value>
     [Required]
     [DataMember(Name="score", EmitDefaultValue=false)]
-    public Dictionary<string, PlayerSetSummary> Score { get; set; } = new Dictionary<string, PlayerSetSummary>();
+    public Dictionary<string, ParticipantSetSummary> Score { get; set; } = new Dictionary<string, ParticipantSetSummary>();
 
     /// <summary>
     /// Returns the string presentation of the object

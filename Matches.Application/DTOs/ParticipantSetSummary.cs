@@ -9,7 +9,7 @@ namespace Matches.Application.DTOs;
 /// Data Transfer Object for describing the summary of a set from a single player for a completed match.
 /// </summary>
 [DataContract]
-public class PlayerSetSummary
+public class ParticipantSetSummary
 {
     /// <summary>
     /// The number of games won by the player in this set.
