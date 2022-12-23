@@ -22,9 +22,7 @@ Matches.Infrastructure/wwwroot/*
 .openapi-generator/*
 build.bat
 build.sh
-Client/Dart/.gitignore
-Client/Dart/.openapi-generator/*
-Client/Dart/.travis.yml
-Client/Dart/analysis_options.yaml
-Client/Dart/git_push.sh
-Client/Dart/openapitools.json
+Client/Dart/*
+!Client/Dart/CHANGELOG.md
+!Client/Dart/LICENSE
+!Client/Dart/.openapi-generator-ignore

@@ -68,7 +68,7 @@ services.AddSwaggerGen(c =>
             Name = "NoLicense",
             Url = new Uri("http://localhost")
         },
-        Version = "0.2.2",
+        Version = "0.3.0",
     });
 
     // adds documentation for the controllers and DTOs
@@ -104,7 +104,6 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     app.UseSwaggerUI(c =>
     {
-        // http://localhost:8080/openapi/index.html
         c.RoutePrefix = "openapi";
         c.SwaggerEndpoint("/openapi/v1/openapi.json", "v1");
     });
