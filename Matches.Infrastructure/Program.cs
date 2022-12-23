@@ -89,7 +89,6 @@ services.AddCors(options =>
 
 var app = builder.Build();
 app.UseCors(AllOrigins);
-app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseHsts();
