@@ -8,6 +8,7 @@ using Matches.Application.Queries.GetStateByIndex;
 using Matches.Application.Queries.GetLatestState;
 using Matches.Application.Commands.UpdateState;
 using Matches.Application.Commands.UpdateLatestState;
+using Matches.Application.Commands.DeleteLatestState;
 
 namespace Matches.Presentation.Controllers;
 
@@ -163,6 +164,41 @@ public class StatesController : ApiController
 
         if (result.IsSuccess)
             return Ok();
+
+        return HandleFailure(result);
+    }
+
+    /// <summary>
+    /// Delete the latest state from the match with id matchId.
+    /// </summary>
+    /// <param name="matchId">The id of the match to update the state from.</param>
+    /// <param name="cancellationToken"></param>
+    /// <response code="200">The state was updated successfully.</response>
+    /// <response code="404">Either the state or match does not exist.</response>
+    /// <response code="500">An unexpected error occurred while processing the request.</response>
+    [HttpDelete]
+    [Route("/api/v1/matches/{matchId:int}/states/latest")]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
+    [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteLatestState(
+        [FromRoute] int matchId,
+        CancellationToken cancellationToken)
+    {
+        var command = new DeleteLatestStateCommand(matchId);
+        var result = await Sender.Send(command, cancellationToken);
+
+        if (result.IsSuccess)
+            return Ok();
+
+        if (result.Error == ApplicationErrors.DeleteInitialState)
+        {
+            return Conflict(
+                CreateProblemDetails(
+                    StatusCodes.Status409Conflict,
+                    result.Error
+                ));
+        }
 
         return HandleFailure(result);
     }
