@@ -30,3 +30,7 @@ Refactor totalPages to pageCount.
 - Refactored player to participant
 - Changed format to a string preset rather than configuration fields
 - Added order field for get matches for completed at date time
+
+## [0.3.1] - 2022-12-23
+
+- Updating a state includes the updated state in the response
