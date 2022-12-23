@@ -4,6 +4,8 @@ using MediatR;
 using Matches.Application.Commands.CreateState;
 using Matches.Application.RequestBodies;
 using Matches.Application.Errors;
+using Matches.Application.Queries.GetStateByIndex;
+using Matches.Application.Queries.GetLatestState;
 
 namespace Matches.Presentation.Controllers;
 
@@ -52,6 +54,55 @@ public class StatesController : ApiController
                     result.Error
                 ));
         }
+
+        return HandleFailure(result);
+    }
+
+    /// <summary>
+    /// Get the state with index stateIndex from the match with id matchId.
+    /// </summary>
+    /// <param name="matchId">The id of the match to get the state from.</param>
+    /// <param name="stateIndex">The index of state in the match to get.</param>
+    /// <param name="cancellationToken"></param>
+    /// <response code="200">The requested state.</response>
+    /// <response code="404">Either the state or match does not exist.</response>
+    /// <response code="500">An unexpected error occurred while processing the request.</response>
+    [HttpGet]
+    [Route("/api/v1/matches/{matchId:int}/states/{stateIndex:int}")]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
+    [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetState([FromRoute] int matchId, [FromRoute] int stateIndex, CancellationToken cancellationToken)
+    {
+        var query = new GetStateByIndexQuery(matchId, stateIndex);
+        var result = await Sender.Send(query, cancellationToken);
+
+        if (result.IsSuccess)
+            return Ok(result.Value);
+
+        return HandleFailure(result);
+    }
+
+    /// <summary>
+    /// Get the latest state from the match with id matchId.
+    /// </summary>
+    /// <param name="matchId">The id of the match to get the latest state from.</param>
+    /// <param name="cancellationToken"></param>
+    /// <response code="200">The requested state.</response>
+    /// <response code="404">The match with id does not exist.</response>
+    /// <response code="500">An unexpected error occurred while processing the request.</response>
+    [HttpGet]
+    [Route("/api/v1/matches/{matchId:int}/states/latest")]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
+    [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetLatestState([FromRoute] int matchId, CancellationToken cancellationToken)
+    {
+        var query = new GetLatestStateQuery(matchId);
+        var result = await Sender.Send(query, cancellationToken);
+
+        if (result.IsSuccess)
+            return Ok(result.Value);
 
         return HandleFailure(result);
     }

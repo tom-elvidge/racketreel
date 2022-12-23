@@ -27,8 +27,8 @@ public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, Mat
 
     public async Task<Result<Match>> Handle(CreateMatchCommand command, CancellationToken cancellationToken)
     {
-        var playerOne = command.Players[0];
-        var playerTwo = command.Players[1];
+        var playerOne = command.Participants[0];
+        var playerTwo = command.Participants[1];
         var servingFirst = command.ServingFirst == playerOne ? ParticipantEnum.One : ParticipantEnum.Two;
 
         var match = MatchEntity.Create(

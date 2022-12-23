@@ -6,7 +6,7 @@ using Matches.Domain.SeedWork;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Matches.Application.Queries.GetMatchesQuery;
+namespace Matches.Application.Queries.GetMatches;
 
 public class GetMatchesQueryHandler : IQueryHandler<GetMatchesQuery, Paginated<Match>>
 {

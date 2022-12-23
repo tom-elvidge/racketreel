@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Matches.Application.Queries.GetMatchesQuery;
+namespace Matches.Application.Queries.GetMatches;
 
 internal class GetMatchesQueryValidator : AbstractValidator<GetMatchesQuery>
 {

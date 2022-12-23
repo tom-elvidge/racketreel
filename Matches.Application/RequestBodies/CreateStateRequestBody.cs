@@ -3,7 +3,7 @@ using System.Text;
 namespace Matches.Application.RequestBodies;
 
 /// <summary>
-/// The  body for HTTP requests to create a new state in a match.
+/// The body for HTTP requests to create a new state in a match.
 /// </summary>
 public sealed class CreateStateRequestBody
 {
