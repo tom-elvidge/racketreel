@@ -72,7 +72,7 @@ public class StatesController : ApiController
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpGet]
     [Route("/api/v1/matches/{matchId:int}/states/{stateIndex:int}")]
-    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(State))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetState([FromRoute] int matchId, [FromRoute] int stateIndex, CancellationToken cancellationToken)
@@ -96,7 +96,7 @@ public class StatesController : ApiController
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpGet]
     [Route("/api/v1/matches/{matchId:int}/states/latest")]
-    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(State))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetLatestState([FromRoute] int matchId, CancellationToken cancellationToken)
@@ -122,7 +122,7 @@ public class StatesController : ApiController
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpPut]
     [Route("/api/v1/matches/{matchId:int}/states/{stateIndex:int}")]
-    [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(State))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateState(
@@ -151,7 +151,7 @@ public class StatesController : ApiController
     /// <response code="500">An unexpected error occurred while processing the request.</response>
     [HttpPut]
     [Route("/api/v1/matches/{matchId:int}/states/latest")]
-    [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(State))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateLatestState(

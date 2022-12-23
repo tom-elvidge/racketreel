@@ -3,11 +3,10 @@ using Matches.Application.Abstractions.Messaging;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Matches.Domain.AggregatesModel.MatchAggregate;
-using Matches.Domain.AggregatesModel.MatchAggregate.Formats;
-using Matches.Domain.AggregatesModel.MatchAggregate.Participants;
 using Matches.Domain.SeedWork;
 using Matches.Application.Errors;
 using Matches.Domain.Exceptions;
+using Matches.Domain;
 
 namespace Matches.Application.Commands.CreateState;
 
@@ -62,7 +61,10 @@ public class CreateStateCommandHandler : ICommandHandler<CreateStateCommand, Tup
         var index = matchEntity.States.Count();
         
         return Result.Success<Tuple<State, int>>(new Tuple<State, int>(
-            State.Create(matchEntity, stateEntity),
+            State.Create(
+                matchEntity,
+                stateEntity,
+                Scorer.IsTiebreak(matchEntity.Format, stateEntity)),
             index));
     }
 }

@@ -4,10 +4,12 @@ using Microsoft.Extensions.Logging;
 using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Domain.SeedWork;
 using Matches.Application.Errors;
+using Matches.Application.DTOs;
+using Matches.Domain;
 
 namespace Matches.Application.Commands.UpdateLatestState;
 
-public class UpdateLatestStateCommandHandler : ICommandHandler<UpdateLatestStateCommand>
+public class UpdateLatestStateCommandHandler : ICommandHandler<UpdateLatestStateCommand, State>
 {
     private readonly IMediator _mediator;
     private readonly ILogger<UpdateLatestStateCommandHandler> _logger;
@@ -23,13 +25,13 @@ public class UpdateLatestStateCommandHandler : ICommandHandler<UpdateLatestState
         _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
     }
 
-    public async Task<Result> Handle(UpdateLatestStateCommand command, CancellationToken cancellationToken)
+    public async Task<Result<State>> Handle(UpdateLatestStateCommand command, CancellationToken cancellationToken)
     {
         var matchEntity = await _matchRepository.GetAsync(command.MatchId, true);
         
         if (matchEntity == null)
         {
-            return Result.Failure(ApplicationErrors.NotFound);
+            return Result.Failure<State>(ApplicationErrors.NotFound);
         }
 
         var stateEntity = matchEntity.States
@@ -38,12 +40,15 @@ public class UpdateLatestStateCommandHandler : ICommandHandler<UpdateLatestState
 
         if (stateEntity == null)
         {
-            return Result.Failure(ApplicationErrors.NotFound);
+            return Result.Failure<State>(ApplicationErrors.NotFound);
         }
 
         stateEntity.Highlight = command.Highlight;
         await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         
-        return Result.Success();
+        return Result.Success<State>(State.Create(
+            matchEntity,
+            stateEntity,
+            Scorer.IsTiebreak(matchEntity.Format, stateEntity)));
     }
 }

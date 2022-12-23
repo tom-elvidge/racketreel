@@ -1,6 +1,7 @@
 using Matches.Application.Abstractions.Messaging;
 using Matches.Application.DTOs;
 using Matches.Application.Errors;
+using Matches.Domain;
 using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Domain.SeedWork;
 using MediatR;
@@ -42,6 +43,9 @@ public class GetLatestStateQueryHandler : IQueryHandler<GetLatestStateQuery, Sta
             return Result.Failure<State>(ApplicationErrors.NotFound);
         }
 
-        return Result.Success<State>(State.Create(matchEntity, stateEntity));
+        return Result.Success<State>(State.Create(
+            matchEntity,
+            stateEntity,
+            Scorer.IsTiebreak(matchEntity.Format, stateEntity)));
     }
 }

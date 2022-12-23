@@ -8,7 +8,7 @@
       "dart-client": {
         "generatorName": "dart",
         "output": "Client/Dart",
-        "glob": "matches.oas3.json",
+        "glob": "Matches.Infrastructure/wwwroot/openapi/v1/openapi.json",
         "additionalProperties": {
           "pubAuthor": "Tom Elvidge",
           "pubAuthorEmail": "tom@racketreel.com",
@@ -16,7 +16,7 @@
           "pubHomepage": "https://www.racketreel.com",
           "pubLibrary": "racketreel.matches",
           "pubName": "racket_reel_matches",
-          "pubVersion": "0.2.2"
+          "pubVersion": "0.3.0"
         }
       }
     }

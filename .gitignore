@@ -18,13 +18,12 @@ dist-ssr
 *.local
 
 # Generated code
-RacketReel.Matches.Generated.Server*
+Matches.Infrastructure/wwwroot/*
 .openapi-generator/*
 build.bat
 build.sh
-Client/Dart/.gitignore
-Client/Dart/.openapi-generator/*
-Client/Dart/.travis.yml
-Client/Dart/analysis_options.yaml
-Client/Dart/git_push.sh
-Client/Dart/openapitools.json
+.travis.yml
+analysis_options.yaml
+git_push.sh
+pubspec.lock
+.gitignore

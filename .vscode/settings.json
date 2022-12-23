@@ -1,6 +1,7 @@
 {
     "dotnet-test-explorer.testProjectPath": "**/*Tests.@(csproj|vbproj|fsproj)",
     "cSpell.words": [
+        "appsettings",
         "ASPNETCORE",
         "azuretools",
         "Bloggs",
@@ -15,7 +16,9 @@
         "openapi",
         "racketreel",
         "stateseq",
+        "Swashbuckle",
         "tomelvidge",
+        "wwwroot",
         "Xunit",
         "yzhang"
     ],

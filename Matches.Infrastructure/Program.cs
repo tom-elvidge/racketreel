@@ -10,7 +10,6 @@ using Matches.Infrastructure;
 using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Infrastructure.Repositories;
 using Matches.Application.Behaviors;
-using Matches.Application.Services;
 
 string XmlCommentsPath(Assembly assembly)
 {
@@ -67,9 +66,9 @@ services.AddSwaggerGen(c =>
         License = new OpenApiLicense
         {
             Name = "NoLicense",
-            Url = new Uri("http://localhost")
+            Url = new Uri("https://localhost:5011")
         },
-        Version = "0.2.2",
+        Version = "0.3.0",
     });
 
     // adds documentation for the controllers and DTOs
@@ -90,7 +89,6 @@ services.AddCors(options =>
 
 var app = builder.Build();
 app.UseCors(AllOrigins);
-app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseHsts();
@@ -103,13 +101,8 @@ app.UseEndpoints(endpoints =>
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger(c =>
-    {
-        c.RouteTemplate = "openapi/{documentName}/openapi.json";
-    });
     app.UseSwaggerUI(c =>
     {
-        // http://localhost:8080/openapi/index.html
         c.RoutePrefix = "openapi";
         c.SwaggerEndpoint("/openapi/v1/openapi.json", "v1");
     });
