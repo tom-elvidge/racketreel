@@ -1,6 +1,7 @@
 using Matches.Application.Abstractions.Messaging;
 using Matches.Application.DTOs;
 using Matches.Application.Errors;
+using Matches.Application.Services;
 using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Domain.SeedWork;
 using MediatR;
@@ -29,8 +30,14 @@ public class GetMatchesQueryHandler : IQueryHandler<GetMatchesQuery, Paginated<M
         Tuple<IEnumerable<MatchEntity>, int> result;
         try
         { 
-            result = await _matchRepository.GetAsync(query.PageNumber, query.PageSize, query.OrderBy ?? MatchesOrderByEnum.CreatedAt, false);
-        } catch (ArgumentException)
+            result = await _matchRepository.GetAsync(
+                query.PageNumber,
+                query.PageSize,
+                query.OrderBy ?? MatchesOrderByEnum.CreatedAt,
+                // need the states to compute the summary if getting completed match
+                query.OrderBy == MatchesOrderByEnum.CompletedAt ? true : false);
+        }
+        catch (ArgumentException)
         {
             return Result.Failure<Paginated<Match>>(ApplicationErrors.NotFound);
         }
@@ -43,7 +50,14 @@ public class GetMatchesQueryHandler : IQueryHandler<GetMatchesQuery, Paginated<M
             PageSize = query.PageSize,
             PageNumber = query.PageNumber,
             PageCount = totalPages,
-            Data = matchEntities.Select(m => Match.Create(m)).ToList()
+            Data = matchEntities.Select(matchEntity =>
+                {
+                    var match = Match.Create(matchEntity);
+                    if (query.OrderBy == MatchesOrderByEnum.CompletedAt && matchEntity.IsComplete())
+                        match.Summary = SummaryService.ComputeMatchSummary(matchEntity);
+                    match.States = null;
+                    return match;
+                }).ToList()
         });
     }
 }

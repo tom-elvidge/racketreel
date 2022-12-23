@@ -2,7 +2,6 @@ using System.Reflection;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using MediatR;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +10,7 @@ using Matches.Infrastructure;
 using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Infrastructure.Repositories;
 using Matches.Application.Behaviors;
+using Matches.Application.Services;
 
 string XmlCommentsPath(Assembly assembly)
 {

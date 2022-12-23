@@ -35,8 +35,8 @@ public class StatesController : ApiController
     [Consumes("application/json")]
     [ProducesResponseType(statusCode: StatusCodes.Status201Created, type: typeof(State))]
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound)]
-    [ProducesResponseType(statusCode: StatusCodes.Status409Conflict)]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
+    [ProducesResponseType(statusCode: StatusCodes.Status409Conflict, type: typeof(ProblemDetails))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreateState(
         [FromRoute] int matchId,
@@ -73,7 +73,7 @@ public class StatesController : ApiController
     [HttpGet]
     [Route("/api/v1/matches/{matchId:int}/states/{stateIndex:int}")]
     [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
-    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetState([FromRoute] int matchId, [FromRoute] int stateIndex, CancellationToken cancellationToken)
     {
@@ -97,7 +97,7 @@ public class StatesController : ApiController
     [HttpGet]
     [Route("/api/v1/matches/{matchId:int}/states/latest")]
     [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
-    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetLatestState([FromRoute] int matchId, CancellationToken cancellationToken)
     {
@@ -123,7 +123,7 @@ public class StatesController : ApiController
     [HttpPut]
     [Route("/api/v1/matches/{matchId:int}/states/{stateIndex:int}")]
     [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
-    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateState(
         [FromRoute] int matchId,
@@ -152,7 +152,7 @@ public class StatesController : ApiController
     [HttpPut]
     [Route("/api/v1/matches/{matchId:int}/states/latest")]
     [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
-    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateLatestState(
         [FromRoute] int matchId,
@@ -179,7 +179,8 @@ public class StatesController : ApiController
     [HttpDelete]
     [Route("/api/v1/matches/{matchId:int}/states/latest")]
     [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
-    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
+    [ProducesResponseType(statusCode: StatusCodes.Status409Conflict, type: typeof(ProblemDetails))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteLatestState(
         [FromRoute] int matchId,

@@ -1,6 +1,7 @@
 using Matches.Application.Abstractions.Messaging;
 using Matches.Application.DTOs;
 using Matches.Application.Errors;
+using Matches.Application.Services;
 using Matches.Domain.AggregatesModel.MatchAggregate;
 using Matches.Domain.SeedWork;
 using MediatR;
@@ -29,10 +30,13 @@ public sealed class GetMatchByIdQueryHandler : IQueryHandler<GetMatchByIdQuery, 
         var matchEntity = await _matchRepository.GetAsync(query.MatchId, true);
         
         if (matchEntity == null)
-        {
             return Result.Failure<Match>(ApplicationErrors.NotFound);
-        }
 
-        return Result.Success<Match>(Match.Create(matchEntity));
+        var match = Match.Create(matchEntity);
+
+        if (matchEntity.IsComplete())
+            match.Summary = SummaryService.ComputeMatchSummary(matchEntity);
+
+        return Result.Success<Match>(match);
     }
 }
