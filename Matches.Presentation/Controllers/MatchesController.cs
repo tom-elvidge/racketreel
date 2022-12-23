@@ -3,7 +3,7 @@ using Matches.Application.DTOs;
 using Matches.Application.Commands.CreateMatch;
 using MediatR;
 using Matches.Domain.AggregatesModel.MatchAggregate;
-using Matches.Application.Queries.GetMatchesQuery;
+using Matches.Application.Queries.GetMatches;
 using Matches.Application.Queries.GetMatchById;
 
 namespace Matches.Presentation.Controllers;
@@ -18,7 +18,7 @@ public class MatchesController : ApiController
     /// <summary>
     /// Create a new match from a configuration.
     /// </summary>
-    /// <param name="command">Configuration defining the participants and rules of the match.</param>
+    /// <param name="body">Configuration defining the participants and rules of the match.</param>
     /// <param name="cancellationToken"></param>
     /// <response code="201">Successfully created a match with the requested configuration.</response>
     /// <response code="400">The is something wrong with the requested configuration.</response>
@@ -29,8 +29,9 @@ public class MatchesController : ApiController
     [ProducesResponseType(statusCode: StatusCodes.Status201Created, type: typeof(Match))]
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(Messages))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateMatch([FromBody] CreateMatchCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateMatch([FromBody] CreateMatchRequestBody body, CancellationToken cancellationToken)
     {
+        var command = new CreateMatchCommand(body.Participants, body.ServingFirst, body.Format);
         var result = await Sender.Send(command, cancellationToken);
 
         if (result.IsSuccess)
@@ -77,6 +78,7 @@ public class MatchesController : ApiController
     /// <param name="pageSize">The maximum number of matches to include on a page.</param>
     /// <param name="pageNumber">The page of matches to get.</param>
     /// <param name="orderBy">How to order the collection of matches.</param>
+    /// <param name="cancellationToken"></param>
     /// <response code="200">The requested page of matches.</response>
     /// <response code="400">The was something wrong with the request.</response>
     /// <response code="404">The requested page of matches does not exist.</response>
@@ -90,8 +92,8 @@ public class MatchesController : ApiController
     public Task<IActionResult> GetMatchesSummary(
         [FromQuery (Name = "pageSize")] int? pageSize,
         [FromQuery (Name = "pageNumber")] int? pageNumber,
-        [FromQuery (Name = "orderBy")] MatchesOrderByEnum? orderBy
-    )
+        [FromQuery (Name = "orderBy")] MatchesOrderByEnum? orderBy,
+        CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
@@ -100,6 +102,7 @@ public class MatchesController : ApiController
     /// Get the match with id.
     /// </summary>
     /// <param name="matchId">The id of the match to get.</param>
+    /// <param name="cancellationToken"></param>
     /// <response code="200">The match with id.</response>
     /// <response code="404">The match with id does not exist.</response>
     /// <response code="500">An unexpected error occurred while processing the request.</response>
@@ -108,10 +111,10 @@ public class MatchesController : ApiController
     [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Match))]
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetMatch([FromRoute] int matchId)
+    public async Task<IActionResult> GetMatch([FromRoute] int matchId, CancellationToken cancellationToken)
     {
         var query = new GetMatchByIdQuery(matchId);
-        var result = await Sender.Send(query);
+        var result = await Sender.Send(query, cancellationToken);
 
         if (result.IsSuccess)
             return Ok(result.Value);
@@ -123,6 +126,7 @@ public class MatchesController : ApiController
     /// Get the summary of the match with id. The match must have been completed to have a summary.
     /// </summary>
     /// <param name="matchId">The id of the match to get the summary of.</param>
+    /// <param name="cancellationToken"></param>
     /// <response code="200">The summary of the match with id.</response>
     /// <response code="404">The match with id does not exist.</response>
     /// <response code="405">Not allowed because the match with id has not been completed.</response>
@@ -133,7 +137,7 @@ public class MatchesController : ApiController
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status405MethodNotAllowed, type: typeof(Message))]
     [ProducesResponseType(statusCode: StatusCodes.Status500InternalServerError)]
-    public Task<IActionResult> GetMatchSummary([FromRoute] int matchId)
+    public Task<IActionResult> GetMatchSummary([FromRoute] int matchId, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
