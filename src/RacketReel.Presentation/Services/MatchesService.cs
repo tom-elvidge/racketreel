@@ -1,6 +1,6 @@
 using Grpc.Core;
 
-namespace RacketReel.gRPC.Services;
+namespace RacketReel.Presentation.Services;
 
 public class MatchesService : Matches.MatchesBase
 {

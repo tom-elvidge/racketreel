@@ -1,4 +1,4 @@
-using RacketReel.gRPC.Services;
+using RacketReel.Presentation.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();

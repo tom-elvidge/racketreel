@@ -27,3 +27,8 @@ analysis_options.yaml
 git_push.sh
 pubspec.lock
 .gitignore
+
+.dart_tool/
+pubspec.lock
+
+.idea/

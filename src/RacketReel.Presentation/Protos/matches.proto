@@ -3,7 +3,7 @@ syntax = "proto3";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
-option csharp_namespace = "RacketReel.gRPC";
+option csharp_namespace = "RacketReel.Presentation";
 
 package RacketReel;
 

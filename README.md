@@ -93,3 +93,21 @@ See the OpenAPI specification for more examples.
 - Add authorization so users can only add or delete states from their own matches
 - Create a websocket service for listening to updates to a match
 - Create bot which ensures there is always a demo match in progress with regular updates (random cron job az func to update score)
+
+### Generating gRPC from protobuf
+
+#### Client
+
+Follow the [quick start guide](https://grpc.io/docs/languages/dart/quickstart/) for gRPC in Dart.
+
+Run the generator with `protoc` from the root of this repository.
+
+```sh
+protoc -I src/RacketReel.Presentation/Protos src/RacketReel.Presentation/Protos/matches.proto --dart_out=grpc:src/racketreel_client/generated
+```
+
+For more information see the [basics tutorial](https://grpc.io/docs/languages/dart/basics/) for gRPC in Dart.
+
+#### Server
+
+The server stubs are generated during the build of `RacketReel.Presentation`. For troubleshooting check the build output.
