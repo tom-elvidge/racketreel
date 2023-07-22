@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "RacketReel.gRPC";
+
+package RacketReel;
+
+service Matches {
+  // Get the summary of a completed match
+  rpc GetSummary (GetSummaryRequest) returns (GetSummaryReply);
+  
+  // Get a page of summaries of completed matches
+  rpc GetSummaries (GetSummariesRequest) returns (GetSummariesReply);
+  
+  // Get the current state of an in-progress match
+  rpc GetState (GetStateRequest) returns (GetStateReply);
+  
+  // Get the state of a match at a specific point in time using the version
+  rpc GetStateAtVersion (GetStateAtVersionRequest) returns (GetStateReply);
+
+  // Create a new match and configure it
+  rpc Configure (ConfigureRequest) returns (ConfigureReply);
+  
+  // Update the match by adding a point for team one
+  rpc AddTeamOnePoint (PointRequest) returns (PointReply);
+  
+  // Update the match by adding a point for team two
+  rpc AddTeamTwoPoint (PointRequest) returns (PointReply);
+  
+  // Update the match by removing the last point which was added
+  rpc UndoPoint (PointRequest) returns (PointReply);
+}
+
+message ConfigureRequest {
+  Format format = 1;
+  Team serving_first = 2;
+  PlayerCount player_count = 3;
+  string team_one_player_one_name = 4;
+  optional string team_one_player_two_name = 5;
+  string team_two_player_one_name = 6;
+  optional string team_two_player_two_name = 7;
+}
+
+enum Format {
+  BEST_OF_ONE = 0;
+  TIEBREAK_TO_TEN = 1;
+  BEST_OF_THREE = 2;
+  BEST_OF_THREE_FST = 3;
+  BEST_OF_FIVE = 4;
+  BEST_OF_FIVE_FST = 5;
+  FAST4 = 6;
+}
+
+enum Team {
+  TEAM_ONE = 0;
+  TEAM_TWO = 1;
+}
+
+enum PlayerCount {
+  SINGLES = 0;
+  DOUBLES = 1;
+}
+
+enum ConfigureError {
+  MISSING_PLAYER_TWO_NAMES = 0;
+}
+
+message ConfigureReply {
+  bool success = 1;
+  optional ConfigureError error = 2;
+  optional string match_id = 3;
+}
+
+message PointRequest {}
+
+enum PointError {
+  POINT_UNKNOWN = 0;
+  POINT_DOES_NOT_EXIST = 1;
+  POINT_PLAYERS_NOT_SET = 2;
+  POINT_IS_COMPLETE = 3;
+  POINT_NOTHING_TO_UNDO = 4;
+}
+
+message PointReply {
+  bool success = 1;
+  optional PointError error = 2;
+}
+
+message GetSummaryRequest {
+  int32 match_id = 1;
+}
+
+message GetSummaryReply {
+  bool success = 1;
+  optional GetSummaryError error = 2;
+  optional Summary summary = 3;
+}
+
+enum GetSummaryError { 
+  GET_SUMMARY_MATCH_DOES_NOT_EXIST = 0;
+  GET_SUMMARY_UNKNOWN = 1;
+}
+
+message Summary {
+  int32 match_id = 1;
+  google.protobuf.Timestamp started_at_utc = 2;
+  google.protobuf.Timestamp completed_at_utc = 3;
+  google.protobuf.Duration duration = 4;
+  Format format = 5;
+  Team serving_first = 6;
+  SetSummary set_one = 7;
+  optional SetSummary set_two = 8;
+  optional SetSummary set_three = 9;
+  optional SetSummary set_four = 10;
+  optional SetSummary set_five = 11;
+}
+
+message SetSummary {
+  int32 team_one_games = 1;
+  int32 team_two_games = 2;
+  bool tiebreak = 3;
+  optional int32 team_one_tiebreak_points = 4;
+  optional int32 team_two_tiebreak_points = 5;
+}
+
+message GetSummariesRequest {
+  int32 page_size = 1;
+  int32 page_number = 2;
+}
+
+message GetSummariesReply {
+  bool success = 1;
+  int32 page_count = 2;
+  repeated Summary summaries = 3;
+}
+
+message GetStateRequest {
+  int32 match_id = 1;
+}
+
+message GetStateReply {
+  bool success = 1;
+  optional State state = 2;
+}
+
+message State {
+  int32 version = 1;
+  google.protobuf.Timestamp created_at_utc = 2;
+  Team serving = 3;
+  bool highlighted = 4;
+  string player_one_name = 5;
+  string player_two_name = 6;
+  string team_one_points = 7;
+  string team_two_points = 8;
+  string team_one_games = 9;
+  string team_two_games = 10;
+  string team_one_sets = 11;
+  string team_two_sets = 12;
+}
+
+message GetStateAtVersionRequest {
+  int32 match_id = 1;
+  int32 version = 2;
+}
