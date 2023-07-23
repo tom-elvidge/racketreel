@@ -1,0 +1,719 @@
+openapi: 3.0.1
+info:
+  title: Racket Reel Matches
+  description: A web services for configuring and scoring tennis matches.
+  termsOfService: https://github.com/tom-elvidge/racketreel-matches
+  contact:
+    name: Tom Elvidge
+    url: https://github.com/tom-elvidge
+    email: tom@racketreel.com
+  license:
+    name: NoLicense
+    url: https://localhost:5011
+  version: 0.3.0
+paths:
+  /api/v1/matches:
+    post:
+      tags:
+        - Matches
+      summary: Create a new match from a configuration.
+      requestBody:
+        description: Configuration defining the participants and rules of the match.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMatchRequestBody'
+      responses:
+        '201':
+          description: Successfully created a match with the requested configuration.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Match'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+        '400':
+          description: The is something wrong with the requested configuration.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: An unexpected error occurred while processing the request.
+    get:
+      tags:
+        - Matches
+      summary: Get a page of matches from the collection of all ordered matches.
+      parameters:
+        - name: pageSize
+          in: query
+          description: The maximum number of matches to include on a page.
+          schema:
+            type: integer
+            format: int32
+        - name: pageNumber
+          in: query
+          description: The page of matches to get.
+          schema:
+            type: integer
+            format: int32
+        - name: orderBy
+          in: query
+          description: How to order the collection of matches.
+          schema:
+            $ref: '#/components/schemas/MatchesOrderByEnum'
+      responses:
+        '200':
+          description: The requested page of matches.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/MatchPaginated'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchPaginated'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MatchPaginated'
+        '400':
+          description: The was something wrong with the request.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: The requested page of matches does not exist.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: An unexpected error occurred while processing the request.
+  '/api/v1/matches/{matchId}':
+    get:
+      tags:
+        - Matches
+      summary: Get the match with id.
+      parameters:
+        - name: matchId
+          in: path
+          description: The id of the match to get.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: The match with id.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Match'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+        '404':
+          description: The match with id does not exist.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: An unexpected error occurred while processing the request.
+  '/api/v1/matches/{matchId}/states':
+    post:
+      tags:
+        - States
+      summary: Create a new match state when a participant scores a point.
+      parameters:
+        - name: matchId
+          in: path
+          description: The id of the match to create a state for.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: The request body which should specify the participant which scored the point.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStateRequestBody'
+      responses:
+        '201':
+          description: Successfully created a new state in the match.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/State'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/State'
+        '400':
+          description: There is something wrong with the request.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: The match with id does not exist.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: The match has been completed so no new states can be added.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: An unexpected error occurred while processing the request.
+  '/api/v1/matches/{matchId}/states/{stateIndex}':
+    get:
+      tags:
+        - States
+      summary: Get the state with index stateIndex from the match with id matchId.
+      parameters:
+        - name: matchId
+          in: path
+          description: The id of the match to get the state from.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: stateIndex
+          in: path
+          description: The index of state in the match to get.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: The requested state.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/State'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/State'
+        '404':
+          description: Either the state or match does not exist.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: An unexpected error occurred while processing the request.
+    put:
+      tags:
+        - States
+      summary: Update the state with index stateIndex from the match with id matchId.
+      parameters:
+        - name: matchId
+          in: path
+          description: The id of the match to update the state from.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: stateIndex
+          in: path
+          description: The index of state in the match to update.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: ''
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/UpdateStateRequestBody'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStateRequestBody'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStateRequestBody'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UpdateStateRequestBody'
+      responses:
+        '200':
+          description: The state was updated successfully.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/State'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/State'
+        '404':
+          description: Either the state or match does not exist.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: An unexpected error occurred while processing the request.
+  '/api/v1/matches/{matchId}/states/latest':
+    get:
+      tags:
+        - States
+      summary: Get the latest state from the match with id matchId.
+      parameters:
+        - name: matchId
+          in: path
+          description: The id of the match to get the latest state from.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: The requested state.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/State'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/State'
+        '404':
+          description: The match with id does not exist.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: An unexpected error occurred while processing the request.
+    put:
+      tags:
+        - States
+      summary: Update the latest state from the match with id matchId.
+      parameters:
+        - name: matchId
+          in: path
+          description: The id of the match to update the state from.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: ''
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/UpdateStateRequestBody'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStateRequestBody'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStateRequestBody'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UpdateStateRequestBody'
+      responses:
+        '200':
+          description: The state was updated successfully.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/State'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/State'
+        '404':
+          description: Either the state or match does not exist.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: An unexpected error occurred while processing the request.
+    delete:
+      tags:
+        - States
+      summary: Delete the latest state from the match with id matchId.
+      parameters:
+        - name: matchId
+          in: path
+          description: The id of the match to update the state from.
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: The state was updated successfully.
+        '404':
+          description: Either the state or match does not exist.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Conflict
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: An unexpected error occurred while processing the request.
+components:
+  schemas:
+    CreateMatchRequestBody:
+      type: object
+      properties:
+        participants:
+          type: array
+          items:
+            type: string
+          description: The list of participants of this match.
+          nullable: true
+        servingFirst:
+          type: string
+          description: The player who is serving first.
+          nullable: true
+        format:
+          $ref: '#/components/schemas/MatchFormatEnum'
+      additionalProperties: false
+      description: The body for HTTP requests to create a new match.
+    CreateStateRequestBody:
+      type: object
+      properties:
+        participant:
+          type: string
+          description: The participant who has scored a point.
+          nullable: true
+      additionalProperties: false
+      description: The body for HTTP requests to create a new state in a match.
+    Match:
+      required:
+        - createdAt
+        - format
+        - id
+        - participants
+        - servingFirst
+      type: object
+      properties:
+        id:
+          type: integer
+          description: A unique identifier for this match.
+          format: int32
+        createdAt:
+          minLength: 1
+          type: string
+          description: The date and time at which this match was created. String formatted as an ISO 8601 date and time in UTC.
+        completedAt:
+          type: string
+          description: The date and time at which this match was completed. String formatted as an ISO 8601 date and time in UTC. Only included if the match has been completed.
+          nullable: true
+        participants:
+          type: array
+          items:
+            type: string
+          description: The list of participants in this match.
+        servingFirst:
+          minLength: 1
+          type: string
+          description: The participant who is serving first.
+        format:
+          $ref: '#/components/schemas/MatchFormatEnum'
+        states:
+          type: array
+          items:
+            $ref: '#/components/schemas/State'
+          description: The list of all the states in the match ordered by the created date and time.
+          nullable: true
+        summary:
+          $ref: '#/components/schemas/MatchSummary'
+      additionalProperties: false
+      description: Data Transfer Object for describing a match.
+    MatchFormatEnum:
+      enum:
+        - TiebreakToTen
+        - BestOfThreeSevenPointTiebreaker
+        - BestOfFiveSevenPointTiebreaker
+        - FastFour
+      type: string
+      description: The rule to use for tiebreaks.
+    MatchPaginated:
+      required:
+        - data
+        - pageCount
+        - pageNumber
+        - pageSize
+      type: object
+      properties:
+        pageSize:
+          type: integer
+          description: Gets or Sets PageSize
+          format: int32
+        pageNumber:
+          type: integer
+          description: Gets or Sets PageNumber
+          format: int32
+        pageCount:
+          type: integer
+          description: Gets or Sets PageCount
+          format: int32
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Match'
+          description: Gets or Sets Data
+      additionalProperties: false
+      description: Data Transfer Object for describing a single page from a collection of data.
+    MatchSummary:
+      required:
+        - completedAt
+        - sets
+        - winner
+      type: object
+      properties:
+        completedAt:
+          minLength: 1
+          type: string
+          description: The date and time at which this match was completed. String formatted as an ISO 8601 date and time in UTC.
+        winner:
+          minLength: 1
+          type: string
+          description: The name of the player which won the set.
+        sets:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/SetSummary'
+          description: 'The summary of the score for each set. Represented as a mapping from the set index (0, 1, 2, etc) to the summary of that set.'
+      additionalProperties: false
+      description: Data Transfer Object for describing the summary of a completed match.
+    MatchesOrderByEnum:
+      enum:
+        - CreatedAt
+        - CompletedAt
+      type: string
+    ParticipantScore:
+      required:
+        - games
+        - points
+        - sets
+      type: object
+      properties:
+        points:
+          type: integer
+          description: 'The number of points this participant has. Represented as an integer such as 0, 1, 2 etc rather than 0, 15, 30 etc.'
+          format: int32
+        games:
+          type: integer
+          description: The number of games this participant has.
+          format: int32
+        sets:
+          type: integer
+          description: The number of games this participant has.
+          format: int32
+      additionalProperties: false
+      description: The score for a participant at a certain state.
+    ParticipantSetSummary:
+      required:
+        - games
+      type: object
+      properties:
+        games:
+          type: integer
+          description: The number of games won by the player in this set.
+          format: int32
+        tiebreakPoints:
+          type: integer
+          description: The number of points won in the set tiebreak. Only used when the set goes to a tiebreak.
+          format: int32
+          nullable: true
+      additionalProperties: false
+      description: Data Transfer Object for describing the summary of a set from a single player for a completed match.
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+      additionalProperties: { }
+    SetSummary:
+      required:
+        - completedAt
+        - score
+        - tiebreak
+        - winner
+      type: object
+      properties:
+        completedAt:
+          minLength: 1
+          type: string
+          description: The date and time at which this set was completed. String formatted as an ISO 8601 date and time in UTC.
+        winner:
+          minLength: 1
+          type: string
+          description: The name of the player which won the set.
+        tiebreak:
+          type: boolean
+          description: A boolean flag to indicate this set went to a tiebreak.
+        score:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ParticipantSetSummary'
+          description: The summary of the score of the set for each player. Represented as a mapping from the name of each player to the summary for that player.
+      additionalProperties: false
+      description: Data Transfer Object for describing the summary of a set for a completed match.
+    State:
+      required:
+        - createdAt
+        - highlight
+        - score
+        - serving
+        - tiebreak
+      type: object
+      properties:
+        createdAt:
+          minLength: 1
+          type: string
+          description: The date and time at which this state was created. String formatted as an ISO 8601 date and time in UTC.
+        serving:
+          minLength: 1
+          type: string
+          description: The participant who is serving.
+        score:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ParticipantScore'
+          description: A mapping from the name of each participant as a string to their score.
+        tiebreak:
+          type: boolean
+          description: A flag to mark the time from the previous state until this state as in a tiebreak.
+        highlight:
+          type: boolean
+          description: A flag to mark the time from the previous state until this state as a highlight.
+      additionalProperties: false
+      description: Data Transfer Object for describing a match.
+    UpdateStateRequestBody:
+      type: object
+      properties:
+        highlight:
+          type: boolean
+          description: A flag to mark the time from the previous state until this state as a highlight.
+      additionalProperties: false
+      description: The body for HTTP requests to update a state in a match.

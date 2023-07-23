@@ -64,7 +64,8 @@ enum PlayerCount {
 }
 
 enum ConfigureError {
-  MISSING_PLAYER_TWO_NAMES = 0;
+  CONFIGURE_ERROR_UNKNOWN = 0;
+  MISSING_PLAYER_TWO_NAMES = 1;
 }
 
 message ConfigureReply {

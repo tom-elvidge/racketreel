@@ -1,9 +1,19 @@
 using Grpc.Core;
+using MediatR;
 
 namespace RacketReel.Presentation.Services;
 
+// Separate project for Presentation so it cannot access infrastructure directly
+
 public class MatchesService : Matches.MatchesBase
 {
+    private readonly ISender _sender;
+
+    public MatchesService(ISender sender)
+    {
+        _sender = sender;
+    }
+    
     public override async Task<GetSummaryReply> GetSummary(GetSummaryRequest request, ServerCallContext context)
     {
         return await base.GetSummary(request, context);
