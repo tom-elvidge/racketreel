@@ -17,30 +17,27 @@ service Matches {
   // Get the current state of an in-progress match
   rpc GetState (GetStateRequest) returns (GetStateReply);
   
+  // Get the complete history of states for a match
+  rpc GetStateHistory (GetStateHistoryRequest) returns (GetStateHistoryReply);
+  
   // Get the state of a match at a specific point in time using the version
   rpc GetStateAtVersion (GetStateAtVersionRequest) returns (GetStateReply);
 
   // Create a new match and configure it
   rpc Configure (ConfigureRequest) returns (ConfigureReply);
   
-  // Update the match by adding a point for team one
-  rpc AddTeamOnePoint (PointRequest) returns (PointReply);
-  
-  // Update the match by adding a point for team two
-  rpc AddTeamTwoPoint (PointRequest) returns (PointReply);
+  // Update the match by adding a point
+  rpc AddPoint (AddPointRequest) returns (AddPointReply);
   
   // Update the match by removing the last point which was added
-  rpc UndoPoint (PointRequest) returns (PointReply);
+  rpc UndoPoint (UndoPointRequest) returns (UndoPointReply);
 }
 
 message ConfigureRequest {
   Format format = 1;
   Team serving_first = 2;
-  PlayerCount player_count = 3;
-  string team_one_player_one_name = 4;
-  optional string team_one_player_two_name = 5;
-  string team_two_player_one_name = 6;
-  optional string team_two_player_two_name = 7;
+  string team_one_name = 4;
+  string team_two_name = 6;
 }
 
 enum Format {
@@ -58,14 +55,8 @@ enum Team {
   TEAM_TWO = 1;
 }
 
-enum PlayerCount {
-  SINGLES = 0;
-  DOUBLES = 1;
-}
-
 enum ConfigureError {
   CONFIGURE_ERROR_UNKNOWN = 0;
-  MISSING_PLAYER_TWO_NAMES = 1;
 }
 
 message ConfigureReply {
@@ -74,19 +65,33 @@ message ConfigureReply {
   optional string match_id = 3;
 }
 
-message PointRequest {}
-
-enum PointError {
-  POINT_UNKNOWN = 0;
-  POINT_DOES_NOT_EXIST = 1;
-  POINT_PLAYERS_NOT_SET = 2;
-  POINT_IS_COMPLETE = 3;
-  POINT_NOTHING_TO_UNDO = 4;
+message AddPointRequest {
+  int32 match_id = 1;
+  Team team = 2;
 }
 
-message PointReply {
+enum AddPointError {
+  ADD_POINT_UNKNOWN = 0;
+  ADD_POINT_DOES_NOT_EXIST = 1;
+  ADD_POINT_IS_COMPLETE = 2;
+}
+
+message AddPointReply {
   bool success = 1;
-  optional PointError error = 2;
+  optional AddPointError error = 2;
+}
+
+message UndoPointRequest {
+  int32 match_id = 1;
+}
+enum UndoPointError {
+  UNDO_POINT_UNKNOWN = 0;
+  UNDO_POINT_NOTHING_TO_UNDO = 1;
+}
+
+message UndoPointReply {
+  bool success = 1;
+  optional UndoPointError error = 2;
 }
 
 message GetSummaryRequest {
@@ -110,7 +115,6 @@ message Summary {
   google.protobuf.Timestamp completed_at_utc = 3;
   google.protobuf.Duration duration = 4;
   Format format = 5;
-  Team serving_first = 6;
   SetSummary set_one = 7;
   optional SetSummary set_two = 8;
   optional SetSummary set_three = 9;
@@ -122,8 +126,8 @@ message SetSummary {
   int32 team_one_games = 1;
   int32 team_two_games = 2;
   bool tiebreak = 3;
-  optional int32 team_one_tiebreak_points = 4;
-  optional int32 team_two_tiebreak_points = 5;
+  int32 team_one_tiebreak_points = 4;
+  int32 team_two_tiebreak_points = 5;
 }
 
 message GetSummariesRequest {
@@ -139,6 +143,7 @@ message GetSummariesReply {
 
 message GetStateRequest {
   int32 match_id = 1;
+  int32 state_version = 2;
 }
 
 message GetStateReply {
@@ -151,14 +156,23 @@ message State {
   google.protobuf.Timestamp created_at_utc = 2;
   Team serving = 3;
   bool highlighted = 4;
-  string player_one_name = 5;
-  string player_two_name = 6;
+  string team_one_name = 5;
+  string team_two_name = 6;
   string team_one_points = 7;
   string team_two_points = 8;
   string team_one_games = 9;
   string team_two_games = 10;
   string team_one_sets = 11;
   string team_two_sets = 12;
+}
+
+message GetStateHistoryRequest {
+  int32 match_id = 1;
+}
+
+message GetStateHistoryReply {
+  bool success = 1;
+  repeated State states = 2;
 }
 
 message GetStateAtVersionRequest {

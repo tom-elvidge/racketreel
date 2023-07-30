@@ -53,26 +53,11 @@ class Team extends $pb.ProtobufEnum {
   const Team._($core.int v, $core.String n) : super(v, n);
 }
 
-class PlayerCount extends $pb.ProtobufEnum {
-  static const PlayerCount SINGLES = PlayerCount._(0, _omitEnumNames ? '' : 'SINGLES');
-  static const PlayerCount DOUBLES = PlayerCount._(1, _omitEnumNames ? '' : 'DOUBLES');
-
-  static const $core.List<PlayerCount> values = <PlayerCount> [
-    SINGLES,
-    DOUBLES,
-  ];
-
-  static final $core.Map<$core.int, PlayerCount> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static PlayerCount? valueOf($core.int value) => _byValue[value];
-
-  const PlayerCount._($core.int v, $core.String n) : super(v, n);
-}
-
 class ConfigureError extends $pb.ProtobufEnum {
-  static const ConfigureError MISSING_PLAYER_TWO_NAMES = ConfigureError._(0, _omitEnumNames ? '' : 'MISSING_PLAYER_TWO_NAMES');
+  static const ConfigureError CONFIGURE_ERROR_UNKNOWN = ConfigureError._(0, _omitEnumNames ? '' : 'CONFIGURE_ERROR_UNKNOWN');
 
   static const $core.List<ConfigureError> values = <ConfigureError> [
-    MISSING_PLAYER_TWO_NAMES,
+    CONFIGURE_ERROR_UNKNOWN,
   ];
 
   static final $core.Map<$core.int, ConfigureError> _byValue = $pb.ProtobufEnum.initByValue(values);
@@ -81,25 +66,36 @@ class ConfigureError extends $pb.ProtobufEnum {
   const ConfigureError._($core.int v, $core.String n) : super(v, n);
 }
 
-class PointError extends $pb.ProtobufEnum {
-  static const PointError POINT_UNKNOWN = PointError._(0, _omitEnumNames ? '' : 'POINT_UNKNOWN');
-  static const PointError POINT_DOES_NOT_EXIST = PointError._(1, _omitEnumNames ? '' : 'POINT_DOES_NOT_EXIST');
-  static const PointError POINT_PLAYERS_NOT_SET = PointError._(2, _omitEnumNames ? '' : 'POINT_PLAYERS_NOT_SET');
-  static const PointError POINT_IS_COMPLETE = PointError._(3, _omitEnumNames ? '' : 'POINT_IS_COMPLETE');
-  static const PointError POINT_NOTHING_TO_UNDO = PointError._(4, _omitEnumNames ? '' : 'POINT_NOTHING_TO_UNDO');
+class AddPointError extends $pb.ProtobufEnum {
+  static const AddPointError ADD_POINT_UNKNOWN = AddPointError._(0, _omitEnumNames ? '' : 'ADD_POINT_UNKNOWN');
+  static const AddPointError ADD_POINT_DOES_NOT_EXIST = AddPointError._(1, _omitEnumNames ? '' : 'ADD_POINT_DOES_NOT_EXIST');
+  static const AddPointError ADD_POINT_IS_COMPLETE = AddPointError._(2, _omitEnumNames ? '' : 'ADD_POINT_IS_COMPLETE');
 
-  static const $core.List<PointError> values = <PointError> [
-    POINT_UNKNOWN,
-    POINT_DOES_NOT_EXIST,
-    POINT_PLAYERS_NOT_SET,
-    POINT_IS_COMPLETE,
-    POINT_NOTHING_TO_UNDO,
+  static const $core.List<AddPointError> values = <AddPointError> [
+    ADD_POINT_UNKNOWN,
+    ADD_POINT_DOES_NOT_EXIST,
+    ADD_POINT_IS_COMPLETE,
   ];
 
-  static final $core.Map<$core.int, PointError> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static PointError? valueOf($core.int value) => _byValue[value];
+  static final $core.Map<$core.int, AddPointError> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static AddPointError? valueOf($core.int value) => _byValue[value];
 
-  const PointError._($core.int v, $core.String n) : super(v, n);
+  const AddPointError._($core.int v, $core.String n) : super(v, n);
+}
+
+class UndoPointError extends $pb.ProtobufEnum {
+  static const UndoPointError UNDO_POINT_UNKNOWN = UndoPointError._(0, _omitEnumNames ? '' : 'UNDO_POINT_UNKNOWN');
+  static const UndoPointError UNDO_POINT_NOTHING_TO_UNDO = UndoPointError._(1, _omitEnumNames ? '' : 'UNDO_POINT_NOTHING_TO_UNDO');
+
+  static const $core.List<UndoPointError> values = <UndoPointError> [
+    UNDO_POINT_UNKNOWN,
+    UNDO_POINT_NOTHING_TO_UNDO,
+  ];
+
+  static final $core.Map<$core.int, UndoPointError> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static UndoPointError? valueOf($core.int value) => _byValue[value];
+
+  const UndoPointError._($core.int v, $core.String n) : super(v, n);
 }
 
 class GetSummaryError extends $pb.ProtobufEnum {

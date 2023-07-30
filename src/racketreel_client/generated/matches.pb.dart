@@ -28,11 +28,8 @@ class ConfigureRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ConfigureRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
     ..e<Format>(1, _omitFieldNames ? '' : 'format', $pb.PbFieldType.OE, defaultOrMaker: Format.BEST_OF_ONE, valueOf: Format.valueOf, enumValues: Format.values)
     ..e<Team>(2, _omitFieldNames ? '' : 'servingFirst', $pb.PbFieldType.OE, defaultOrMaker: Team.TEAM_ONE, valueOf: Team.valueOf, enumValues: Team.values)
-    ..e<PlayerCount>(3, _omitFieldNames ? '' : 'playerCount', $pb.PbFieldType.OE, defaultOrMaker: PlayerCount.SINGLES, valueOf: PlayerCount.valueOf, enumValues: PlayerCount.values)
-    ..aOS(4, _omitFieldNames ? '' : 'teamOnePlayerOneName')
-    ..aOS(5, _omitFieldNames ? '' : 'teamOnePlayerTwoName')
-    ..aOS(6, _omitFieldNames ? '' : 'teamTwoPlayerOneName')
-    ..aOS(7, _omitFieldNames ? '' : 'teamTwoPlayerTwoName')
+    ..aOS(4, _omitFieldNames ? '' : 'teamOneName')
+    ..aOS(6, _omitFieldNames ? '' : 'teamTwoName')
     ..hasRequiredFields = false
   ;
 
@@ -75,50 +72,23 @@ class ConfigureRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearServingFirst() => clearField(2);
 
-  @$pb.TagNumber(3)
-  PlayerCount get playerCount => $_getN(2);
-  @$pb.TagNumber(3)
-  set playerCount(PlayerCount v) { setField(3, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasPlayerCount() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearPlayerCount() => clearField(3);
-
   @$pb.TagNumber(4)
-  $core.String get teamOnePlayerOneName => $_getSZ(3);
+  $core.String get teamOneName => $_getSZ(2);
   @$pb.TagNumber(4)
-  set teamOnePlayerOneName($core.String v) { $_setString(3, v); }
+  set teamOneName($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(4)
-  $core.bool hasTeamOnePlayerOneName() => $_has(3);
+  $core.bool hasTeamOneName() => $_has(2);
   @$pb.TagNumber(4)
-  void clearTeamOnePlayerOneName() => clearField(4);
-
-  @$pb.TagNumber(5)
-  $core.String get teamOnePlayerTwoName => $_getSZ(4);
-  @$pb.TagNumber(5)
-  set teamOnePlayerTwoName($core.String v) { $_setString(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasTeamOnePlayerTwoName() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearTeamOnePlayerTwoName() => clearField(5);
+  void clearTeamOneName() => clearField(4);
 
   @$pb.TagNumber(6)
-  $core.String get teamTwoPlayerOneName => $_getSZ(5);
+  $core.String get teamTwoName => $_getSZ(3);
   @$pb.TagNumber(6)
-  set teamTwoPlayerOneName($core.String v) { $_setString(5, v); }
+  set teamTwoName($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(6)
-  $core.bool hasTeamTwoPlayerOneName() => $_has(5);
+  $core.bool hasTeamTwoName() => $_has(3);
   @$pb.TagNumber(6)
-  void clearTeamTwoPlayerOneName() => clearField(6);
-
-  @$pb.TagNumber(7)
-  $core.String get teamTwoPlayerTwoName => $_getSZ(6);
-  @$pb.TagNumber(7)
-  set teamTwoPlayerTwoName($core.String v) { $_setString(6, v); }
-  @$pb.TagNumber(7)
-  $core.bool hasTeamTwoPlayerTwoName() => $_has(6);
-  @$pb.TagNumber(7)
-  void clearTeamTwoPlayerTwoName() => clearField(7);
+  void clearTeamTwoName() => clearField(6);
 }
 
 class ConfigureReply extends $pb.GeneratedMessage {
@@ -129,7 +99,7 @@ class ConfigureReply extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ConfigureReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'success')
-    ..e<ConfigureError>(2, _omitFieldNames ? '' : 'error', $pb.PbFieldType.OE, defaultOrMaker: ConfigureError.MISSING_PLAYER_TWO_NAMES, valueOf: ConfigureError.valueOf, enumValues: ConfigureError.values)
+    ..e<ConfigureError>(2, _omitFieldNames ? '' : 'error', $pb.PbFieldType.OE, defaultOrMaker: ConfigureError.CONFIGURE_ERROR_UNKNOWN, valueOf: ConfigureError.valueOf, enumValues: ConfigureError.values)
     ..aOS(3, _omitFieldNames ? '' : 'matchId')
     ..hasRequiredFields = false
   ;
@@ -183,13 +153,15 @@ class ConfigureReply extends $pb.GeneratedMessage {
   void clearMatchId() => clearField(3);
 }
 
-class PointRequest extends $pb.GeneratedMessage {
-  factory PointRequest() => create();
-  PointRequest._() : super();
-  factory PointRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory PointRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+class AddPointRequest extends $pb.GeneratedMessage {
+  factory AddPointRequest() => create();
+  AddPointRequest._() : super();
+  factory AddPointRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AddPointRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PointRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'AddPointRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'matchId', $pb.PbFieldType.O3)
+    ..e<Team>(2, _omitFieldNames ? '' : 'team', $pb.PbFieldType.OE, defaultOrMaker: Team.TEAM_ONE, valueOf: Team.valueOf, enumValues: Team.values)
     ..hasRequiredFields = false
   ;
 
@@ -197,33 +169,51 @@ class PointRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  PointRequest clone() => PointRequest()..mergeFromMessage(this);
+  AddPointRequest clone() => AddPointRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  PointRequest copyWith(void Function(PointRequest) updates) => super.copyWith((message) => updates(message as PointRequest)) as PointRequest;
+  AddPointRequest copyWith(void Function(AddPointRequest) updates) => super.copyWith((message) => updates(message as AddPointRequest)) as AddPointRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static PointRequest create() => PointRequest._();
-  PointRequest createEmptyInstance() => create();
-  static $pb.PbList<PointRequest> createRepeated() => $pb.PbList<PointRequest>();
+  static AddPointRequest create() => AddPointRequest._();
+  AddPointRequest createEmptyInstance() => create();
+  static $pb.PbList<AddPointRequest> createRepeated() => $pb.PbList<AddPointRequest>();
   @$core.pragma('dart2js:noInline')
-  static PointRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PointRequest>(create);
-  static PointRequest? _defaultInstance;
+  static AddPointRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AddPointRequest>(create);
+  static AddPointRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get matchId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set matchId($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasMatchId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMatchId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  Team get team => $_getN(1);
+  @$pb.TagNumber(2)
+  set team(Team v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTeam() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTeam() => clearField(2);
 }
 
-class PointReply extends $pb.GeneratedMessage {
-  factory PointReply() => create();
-  PointReply._() : super();
-  factory PointReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory PointReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+class AddPointReply extends $pb.GeneratedMessage {
+  factory AddPointReply() => create();
+  AddPointReply._() : super();
+  factory AddPointReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AddPointReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PointReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'AddPointReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'success')
-    ..e<PointError>(2, _omitFieldNames ? '' : 'error', $pb.PbFieldType.OE, defaultOrMaker: PointError.POINT_UNKNOWN, valueOf: PointError.valueOf, enumValues: PointError.values)
+    ..e<AddPointError>(2, _omitFieldNames ? '' : 'error', $pb.PbFieldType.OE, defaultOrMaker: AddPointError.ADD_POINT_UNKNOWN, valueOf: AddPointError.valueOf, enumValues: AddPointError.values)
     ..hasRequiredFields = false
   ;
 
@@ -231,22 +221,22 @@ class PointReply extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  PointReply clone() => PointReply()..mergeFromMessage(this);
+  AddPointReply clone() => AddPointReply()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  PointReply copyWith(void Function(PointReply) updates) => super.copyWith((message) => updates(message as PointReply)) as PointReply;
+  AddPointReply copyWith(void Function(AddPointReply) updates) => super.copyWith((message) => updates(message as AddPointReply)) as AddPointReply;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static PointReply create() => PointReply._();
-  PointReply createEmptyInstance() => create();
-  static $pb.PbList<PointReply> createRepeated() => $pb.PbList<PointReply>();
+  static AddPointReply create() => AddPointReply._();
+  AddPointReply createEmptyInstance() => create();
+  static $pb.PbList<AddPointReply> createRepeated() => $pb.PbList<AddPointReply>();
   @$core.pragma('dart2js:noInline')
-  static PointReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PointReply>(create);
-  static PointReply? _defaultInstance;
+  static AddPointReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AddPointReply>(create);
+  static AddPointReply? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.bool get success => $_getBF(0);
@@ -258,9 +248,103 @@ class PointReply extends $pb.GeneratedMessage {
   void clearSuccess() => clearField(1);
 
   @$pb.TagNumber(2)
-  PointError get error => $_getN(1);
+  AddPointError get error => $_getN(1);
   @$pb.TagNumber(2)
-  set error(PointError v) { setField(2, v); }
+  set error(AddPointError v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+}
+
+class UndoPointRequest extends $pb.GeneratedMessage {
+  factory UndoPointRequest() => create();
+  UndoPointRequest._() : super();
+  factory UndoPointRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory UndoPointRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UndoPointRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'matchId', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  UndoPointRequest clone() => UndoPointRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  UndoPointRequest copyWith(void Function(UndoPointRequest) updates) => super.copyWith((message) => updates(message as UndoPointRequest)) as UndoPointRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static UndoPointRequest create() => UndoPointRequest._();
+  UndoPointRequest createEmptyInstance() => create();
+  static $pb.PbList<UndoPointRequest> createRepeated() => $pb.PbList<UndoPointRequest>();
+  @$core.pragma('dart2js:noInline')
+  static UndoPointRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UndoPointRequest>(create);
+  static UndoPointRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get matchId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set matchId($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasMatchId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMatchId() => clearField(1);
+}
+
+class UndoPointReply extends $pb.GeneratedMessage {
+  factory UndoPointReply() => create();
+  UndoPointReply._() : super();
+  factory UndoPointReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory UndoPointReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UndoPointReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'success')
+    ..e<UndoPointError>(2, _omitFieldNames ? '' : 'error', $pb.PbFieldType.OE, defaultOrMaker: UndoPointError.UNDO_POINT_UNKNOWN, valueOf: UndoPointError.valueOf, enumValues: UndoPointError.values)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  UndoPointReply clone() => UndoPointReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  UndoPointReply copyWith(void Function(UndoPointReply) updates) => super.copyWith((message) => updates(message as UndoPointReply)) as UndoPointReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static UndoPointReply create() => UndoPointReply._();
+  UndoPointReply createEmptyInstance() => create();
+  static $pb.PbList<UndoPointReply> createRepeated() => $pb.PbList<UndoPointReply>();
+  @$core.pragma('dart2js:noInline')
+  static UndoPointReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UndoPointReply>(create);
+  static UndoPointReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get success => $_getBF(0);
+  @$pb.TagNumber(1)
+  set success($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSuccess() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSuccess() => clearField(1);
+
+  @$pb.TagNumber(2)
+  UndoPointError get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(UndoPointError v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasError() => $_has(1);
   @$pb.TagNumber(2)
@@ -385,7 +469,6 @@ class Summary extends $pb.GeneratedMessage {
     ..aOM<$1.Timestamp>(3, _omitFieldNames ? '' : 'completedAtUtc', subBuilder: $1.Timestamp.create)
     ..aOM<$2.Duration>(4, _omitFieldNames ? '' : 'duration', subBuilder: $2.Duration.create)
     ..e<Format>(5, _omitFieldNames ? '' : 'format', $pb.PbFieldType.OE, defaultOrMaker: Format.BEST_OF_ONE, valueOf: Format.valueOf, enumValues: Format.values)
-    ..e<Team>(6, _omitFieldNames ? '' : 'servingFirst', $pb.PbFieldType.OE, defaultOrMaker: Team.TEAM_ONE, valueOf: Team.valueOf, enumValues: Team.values)
     ..aOM<SetSummary>(7, _omitFieldNames ? '' : 'setOne', subBuilder: SetSummary.create)
     ..aOM<SetSummary>(8, _omitFieldNames ? '' : 'setTwo', subBuilder: SetSummary.create)
     ..aOM<SetSummary>(9, _omitFieldNames ? '' : 'setThree', subBuilder: SetSummary.create)
@@ -466,69 +549,60 @@ class Summary extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   void clearFormat() => clearField(5);
 
-  @$pb.TagNumber(6)
-  Team get servingFirst => $_getN(5);
-  @$pb.TagNumber(6)
-  set servingFirst(Team v) { setField(6, v); }
-  @$pb.TagNumber(6)
-  $core.bool hasServingFirst() => $_has(5);
-  @$pb.TagNumber(6)
-  void clearServingFirst() => clearField(6);
-
   @$pb.TagNumber(7)
-  SetSummary get setOne => $_getN(6);
+  SetSummary get setOne => $_getN(5);
   @$pb.TagNumber(7)
   set setOne(SetSummary v) { setField(7, v); }
   @$pb.TagNumber(7)
-  $core.bool hasSetOne() => $_has(6);
+  $core.bool hasSetOne() => $_has(5);
   @$pb.TagNumber(7)
   void clearSetOne() => clearField(7);
   @$pb.TagNumber(7)
-  SetSummary ensureSetOne() => $_ensure(6);
+  SetSummary ensureSetOne() => $_ensure(5);
 
   @$pb.TagNumber(8)
-  SetSummary get setTwo => $_getN(7);
+  SetSummary get setTwo => $_getN(6);
   @$pb.TagNumber(8)
   set setTwo(SetSummary v) { setField(8, v); }
   @$pb.TagNumber(8)
-  $core.bool hasSetTwo() => $_has(7);
+  $core.bool hasSetTwo() => $_has(6);
   @$pb.TagNumber(8)
   void clearSetTwo() => clearField(8);
   @$pb.TagNumber(8)
-  SetSummary ensureSetTwo() => $_ensure(7);
+  SetSummary ensureSetTwo() => $_ensure(6);
 
   @$pb.TagNumber(9)
-  SetSummary get setThree => $_getN(8);
+  SetSummary get setThree => $_getN(7);
   @$pb.TagNumber(9)
   set setThree(SetSummary v) { setField(9, v); }
   @$pb.TagNumber(9)
-  $core.bool hasSetThree() => $_has(8);
+  $core.bool hasSetThree() => $_has(7);
   @$pb.TagNumber(9)
   void clearSetThree() => clearField(9);
   @$pb.TagNumber(9)
-  SetSummary ensureSetThree() => $_ensure(8);
+  SetSummary ensureSetThree() => $_ensure(7);
 
   @$pb.TagNumber(10)
-  SetSummary get setFour => $_getN(9);
+  SetSummary get setFour => $_getN(8);
   @$pb.TagNumber(10)
   set setFour(SetSummary v) { setField(10, v); }
   @$pb.TagNumber(10)
-  $core.bool hasSetFour() => $_has(9);
+  $core.bool hasSetFour() => $_has(8);
   @$pb.TagNumber(10)
   void clearSetFour() => clearField(10);
   @$pb.TagNumber(10)
-  SetSummary ensureSetFour() => $_ensure(9);
+  SetSummary ensureSetFour() => $_ensure(8);
 
   @$pb.TagNumber(11)
-  SetSummary get setFive => $_getN(10);
+  SetSummary get setFive => $_getN(9);
   @$pb.TagNumber(11)
   set setFive(SetSummary v) { setField(11, v); }
   @$pb.TagNumber(11)
-  $core.bool hasSetFive() => $_has(10);
+  $core.bool hasSetFive() => $_has(9);
   @$pb.TagNumber(11)
   void clearSetFive() => clearField(11);
   @$pb.TagNumber(11)
-  SetSummary ensureSetFive() => $_ensure(10);
+  SetSummary ensureSetFive() => $_ensure(9);
 }
 
 class SetSummary extends $pb.GeneratedMessage {
@@ -729,6 +803,7 @@ class GetStateRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStateRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'matchId', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'stateVersion', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -761,6 +836,15 @@ class GetStateRequest extends $pb.GeneratedMessage {
   $core.bool hasMatchId() => $_has(0);
   @$pb.TagNumber(1)
   void clearMatchId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get stateVersion => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set stateVersion($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasStateVersion() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearStateVersion() => clearField(2);
 }
 
 class GetStateReply extends $pb.GeneratedMessage {
@@ -828,8 +912,8 @@ class State extends $pb.GeneratedMessage {
     ..aOM<$1.Timestamp>(2, _omitFieldNames ? '' : 'createdAtUtc', subBuilder: $1.Timestamp.create)
     ..e<Team>(3, _omitFieldNames ? '' : 'serving', $pb.PbFieldType.OE, defaultOrMaker: Team.TEAM_ONE, valueOf: Team.valueOf, enumValues: Team.values)
     ..aOB(4, _omitFieldNames ? '' : 'highlighted')
-    ..aOS(5, _omitFieldNames ? '' : 'playerOneName')
-    ..aOS(6, _omitFieldNames ? '' : 'playerTwoName')
+    ..aOS(5, _omitFieldNames ? '' : 'teamOneName')
+    ..aOS(6, _omitFieldNames ? '' : 'teamTwoName')
     ..aOS(7, _omitFieldNames ? '' : 'teamOnePoints')
     ..aOS(8, _omitFieldNames ? '' : 'teamTwoPoints')
     ..aOS(9, _omitFieldNames ? '' : 'teamOneGames')
@@ -899,22 +983,22 @@ class State extends $pb.GeneratedMessage {
   void clearHighlighted() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.String get playerOneName => $_getSZ(4);
+  $core.String get teamOneName => $_getSZ(4);
   @$pb.TagNumber(5)
-  set playerOneName($core.String v) { $_setString(4, v); }
+  set teamOneName($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasPlayerOneName() => $_has(4);
+  $core.bool hasTeamOneName() => $_has(4);
   @$pb.TagNumber(5)
-  void clearPlayerOneName() => clearField(5);
+  void clearTeamOneName() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.String get playerTwoName => $_getSZ(5);
+  $core.String get teamTwoName => $_getSZ(5);
   @$pb.TagNumber(6)
-  set playerTwoName($core.String v) { $_setString(5, v); }
+  set teamTwoName($core.String v) { $_setString(5, v); }
   @$pb.TagNumber(6)
-  $core.bool hasPlayerTwoName() => $_has(5);
+  $core.bool hasTeamTwoName() => $_has(5);
   @$pb.TagNumber(6)
-  void clearPlayerTwoName() => clearField(6);
+  void clearTeamTwoName() => clearField(6);
 
   @$pb.TagNumber(7)
   $core.String get teamOnePoints => $_getSZ(6);
@@ -969,6 +1053,94 @@ class State extends $pb.GeneratedMessage {
   $core.bool hasTeamTwoSets() => $_has(11);
   @$pb.TagNumber(12)
   void clearTeamTwoSets() => clearField(12);
+}
+
+class GetStateHistoryRequest extends $pb.GeneratedMessage {
+  factory GetStateHistoryRequest() => create();
+  GetStateHistoryRequest._() : super();
+  factory GetStateHistoryRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetStateHistoryRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStateHistoryRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'matchId', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetStateHistoryRequest clone() => GetStateHistoryRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetStateHistoryRequest copyWith(void Function(GetStateHistoryRequest) updates) => super.copyWith((message) => updates(message as GetStateHistoryRequest)) as GetStateHistoryRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetStateHistoryRequest create() => GetStateHistoryRequest._();
+  GetStateHistoryRequest createEmptyInstance() => create();
+  static $pb.PbList<GetStateHistoryRequest> createRepeated() => $pb.PbList<GetStateHistoryRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetStateHistoryRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetStateHistoryRequest>(create);
+  static GetStateHistoryRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get matchId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set matchId($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasMatchId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMatchId() => clearField(1);
+}
+
+class GetStateHistoryReply extends $pb.GeneratedMessage {
+  factory GetStateHistoryReply() => create();
+  GetStateHistoryReply._() : super();
+  factory GetStateHistoryReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetStateHistoryReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStateHistoryReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'success')
+    ..pc<State>(2, _omitFieldNames ? '' : 'states', $pb.PbFieldType.PM, subBuilder: State.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetStateHistoryReply clone() => GetStateHistoryReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetStateHistoryReply copyWith(void Function(GetStateHistoryReply) updates) => super.copyWith((message) => updates(message as GetStateHistoryReply)) as GetStateHistoryReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetStateHistoryReply create() => GetStateHistoryReply._();
+  GetStateHistoryReply createEmptyInstance() => create();
+  static $pb.PbList<GetStateHistoryReply> createRepeated() => $pb.PbList<GetStateHistoryReply>();
+  @$core.pragma('dart2js:noInline')
+  static GetStateHistoryReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetStateHistoryReply>(create);
+  static GetStateHistoryReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get success => $_getBF(0);
+  @$pb.TagNumber(1)
+  set success($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSuccess() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSuccess() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.List<State> get states => $_getList(1);
 }
 
 class GetStateAtVersionRequest extends $pb.GeneratedMessage {

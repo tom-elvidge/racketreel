@@ -1,27 +1,18 @@
-using RacketReel.Domain;
 using RacketReel.Domain.AggregatesModel.MatchAggregate;
 using RacketReel.Domain.SeedWork;
-using MediatR;
-using Microsoft.Extensions.Logging;
 using RacketReel.Application.Abstractions.Messaging;
-using RacketReel.Application.DTOs;
 using RacketReel.Application.Errors;
+using RacketReel.Application.Models;
+using RacketReel.Application.Services;
 
 namespace RacketReel.Application.Queries.GetStateByIndex;
 
 public class GetStateByIndexQueryHandler : IQueryHandler<GetStateByIndexQuery, State>
 {
-    private readonly IMediator _mediator;
-    private readonly ILogger<GetStateByIndexQueryHandler> _logger;
     private readonly IMatchRepository _matchRepository;
 
-    public GetStateByIndexQueryHandler(
-        IMediator mediator,
-        ILogger<GetStateByIndexQueryHandler> logger,
-        IMatchRepository matchRepository)
+    public GetStateByIndexQueryHandler(IMatchRepository matchRepository)
     {
-        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
     }
 
@@ -33,25 +24,17 @@ public class GetStateByIndexQueryHandler : IQueryHandler<GetStateByIndexQuery, S
         {
             return Result.Failure<State>(ApplicationErrors.NotFound);
         }
-
-        StateEntity stateEntity = null;
+        
         try
         {
-            stateEntity = matchEntity.States
+            var stateEntity = matchEntity.States
                 .OrderBy(s => s.CreatedAtDateTime)
                 .ToList()[query.StateIndex];
+            return Result.Success(StateCreator.CreateState(matchEntity, stateEntity));
         }
         catch (ArgumentOutOfRangeException)
-        {}
-
-        if (stateEntity == null)
         {
             return Result.Failure<State>(ApplicationErrors.NotFound);
         }
-
-        return Result.Success<State>(State.Create(
-            matchEntity,
-            stateEntity,
-            Scorer.IsTiebreak(matchEntity.Format, stateEntity)));
     }
 }

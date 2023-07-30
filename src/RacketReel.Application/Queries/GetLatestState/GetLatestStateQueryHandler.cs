@@ -1,27 +1,18 @@
-using RacketReel.Domain;
 using RacketReel.Domain.AggregatesModel.MatchAggregate;
 using RacketReel.Domain.SeedWork;
-using MediatR;
-using Microsoft.Extensions.Logging;
 using RacketReel.Application.Abstractions.Messaging;
-using RacketReel.Application.DTOs;
 using RacketReel.Application.Errors;
+using RacketReel.Application.Models;
+using RacketReel.Application.Services;
 
 namespace RacketReel.Application.Queries.GetLatestState;
 
 public class GetLatestStateQueryHandler : IQueryHandler<GetLatestStateQuery, State>
 {
-    private readonly IMediator _mediator;
-    private readonly ILogger<GetLatestStateQueryHandler> _logger;
     private readonly IMatchRepository _matchRepository;
 
-    public GetLatestStateQueryHandler(
-        IMediator mediator,
-        ILogger<GetLatestStateQueryHandler> logger,
-        IMatchRepository matchRepository)
+    public GetLatestStateQueryHandler(IMatchRepository matchRepository)
     {
-        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
     }
 
@@ -34,18 +25,13 @@ public class GetLatestStateQueryHandler : IQueryHandler<GetLatestStateQuery, Sta
             return Result.Failure<State>(ApplicationErrors.NotFound);
         }
 
-        var stateEntity = matchEntity.States
-            .OrderBy(s => s.CreatedAtDateTime)
-            .LastOrDefault();
+        var stateEntity = matchEntity.States.MaxBy(s => s.CreatedAtDateTime);
 
         if (stateEntity == null)
         {
             return Result.Failure<State>(ApplicationErrors.NotFound);
         }
 
-        return Result.Success<State>(State.Create(
-            matchEntity,
-            stateEntity,
-            Scorer.IsTiebreak(matchEntity.Format, stateEntity)));
+        return Result.Success(StateCreator.CreateState(matchEntity, stateEntity));
     }
 }

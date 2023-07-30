@@ -1,5 +1,5 @@
 using System.Text;
-using RacketReel.Application.DTOs;
+using RacketReel.Application.Models;
 
 namespace RacketReel.Application.Commands.CreateMatch;
 
@@ -21,7 +21,7 @@ public sealed class CreateMatchRequestBody
     /// <summary>
     /// The format to use for scoring this match.
     /// </summary>
-    public MatchFormatEnum Format { get; set; }
+    public Format Format { get; set; }
 
     public override string ToString()
     {

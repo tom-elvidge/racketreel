@@ -6,22 +6,24 @@ internal class CreateMatchCommandValidator : AbstractValidator<CreateMatchComman
 {
     public CreateMatchCommandValidator()
     {
-        RuleFor(c => c.Participants)
+        RuleFor(c => c.TeamOneName)
             .NotNull()
             .NotEmpty()
-            .WithMessage($"{nameof(CreateMatchCommand.Participants)} cannot be null or empty.");
+            .WithMessage($"{nameof(CreateMatchCommand.TeamOneName)} cannot be null or empty.");
 
-        RuleFor(c => c.Participants)
-            .Must(p => p.ToList().Count() == 2)
-            .WithMessage($"{nameof(CreateMatchCommand.Participants)} must have exactly two players.");
+        RuleFor(c => c.TeamTwoName)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage($"{nameof(CreateMatchCommand.TeamTwoName)} cannot be null or empty.");
 
         RuleFor(c => c.ServingFirst)
             .NotNull()
             .NotEmpty()
             .WithMessage($"{nameof(CreateMatchCommand.ServingFirst)} cannot be null or empty.");
 
-        RuleFor(c => c.ServingFirst)
-            .Must((c, servingFirst) => c.Participants.Contains(servingFirst))
-            .WithMessage($"{nameof(CreateMatchCommand.ServingFirst)} must be one of the players.");
+        RuleFor(c => c.Format)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage($"{nameof(CreateMatchCommand.Format)} cannot be null or empty.");
     }
 }

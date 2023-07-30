@@ -1,4 +1,4 @@
-using RacketReel.Domain.AggregatesModel.MatchAggregate.Formats;
+namespace RacketReel.Domain.AggregatesModel.MatchAggregate.Formats;
 
 public sealed class TiebreakToTen
 {

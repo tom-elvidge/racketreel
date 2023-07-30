@@ -22,7 +22,7 @@ public class MatchTests
                 new NoUserParticipant("Tom Elvidge"),
                 new NoUserParticipant("Joe Bloggs"),
                 ParticipantEnum.One,
-                BestOfThreeSevenPointTiebreaker.Create(),
+                BestOfThree.Create(),
                 new List<StateEntity>() {
                     new StateEntity(
                         DateTime.MinValue,
@@ -69,7 +69,7 @@ public class MatchTests
             new NoUserParticipant("Tom Elvidge"),
             new NoUserParticipant("Joe Bloggs"),
             ParticipantEnum.One,
-            BestOfThreeSevenPointTiebreaker.Create());
+            BestOfThree.Create());
 
         // participant one wins 5 games
         for (int i = 0; i < 5; i++)

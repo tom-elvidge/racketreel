@@ -21,14 +21,14 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             StateEntity.Initial(ParticipantEnum.One),
             false,
             "the BestOfThreeSevenPointTiebreaker format has three sets so the initial state cannot be the final set"
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -38,7 +38,7 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfFiveSevenPointTiebreaker.Create(),
+            BestOfFive.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -48,7 +48,7 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfFiveSevenPointTiebreaker.Create(),
+            BestOfFive.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -69,14 +69,14 @@ public class ScorerTests
     {
         yield return new object[]
         {
-            BestOfFiveSevenPointTiebreaker.Create(),
+            BestOfFive.Create(),
             StateEntity.Initial(ParticipantEnum.One),
             false,
             "the initial state cannot be complete"
         };
         yield return new object[]
         {
-            BestOfFiveSevenPointTiebreaker.Create(),
+            BestOfFive.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -86,7 +86,7 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -124,14 +124,14 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             StateEntity.Initial(ParticipantEnum.One),
             false,
             "the BestOfThreeSevenPointTiebreaker format has six games per set so the initial state cannot be a tiebreak"
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -172,14 +172,14 @@ public class ScorerTests
     {
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             StateEntity.Initial(ParticipantEnum.One),
             4,
             "the BestOfThreeSevenPointTiebreaker format initial state is an ordinary game so the minimum points to win the game must be 4"
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -254,7 +254,7 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -302,7 +302,7 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -350,7 +350,7 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -371,7 +371,7 @@ public class ScorerTests
     {
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             StateEntity.Initial(ParticipantEnum.One),
             ParticipantEnum.One,
             new Score(1, 0, 0, 0, 0, 0),
@@ -379,7 +379,7 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -390,7 +390,7 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -401,7 +401,7 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,
@@ -412,7 +412,7 @@ public class ScorerTests
         };
         yield return new object[]
         {
-            BestOfThreeSevenPointTiebreaker.Create(),
+            BestOfThree.Create(),
             new StateEntity(
                 DateTime.MinValue,
                 ParticipantEnum.One,

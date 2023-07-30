@@ -33,6 +33,10 @@ class MatchesClient extends $grpc.Client {
       '/RacketReel.Matches/GetState',
       ($0.GetStateRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetStateReply.fromBuffer(value));
+  static final _$getStateHistory = $grpc.ClientMethod<$0.GetStateHistoryRequest, $0.GetStateHistoryReply>(
+      '/RacketReel.Matches/GetStateHistory',
+      ($0.GetStateHistoryRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetStateHistoryReply.fromBuffer(value));
   static final _$getStateAtVersion = $grpc.ClientMethod<$0.GetStateAtVersionRequest, $0.GetStateReply>(
       '/RacketReel.Matches/GetStateAtVersion',
       ($0.GetStateAtVersionRequest value) => value.writeToBuffer(),
@@ -41,18 +45,14 @@ class MatchesClient extends $grpc.Client {
       '/RacketReel.Matches/Configure',
       ($0.ConfigureRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.ConfigureReply.fromBuffer(value));
-  static final _$addTeamOnePoint = $grpc.ClientMethod<$0.PointRequest, $0.PointReply>(
-      '/RacketReel.Matches/AddTeamOnePoint',
-      ($0.PointRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PointReply.fromBuffer(value));
-  static final _$addTeamTwoPoint = $grpc.ClientMethod<$0.PointRequest, $0.PointReply>(
-      '/RacketReel.Matches/AddTeamTwoPoint',
-      ($0.PointRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PointReply.fromBuffer(value));
-  static final _$undoPoint = $grpc.ClientMethod<$0.PointRequest, $0.PointReply>(
+  static final _$addPoint = $grpc.ClientMethod<$0.AddPointRequest, $0.AddPointReply>(
+      '/RacketReel.Matches/AddPoint',
+      ($0.AddPointRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.AddPointReply.fromBuffer(value));
+  static final _$undoPoint = $grpc.ClientMethod<$0.UndoPointRequest, $0.UndoPointReply>(
       '/RacketReel.Matches/UndoPoint',
-      ($0.PointRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PointReply.fromBuffer(value));
+      ($0.UndoPointRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.UndoPointReply.fromBuffer(value));
 
   MatchesClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -72,6 +72,10 @@ class MatchesClient extends $grpc.Client {
     return $createUnaryCall(_$getState, request, options: options);
   }
 
+  $grpc.ResponseFuture<$0.GetStateHistoryReply> getStateHistory($0.GetStateHistoryRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getStateHistory, request, options: options);
+  }
+
   $grpc.ResponseFuture<$0.GetStateReply> getStateAtVersion($0.GetStateAtVersionRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getStateAtVersion, request, options: options);
   }
@@ -80,15 +84,11 @@ class MatchesClient extends $grpc.Client {
     return $createUnaryCall(_$configure, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.PointReply> addTeamOnePoint($0.PointRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$addTeamOnePoint, request, options: options);
+  $grpc.ResponseFuture<$0.AddPointReply> addPoint($0.AddPointRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$addPoint, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.PointReply> addTeamTwoPoint($0.PointRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$addTeamTwoPoint, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$0.PointReply> undoPoint($0.PointRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.UndoPointReply> undoPoint($0.UndoPointRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$undoPoint, request, options: options);
   }
 }
@@ -119,6 +119,13 @@ abstract class MatchesServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetStateRequest.fromBuffer(value),
         ($0.GetStateReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.GetStateHistoryRequest, $0.GetStateHistoryReply>(
+        'GetStateHistory',
+        getStateHistory_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.GetStateHistoryRequest.fromBuffer(value),
+        ($0.GetStateHistoryReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetStateAtVersionRequest, $0.GetStateReply>(
         'GetStateAtVersion',
         getStateAtVersion_Pre,
@@ -133,27 +140,20 @@ abstract class MatchesServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.ConfigureRequest.fromBuffer(value),
         ($0.ConfigureReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.PointRequest, $0.PointReply>(
-        'AddTeamOnePoint',
-        addTeamOnePoint_Pre,
+    $addMethod($grpc.ServiceMethod<$0.AddPointRequest, $0.AddPointReply>(
+        'AddPoint',
+        addPoint_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.PointRequest.fromBuffer(value),
-        ($0.PointReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.PointRequest, $0.PointReply>(
-        'AddTeamTwoPoint',
-        addTeamTwoPoint_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.PointRequest.fromBuffer(value),
-        ($0.PointReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.PointRequest, $0.PointReply>(
+        ($core.List<$core.int> value) => $0.AddPointRequest.fromBuffer(value),
+        ($0.AddPointReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.UndoPointRequest, $0.UndoPointReply>(
         'UndoPoint',
         undoPoint_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.PointRequest.fromBuffer(value),
-        ($0.PointReply value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.UndoPointRequest.fromBuffer(value),
+        ($0.UndoPointReply value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.GetSummaryReply> getSummary_Pre($grpc.ServiceCall call, $async.Future<$0.GetSummaryRequest> request) async {
@@ -168,6 +168,10 @@ abstract class MatchesServiceBase extends $grpc.Service {
     return getState(call, await request);
   }
 
+  $async.Future<$0.GetStateHistoryReply> getStateHistory_Pre($grpc.ServiceCall call, $async.Future<$0.GetStateHistoryRequest> request) async {
+    return getStateHistory(call, await request);
+  }
+
   $async.Future<$0.GetStateReply> getStateAtVersion_Pre($grpc.ServiceCall call, $async.Future<$0.GetStateAtVersionRequest> request) async {
     return getStateAtVersion(call, await request);
   }
@@ -176,24 +180,20 @@ abstract class MatchesServiceBase extends $grpc.Service {
     return configure(call, await request);
   }
 
-  $async.Future<$0.PointReply> addTeamOnePoint_Pre($grpc.ServiceCall call, $async.Future<$0.PointRequest> request) async {
-    return addTeamOnePoint(call, await request);
+  $async.Future<$0.AddPointReply> addPoint_Pre($grpc.ServiceCall call, $async.Future<$0.AddPointRequest> request) async {
+    return addPoint(call, await request);
   }
 
-  $async.Future<$0.PointReply> addTeamTwoPoint_Pre($grpc.ServiceCall call, $async.Future<$0.PointRequest> request) async {
-    return addTeamTwoPoint(call, await request);
-  }
-
-  $async.Future<$0.PointReply> undoPoint_Pre($grpc.ServiceCall call, $async.Future<$0.PointRequest> request) async {
+  $async.Future<$0.UndoPointReply> undoPoint_Pre($grpc.ServiceCall call, $async.Future<$0.UndoPointRequest> request) async {
     return undoPoint(call, await request);
   }
 
   $async.Future<$0.GetSummaryReply> getSummary($grpc.ServiceCall call, $0.GetSummaryRequest request);
   $async.Future<$0.GetSummariesReply> getSummaries($grpc.ServiceCall call, $0.GetSummariesRequest request);
   $async.Future<$0.GetStateReply> getState($grpc.ServiceCall call, $0.GetStateRequest request);
+  $async.Future<$0.GetStateHistoryReply> getStateHistory($grpc.ServiceCall call, $0.GetStateHistoryRequest request);
   $async.Future<$0.GetStateReply> getStateAtVersion($grpc.ServiceCall call, $0.GetStateAtVersionRequest request);
   $async.Future<$0.ConfigureReply> configure($grpc.ServiceCall call, $0.ConfigureRequest request);
-  $async.Future<$0.PointReply> addTeamOnePoint($grpc.ServiceCall call, $0.PointRequest request);
-  $async.Future<$0.PointReply> addTeamTwoPoint($grpc.ServiceCall call, $0.PointRequest request);
-  $async.Future<$0.PointReply> undoPoint($grpc.ServiceCall call, $0.PointRequest request);
+  $async.Future<$0.AddPointReply> addPoint($grpc.ServiceCall call, $0.AddPointRequest request);
+  $async.Future<$0.UndoPointReply> undoPoint($grpc.ServiceCall call, $0.UndoPointRequest request);
 }

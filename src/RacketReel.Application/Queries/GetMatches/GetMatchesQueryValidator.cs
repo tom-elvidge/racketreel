@@ -25,9 +25,5 @@ internal class GetMatchesQueryValidator : AbstractValidator<GetMatchesQuery>
         RuleFor(c => c.PageSize)
             .LessThanOrEqualTo(20)
             .WithMessage($"{nameof(GetMatchesQuery.PageSize)} must be less than or equal to 20.");
-
-        RuleFor(c => c.OrderBy)
-            .NotNull()
-            .WithMessage($"{nameof(GetMatchesQuery.OrderBy)} cannot be null.");
     }
 }

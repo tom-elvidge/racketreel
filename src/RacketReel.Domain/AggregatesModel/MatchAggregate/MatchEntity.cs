@@ -20,7 +20,7 @@ public class MatchEntity : Entity, IAggregateRoot
     /// <summary>
     /// Describes the rules for scoring the match.
     /// </summary>
-    public Format Format { get; private set; } = BestOfThreeSevenPointTiebreaker.Create();
+    public Format Format { get; private set; } = BestOfThree.Create();
 
     /// <summary>
     /// The collection of all unique states in the match in no particular order.

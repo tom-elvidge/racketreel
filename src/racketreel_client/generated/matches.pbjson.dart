@@ -46,48 +46,46 @@ const Team$json = {
 final $typed_data.Uint8List teamDescriptor = $convert.base64Decode(
     'CgRUZWFtEgwKCFRFQU1fT05FEAASDAoIVEVBTV9UV08QAQ==');
 
-@$core.Deprecated('Use playerCountDescriptor instead')
-const PlayerCount$json = {
-  '1': 'PlayerCount',
-  '2': [
-    {'1': 'SINGLES', '2': 0},
-    {'1': 'DOUBLES', '2': 1},
-  ],
-};
-
-/// Descriptor for `PlayerCount`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List playerCountDescriptor = $convert.base64Decode(
-    'CgtQbGF5ZXJDb3VudBILCgdTSU5HTEVTEAASCwoHRE9VQkxFUxAB');
-
 @$core.Deprecated('Use configureErrorDescriptor instead')
 const ConfigureError$json = {
   '1': 'ConfigureError',
   '2': [
-    {'1': 'MISSING_PLAYER_TWO_NAMES', '2': 0},
+    {'1': 'CONFIGURE_ERROR_UNKNOWN', '2': 0},
   ],
 };
 
 /// Descriptor for `ConfigureError`. Decode as a `google.protobuf.EnumDescriptorProto`.
 final $typed_data.Uint8List configureErrorDescriptor = $convert.base64Decode(
-    'Cg5Db25maWd1cmVFcnJvchIcChhNSVNTSU5HX1BMQVlFUl9UV09fTkFNRVMQAA==');
+    'Cg5Db25maWd1cmVFcnJvchIbChdDT05GSUdVUkVfRVJST1JfVU5LTk9XThAA');
 
-@$core.Deprecated('Use pointErrorDescriptor instead')
-const PointError$json = {
-  '1': 'PointError',
+@$core.Deprecated('Use addPointErrorDescriptor instead')
+const AddPointError$json = {
+  '1': 'AddPointError',
   '2': [
-    {'1': 'POINT_UNKNOWN', '2': 0},
-    {'1': 'POINT_DOES_NOT_EXIST', '2': 1},
-    {'1': 'POINT_PLAYERS_NOT_SET', '2': 2},
-    {'1': 'POINT_IS_COMPLETE', '2': 3},
-    {'1': 'POINT_NOTHING_TO_UNDO', '2': 4},
+    {'1': 'ADD_POINT_UNKNOWN', '2': 0},
+    {'1': 'ADD_POINT_DOES_NOT_EXIST', '2': 1},
+    {'1': 'ADD_POINT_IS_COMPLETE', '2': 2},
   ],
 };
 
-/// Descriptor for `PointError`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List pointErrorDescriptor = $convert.base64Decode(
-    'CgpQb2ludEVycm9yEhEKDVBPSU5UX1VOS05PV04QABIYChRQT0lOVF9ET0VTX05PVF9FWElTVB'
-    'ABEhkKFVBPSU5UX1BMQVlFUlNfTk9UX1NFVBACEhUKEVBPSU5UX0lTX0NPTVBMRVRFEAMSGQoV'
-    'UE9JTlRfTk9USElOR19UT19VTkRPEAQ=');
+/// Descriptor for `AddPointError`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List addPointErrorDescriptor = $convert.base64Decode(
+    'Cg1BZGRQb2ludEVycm9yEhUKEUFERF9QT0lOVF9VTktOT1dOEAASHAoYQUREX1BPSU5UX0RPRV'
+    'NfTk9UX0VYSVNUEAESGQoVQUREX1BPSU5UX0lTX0NPTVBMRVRFEAI=');
+
+@$core.Deprecated('Use undoPointErrorDescriptor instead')
+const UndoPointError$json = {
+  '1': 'UndoPointError',
+  '2': [
+    {'1': 'UNDO_POINT_UNKNOWN', '2': 0},
+    {'1': 'UNDO_POINT_NOTHING_TO_UNDO', '2': 1},
+  ],
+};
+
+/// Descriptor for `UndoPointError`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List undoPointErrorDescriptor = $convert.base64Decode(
+    'Cg5VbmRvUG9pbnRFcnJvchIWChJVTkRPX1BPSU5UX1VOS05PV04QABIeChpVTkRPX1BPSU5UX0'
+    '5PVEhJTkdfVE9fVU5ETxAB');
 
 @$core.Deprecated('Use getSummaryErrorDescriptor instead')
 const GetSummaryError$json = {
@@ -109,15 +107,8 @@ const ConfigureRequest$json = {
   '2': [
     {'1': 'format', '3': 1, '4': 1, '5': 14, '6': '.RacketReel.Format', '10': 'format'},
     {'1': 'serving_first', '3': 2, '4': 1, '5': 14, '6': '.RacketReel.Team', '10': 'servingFirst'},
-    {'1': 'player_count', '3': 3, '4': 1, '5': 14, '6': '.RacketReel.PlayerCount', '10': 'playerCount'},
-    {'1': 'team_one_player_one_name', '3': 4, '4': 1, '5': 9, '10': 'teamOnePlayerOneName'},
-    {'1': 'team_one_player_two_name', '3': 5, '4': 1, '5': 9, '9': 0, '10': 'teamOnePlayerTwoName', '17': true},
-    {'1': 'team_two_player_one_name', '3': 6, '4': 1, '5': 9, '10': 'teamTwoPlayerOneName'},
-    {'1': 'team_two_player_two_name', '3': 7, '4': 1, '5': 9, '9': 1, '10': 'teamTwoPlayerTwoName', '17': true},
-  ],
-  '8': [
-    {'1': '_team_one_player_two_name'},
-    {'1': '_team_two_player_two_name'},
+    {'1': 'team_one_name', '3': 4, '4': 1, '5': 9, '10': 'teamOneName'},
+    {'1': 'team_two_name', '3': 6, '4': 1, '5': 9, '10': 'teamTwoName'},
   ],
 };
 
@@ -125,13 +116,8 @@ const ConfigureRequest$json = {
 final $typed_data.Uint8List configureRequestDescriptor = $convert.base64Decode(
     'ChBDb25maWd1cmVSZXF1ZXN0EioKBmZvcm1hdBgBIAEoDjISLlJhY2tldFJlZWwuRm9ybWF0Ug'
     'Zmb3JtYXQSNQoNc2VydmluZ19maXJzdBgCIAEoDjIQLlJhY2tldFJlZWwuVGVhbVIMc2Vydmlu'
-    'Z0ZpcnN0EjoKDHBsYXllcl9jb3VudBgDIAEoDjIXLlJhY2tldFJlZWwuUGxheWVyQ291bnRSC3'
-    'BsYXllckNvdW50EjYKGHRlYW1fb25lX3BsYXllcl9vbmVfbmFtZRgEIAEoCVIUdGVhbU9uZVBs'
-    'YXllck9uZU5hbWUSOwoYdGVhbV9vbmVfcGxheWVyX3R3b19uYW1lGAUgASgJSABSFHRlYW1Pbm'
-    'VQbGF5ZXJUd29OYW1liAEBEjYKGHRlYW1fdHdvX3BsYXllcl9vbmVfbmFtZRgGIAEoCVIUdGVh'
-    'bVR3b1BsYXllck9uZU5hbWUSOwoYdGVhbV90d29fcGxheWVyX3R3b19uYW1lGAcgASgJSAFSFH'
-    'RlYW1Ud29QbGF5ZXJUd29OYW1liAEBQhsKGV90ZWFtX29uZV9wbGF5ZXJfdHdvX25hbWVCGwoZ'
-    'X3RlYW1fdHdvX3BsYXllcl90d29fbmFtZQ==');
+    'Z0ZpcnN0EiIKDXRlYW1fb25lX25hbWUYBCABKAlSC3RlYW1PbmVOYW1lEiIKDXRlYW1fdHdvX2'
+    '5hbWUYBiABKAlSC3RlYW1Ud29OYW1l');
 
 @$core.Deprecated('Use configureReplyDescriptor instead')
 const ConfigureReply$json = {
@@ -153,31 +139,65 @@ final $typed_data.Uint8List configureReplyDescriptor = $convert.base64Decode(
     'gOMhouUmFja2V0UmVlbC5Db25maWd1cmVFcnJvckgAUgVlcnJvcogBARIeCghtYXRjaF9pZBgD'
     'IAEoCUgBUgdtYXRjaElkiAEBQggKBl9lcnJvckILCglfbWF0Y2hfaWQ=');
 
-@$core.Deprecated('Use pointRequestDescriptor instead')
-const PointRequest$json = {
-  '1': 'PointRequest',
+@$core.Deprecated('Use addPointRequestDescriptor instead')
+const AddPointRequest$json = {
+  '1': 'AddPointRequest',
+  '2': [
+    {'1': 'match_id', '3': 1, '4': 1, '5': 5, '10': 'matchId'},
+    {'1': 'team', '3': 2, '4': 1, '5': 14, '6': '.RacketReel.Team', '10': 'team'},
+  ],
 };
 
-/// Descriptor for `PointRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List pointRequestDescriptor = $convert.base64Decode(
-    'CgxQb2ludFJlcXVlc3Q=');
+/// Descriptor for `AddPointRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List addPointRequestDescriptor = $convert.base64Decode(
+    'Cg9BZGRQb2ludFJlcXVlc3QSGQoIbWF0Y2hfaWQYASABKAVSB21hdGNoSWQSJAoEdGVhbRgCIA'
+    'EoDjIQLlJhY2tldFJlZWwuVGVhbVIEdGVhbQ==');
 
-@$core.Deprecated('Use pointReplyDescriptor instead')
-const PointReply$json = {
-  '1': 'PointReply',
+@$core.Deprecated('Use addPointReplyDescriptor instead')
+const AddPointReply$json = {
+  '1': 'AddPointReply',
   '2': [
     {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
-    {'1': 'error', '3': 2, '4': 1, '5': 14, '6': '.RacketReel.PointError', '9': 0, '10': 'error', '17': true},
+    {'1': 'error', '3': 2, '4': 1, '5': 14, '6': '.RacketReel.AddPointError', '9': 0, '10': 'error', '17': true},
   ],
   '8': [
     {'1': '_error'},
   ],
 };
 
-/// Descriptor for `PointReply`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List pointReplyDescriptor = $convert.base64Decode(
-    'CgpQb2ludFJlcGx5EhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3MSMQoFZXJyb3IYAiABKA4yFi'
-    '5SYWNrZXRSZWVsLlBvaW50RXJyb3JIAFIFZXJyb3KIAQFCCAoGX2Vycm9y');
+/// Descriptor for `AddPointReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List addPointReplyDescriptor = $convert.base64Decode(
+    'Cg1BZGRQb2ludFJlcGx5EhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3MSNAoFZXJyb3IYAiABKA'
+    '4yGS5SYWNrZXRSZWVsLkFkZFBvaW50RXJyb3JIAFIFZXJyb3KIAQFCCAoGX2Vycm9y');
+
+@$core.Deprecated('Use undoPointRequestDescriptor instead')
+const UndoPointRequest$json = {
+  '1': 'UndoPointRequest',
+  '2': [
+    {'1': 'match_id', '3': 1, '4': 1, '5': 5, '10': 'matchId'},
+  ],
+};
+
+/// Descriptor for `UndoPointRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List undoPointRequestDescriptor = $convert.base64Decode(
+    'ChBVbmRvUG9pbnRSZXF1ZXN0EhkKCG1hdGNoX2lkGAEgASgFUgdtYXRjaElk');
+
+@$core.Deprecated('Use undoPointReplyDescriptor instead')
+const UndoPointReply$json = {
+  '1': 'UndoPointReply',
+  '2': [
+    {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
+    {'1': 'error', '3': 2, '4': 1, '5': 14, '6': '.RacketReel.UndoPointError', '9': 0, '10': 'error', '17': true},
+  ],
+  '8': [
+    {'1': '_error'},
+  ],
+};
+
+/// Descriptor for `UndoPointReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List undoPointReplyDescriptor = $convert.base64Decode(
+    'Cg5VbmRvUG9pbnRSZXBseRIYCgdzdWNjZXNzGAEgASgIUgdzdWNjZXNzEjUKBWVycm9yGAIgAS'
+    'gOMhouUmFja2V0UmVlbC5VbmRvUG9pbnRFcnJvckgAUgVlcnJvcogBAUIICgZfZXJyb3I=');
 
 @$core.Deprecated('Use getSummaryRequestDescriptor instead')
 const GetSummaryRequest$json = {
@@ -221,7 +241,6 @@ const Summary$json = {
     {'1': 'completed_at_utc', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'completedAtUtc'},
     {'1': 'duration', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Duration', '10': 'duration'},
     {'1': 'format', '3': 5, '4': 1, '5': 14, '6': '.RacketReel.Format', '10': 'format'},
-    {'1': 'serving_first', '3': 6, '4': 1, '5': 14, '6': '.RacketReel.Team', '10': 'servingFirst'},
     {'1': 'set_one', '3': 7, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '10': 'setOne'},
     {'1': 'set_two', '3': 8, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '9': 0, '10': 'setTwo', '17': true},
     {'1': 'set_three', '3': 9, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '9': 1, '10': 'setThree', '17': true},
@@ -242,14 +261,13 @@ final $typed_data.Uint8List summaryDescriptor = $convert.base64Decode(
     'IgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIMc3RhcnRlZEF0VXRjEkQKEGNvbXBs'
     'ZXRlZF9hdF91dGMYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUg5jb21wbGV0ZW'
     'RBdFV0YxI1CghkdXJhdGlvbhgEIAEoCzIZLmdvb2dsZS5wcm90b2J1Zi5EdXJhdGlvblIIZHVy'
-    'YXRpb24SKgoGZm9ybWF0GAUgASgOMhIuUmFja2V0UmVlbC5Gb3JtYXRSBmZvcm1hdBI1Cg1zZX'
-    'J2aW5nX2ZpcnN0GAYgASgOMhAuUmFja2V0UmVlbC5UZWFtUgxzZXJ2aW5nRmlyc3QSLwoHc2V0'
-    'X29uZRgHIAEoCzIWLlJhY2tldFJlZWwuU2V0U3VtbWFyeVIGc2V0T25lEjQKB3NldF90d28YCC'
-    'ABKAsyFi5SYWNrZXRSZWVsLlNldFN1bW1hcnlIAFIGc2V0VHdviAEBEjgKCXNldF90aHJlZRgJ'
-    'IAEoCzIWLlJhY2tldFJlZWwuU2V0U3VtbWFyeUgBUghzZXRUaHJlZYgBARI2CghzZXRfZm91ch'
-    'gKIAEoCzIWLlJhY2tldFJlZWwuU2V0U3VtbWFyeUgCUgdzZXRGb3VyiAEBEjYKCHNldF9maXZl'
-    'GAsgASgLMhYuUmFja2V0UmVlbC5TZXRTdW1tYXJ5SANSB3NldEZpdmWIAQFCCgoIX3NldF90d2'
-    '9CDAoKX3NldF90aHJlZUILCglfc2V0X2ZvdXJCCwoJX3NldF9maXZl');
+    'YXRpb24SKgoGZm9ybWF0GAUgASgOMhIuUmFja2V0UmVlbC5Gb3JtYXRSBmZvcm1hdBIvCgdzZX'
+    'Rfb25lGAcgASgLMhYuUmFja2V0UmVlbC5TZXRTdW1tYXJ5UgZzZXRPbmUSNAoHc2V0X3R3bxgI'
+    'IAEoCzIWLlJhY2tldFJlZWwuU2V0U3VtbWFyeUgAUgZzZXRUd2+IAQESOAoJc2V0X3RocmVlGA'
+    'kgASgLMhYuUmFja2V0UmVlbC5TZXRTdW1tYXJ5SAFSCHNldFRocmVliAEBEjYKCHNldF9mb3Vy'
+    'GAogASgLMhYuUmFja2V0UmVlbC5TZXRTdW1tYXJ5SAJSB3NldEZvdXKIAQESNgoIc2V0X2Zpdm'
+    'UYCyABKAsyFi5SYWNrZXRSZWVsLlNldFN1bW1hcnlIA1IHc2V0Rml2ZYgBAUIKCghfc2V0X3R3'
+    'b0IMCgpfc2V0X3RocmVlQgsKCV9zZXRfZm91ckILCglfc2V0X2ZpdmU=');
 
 @$core.Deprecated('Use setSummaryDescriptor instead')
 const SetSummary$json = {
@@ -258,12 +276,8 @@ const SetSummary$json = {
     {'1': 'team_one_games', '3': 1, '4': 1, '5': 5, '10': 'teamOneGames'},
     {'1': 'team_two_games', '3': 2, '4': 1, '5': 5, '10': 'teamTwoGames'},
     {'1': 'tiebreak', '3': 3, '4': 1, '5': 8, '10': 'tiebreak'},
-    {'1': 'team_one_tiebreak_points', '3': 4, '4': 1, '5': 5, '9': 0, '10': 'teamOneTiebreakPoints', '17': true},
-    {'1': 'team_two_tiebreak_points', '3': 5, '4': 1, '5': 5, '9': 1, '10': 'teamTwoTiebreakPoints', '17': true},
-  ],
-  '8': [
-    {'1': '_team_one_tiebreak_points'},
-    {'1': '_team_two_tiebreak_points'},
+    {'1': 'team_one_tiebreak_points', '3': 4, '4': 1, '5': 5, '10': 'teamOneTiebreakPoints'},
+    {'1': 'team_two_tiebreak_points', '3': 5, '4': 1, '5': 5, '10': 'teamTwoTiebreakPoints'},
   ],
 };
 
@@ -271,10 +285,9 @@ const SetSummary$json = {
 final $typed_data.Uint8List setSummaryDescriptor = $convert.base64Decode(
     'CgpTZXRTdW1tYXJ5EiQKDnRlYW1fb25lX2dhbWVzGAEgASgFUgx0ZWFtT25lR2FtZXMSJAoOdG'
     'VhbV90d29fZ2FtZXMYAiABKAVSDHRlYW1Ud29HYW1lcxIaCgh0aWVicmVhaxgDIAEoCFIIdGll'
-    'YnJlYWsSPAoYdGVhbV9vbmVfdGllYnJlYWtfcG9pbnRzGAQgASgFSABSFXRlYW1PbmVUaWVicm'
-    'Vha1BvaW50c4gBARI8Chh0ZWFtX3R3b190aWVicmVha19wb2ludHMYBSABKAVIAVIVdGVhbVR3'
-    'b1RpZWJyZWFrUG9pbnRziAEBQhsKGV90ZWFtX29uZV90aWVicmVha19wb2ludHNCGwoZX3RlYW'
-    '1fdHdvX3RpZWJyZWFrX3BvaW50cw==');
+    'YnJlYWsSNwoYdGVhbV9vbmVfdGllYnJlYWtfcG9pbnRzGAQgASgFUhV0ZWFtT25lVGllYnJlYW'
+    'tQb2ludHMSNwoYdGVhbV90d29fdGllYnJlYWtfcG9pbnRzGAUgASgFUhV0ZWFtVHdvVGllYnJl'
+    'YWtQb2ludHM=');
 
 @$core.Deprecated('Use getSummariesRequestDescriptor instead')
 const GetSummariesRequest$json = {
@@ -311,12 +324,14 @@ const GetStateRequest$json = {
   '1': 'GetStateRequest',
   '2': [
     {'1': 'match_id', '3': 1, '4': 1, '5': 5, '10': 'matchId'},
+    {'1': 'state_version', '3': 2, '4': 1, '5': 5, '10': 'stateVersion'},
   ],
 };
 
 /// Descriptor for `GetStateRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getStateRequestDescriptor = $convert.base64Decode(
-    'Cg9HZXRTdGF0ZVJlcXVlc3QSGQoIbWF0Y2hfaWQYASABKAVSB21hdGNoSWQ=');
+    'Cg9HZXRTdGF0ZVJlcXVlc3QSGQoIbWF0Y2hfaWQYASABKAVSB21hdGNoSWQSIwoNc3RhdGVfdm'
+    'Vyc2lvbhgCIAEoBVIMc3RhdGVWZXJzaW9u');
 
 @$core.Deprecated('Use getStateReplyDescriptor instead')
 const GetStateReply$json = {
@@ -343,8 +358,8 @@ const State$json = {
     {'1': 'created_at_utc', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAtUtc'},
     {'1': 'serving', '3': 3, '4': 1, '5': 14, '6': '.RacketReel.Team', '10': 'serving'},
     {'1': 'highlighted', '3': 4, '4': 1, '5': 8, '10': 'highlighted'},
-    {'1': 'player_one_name', '3': 5, '4': 1, '5': 9, '10': 'playerOneName'},
-    {'1': 'player_two_name', '3': 6, '4': 1, '5': 9, '10': 'playerTwoName'},
+    {'1': 'team_one_name', '3': 5, '4': 1, '5': 9, '10': 'teamOneName'},
+    {'1': 'team_two_name', '3': 6, '4': 1, '5': 9, '10': 'teamTwoName'},
     {'1': 'team_one_points', '3': 7, '4': 1, '5': 9, '10': 'teamOnePoints'},
     {'1': 'team_two_points', '3': 8, '4': 1, '5': 9, '10': 'teamTwoPoints'},
     {'1': 'team_one_games', '3': 9, '4': 1, '5': 9, '10': 'teamOneGames'},
@@ -359,12 +374,38 @@ final $typed_data.Uint8List stateDescriptor = $convert.base64Decode(
     'CgVTdGF0ZRIYCgd2ZXJzaW9uGAEgASgFUgd2ZXJzaW9uEkAKDmNyZWF0ZWRfYXRfdXRjGAIgAS'
     'gLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIMY3JlYXRlZEF0VXRjEioKB3NlcnZpbmcY'
     'AyABKA4yEC5SYWNrZXRSZWVsLlRlYW1SB3NlcnZpbmcSIAoLaGlnaGxpZ2h0ZWQYBCABKAhSC2'
-    'hpZ2hsaWdodGVkEiYKD3BsYXllcl9vbmVfbmFtZRgFIAEoCVINcGxheWVyT25lTmFtZRImCg9w'
-    'bGF5ZXJfdHdvX25hbWUYBiABKAlSDXBsYXllclR3b05hbWUSJgoPdGVhbV9vbmVfcG9pbnRzGA'
-    'cgASgJUg10ZWFtT25lUG9pbnRzEiYKD3RlYW1fdHdvX3BvaW50cxgIIAEoCVINdGVhbVR3b1Bv'
-    'aW50cxIkCg50ZWFtX29uZV9nYW1lcxgJIAEoCVIMdGVhbU9uZUdhbWVzEiQKDnRlYW1fdHdvX2'
-    'dhbWVzGAogASgJUgx0ZWFtVHdvR2FtZXMSIgoNdGVhbV9vbmVfc2V0cxgLIAEoCVILdGVhbU9u'
-    'ZVNldHMSIgoNdGVhbV90d29fc2V0cxgMIAEoCVILdGVhbVR3b1NldHM=');
+    'hpZ2hsaWdodGVkEiIKDXRlYW1fb25lX25hbWUYBSABKAlSC3RlYW1PbmVOYW1lEiIKDXRlYW1f'
+    'dHdvX25hbWUYBiABKAlSC3RlYW1Ud29OYW1lEiYKD3RlYW1fb25lX3BvaW50cxgHIAEoCVINdG'
+    'VhbU9uZVBvaW50cxImCg90ZWFtX3R3b19wb2ludHMYCCABKAlSDXRlYW1Ud29Qb2ludHMSJAoO'
+    'dGVhbV9vbmVfZ2FtZXMYCSABKAlSDHRlYW1PbmVHYW1lcxIkCg50ZWFtX3R3b19nYW1lcxgKIA'
+    'EoCVIMdGVhbVR3b0dhbWVzEiIKDXRlYW1fb25lX3NldHMYCyABKAlSC3RlYW1PbmVTZXRzEiIK'
+    'DXRlYW1fdHdvX3NldHMYDCABKAlSC3RlYW1Ud29TZXRz');
+
+@$core.Deprecated('Use getStateHistoryRequestDescriptor instead')
+const GetStateHistoryRequest$json = {
+  '1': 'GetStateHistoryRequest',
+  '2': [
+    {'1': 'match_id', '3': 1, '4': 1, '5': 5, '10': 'matchId'},
+  ],
+};
+
+/// Descriptor for `GetStateHistoryRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getStateHistoryRequestDescriptor = $convert.base64Decode(
+    'ChZHZXRTdGF0ZUhpc3RvcnlSZXF1ZXN0EhkKCG1hdGNoX2lkGAEgASgFUgdtYXRjaElk');
+
+@$core.Deprecated('Use getStateHistoryReplyDescriptor instead')
+const GetStateHistoryReply$json = {
+  '1': 'GetStateHistoryReply',
+  '2': [
+    {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
+    {'1': 'states', '3': 2, '4': 3, '5': 11, '6': '.RacketReel.State', '10': 'states'},
+  ],
+};
+
+/// Descriptor for `GetStateHistoryReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getStateHistoryReplyDescriptor = $convert.base64Decode(
+    'ChRHZXRTdGF0ZUhpc3RvcnlSZXBseRIYCgdzdWNjZXNzGAEgASgIUgdzdWNjZXNzEikKBnN0YX'
+    'RlcxgCIAMoCzIRLlJhY2tldFJlZWwuU3RhdGVSBnN0YXRlcw==');
 
 @$core.Deprecated('Use getStateAtVersionRequestDescriptor instead')
 const GetStateAtVersionRequest$json = {

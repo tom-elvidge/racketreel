@@ -1,62 +1,47 @@
-using MediatR;
-using Microsoft.Extensions.Logging;
 using RacketReel.Application.Abstractions.Messaging;
-using RacketReel.Application.DTOs;
+using RacketReel.Application.Models;
+using RacketReel.Application.Services;
 using RacketReel.Domain.AggregatesModel.MatchAggregate;
 using RacketReel.Domain.AggregatesModel.MatchAggregate.Formats;
 using RacketReel.Domain.AggregatesModel.MatchAggregate.Participants;
 using RacketReel.Domain.SeedWork;
+using ApplicationFormat = RacketReel.Application.Models.Format;
+using DomainFormat = RacketReel.Domain.AggregatesModel.MatchAggregate.Formats.Format;
 
 namespace RacketReel.Application.Commands.CreateMatch;
 
-public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, Match>
+public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, State>
 {
-    private readonly IMediator _mediator;
-    private readonly ILogger<CreateMatchCommandHandler> _logger;
     private readonly IMatchRepository _matchRepository;
 
-    public CreateMatchCommandHandler(
-        IMediator mediator,
-        ILogger<CreateMatchCommandHandler> logger,
-        IMatchRepository matchRepository)
+    public CreateMatchCommandHandler(IMatchRepository matchRepository)
     {
-        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _matchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
     }
 
-    public async Task<Result<Match>> Handle(CreateMatchCommand command, CancellationToken cancellationToken)
+    public async Task<Result<State>> Handle(CreateMatchCommand command, CancellationToken cancellationToken)
     {
-        var playerOne = command.Participants[0];
-        var playerTwo = command.Participants[1];
-        var servingFirst = command.ServingFirst == playerOne ? ParticipantEnum.One : ParticipantEnum.Two;
-
-        var match = MatchEntity.Create(
-            new NoUserParticipant(playerOne),
-            new NoUserParticipant(playerTwo),
-            servingFirst,
+        var matchEntity = MatchEntity.Create(
+            new NoUserParticipant(command.TeamOneName),
+            new NoUserParticipant(command.TeamTwoName),
+            command.ServingFirst == Team.TeamOne ? ParticipantEnum.One : ParticipantEnum.Two,
             CreateFormat(command.Format));
 
-        _matchRepository.Add(match);
+        _matchRepository.Add(matchEntity);
         await _matchRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-
-        return Result.Success<Match>(Match.Create(match));
+        
+        return Result.Success(StateCreator.CreateState(matchEntity, matchEntity.States.First()));
     }
 
-    private Format CreateFormat(MatchFormatEnum format)
+    private DomainFormat CreateFormat(ApplicationFormat format) => format switch
     {
-        switch (format)
-        {
-            case MatchFormatEnum.TiebreakToTen:
-                return TiebreakToTen.Create();
-            case MatchFormatEnum.BestOfThreeSevenPointTiebreaker:
-                return BestOfFiveSevenPointTiebreaker.Create();
-            case MatchFormatEnum.BestOfFiveSevenPointTiebreaker:
-                return BestOfFiveSevenPointTiebreaker.Create();
-            case MatchFormatEnum.FastFour:
-                return FastFour.Create();
-            default:
-                throw new ApplicationException($"missing case statement for {format}");
-        }
-    }
+        ApplicationFormat.TiebreakToTen => TiebreakToTen.Create(),
+        ApplicationFormat.BestOfOne => BestOfOne.Create(),
+        ApplicationFormat.BestOfThree => BestOfThree.Create(),
+        ApplicationFormat.BestOfThreeFinalSetTiebreak => BestOfThreeFinalSetTiebreak.Create(),
+        ApplicationFormat.BestOfFive => BestOfFive.Create(),
+        ApplicationFormat.BestOfFiveFinalSetTiebreak => BestOfThreeFinalSetTiebreak.Create(),
+        ApplicationFormat.FastFour => FastFour.Create(),
+        _ => throw new ArgumentException($"Format {format} is not supported by domain")
+    };
 }
