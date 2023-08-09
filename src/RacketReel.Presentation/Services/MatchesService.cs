@@ -7,6 +7,7 @@ using RacketReel.Application.Commands.UndoPoint;
 using RacketReel.Application.Errors;
 using RacketReel.Application.Models;
 using RacketReel.Application.Queries.GetAllStates;
+using RacketReel.Application.Queries.GetLatestState;
 using RacketReel.Application.Queries.GetMatchById;
 using RacketReel.Application.Queries.GetMatches;
 using RacketReel.Application.Queries.GetMatchMetadata;
@@ -79,7 +80,7 @@ public class MatchesService : Matches.MatchesBase
 
     public override async Task<GetStateReply> GetState(GetStateRequest request, ServerCallContext context)
     {
-        var getStateResult = await _sender.Send(new GetStateByIndexQuery(request.MatchId, request.StateVersion));
+        var getStateResult = await _sender.Send(new GetLatestStateQuery(request.MatchId));
         
         if (getStateResult.IsFailure)
         {
@@ -109,11 +110,10 @@ public class MatchesService : Matches.MatchesBase
 
     public override async Task<GetStateHistoryReply> GetStateHistory(GetStateHistoryRequest request, ServerCallContext context)
     {
-        var getStatesTask = _sender.Send(new GetAllStatesQuery(request.MatchId));
-        var getMetadataTask = _sender.Send(new GetMatchMetadataQuery(request.MatchId));
-        await Task.WhenAll(getMetadataTask, getStatesTask);
+        var getStatesTask = await _sender.Send(new GetAllStatesQuery(request.MatchId));
+        var getMetadataTask = await _sender.Send(new GetMatchMetadataQuery(request.MatchId));
 
-        if (getStatesTask.Result.IsFailure || getMetadataTask.Result.IsFailure)
+        if (getStatesTask.IsFailure || getMetadataTask.IsFailure)
         {
             return new GetStateHistoryReply
             {
@@ -122,8 +122,8 @@ public class MatchesService : Matches.MatchesBase
         }
 
         var reply = new GetStateHistoryReply { Success = true };
-        var metadata = getMetadataTask.Result.Value;
-        reply.States.AddRange(getStatesTask.Result.Value
+        var metadata = getMetadataTask.Value;
+        reply.States.AddRange(getStatesTask.Value
             .Select(x => CreateState(x, metadata.TeamOneName, metadata.TeamTwoName)));
         return reply;
     }
@@ -131,11 +131,10 @@ public class MatchesService : Matches.MatchesBase
     public override async Task<GetStateReply> GetStateAtVersion(GetStateAtVersionRequest request,
         ServerCallContext context)
     {
-        var getStateTask = _sender.Send(new GetStateByIndexQuery(request.MatchId, request.Version));
-        var getMetadataTask = _sender.Send(new GetMatchMetadataQuery(request.MatchId));
-        await Task.WhenAll(getMetadataTask, getStateTask);
+        var getStateTask = await _sender.Send(new GetStateByIndexQuery(request.MatchId, request.Version));
+        var getMetadataTask = await _sender.Send(new GetMatchMetadataQuery(request.MatchId));
 
-        if (getStateTask.Result.IsFailure || getMetadataTask.Result.IsFailure)
+        if (getStateTask.IsFailure || getMetadataTask.IsFailure)
         {
             return new GetStateReply
             {
@@ -143,18 +142,18 @@ public class MatchesService : Matches.MatchesBase
             };
         }
 
-        var metadata = getMetadataTask.Result.Value;
+        var metadata = getMetadataTask.Value;
 
         return new GetStateReply
         {
             Success = true,
-            State = CreateState(getStateTask.Result.Value, metadata.TeamOneName, metadata.TeamTwoName)
+            State = CreateState(getStateTask.Value, metadata.TeamOneName, metadata.TeamTwoName)
         };
     }
 
     public override async Task<ConfigureReply> Configure(ConfigureRequest request, ServerCallContext context)
     {
-        var result = await _sender.Send(new CreateMatchCommand(
+        var command = new CreateMatchCommand(
             request.TeamOneName,
             request.TeamTwoName,
             request.ServingFirst == Team.One ? ApplicationTeam.TeamOne : ApplicationTeam.TeamTwo,
@@ -168,7 +167,8 @@ public class MatchesService : Matches.MatchesBase
                 Format.BestOfFiveFst => ApplicationFormat.BestOfFiveFinalSetTiebreak,
                 Format.BestOfThreeFst => ApplicationFormat.BestOfThreeFinalSetTiebreak,
                 _ => throw new ArgumentException($"Missing format for {request.Format}")
-            }));
+            });
+        var result = await _sender.Send(command);
 
         if (result.IsFailure)
             return new ConfigureReply
@@ -180,7 +180,7 @@ public class MatchesService : Matches.MatchesBase
         return new ConfigureReply
         {
             Success = true,
-            MatchId = result.Value.MatchId.ToString()
+            MatchId = result.Value.MatchId
         };
     }
 
@@ -249,7 +249,8 @@ public class MatchesService : Matches.MatchesBase
             TeamOneSets = state.TeamOneSets.ToString(),
             TeamTwoSets = state.TeamTwoSets.ToString(),
             TeamOneName = teamOneName,
-            TeamTwoName = teamTwoName
+            TeamTwoName = teamTwoName,
+            Version = state.Version
         };
     }
 
@@ -257,8 +258,9 @@ public class MatchesService : Matches.MatchesBase
     {
         return new Summary
         {
+            StartedAtUtc = Timestamp.FromDateTime(match.CreatedAt),
             CompletedAtUtc = Timestamp.FromDateTime(match.CompletedAt),
-            Duration = Duration.FromTimeSpan(match.CompletedAt - match.CompletedAt),
+            Duration = Duration.FromTimeSpan(match.CompletedAt - match.CreatedAt),
             Format = match.Format switch
             {
                 ApplicationFormat.TiebreakToTen => Format.TiebreakToTen,

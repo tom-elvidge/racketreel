@@ -15,15 +15,5 @@ internal class CreateMatchCommandValidator : AbstractValidator<CreateMatchComman
             .NotNull()
             .NotEmpty()
             .WithMessage($"{nameof(CreateMatchCommand.TeamTwoName)} cannot be null or empty.");
-
-        RuleFor(c => c.ServingFirst)
-            .NotNull()
-            .NotEmpty()
-            .WithMessage($"{nameof(CreateMatchCommand.ServingFirst)} cannot be null or empty.");
-
-        RuleFor(c => c.Format)
-            .NotNull()
-            .NotEmpty()
-            .WithMessage($"{nameof(CreateMatchCommand.Format)} cannot be null or empty.");
     }
 }
