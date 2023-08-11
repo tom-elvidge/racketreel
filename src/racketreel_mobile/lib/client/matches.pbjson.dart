@@ -125,7 +125,7 @@ const ConfigureReply$json = {
   '2': [
     {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
     {'1': 'error', '3': 2, '4': 1, '5': 14, '6': '.RacketReel.ConfigureError', '9': 0, '10': 'error', '17': true},
-    {'1': 'match_id', '3': 3, '4': 1, '5': 9, '9': 1, '10': 'matchId', '17': true},
+    {'1': 'match_id', '3': 3, '4': 1, '5': 5, '9': 1, '10': 'matchId', '17': true},
   ],
   '8': [
     {'1': '_error'},
@@ -137,7 +137,7 @@ const ConfigureReply$json = {
 final $typed_data.Uint8List configureReplyDescriptor = $convert.base64Decode(
     'Cg5Db25maWd1cmVSZXBseRIYCgdzdWNjZXNzGAEgASgIUgdzdWNjZXNzEjUKBWVycm9yGAIgAS'
     'gOMhouUmFja2V0UmVlbC5Db25maWd1cmVFcnJvckgAUgVlcnJvcogBARIeCghtYXRjaF9pZBgD'
-    'IAEoCUgBUgdtYXRjaElkiAEBQggKBl9lcnJvckILCglfbWF0Y2hfaWQ=');
+    'IAEoBUgBUgdtYXRjaElkiAEBQggKBl9lcnJvckILCglfbWF0Y2hfaWQ=');
 
 @$core.Deprecated('Use addPointRequestDescriptor instead')
 const AddPointRequest$json = {
@@ -241,11 +241,13 @@ const Summary$json = {
     {'1': 'completed_at_utc', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'completedAtUtc'},
     {'1': 'duration', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Duration', '10': 'duration'},
     {'1': 'format', '3': 5, '4': 1, '5': 14, '6': '.RacketReel.Format', '10': 'format'},
-    {'1': 'set_one', '3': 7, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '10': 'setOne'},
-    {'1': 'set_two', '3': 8, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '9': 0, '10': 'setTwo', '17': true},
-    {'1': 'set_three', '3': 9, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '9': 1, '10': 'setThree', '17': true},
-    {'1': 'set_four', '3': 10, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '9': 2, '10': 'setFour', '17': true},
-    {'1': 'set_five', '3': 11, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '9': 3, '10': 'setFive', '17': true},
+    {'1': 'team_one_name', '3': 7, '4': 1, '5': 9, '10': 'teamOneName'},
+    {'1': 'team_two_name', '3': 8, '4': 1, '5': 9, '10': 'teamTwoName'},
+    {'1': 'set_one', '3': 9, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '10': 'setOne'},
+    {'1': 'set_two', '3': 10, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '9': 0, '10': 'setTwo', '17': true},
+    {'1': 'set_three', '3': 11, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '9': 1, '10': 'setThree', '17': true},
+    {'1': 'set_four', '3': 12, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '9': 2, '10': 'setFour', '17': true},
+    {'1': 'set_five', '3': 13, '4': 1, '5': 11, '6': '.RacketReel.SetSummary', '9': 3, '10': 'setFive', '17': true},
   ],
   '8': [
     {'1': '_set_two'},
@@ -261,13 +263,15 @@ final $typed_data.Uint8List summaryDescriptor = $convert.base64Decode(
     'IgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIMc3RhcnRlZEF0VXRjEkQKEGNvbXBs'
     'ZXRlZF9hdF91dGMYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUg5jb21wbGV0ZW'
     'RBdFV0YxI1CghkdXJhdGlvbhgEIAEoCzIZLmdvb2dsZS5wcm90b2J1Zi5EdXJhdGlvblIIZHVy'
-    'YXRpb24SKgoGZm9ybWF0GAUgASgOMhIuUmFja2V0UmVlbC5Gb3JtYXRSBmZvcm1hdBIvCgdzZX'
-    'Rfb25lGAcgASgLMhYuUmFja2V0UmVlbC5TZXRTdW1tYXJ5UgZzZXRPbmUSNAoHc2V0X3R3bxgI'
-    'IAEoCzIWLlJhY2tldFJlZWwuU2V0U3VtbWFyeUgAUgZzZXRUd2+IAQESOAoJc2V0X3RocmVlGA'
-    'kgASgLMhYuUmFja2V0UmVlbC5TZXRTdW1tYXJ5SAFSCHNldFRocmVliAEBEjYKCHNldF9mb3Vy'
-    'GAogASgLMhYuUmFja2V0UmVlbC5TZXRTdW1tYXJ5SAJSB3NldEZvdXKIAQESNgoIc2V0X2Zpdm'
-    'UYCyABKAsyFi5SYWNrZXRSZWVsLlNldFN1bW1hcnlIA1IHc2V0Rml2ZYgBAUIKCghfc2V0X3R3'
-    'b0IMCgpfc2V0X3RocmVlQgsKCV9zZXRfZm91ckILCglfc2V0X2ZpdmU=');
+    'YXRpb24SKgoGZm9ybWF0GAUgASgOMhIuUmFja2V0UmVlbC5Gb3JtYXRSBmZvcm1hdBIiCg10ZW'
+    'FtX29uZV9uYW1lGAcgASgJUgt0ZWFtT25lTmFtZRIiCg10ZWFtX3R3b19uYW1lGAggASgJUgt0'
+    'ZWFtVHdvTmFtZRIvCgdzZXRfb25lGAkgASgLMhYuUmFja2V0UmVlbC5TZXRTdW1tYXJ5UgZzZX'
+    'RPbmUSNAoHc2V0X3R3bxgKIAEoCzIWLlJhY2tldFJlZWwuU2V0U3VtbWFyeUgAUgZzZXRUd2+I'
+    'AQESOAoJc2V0X3RocmVlGAsgASgLMhYuUmFja2V0UmVlbC5TZXRTdW1tYXJ5SAFSCHNldFRocm'
+    'VliAEBEjYKCHNldF9mb3VyGAwgASgLMhYuUmFja2V0UmVlbC5TZXRTdW1tYXJ5SAJSB3NldEZv'
+    'dXKIAQESNgoIc2V0X2ZpdmUYDSABKAsyFi5SYWNrZXRSZWVsLlNldFN1bW1hcnlIA1IHc2V0Rm'
+    'l2ZYgBAUIKCghfc2V0X3R3b0IMCgpfc2V0X3RocmVlQgsKCV9zZXRfZm91ckILCglfc2V0X2Zp'
+    'dmU=');
 
 @$core.Deprecated('Use setSummaryDescriptor instead')
 const SetSummary$json = {
@@ -324,14 +328,12 @@ const GetStateRequest$json = {
   '1': 'GetStateRequest',
   '2': [
     {'1': 'match_id', '3': 1, '4': 1, '5': 5, '10': 'matchId'},
-    {'1': 'state_version', '3': 2, '4': 1, '5': 5, '10': 'stateVersion'},
   ],
 };
 
 /// Descriptor for `GetStateRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getStateRequestDescriptor = $convert.base64Decode(
-    'Cg9HZXRTdGF0ZVJlcXVlc3QSGQoIbWF0Y2hfaWQYASABKAVSB21hdGNoSWQSIwoNc3RhdGVfdm'
-    'Vyc2lvbhgCIAEoBVIMc3RhdGVWZXJzaW9u');
+    'Cg9HZXRTdGF0ZVJlcXVlc3QSGQoIbWF0Y2hfaWQYASABKAVSB21hdGNoSWQ=');
 
 @$core.Deprecated('Use getStateReplyDescriptor instead')
 const GetStateReply$json = {

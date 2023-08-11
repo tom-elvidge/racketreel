@@ -273,6 +273,8 @@ public class MatchesService : Matches.MatchesBase
                 _ => throw new ArgumentOutOfRangeException($"Unexpected Format of {nameof(ApplicationFormat)}")
             },
             MatchId = match.Id,
+            TeamOneName = match.TeamOneName,
+            TeamTwoName = match.TeamTwoName,
             SetOne = new SetSummary
             {
                 TeamOneGames = match.SetOne.TeamOneGames,

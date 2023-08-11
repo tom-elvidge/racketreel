@@ -100,7 +100,7 @@ class ConfigureReply extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ConfigureReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'success')
     ..e<ConfigureError>(2, _omitFieldNames ? '' : 'error', $pb.PbFieldType.OE, defaultOrMaker: ConfigureError.CONFIGURE_ERROR_UNKNOWN, valueOf: ConfigureError.valueOf, enumValues: ConfigureError.values)
-    ..aOS(3, _omitFieldNames ? '' : 'matchId')
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'matchId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -144,9 +144,9 @@ class ConfigureReply extends $pb.GeneratedMessage {
   void clearError() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get matchId => $_getSZ(2);
+  $core.int get matchId => $_getIZ(2);
   @$pb.TagNumber(3)
-  set matchId($core.String v) { $_setString(2, v); }
+  set matchId($core.int v) { $_setSignedInt32(2, v); }
   @$pb.TagNumber(3)
   $core.bool hasMatchId() => $_has(2);
   @$pb.TagNumber(3)
@@ -469,11 +469,13 @@ class Summary extends $pb.GeneratedMessage {
     ..aOM<$1.Timestamp>(3, _omitFieldNames ? '' : 'completedAtUtc', subBuilder: $1.Timestamp.create)
     ..aOM<$2.Duration>(4, _omitFieldNames ? '' : 'duration', subBuilder: $2.Duration.create)
     ..e<Format>(5, _omitFieldNames ? '' : 'format', $pb.PbFieldType.OE, defaultOrMaker: Format.BEST_OF_ONE, valueOf: Format.valueOf, enumValues: Format.values)
-    ..aOM<SetSummary>(7, _omitFieldNames ? '' : 'setOne', subBuilder: SetSummary.create)
-    ..aOM<SetSummary>(8, _omitFieldNames ? '' : 'setTwo', subBuilder: SetSummary.create)
-    ..aOM<SetSummary>(9, _omitFieldNames ? '' : 'setThree', subBuilder: SetSummary.create)
-    ..aOM<SetSummary>(10, _omitFieldNames ? '' : 'setFour', subBuilder: SetSummary.create)
-    ..aOM<SetSummary>(11, _omitFieldNames ? '' : 'setFive', subBuilder: SetSummary.create)
+    ..aOS(7, _omitFieldNames ? '' : 'teamOneName')
+    ..aOS(8, _omitFieldNames ? '' : 'teamTwoName')
+    ..aOM<SetSummary>(9, _omitFieldNames ? '' : 'setOne', subBuilder: SetSummary.create)
+    ..aOM<SetSummary>(10, _omitFieldNames ? '' : 'setTwo', subBuilder: SetSummary.create)
+    ..aOM<SetSummary>(11, _omitFieldNames ? '' : 'setThree', subBuilder: SetSummary.create)
+    ..aOM<SetSummary>(12, _omitFieldNames ? '' : 'setFour', subBuilder: SetSummary.create)
+    ..aOM<SetSummary>(13, _omitFieldNames ? '' : 'setFive', subBuilder: SetSummary.create)
     ..hasRequiredFields = false
   ;
 
@@ -550,59 +552,77 @@ class Summary extends $pb.GeneratedMessage {
   void clearFormat() => clearField(5);
 
   @$pb.TagNumber(7)
-  SetSummary get setOne => $_getN(5);
+  $core.String get teamOneName => $_getSZ(5);
   @$pb.TagNumber(7)
-  set setOne(SetSummary v) { setField(7, v); }
+  set teamOneName($core.String v) { $_setString(5, v); }
   @$pb.TagNumber(7)
-  $core.bool hasSetOne() => $_has(5);
+  $core.bool hasTeamOneName() => $_has(5);
   @$pb.TagNumber(7)
-  void clearSetOne() => clearField(7);
-  @$pb.TagNumber(7)
-  SetSummary ensureSetOne() => $_ensure(5);
+  void clearTeamOneName() => clearField(7);
 
   @$pb.TagNumber(8)
-  SetSummary get setTwo => $_getN(6);
+  $core.String get teamTwoName => $_getSZ(6);
   @$pb.TagNumber(8)
-  set setTwo(SetSummary v) { setField(8, v); }
+  set teamTwoName($core.String v) { $_setString(6, v); }
   @$pb.TagNumber(8)
-  $core.bool hasSetTwo() => $_has(6);
+  $core.bool hasTeamTwoName() => $_has(6);
   @$pb.TagNumber(8)
-  void clearSetTwo() => clearField(8);
-  @$pb.TagNumber(8)
-  SetSummary ensureSetTwo() => $_ensure(6);
+  void clearTeamTwoName() => clearField(8);
 
   @$pb.TagNumber(9)
-  SetSummary get setThree => $_getN(7);
+  SetSummary get setOne => $_getN(7);
   @$pb.TagNumber(9)
-  set setThree(SetSummary v) { setField(9, v); }
+  set setOne(SetSummary v) { setField(9, v); }
   @$pb.TagNumber(9)
-  $core.bool hasSetThree() => $_has(7);
+  $core.bool hasSetOne() => $_has(7);
   @$pb.TagNumber(9)
-  void clearSetThree() => clearField(9);
+  void clearSetOne() => clearField(9);
   @$pb.TagNumber(9)
-  SetSummary ensureSetThree() => $_ensure(7);
+  SetSummary ensureSetOne() => $_ensure(7);
 
   @$pb.TagNumber(10)
-  SetSummary get setFour => $_getN(8);
+  SetSummary get setTwo => $_getN(8);
   @$pb.TagNumber(10)
-  set setFour(SetSummary v) { setField(10, v); }
+  set setTwo(SetSummary v) { setField(10, v); }
   @$pb.TagNumber(10)
-  $core.bool hasSetFour() => $_has(8);
+  $core.bool hasSetTwo() => $_has(8);
   @$pb.TagNumber(10)
-  void clearSetFour() => clearField(10);
+  void clearSetTwo() => clearField(10);
   @$pb.TagNumber(10)
-  SetSummary ensureSetFour() => $_ensure(8);
+  SetSummary ensureSetTwo() => $_ensure(8);
 
   @$pb.TagNumber(11)
-  SetSummary get setFive => $_getN(9);
+  SetSummary get setThree => $_getN(9);
   @$pb.TagNumber(11)
-  set setFive(SetSummary v) { setField(11, v); }
+  set setThree(SetSummary v) { setField(11, v); }
   @$pb.TagNumber(11)
-  $core.bool hasSetFive() => $_has(9);
+  $core.bool hasSetThree() => $_has(9);
   @$pb.TagNumber(11)
-  void clearSetFive() => clearField(11);
+  void clearSetThree() => clearField(11);
   @$pb.TagNumber(11)
-  SetSummary ensureSetFive() => $_ensure(9);
+  SetSummary ensureSetThree() => $_ensure(9);
+
+  @$pb.TagNumber(12)
+  SetSummary get setFour => $_getN(10);
+  @$pb.TagNumber(12)
+  set setFour(SetSummary v) { setField(12, v); }
+  @$pb.TagNumber(12)
+  $core.bool hasSetFour() => $_has(10);
+  @$pb.TagNumber(12)
+  void clearSetFour() => clearField(12);
+  @$pb.TagNumber(12)
+  SetSummary ensureSetFour() => $_ensure(10);
+
+  @$pb.TagNumber(13)
+  SetSummary get setFive => $_getN(11);
+  @$pb.TagNumber(13)
+  set setFive(SetSummary v) { setField(13, v); }
+  @$pb.TagNumber(13)
+  $core.bool hasSetFive() => $_has(11);
+  @$pb.TagNumber(13)
+  void clearSetFive() => clearField(13);
+  @$pb.TagNumber(13)
+  SetSummary ensureSetFive() => $_ensure(11);
 }
 
 class SetSummary extends $pb.GeneratedMessage {
@@ -803,7 +823,6 @@ class GetStateRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStateRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'matchId', $pb.PbFieldType.O3)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'stateVersion', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -836,15 +855,6 @@ class GetStateRequest extends $pb.GeneratedMessage {
   $core.bool hasMatchId() => $_has(0);
   @$pb.TagNumber(1)
   void clearMatchId() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.int get stateVersion => $_getIZ(1);
-  @$pb.TagNumber(2)
-  set stateVersion($core.int v) { $_setSignedInt32(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasStateVersion() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearStateVersion() => clearField(2);
 }
 
 class GetStateReply extends $pb.GeneratedMessage {

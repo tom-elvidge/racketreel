@@ -11,7 +11,7 @@ Follow the [quick start guide](https://grpc.io/docs/languages/dart/quickstart/) 
 Run the generator with `protoc` from the root of this repository.
 
 ```sh
-protoc -I src/RacketReel.Presentation/Protos src/RacketReel.Presentation/Protos/matches.proto --dart_out=grpc:src/racketreel_client/generated
+protoc -I src/RacketReel.Presentation/Protos src/RacketReel.Presentation/Protos/matches.proto --dart_out=grpc:src/racketreel_mobile/lib/client google/protobuf/timestamp.proto google/protobuf/duration.proto
 ```
 
 For more information see the [basics tutorial](https://grpc.io/docs/languages/dart/basics/) for gRPC in Dart.

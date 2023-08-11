@@ -115,11 +115,13 @@ message Summary {
   google.protobuf.Timestamp completed_at_utc = 3;
   google.protobuf.Duration duration = 4;
   Format format = 5;
-  SetSummary set_one = 7;
-  optional SetSummary set_two = 8;
-  optional SetSummary set_three = 9;
-  optional SetSummary set_four = 10;
-  optional SetSummary set_five = 11;
+  string team_one_name = 7;
+  string team_two_name = 8;
+  SetSummary set_one = 9;
+  optional SetSummary set_two = 10;
+  optional SetSummary set_three = 11;
+  optional SetSummary set_four = 12;
+  optional SetSummary set_five = 13;
 }
 
 message SetSummary {

@@ -31,18 +31,9 @@ class FeedItem extends StatelessWidget {
           const SizedBox(
             height: 3,
           ),
-          Text(
-            feedItem.summary,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
+          Text(feedItem.summary),
           Text(feedItem.type),
-          Text('Completed on ${feedItem.datetime}'),
+          Text(feedItem.datetime),
         ],
       ),
     );
