@@ -1,14 +1,13 @@
-import 'package:injectable/injectable.dart';
 import 'package:racketreel/client/google/protobuf/timestamp.pb.dart';
 import 'package:racketreel/client/google/protobuf/duration.pb.dart';
 import 'package:racketreel/client/matches.pb.dart';
 import 'package:racketreel/feed/data/i_summary_data_source.dart';
 
-@Injectable(as: ISummaryDataSource)
+// @Injectable(as: ISummaryDataSource)
 class StaticSummaryDataSource implements ISummaryDataSource
 {
   @override
-  List<Summary> getSummaries() {
+  Future<List<Summary>> getSummaries() {
     var summary = Summary();
     summary.startedAtUtc = Timestamp.fromDateTime(DateTime(2023, 8, 11));
     summary.completedAtUtc = Timestamp.fromDateTime(DateTime(2023, 8, 11));
@@ -35,6 +34,6 @@ class StaticSummaryDataSource implements ISummaryDataSource
     summary.setThree.teamOneTiebreakPoints = 11;
     summary.setThree.teamTwoTiebreakPoints = 9;
 
-    return <Summary>[ summary ];
+    return Future.value(<Summary>[ summary ]);
   }
 }

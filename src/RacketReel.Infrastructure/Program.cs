@@ -1,5 +1,6 @@
 using MediatR;
 using FluentValidation;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using RacketReel.Infrastructure.Configuration;
 using RacketReel.Infrastructure;
@@ -20,6 +21,12 @@ services.AddMediatR(applicationAssembly);
 services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
 services.AddValidatorsFromAssembly(applicationAssembly, includeInternalTypes: true);
 services.AddGrpc();
+
+// TODO: ONLY IN DEV: HTTP/2 endpoint without TLS 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenLocalhost(7192, o => o.Protocols = HttpProtocols.Http2);
+});
 
 var app = builder.Build();
 

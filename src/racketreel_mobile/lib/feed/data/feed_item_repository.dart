@@ -17,8 +17,8 @@ class FeedItemRepository implements IFeedItemRepository
   }
 
   @override
-  List<FeedItemEntity> getFeedItems() {
-    List<Summary> response = _dataSource.getSummaries();
+  Future<List<FeedItemEntity>> getFeedItems() async {
+    List<Summary> response = await _dataSource.getSummaries();
 
     List<FeedItemEntity> matches = List<FeedItemEntity>
         .generate(response.length, (index) => _createFeedItemEntity(response[index]));

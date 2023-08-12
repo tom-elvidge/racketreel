@@ -3,7 +3,6 @@
     "Matches.Infrastructure": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7192",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_Kestrel__Certificates__Default__Path": "/home/tom/dotnet-dev-certs/localhost.pfx",

@@ -16,8 +16,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     on<FetchFeedEvent>(_onFetch);
   }
 
-  void _onFetch(FetchFeedEvent event, Emitter<FeedState> emit)
-  {
-    emit(FeedPopulated(repo.getFeedItems()));
+  void _onFetch(FetchFeedEvent event, Emitter<FeedState> emit) async {
+    emit(FeedPopulated(await repo.getFeedItems()));
   }
 }

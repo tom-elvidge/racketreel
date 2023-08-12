@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:racketreel/app.dart';
 import 'package:racketreel/injection.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies();
+  await configureDependencies();
   runApp(const RacketReelApp());
 }
