@@ -7,24 +7,44 @@ import 'package:racketreel/injection.dart';
 class FeedPage extends StatelessWidget {
   const FeedPage({super.key});
 
+  bool _isNearEndOfScroll(ScrollController scrollController)
+  {
+    // remaining scroll is equal to the height of the viewport
+    var scrollOffset = scrollController.offset;
+    var maxScroll = scrollController.position.maxScrollExtent;
+    var viewportDimension = scrollController.position.viewportDimension;
+    return scrollOffset >= (maxScroll - viewportDimension);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       // todo: dependency inject FeedBloc and it's dependencies
-      create: (_) => getIt<FeedBloc>()..add(const FetchFeedEvent()),
+      create: (_) => getIt<FeedBloc>()..add(const InitialFetchFeedEvent()),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Matches'),
         ),
         body: BlocBuilder<FeedBloc, FeedState>(
           builder: (context, state) {
-            return state.loadingInitial
+            // fetch next page when near the end of the scroll
+            var scrollController = PrimaryScrollController.of(context);
+            scrollController.addListener(() {
+              if (_isNearEndOfScroll(scrollController))
+                {
+                  context
+                      .read<FeedBloc>()
+                      .add(const FetchNextPageFeedEvent());
+                }
+            });
+
+            return state.fetchingInitial
             ? const Center(child: CircularProgressIndicator())
             : RefreshIndicator(
               displacement: 20.0,
               onRefresh: () async => context
                   .read<FeedBloc>()
-                  .add(const FetchFeedEvent()),
+                  .add(const InitialFetchFeedEvent()),
               child: Scrollbar(
                 child: CustomScrollView(
                   slivers: <Widget>[
@@ -41,7 +61,7 @@ class FeedPage extends StatelessWidget {
                     SliverList(
                       delegate: SliverChildListDelegate.fixed(
                         [
-                          if (state.loadingOlder)
+                          if (state.fetchingNextPage)
                             Container(
                               padding: const EdgeInsets.all(20),
                               child: const Center(

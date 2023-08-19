@@ -7,7 +7,7 @@ import 'package:racketreel/feed/data/i_summary_data_source.dart';
 class StaticSummaryDataSource implements ISummaryDataSource
 {
   @override
-  Future<List<Summary>> getSummaries() {
+  Future<List<Summary>> getSummaries(int pageNumber) {
     var summary = Summary();
     summary.startedAtUtc = Timestamp.fromDateTime(DateTime(2023, 8, 11));
     summary.completedAtUtc = Timestamp.fromDateTime(DateTime(2023, 8, 11));

@@ -5,6 +5,10 @@ sealed class FeedEvent {
   const FeedEvent();
 }
 
-final class FetchFeedEvent extends FeedEvent {
-  const FetchFeedEvent();
+final class InitialFetchFeedEvent extends FeedEvent {
+  const InitialFetchFeedEvent();
+}
+
+final class FetchNextPageFeedEvent extends FeedEvent {
+  const FetchNextPageFeedEvent();
 }

@@ -26,14 +26,14 @@ class SummaryDataSource implements ISummaryDataSource
   }
 
   @override
-  Future<List<Summary>> getSummaries() async {
+  Future<List<Summary>> getSummaries(int pageNumber) async {
     _channel ??= _getClientChannel();
 
     var stub = MatchesClient(_channel!,
         options: CallOptions(timeout: const Duration(seconds: 30)));
 
     var request = GetSummariesRequest();
-    request.pageNumber = 1;
+    request.pageNumber = pageNumber;
     request.pageSize = 10;
 
     var reply = await stub.getSummaries(request);

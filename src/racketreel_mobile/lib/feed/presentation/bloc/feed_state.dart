@@ -2,26 +2,31 @@ part of 'feed_bloc.dart';
 
 @immutable
 sealed class FeedState extends Equatable {
-  final bool loadingInitial;
-  final bool loadingOlder;
+  final bool fetchingInitial;
+  final bool fetchingNextPage;
+  final bool endOfFeed;
+  final int lastPageFetched;
   final List<FeedItemEntity> items;
 
-  const FeedState(this.loadingInitial, this.loadingOlder, this.items);
+  const FeedState(this.fetchingInitial, this.fetchingNextPage, this.endOfFeed, this.lastPageFetched, this.items);
 
   @override
-  List<Object> get props => [loadingInitial];
+  List<Object> get props => [fetchingInitial];
+
+  @override
+  String toString() => 'FeedState { fetchingInitial: $fetchingInitial, fetchingNextPage: $fetchingNextPage, noMoreItems: $endOfFeed, lastPageFetched: $lastPageFetched, items: $items }';
 }
 
-final class FeedInitial extends FeedState {
-  const FeedInitial() : super(true, false, const []);
+final class EmptyFeed extends FeedState {
+  const EmptyFeed() : super(true, false, false, -1, const []);
 
   @override
-  String toString() => 'FeedInitial { loadingInitial: $loadingInitial, loadingOlder: $loadingOlder, items: $items }';
+  String toString() => 'EmptyFeed ${super.toString()}';
 }
 
-final class FeedPopulated extends FeedState {
-  const FeedPopulated(items) : super(false, false, items);
+final class PopulatedFeed extends FeedState {
+  const PopulatedFeed(fetchingNextPage, items, endOfFeed, lastPageFetched) : super(false, fetchingNextPage, endOfFeed, lastPageFetched, items);
 
   @override
-  String toString() => 'FeedPopulated { loadingInitial: $loadingInitial, loadingOlder: $loadingOlder, items: $items }';
+  String toString() => 'PopulatedFeed ${super.toString()}';
 }

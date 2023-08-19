@@ -30,6 +30,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   bloc: ^8.1.0
+  bloc_concurrency: ^0.2.0
   equatable: ^2.0.3
   flutter:
     sdk: flutter
@@ -44,6 +45,7 @@ dependencies:
   grpc: ^3.2.3
   intl: ^0.18.1
   meta: ^1.9.1
+  stream_transform: ^2.0.0
 
 dev_dependencies:
   flutter_test:
