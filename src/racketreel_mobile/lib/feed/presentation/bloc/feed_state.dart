@@ -3,30 +3,44 @@ part of 'feed_bloc.dart';
 @immutable
 sealed class FeedState extends Equatable {
   final bool fetchingInitial;
-  final bool fetchingNextPage;
+  final bool fetchingOlder;
   final bool endOfFeed;
   final int lastPageFetched;
   final List<FeedItemEntity> items;
 
-  const FeedState(this.fetchingInitial, this.fetchingNextPage, this.endOfFeed, this.lastPageFetched, this.items);
+  const FeedState(this.fetchingInitial, this.fetchingOlder, this.endOfFeed, this.lastPageFetched, this.items);
 
   @override
   List<Object> get props => [fetchingInitial];
 
   @override
-  String toString() => 'FeedState { fetchingInitial: $fetchingInitial, fetchingNextPage: $fetchingNextPage, noMoreItems: $endOfFeed, lastPageFetched: $lastPageFetched, items: $items }';
+  String toString() => 'FeedState { fetchingInitial: $fetchingInitial, fetchingOlder: $fetchingOlder, endOfFeed: $endOfFeed, lastPageFetched: $lastPageFetched, items: $items }';
 }
 
-final class EmptyFeed extends FeedState {
-  const EmptyFeed() : super(true, false, false, -1, const []);
+final class FetchingInitial extends FeedState {
+  const FetchingInitial() : super(true, false, false, -1, const []);
 
   @override
   String toString() => 'EmptyFeed ${super.toString()}';
 }
 
-final class PopulatedFeed extends FeedState {
-  const PopulatedFeed(fetchingNextPage, items, endOfFeed, lastPageFetched) : super(false, fetchingNextPage, endOfFeed, lastPageFetched, items);
+final class FetchedInitial extends FeedState {
+  FetchedInitial(endOfFeed, items) : super(false, false, endOfFeed, 1, items);
 
   @override
-  String toString() => 'PopulatedFeed ${super.toString()}';
+  String toString() => 'FetchedInitial ${super.toString()}';
+}
+
+final class FetchingOlder extends FeedState {
+  FetchingOlder(endOfFeed, lastPageFetched, items) : super(false, true, endOfFeed, lastPageFetched, items);
+
+  @override
+  String toString() => 'FetchingOlder ${super.toString()}';
+}
+
+final class FetchedOlder extends FeedState {
+  FetchedOlder(endOfFeed, lastPageFetched, items) : super(false, false, endOfFeed, lastPageFetched, items);
+
+  @override
+  String toString() => 'FetchedOlder ${super.toString()}';
 }

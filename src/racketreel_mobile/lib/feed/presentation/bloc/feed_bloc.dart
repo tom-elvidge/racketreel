@@ -22,29 +22,29 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 class FeedBloc extends Bloc<FeedEvent, FeedState> {
   final IFeedItemRepository repo;
 
-  FeedBloc(this.repo) : super(const EmptyFeed()) {
-    on<InitialFetchFeedEvent>(_onInitialFetch);
-    on<FetchNextPageFeedEvent>(
+  FeedBloc(this.repo) : super(const FetchingInitial()) {
+    on<FetchInitialEvent>(_onInitialFetch);
+    on<FetchOlderEvent>(
       _onFetchNextPage,
       transformer: throttleDroppable(throttleDuration));
   }
 
-  void _onInitialFetch(InitialFetchFeedEvent event, Emitter<FeedState> emit) async {
+  void _onInitialFetch(FetchInitialEvent event, Emitter<FeedState> emit) async {
     var feedItems = await repo.getFeedItems(1);
-    emit(PopulatedFeed(false, feedItems, feedItems.isEmpty, 1));
+    emit(FetchedInitial(feedItems.isEmpty, feedItems));
   }
 
-  void _onFetchNextPage(FetchNextPageFeedEvent event, Emitter<FeedState> emit) async {
+  void _onFetchNextPage(FetchOlderEvent event, Emitter<FeedState> emit) async {
     // do not fetch the next page if we are already at the end of the feed
     // do not fetch the next page if we are already fetching it
-    if (state.endOfFeed || state.fetchingNextPage) {
+    if (state.endOfFeed || state.fetchingOlder) {
       return;
     }
 
-    emit(PopulatedFeed(true, state.items, state.endOfFeed, state.lastPageFetched));
+    emit(FetchingOlder(state.endOfFeed, state.lastPageFetched, state.items));
 
     var page = state.lastPageFetched + 1;
     var feedItems = await repo.getFeedItems(page);
-    emit(PopulatedFeed(false, List<FeedItemEntity>.from(state.items)..addAll(feedItems), feedItems.isEmpty, page));
+    emit(FetchedOlder(feedItems.isEmpty, page, List<FeedItemEntity>.from(state.items)..addAll(feedItems)));
   }
 }

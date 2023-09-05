@@ -9,7 +9,8 @@ class AppConfig {
 
   static Future<AppConfig> forEnvironment(String env) async {
     final contents = await rootBundle.loadString(
-      'assets/config/$env.json',
+      // 'assets/config/$env.json',
+      'assets/config/dev.ios.json',
     );
     final json = jsonDecode(contents);
     return AppConfig(grpcHost: json['grpcHost'], grpcPort: json['grpcPort']);

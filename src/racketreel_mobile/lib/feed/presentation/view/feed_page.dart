@@ -20,7 +20,7 @@ class FeedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       // todo: dependency inject FeedBloc and it's dependencies
-      create: (_) => getIt<FeedBloc>()..add(const InitialFetchFeedEvent()),
+      create: (_) => getIt<FeedBloc>()..add(const FetchInitialEvent()),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Matches'),
@@ -34,7 +34,7 @@ class FeedPage extends StatelessWidget {
                 {
                   context
                       .read<FeedBloc>()
-                      .add(const FetchNextPageFeedEvent());
+                      .add(const FetchOlderEvent());
                 }
             });
 
@@ -44,7 +44,7 @@ class FeedPage extends StatelessWidget {
               displacement: 20.0,
               onRefresh: () async => context
                   .read<FeedBloc>()
-                  .add(const InitialFetchFeedEvent()),
+                  .add(const FetchInitialEvent()),
               child: Scrollbar(
                 child: CustomScrollView(
                   slivers: <Widget>[
@@ -61,7 +61,7 @@ class FeedPage extends StatelessWidget {
                     SliverList(
                       delegate: SliverChildListDelegate.fixed(
                         [
-                          if (state.fetchingNextPage)
+                          if (state.fetchingOlder)
                             Container(
                               padding: const EdgeInsets.all(20),
                               child: const Center(

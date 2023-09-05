@@ -32,3 +32,5 @@ pubspec.lock
 pubspec.lock
 
 .idea/
+
+src/racketreel_mobile/build/*
