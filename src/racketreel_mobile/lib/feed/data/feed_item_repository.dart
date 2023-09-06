@@ -1,9 +1,9 @@
 import 'package:injectable/injectable.dart';
-import 'package:intl/intl.dart';
-import 'package:racketreel/feed/data/i_summary_data_source.dart';
+import 'package:racketreel/shared/data/i_summary_data_source.dart';
 import 'package:racketreel/feed/domain/feed_item_entity.dart';
 import 'package:racketreel/feed/domain/i_feed_item_repository.dart';
 import 'package:racketreel/client/matches.pb.dart';
+import 'package:racketreel/shared/data/repository_utils.dart';
 
 @Injectable(as: IFeedItemRepository)
 class FeedItemRepository implements IFeedItemRepository
@@ -32,7 +32,7 @@ class FeedItemRepository implements IFeedItemRepository
         "${summary.teamOneName} vs ${summary.teamTwoName}",
         _getScoreText(summary),
         _getFormatText(summary.format),
-        _getDateTimeString(summary.startedAtUtc.toDateTime()));
+        RepositoryUtils.getDateTimeString(summary.startedAtUtc.toDateTime()));
   }
 
   String _getScoreText(Summary summary)
@@ -98,11 +98,5 @@ class FeedItemRepository implements IFeedItemRepository
       default:
         return "Unknown match format";
     }
-  }
-
-  String _getDateTimeString(DateTime dateTime)
-  {
-    final DateFormat formatter = DateFormat.yMMMMd('en_US').add_jm();
-    return formatter.format(dateTime);
   }
 }

@@ -10,8 +10,8 @@ import 'package:injectable/injectable.dart' as _i2;
 
 import 'app_config.dart' as _i5;
 import 'feed/data/feed_item_repository.dart' as _i7;
-import 'feed/data/i_summary_data_source.dart' as _i3;
-import 'feed/data/summary_data_source.dart' as _i4;
+import 'shared/data/i_summary_data_source.dart' as _i3;
+import 'shared/data/summary_data_source.dart' as _i4;
 import 'feed/domain/i_feed_item_repository.dart' as _i6;
 import 'feed/presentation/bloc/feed_bloc.dart'
     as _i8; // ignore_for_file: unnecessary_lambdas

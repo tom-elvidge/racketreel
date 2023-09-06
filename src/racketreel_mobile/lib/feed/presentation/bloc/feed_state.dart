@@ -11,7 +11,7 @@ sealed class FeedState extends Equatable {
   const FeedState(this.fetchingInitial, this.fetchingOlder, this.endOfFeed, this.lastPageFetched, this.items);
 
   @override
-  List<Object> get props => [fetchingInitial];
+  List<Object> get props => [fetchingInitial, fetchingOlder, endOfFeed, lastPageFetched, items];
 
   @override
   String toString() => 'FeedState { fetchingInitial: $fetchingInitial, fetchingOlder: $fetchingOlder, endOfFeed: $endOfFeed, lastPageFetched: $lastPageFetched, items: $items }';
