@@ -6,7 +6,8 @@ abstract class MatchEvent {
 }
 
 final class FetchInitialEvent extends MatchEvent {
-  const FetchInitialEvent();
+  final int matchId;
+  const FetchInitialEvent(this.matchId);
 }
 
 final class FetchMatchStatesEvent extends MatchEvent {

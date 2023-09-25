@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:racketreel/injection.dart';
 import 'package:racketreel/match/presentation/bloc/match_bloc.dart';
 
 class MatchPage extends StatelessWidget {
-  late final int matchId;
+  final int matchId;
+
+  const MatchPage({
+    Key? key,
+    required this.matchId,
+  }) : super(key: key);
 
   bool _isNearEndOfScroll(ScrollController scrollController)
   {
@@ -17,7 +23,7 @@ class MatchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MatchBloc()..add(const FetchInitialEvent()),
+      create: (_) => getIt<MatchBloc>()..add(FetchInitialEvent(matchId)),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Match"),
@@ -40,9 +46,22 @@ class MatchPage extends StatelessWidget {
                 : Scrollbar(
                     child: CustomScrollView(
                       slivers: [
-                        // TODO
-                        // Summary component
-                        // List of all the match states
+                        // Summary
+                        SliverList(delegate: SliverChildListDelegate.fixed([
+                          // TODO: create a summary component
+                          Text(state.summary.datetime)
+                        ])),
+                        // Match states
+                        SliverList(delegate: state.fetchingStates
+                          ? SliverChildListDelegate.fixed([
+                            const Center(child: CircularProgressIndicator())
+                          ])
+                          : SliverChildListDelegate(
+                            state.states
+                              // TODO: create a state component
+                              .map((s) => Text(s.datetime))
+                              .toList()
+                            )),
                         // SliverList(delegate: SliverChildListDelegate())
                         // CircleProgressIndicator if fetching more states
                       ],

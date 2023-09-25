@@ -29,6 +29,7 @@ class FeedItemRepository implements IFeedItemRepository
   FeedItemEntity _createFeedItemEntity(Summary summary)
   {
     return FeedItemEntity(
+        summary.matchId,
         "${summary.teamOneName} vs ${summary.teamTwoName}",
         _getScoreText(summary),
         _getFormatText(summary.format),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:racketreel/feed/presentation/bloc/feed_bloc.dart';
 import 'package:racketreel/feed/presentation/view/feed_item.dart';
 import 'package:racketreel/injection.dart';
+import 'package:racketreel/match/presentation/view/match_page.dart';
 
 class FeedPage extends StatelessWidget {
   const FeedPage({super.key});
@@ -19,7 +20,6 @@ class FeedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      // todo: dependency inject FeedBloc and it's dependencies
       create: (_) => getIt<FeedBloc>()..add(const FetchInitialEvent()),
       child: Scaffold(
         appBar: AppBar(
@@ -53,8 +53,14 @@ class FeedPage extends StatelessWidget {
                       delegate: SliverChildListDelegate(
                         state.items.map((item) => InkWell(
                           child: FeedItem(feedItem: item),
-                          // todo: match details view
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MatchPage(matchId: item.matchId)
+                                )
+                            );
+                          },
                         )).toList(),
                       ),
                     ),
