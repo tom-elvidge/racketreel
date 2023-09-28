@@ -62,13 +62,11 @@ class MatchPage extends StatelessWidget {
                               .map((s) => Text(s.datetime))
                               .toList()
                             )),
-                        // SliverList(delegate: SliverChildListDelegate())
-                        // CircleProgressIndicator if fetching more states
                       ],
                     ),
                   );
           },
-        )
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:racketreel/create_match/presentation/view/create_match_page.dart';
 import 'package:racketreel/feed/presentation/bloc/feed_bloc.dart';
 import 'package:racketreel/feed/presentation/view/feed_item.dart';
 import 'package:racketreel/injection.dart';
@@ -82,6 +83,16 @@ class FeedPage extends StatelessWidget {
               ),
             );
           },
+        ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CreateMatchPage())
+              );
+            },
+            backgroundColor: Colors.blue,
+            child: const Icon(Icons.add)
         ),
       ),
     );
