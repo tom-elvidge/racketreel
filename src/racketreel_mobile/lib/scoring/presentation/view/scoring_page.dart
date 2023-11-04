@@ -15,16 +15,22 @@ class ScoringPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (_) => getIt<ScoringBloc>(),
-        child: Scaffold(
-            appBar: AppBar(
-              title: const Text("Scoring"),
-            ),
-            body: BlocBuilder<ScoringBloc, ScoringState>(
-                builder: (context, state) {
-                  return Text("Scoring");
-                }
-            )
-        )
+        child: WillPopScope(
+          onWillPop: () {
+            Navigator.of(context).popUntil(ModalRoute.withName('/'));
+            return Future.value(false);
+          },
+          child: Scaffold(
+              appBar: AppBar(
+                title: const Text("Scoring"),
+              ),
+              body: BlocBuilder<ScoringBloc, ScoringState>(
+                  builder: (context, state) {
+                    return const Text("Scoring");
+                  }
+              )
+          ),
+        ),
     );
   }
 }

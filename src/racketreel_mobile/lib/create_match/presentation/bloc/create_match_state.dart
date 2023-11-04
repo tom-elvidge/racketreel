@@ -7,7 +7,7 @@ abstract class CreateMatchState {
   final bool teamOneServingFirst;
   final MatchFormat format;
 
-  final bool created;
+  final bool failed;
   final bool creating;
 
   const CreateMatchState({
@@ -15,7 +15,7 @@ abstract class CreateMatchState {
     this.teamTwoName = '',
     this.teamOneServingFirst = false,
     this.format = MatchFormat.None,
-    this.created = false,
+    this.failed = false,
     this.creating = false,
   }) : super();
 
@@ -24,7 +24,7 @@ abstract class CreateMatchState {
     String? teamTwoName,
     bool? teamOneServingFirst,
     MatchFormat? format,
-    bool? created,
+    bool? failed,
     bool? creating,
   });
 }
@@ -35,14 +35,14 @@ class CreateMatchUpdate extends CreateMatchState {
     String teamTwoName = '',
     bool teamOneServingFirst = false,
     MatchFormat format = MatchFormat.None,
-    bool created = false,
+    bool failed = false,
     bool creating = false,
   }) : super(
     teamOneName: teamOneName,
     teamTwoName: teamTwoName,
     teamOneServingFirst: teamOneServingFirst,
     format: format,
-    created: created,
+    failed: failed,
     creating: creating,
   );
 
@@ -52,7 +52,7 @@ class CreateMatchUpdate extends CreateMatchState {
     String? teamTwoName,
     bool? teamOneServingFirst,
     MatchFormat? format,
-    bool? created,
+    bool? failed,
     bool? creating,
   }) {
     return CreateMatchUpdate(
@@ -60,7 +60,7 @@ class CreateMatchUpdate extends CreateMatchState {
       teamTwoName: teamTwoName ?? this.teamTwoName,
       teamOneServingFirst: teamOneServingFirst ?? this.teamOneServingFirst,
       format: format ?? this.format,
-      created: created ?? this.created,
+      failed: failed ?? this.failed,
       creating: creating ?? this.creating,
     );
   }

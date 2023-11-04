@@ -8,16 +8,16 @@
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import 'app_config.dart' as _i7;
+import 'app_config.dart' as _i5;
 import 'create_match/data/i_match_creator_service.dart' as _i3;
 import 'create_match/data/match_creator_service.dart' as _i4;
 import 'create_match/presentation/bloc/create_match_cubit.dart' as _i13;
 import 'feed/data/feed_item_repository.dart' as _i15;
 import 'feed/domain/i_feed_item_repository.dart' as _i14;
 import 'feed/presentation/bloc/feed_bloc.dart' as _i19;
-import 'match/data/i_state_history_data_source.dart' as _i5;
+import 'match/data/i_state_history_data_source.dart' as _i6;
 import 'match/data/match_state_repository.dart' as _i17;
-import 'match/data/state_history_data_source.dart' as _i6;
+import 'match/data/state_history_data_source.dart' as _i7;
 import 'match/data/summary_repository.dart' as _i11;
 import 'match/domain/i_match_state_repository.dart' as _i16;
 import 'match/domain/i_summary_repository.dart' as _i10;
@@ -39,11 +39,12 @@ _i1.GetIt $initGetIt(
     environment,
     environmentFilter,
   );
-  gh.factory<_i3.IMatchCreatorService>(() => _i4.MatchCreatorService());
-  gh.factory<_i5.IStateHistoryDataSource>(
-      () => _i6.StateHistoryDataSource(config: get<_i7.AppConfig>()));
+  gh.factory<_i3.IMatchCreatorService>(
+      () => _i4.MatchCreatorService(config: get<_i5.AppConfig>()));
+  gh.factory<_i6.IStateHistoryDataSource>(
+      () => _i7.StateHistoryDataSource(config: get<_i5.AppConfig>()));
   gh.factory<_i8.ISummaryDataSource>(
-      () => _i9.SummaryDataSource(config: get<_i7.AppConfig>()));
+      () => _i9.SummaryDataSource(config: get<_i5.AppConfig>()));
   gh.factory<_i10.ISummaryRepository>(
       () => _i11.SummaryRepository(dataSource: get<_i8.ISummaryDataSource>()));
   gh.factory<_i12.ScoringBloc>(() => _i12.ScoringBloc());
@@ -52,7 +53,7 @@ _i1.GetIt $initGetIt(
   gh.factory<_i14.IFeedItemRepository>(
       () => _i15.FeedItemRepository(dataSource: get<_i8.ISummaryDataSource>()));
   gh.factory<_i16.IMatchStateRepository>(() => _i17.MatchStateRepository(
-      dataSource: get<_i5.IStateHistoryDataSource>()));
+      dataSource: get<_i6.IStateHistoryDataSource>()));
   gh.factory<_i18.MatchBloc>(() => _i18.MatchBloc(
         get<_i16.IMatchStateRepository>(),
         get<_i10.ISummaryRepository>(),

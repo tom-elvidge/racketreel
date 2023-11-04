@@ -1,6 +1,5 @@
 import 'package:grpc/grpc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:racketreel/client/matches.pbenum.dart';
 import 'package:racketreel/create_match/data/i_match_creator_service.dart';
 
 import '../../app_config.dart';
@@ -12,7 +11,7 @@ class MatchCreatorService implements IMatchCreatorService
   late AppConfig _config;
   ClientChannel? _channel;
 
-  StateHistoryDataSource({
+  MatchCreatorService({
     required AppConfig config,
   }) {
     _config = config;

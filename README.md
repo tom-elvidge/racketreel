@@ -4,4 +4,4 @@ Racket Reel is a social platform for tennis. Connect with your tennis friends an
 
 For more information, see [racketreel.com](https://www.racketreel.com).
 
-For technical documentation, see [docs/README.md](./docs/README.md).
+For technical documentation, see [docs/README.md](./docs/README.md). 

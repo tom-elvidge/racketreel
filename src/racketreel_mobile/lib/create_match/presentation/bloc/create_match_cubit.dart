@@ -19,7 +19,6 @@ class CreateMatchFormatCubit extends Cubit<CreateMatchState> {
     String teamTwoName = '',
     bool teamOneServingFirst = false,
     MatchFormat format = MatchFormat.None,
-    bool created = false,
     bool creating = false,
   }) {
     emit(state.copyWith(
@@ -27,20 +26,22 @@ class CreateMatchFormatCubit extends Cubit<CreateMatchState> {
       teamTwoName: teamTwoName,
       teamOneServingFirst: teamOneServingFirst,
       format: format,
-      created: created,
+      failed: null,
       creating: creating
     ));
   }
 
   void updateTeamOneName(String? teamOneName) {
-    emit(state.copyWith(teamOneName: teamOneName));
+    var nextState = state.copyWith(teamOneName: teamOneName);
+    emit(nextState);
   }
 
   void updateTeamTwoName(String? teamTwoName) {
     emit(state.copyWith(teamTwoName: teamTwoName));
   }
 
-  void updateTeamOneServingFirst(bool? teamOneServingFirst) {
+  void updateTeamOneServingFirst(String? servingFirstTeamName) {
+    var teamOneServingFirst = servingFirstTeamName == state.teamOneName;
     emit(state.copyWith(teamOneServingFirst: teamOneServingFirst));
   }
 
@@ -53,7 +54,7 @@ class CreateMatchFormatCubit extends Cubit<CreateMatchState> {
   }
 
   Future<int?> submit() async {
-    emit(const CreateMatchUpdate(creating: true));
+    emit(state.copyWith(creating: true));
 
     var servingFirst = state.teamOneServingFirst ? Team.TEAM_ONE : Team.TEAM_TWO;
 
@@ -74,11 +75,11 @@ class CreateMatchFormatCubit extends Cubit<CreateMatchState> {
         format);
 
     if (!success) {
-      emit(const CreateMatchUpdate(creating: false, created: false));
+      emit(const CreateMatchUpdate(creating: false, failed: true));
       return null;
     }
 
-    emit(const CreateMatchUpdate(creating: false, created: true));
+    emit(const CreateMatchUpdate(creating: false, failed: false));
     return matchId;
   }
 }
