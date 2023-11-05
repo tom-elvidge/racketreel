@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "Matches.Infrastructure": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_Kestrel__Certificates__Default__Path": "/home/tom/dotnet-dev-certs/localhost.pfx",
+        "ASPNETCORE_Kestrel__Certificates__Default__Password": "localhost"
+      }
+    }
+  }
+}
