@@ -1,0 +1,4 @@
+enum Team {
+  teamOne,
+  teamTwo
+}

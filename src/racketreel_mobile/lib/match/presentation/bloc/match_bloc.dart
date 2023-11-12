@@ -1,15 +1,11 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:racketreel/feed/presentation/bloc/feed_bloc.dart';
 import 'package:racketreel/match/domain/i_match_state_repository.dart';
 import 'package:racketreel/match/domain/i_summary_repository.dart';
-import 'package:racketreel/match/domain/match_state_entity.dart';
 import 'package:racketreel/match/domain/summary_entity.dart';
-import 'package:racketreel/shared/data/i_summary_data_source.dart';
+import 'package:racketreel/shared/domain/match_state_entity.dart';
 
 part 'match_event.dart';
 part 'match_state.dart';
@@ -26,7 +22,7 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
   }
 
   void _onInitialFetch(FetchInitialEvent event, Emitter<MatchState> emit) async {
-    this.matchId = event.matchId;
+    matchId = event.matchId;
 
     emit(FetchingSummary());
     var summary = await summaryRepo.getSummary(matchId);

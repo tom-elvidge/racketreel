@@ -16,12 +16,15 @@ class FormatField extends StatelessWidget {
         icon: Icon(Icons.rule),
         labelText: "Format",
       ),
+      isExpanded: true,
       items: MatchFormat.values
           .map((MatchFormat f) => DropdownMenuItem<MatchFormat>(
-        value: f,
-        child: Text(FormatHelpers.friendlyName(f)),
-      ))
-          .toList(),
+            value: f,
+            child: Text(
+              FormatHelpers.friendlyName(f),
+              overflow: TextOverflow.ellipsis,
+            ),
+          )).toList(),
       onChanged: onChange,
     );
   }
@@ -29,7 +32,13 @@ class FormatField extends StatelessWidget {
 
 class FormatHelpers {
   static final _setTypeFriendlyNameMap = {
-    MatchFormat.None: 'None',
+    MatchFormat.bestOfOne: 'One set',
+    MatchFormat.tiebreakToTen: 'Tiebreak to 10 points',
+    MatchFormat.bestOfThree: 'Best of three sets',
+    MatchFormat.bestOfThreeFinalSetTiebreak: "Best of three sets with a final set tiebreak",
+    MatchFormat.bestOfFive: 'Best of five sets',
+    MatchFormat.bestOfFiveFinalSetTiebreak: 'Best of five sets with a final set tiebreak',
+    MatchFormat.fastFour: 'FAST4'
   };
 
   static String friendlyName(MatchFormat format) {

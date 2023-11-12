@@ -18,7 +18,7 @@ class CreateMatchFormatCubit extends Cubit<CreateMatchState> {
     String teamOneName = '',
     String teamTwoName = '',
     bool teamOneServingFirst = false,
-    MatchFormat format = MatchFormat.None,
+    MatchFormat format = MatchFormat.bestOfThree,
     bool creating = false,
   }) {
     emit(state.copyWith(
@@ -58,13 +58,31 @@ class CreateMatchFormatCubit extends Cubit<CreateMatchState> {
 
     var servingFirst = state.teamOneServingFirst ? Team.TEAM_ONE : Team.TEAM_TWO;
 
-    var format;
+    Format format;
     switch (state.format) {
-      case MatchFormat.None:
+      case MatchFormat.bestOfOne:
+        format = Format.BEST_OF_ONE;
+        break;
+      case MatchFormat.tiebreakToTen:
+        format = Format.TIEBREAK_TO_TEN;
+        break;
+      case MatchFormat.bestOfThree:
         format = Format.BEST_OF_THREE;
         break;
+      case MatchFormat.bestOfThreeFinalSetTiebreak:
+        format = Format.BEST_OF_THREE_FST;
+        break;
+      case MatchFormat.bestOfFive:
+        format = Format.BEST_OF_FIVE;
+        break;
+      case MatchFormat.bestOfFiveFinalSetTiebreak:
+        format = Format.BEST_OF_FIVE_FST;
+        break;
+      case MatchFormat.fastFour:
+        format = Format.FAST4;
+        break;
       default:
-        format = Format.TIEBREAK_TO_TEN;
+        format = Format.BEST_OF_THREE;
         break;
     }
 

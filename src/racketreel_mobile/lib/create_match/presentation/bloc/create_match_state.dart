@@ -6,7 +6,6 @@ abstract class CreateMatchState {
   final String teamTwoName;
   final bool teamOneServingFirst;
   final MatchFormat format;
-
   final bool failed;
   final bool creating;
 
@@ -14,7 +13,7 @@ abstract class CreateMatchState {
     this.teamOneName = '',
     this.teamTwoName = '',
     this.teamOneServingFirst = false,
-    this.format = MatchFormat.None,
+    this.format = MatchFormat.bestOfThree,
     this.failed = false,
     this.creating = false,
   }) : super();
@@ -34,7 +33,7 @@ class CreateMatchUpdate extends CreateMatchState {
     String teamOneName = '',
     String teamTwoName = '',
     bool teamOneServingFirst = false,
-    MatchFormat format = MatchFormat.None,
+    MatchFormat format = MatchFormat.bestOfThree,
     bool failed = false,
     bool creating = false,
   }) : super(

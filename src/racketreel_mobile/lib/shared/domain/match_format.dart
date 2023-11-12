@@ -1,4 +1,10 @@
 enum MatchFormat
 {
-  None
+  bestOfOne,
+  tiebreakToTen,
+  bestOfThree,
+  bestOfThreeFinalSetTiebreak,
+  bestOfFive,
+  bestOfFiveFinalSetTiebreak,
+  fastFour
 }
