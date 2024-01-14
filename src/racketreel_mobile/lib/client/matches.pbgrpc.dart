@@ -53,6 +53,10 @@ class MatchesClient extends $grpc.Client {
       '/RacketReel.Matches/UndoPoint',
       ($0.UndoPointRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.UndoPointReply.fromBuffer(value));
+  static final _$toggleHighlight = $grpc.ClientMethod<$0.ToggleHighlightRequest, $0.ToggleHighlightReply>(
+      '/RacketReel.Matches/ToggleHighlight',
+      ($0.ToggleHighlightRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ToggleHighlightReply.fromBuffer(value));
 
   MatchesClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -90,6 +94,10 @@ class MatchesClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.UndoPointReply> undoPoint($0.UndoPointRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$undoPoint, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.ToggleHighlightReply> toggleHighlight($0.ToggleHighlightRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$toggleHighlight, request, options: options);
   }
 }
 
@@ -154,6 +162,13 @@ abstract class MatchesServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.UndoPointRequest.fromBuffer(value),
         ($0.UndoPointReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ToggleHighlightRequest, $0.ToggleHighlightReply>(
+        'ToggleHighlight',
+        toggleHighlight_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.ToggleHighlightRequest.fromBuffer(value),
+        ($0.ToggleHighlightReply value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.GetSummaryReply> getSummary_Pre($grpc.ServiceCall call, $async.Future<$0.GetSummaryRequest> request) async {
@@ -188,6 +203,10 @@ abstract class MatchesServiceBase extends $grpc.Service {
     return undoPoint(call, await request);
   }
 
+  $async.Future<$0.ToggleHighlightReply> toggleHighlight_Pre($grpc.ServiceCall call, $async.Future<$0.ToggleHighlightRequest> request) async {
+    return toggleHighlight(call, await request);
+  }
+
   $async.Future<$0.GetSummaryReply> getSummary($grpc.ServiceCall call, $0.GetSummaryRequest request);
   $async.Future<$0.GetSummariesReply> getSummaries($grpc.ServiceCall call, $0.GetSummariesRequest request);
   $async.Future<$0.GetStateReply> getState($grpc.ServiceCall call, $0.GetStateRequest request);
@@ -196,4 +215,5 @@ abstract class MatchesServiceBase extends $grpc.Service {
   $async.Future<$0.ConfigureReply> configure($grpc.ServiceCall call, $0.ConfigureRequest request);
   $async.Future<$0.AddPointReply> addPoint($grpc.ServiceCall call, $0.AddPointRequest request);
   $async.Future<$0.UndoPointReply> undoPoint($grpc.ServiceCall call, $0.UndoPointRequest request);
+  $async.Future<$0.ToggleHighlightReply> toggleHighlight($grpc.ServiceCall call, $0.ToggleHighlightRequest request);
 }

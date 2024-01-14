@@ -6,7 +6,9 @@ sealed class ScoringEvent {
 }
 
 final class InitialScoringEvent extends ScoringEvent {
-  const InitialScoringEvent();
+  final int matchId;
+
+  const InitialScoringEvent(this.matchId);
 }
 
 

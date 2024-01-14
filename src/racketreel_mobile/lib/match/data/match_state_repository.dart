@@ -37,7 +37,10 @@ class MatchStateRepository implements IMatchStateRepository {
       state.teamTwoSets,
       state.teamTwoGames,
       state.teamTwoPoints,
-      state.serving == Team.TEAM_ONE ? domain_team.Team.teamOne : domain_team.Team.teamTwo
+      state.serving == Team.TEAM_ONE ? domain_team.Team.teamOne : domain_team.Team.teamTwo,
+      state.highlighted,
+      state.completed,
+      state.version
     );
   }
 }

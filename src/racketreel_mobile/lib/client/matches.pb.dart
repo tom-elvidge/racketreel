@@ -457,6 +457,110 @@ class GetSummaryReply extends $pb.GeneratedMessage {
   Summary ensureSummary() => $_ensure(2);
 }
 
+class ToggleHighlightRequest extends $pb.GeneratedMessage {
+  factory ToggleHighlightRequest() => create();
+  ToggleHighlightRequest._() : super();
+  factory ToggleHighlightRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ToggleHighlightRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ToggleHighlightRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'matchId', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'version', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ToggleHighlightRequest clone() => ToggleHighlightRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ToggleHighlightRequest copyWith(void Function(ToggleHighlightRequest) updates) => super.copyWith((message) => updates(message as ToggleHighlightRequest)) as ToggleHighlightRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ToggleHighlightRequest create() => ToggleHighlightRequest._();
+  ToggleHighlightRequest createEmptyInstance() => create();
+  static $pb.PbList<ToggleHighlightRequest> createRepeated() => $pb.PbList<ToggleHighlightRequest>();
+  @$core.pragma('dart2js:noInline')
+  static ToggleHighlightRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ToggleHighlightRequest>(create);
+  static ToggleHighlightRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get matchId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set matchId($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasMatchId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMatchId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get version => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set version($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasVersion() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearVersion() => clearField(2);
+}
+
+class ToggleHighlightReply extends $pb.GeneratedMessage {
+  factory ToggleHighlightReply() => create();
+  ToggleHighlightReply._() : super();
+  factory ToggleHighlightReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ToggleHighlightReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ToggleHighlightReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'success')
+    ..e<ToggleHighlightError>(2, _omitFieldNames ? '' : 'error', $pb.PbFieldType.OE, defaultOrMaker: ToggleHighlightError.TOGGLE_HIGHLIGHT_UNKNOWN, valueOf: ToggleHighlightError.valueOf, enumValues: ToggleHighlightError.values)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ToggleHighlightReply clone() => ToggleHighlightReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ToggleHighlightReply copyWith(void Function(ToggleHighlightReply) updates) => super.copyWith((message) => updates(message as ToggleHighlightReply)) as ToggleHighlightReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ToggleHighlightReply create() => ToggleHighlightReply._();
+  ToggleHighlightReply createEmptyInstance() => create();
+  static $pb.PbList<ToggleHighlightReply> createRepeated() => $pb.PbList<ToggleHighlightReply>();
+  @$core.pragma('dart2js:noInline')
+  static ToggleHighlightReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ToggleHighlightReply>(create);
+  static ToggleHighlightReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get success => $_getBF(0);
+  @$pb.TagNumber(1)
+  set success($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSuccess() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSuccess() => clearField(1);
+
+  @$pb.TagNumber(2)
+  ToggleHighlightError get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ToggleHighlightError v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+}
+
 class Summary extends $pb.GeneratedMessage {
   factory Summary() => create();
   Summary._() : super();
@@ -930,6 +1034,7 @@ class State extends $pb.GeneratedMessage {
     ..aOS(10, _omitFieldNames ? '' : 'teamTwoGames')
     ..aOS(11, _omitFieldNames ? '' : 'teamOneSets')
     ..aOS(12, _omitFieldNames ? '' : 'teamTwoSets')
+    ..aOB(13, _omitFieldNames ? '' : 'completed')
     ..hasRequiredFields = false
   ;
 
@@ -1063,6 +1168,15 @@ class State extends $pb.GeneratedMessage {
   $core.bool hasTeamTwoSets() => $_has(11);
   @$pb.TagNumber(12)
   void clearTeamTwoSets() => clearField(12);
+
+  @$pb.TagNumber(13)
+  $core.bool get completed => $_getBF(12);
+  @$pb.TagNumber(13)
+  set completed($core.bool v) { $_setBool(12, v); }
+  @$pb.TagNumber(13)
+  $core.bool hasCompleted() => $_has(12);
+  @$pb.TagNumber(13)
+  void clearCompleted() => clearField(13);
 }
 
 class GetStateHistoryRequest extends $pb.GeneratedMessage {

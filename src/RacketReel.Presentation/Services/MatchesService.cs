@@ -3,6 +3,7 @@ using Grpc.Core;
 using MediatR;
 using RacketReel.Application.Commands.AddPoint;
 using RacketReel.Application.Commands.CreateMatch;
+using RacketReel.Application.Commands.ToggleHighlight;
 using RacketReel.Application.Commands.UndoPoint;
 using RacketReel.Application.Errors;
 using RacketReel.Application.Models;
@@ -220,6 +221,25 @@ public class MatchesService : Matches.MatchesBase
         };
     }
 
+    public override async Task<ToggleHighlightReply> ToggleHighlight(ToggleHighlightRequest request, ServerCallContext context)
+    {
+        var result = await _sender.Send(new ToggleHighlightCommand(request.MatchId, request.Version));
+        
+        if (result.IsFailure)
+            return new ToggleHighlightReply
+            {
+                Success = false,
+                Error = result.Error == ApplicationErrors.NotFound
+                    ? ToggleHighlightError.ToggleHighlightStateDoesNotExist
+                    : ToggleHighlightError.ToggleHighlightUnknown
+            };
+
+        return new ToggleHighlightReply
+        {
+            Success = true
+        };
+    }
+    
     private State CreateState(ApplicationState state, string teamOneName, string teamTwoName)
     {
         string PointToString(bool tiebreak, int points)
@@ -250,7 +270,8 @@ public class MatchesService : Matches.MatchesBase
             TeamTwoSets = state.TeamTwoSets.ToString(),
             TeamOneName = teamOneName,
             TeamTwoName = teamTwoName,
-            Version = state.Version
+            Version = state.Version,
+            Completed = state.Completed
         };
     }
 

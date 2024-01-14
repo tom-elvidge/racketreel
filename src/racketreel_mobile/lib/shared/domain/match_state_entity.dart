@@ -12,6 +12,9 @@ class MatchStateEntity
   final String teamTwoGames;
   final String teamTwoPoints;
   final Team servingTeam;
+  final bool highlighted;
+  final bool completed;
+  final int version;
 
   MatchStateEntity(
     this.datetime,
@@ -23,5 +26,8 @@ class MatchStateEntity
     this.teamTwoSets,
     this.teamTwoGames,
     this.teamTwoPoints,
-    this.servingTeam);
+    this.servingTeam,
+    this.highlighted,
+    this.completed,
+    this.version);
 }

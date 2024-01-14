@@ -101,6 +101,20 @@ final $typed_data.Uint8List getSummaryErrorDescriptor = $convert.base64Decode(
     'Cg9HZXRTdW1tYXJ5RXJyb3ISJAogR0VUX1NVTU1BUllfTUFUQ0hfRE9FU19OT1RfRVhJU1QQAB'
     'IXChNHRVRfU1VNTUFSWV9VTktOT1dOEAE=');
 
+@$core.Deprecated('Use toggleHighlightErrorDescriptor instead')
+const ToggleHighlightError$json = {
+  '1': 'ToggleHighlightError',
+  '2': [
+    {'1': 'TOGGLE_HIGHLIGHT_UNKNOWN', '2': 0},
+    {'1': 'TOGGLE_HIGHLIGHT_STATE_DOES_NOT_EXIST', '2': 1},
+  ],
+};
+
+/// Descriptor for `ToggleHighlightError`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List toggleHighlightErrorDescriptor = $convert.base64Decode(
+    'ChRUb2dnbGVIaWdobGlnaHRFcnJvchIcChhUT0dHTEVfSElHSExJR0hUX1VOS05PV04QABIpCi'
+    'VUT0dHTEVfSElHSExJR0hUX1NUQVRFX0RPRVNfTk9UX0VYSVNUEAE=');
+
 @$core.Deprecated('Use configureRequestDescriptor instead')
 const ConfigureRequest$json = {
   '1': 'ConfigureRequest',
@@ -231,6 +245,38 @@ final $typed_data.Uint8List getSummaryReplyDescriptor = $convert.base64Decode(
     'EoDjIbLlJhY2tldFJlZWwuR2V0U3VtbWFyeUVycm9ySABSBWVycm9yiAEBEjIKB3N1bW1hcnkY'
     'AyABKAsyEy5SYWNrZXRSZWVsLlN1bW1hcnlIAVIHc3VtbWFyeYgBAUIICgZfZXJyb3JCCgoIX3'
     'N1bW1hcnk=');
+
+@$core.Deprecated('Use toggleHighlightRequestDescriptor instead')
+const ToggleHighlightRequest$json = {
+  '1': 'ToggleHighlightRequest',
+  '2': [
+    {'1': 'match_id', '3': 1, '4': 1, '5': 5, '10': 'matchId'},
+    {'1': 'version', '3': 2, '4': 1, '5': 5, '10': 'version'},
+  ],
+};
+
+/// Descriptor for `ToggleHighlightRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List toggleHighlightRequestDescriptor = $convert.base64Decode(
+    'ChZUb2dnbGVIaWdobGlnaHRSZXF1ZXN0EhkKCG1hdGNoX2lkGAEgASgFUgdtYXRjaElkEhgKB3'
+    'ZlcnNpb24YAiABKAVSB3ZlcnNpb24=');
+
+@$core.Deprecated('Use toggleHighlightReplyDescriptor instead')
+const ToggleHighlightReply$json = {
+  '1': 'ToggleHighlightReply',
+  '2': [
+    {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
+    {'1': 'error', '3': 2, '4': 1, '5': 14, '6': '.RacketReel.ToggleHighlightError', '9': 0, '10': 'error', '17': true},
+  ],
+  '8': [
+    {'1': '_error'},
+  ],
+};
+
+/// Descriptor for `ToggleHighlightReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List toggleHighlightReplyDescriptor = $convert.base64Decode(
+    'ChRUb2dnbGVIaWdobGlnaHRSZXBseRIYCgdzdWNjZXNzGAEgASgIUgdzdWNjZXNzEjsKBWVycm'
+    '9yGAIgASgOMiAuUmFja2V0UmVlbC5Ub2dnbGVIaWdobGlnaHRFcnJvckgAUgVlcnJvcogBAUII'
+    'CgZfZXJyb3I=');
 
 @$core.Deprecated('Use summaryDescriptor instead')
 const Summary$json = {
@@ -368,6 +414,7 @@ const State$json = {
     {'1': 'team_two_games', '3': 10, '4': 1, '5': 9, '10': 'teamTwoGames'},
     {'1': 'team_one_sets', '3': 11, '4': 1, '5': 9, '10': 'teamOneSets'},
     {'1': 'team_two_sets', '3': 12, '4': 1, '5': 9, '10': 'teamTwoSets'},
+    {'1': 'completed', '3': 13, '4': 1, '5': 8, '10': 'completed'},
   ],
 };
 
@@ -381,7 +428,8 @@ final $typed_data.Uint8List stateDescriptor = $convert.base64Decode(
     'VhbU9uZVBvaW50cxImCg90ZWFtX3R3b19wb2ludHMYCCABKAlSDXRlYW1Ud29Qb2ludHMSJAoO'
     'dGVhbV9vbmVfZ2FtZXMYCSABKAlSDHRlYW1PbmVHYW1lcxIkCg50ZWFtX3R3b19nYW1lcxgKIA'
     'EoCVIMdGVhbVR3b0dhbWVzEiIKDXRlYW1fb25lX3NldHMYCyABKAlSC3RlYW1PbmVTZXRzEiIK'
-    'DXRlYW1fdHdvX3NldHMYDCABKAlSC3RlYW1Ud29TZXRz');
+    'DXRlYW1fdHdvX3NldHMYDCABKAlSC3RlYW1Ud29TZXRzEhwKCWNvbXBsZXRlZBgNIAEoCFIJY2'
+    '9tcGxldGVk');
 
 @$core.Deprecated('Use getStateHistoryRequestDescriptor instead')
 const GetStateHistoryRequest$json = {

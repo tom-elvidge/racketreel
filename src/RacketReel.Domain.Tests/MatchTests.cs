@@ -27,7 +27,9 @@ public class MatchTests
                     new StateEntity(
                         DateTime.MinValue,
                         ParticipantEnum.One,
-                        new Score(3, 0, 0, 0, 0, 0))
+                        new Score(3, 0, 0, 0, 0, 0),
+                        false,
+                        7)
                 }),
             ParticipantEnum.One,
             ParticipantEnum.Two,

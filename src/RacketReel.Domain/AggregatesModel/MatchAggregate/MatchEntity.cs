@@ -97,15 +97,13 @@ public class MatchEntity : Entity, IAggregateRoot
             throw new CannotUpdateACompletedMatchDomainException();
         }
 
-        var lastState = States
-            .OrderBy(s => s.CreatedAtDateTime)
-            .LastOrDefault()!;
+        var lastState = States.OrderBy(s => s.Version).Last();
 
         var newState = new StateEntity(
             DateTime.UtcNow,
             ParticipantEnum.One, // placeholder
             Scorer.GetNewScore(Format, lastState, participant),
-            false);
+            version: lastState.Version + 1);
         newState.Serving = GetNewStateServing(newState, lastState);
 
         _states.Add(newState);

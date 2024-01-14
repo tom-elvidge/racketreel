@@ -4,6 +4,7 @@ namespace RacketReel.Application.Models;
 
 public record State(
     int MatchId,
+    int StateId,
     int Version,
     DateTime CreatedAtUtc,
     Team Serving,
@@ -14,4 +15,5 @@ public record State(
     int TeamOneSets,
     int TeamTwoSets,
     bool Highlighted,
-    bool Tiebreak);
+    bool Tiebreak,
+    bool Completed);

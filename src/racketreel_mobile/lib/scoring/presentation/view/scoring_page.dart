@@ -15,7 +15,7 @@ class ScoringPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<ScoringBloc>()..add(const InitialScoringEvent()),
+      create: (_) => getIt<ScoringBloc>()..add(InitialScoringEvent(matchId)),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Scoring"),
@@ -38,7 +38,7 @@ class ScoringPage extends StatelessWidget {
             builder: (context, state) {
               return WillPopScope(
                 onWillPop: () async {
-                  if (state.isComplete)
+                  if (state.matchState?.completed ?? false)
                   {
                     Navigator.of(context).popUntil(ModalRoute.withName('/'));
                     return true;
@@ -74,7 +74,7 @@ class ScoringPage extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.only(bottom: 15),
                             child: Scoreboard(
-                              teamOneName: state.matchState!.teamTwoName,
+                              teamOneName: state.matchState!.teamOneName,
                               teamOneSets: state.matchState!.teamOneSets,
                               teamOneGames: state.matchState!.teamOneGames,
                               teamOnePoints: state.matchState!.teamOnePoints,
@@ -85,38 +85,42 @@ class ScoringPage extends StatelessWidget {
                               servingTeam: state.matchState!.servingTeam,
                             ),
                           ),
+                          if (!(state.matchState?.completed ?? false))
+                            ElevatedButton(
+                              onPressed: () {
+                                context
+                                    .read<ScoringBloc>()
+                                    .add(const PointToTeamOneEvent());
+                              },
+                              child: Text('Point to ${state.matchState!.teamOneName}'),
+                            ),
+                          if (!(state.matchState?.completed ?? false))
+                            ElevatedButton(
+                              onPressed: () {
+                                context
+                                    .read<ScoringBloc>()
+                                    .add(const PointToTeamTwoEvent());
+                              },
+                              child: Text('Point to ${state.matchState!.teamTwoName}'),
+                            ),
                           ElevatedButton(
-                            onPressed: () {
-                              context
-                                  .read<ScoringBloc>()
-                                  .add(const PointToTeamOneEvent());
-                            },
-                            child: Text('Point to ${state.matchState!.teamOneName}'),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              context
-                                  .read<ScoringBloc>()
-                                  .add(const PointToTeamTwoEvent());
-                            },
-                            child: Text('Point to ${state.matchState!.teamTwoName}'),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              context
-                                  .read<ScoringBloc>()
-                                  .add(const ToggleHighlightEvent());
-                            },
+                            onPressed: state.matchState?.version == 0 ? null :
+                              () {
+                                context
+                                    .read<ScoringBloc>()
+                                    .add(const ToggleHighlightEvent());
+                              },
                             child: state.isLastStateHighlighted
                                 ? const Text('Remove Highlight')
                                 : const Text('Highlight'),
                           ),
                           ElevatedButton(
-                            onPressed: () {
-                              context
-                                  .read<ScoringBloc>()
-                                  .add(const UndoEvent());
-                            },
+                            onPressed: state.matchState?.version == 0 ? null :
+                              () {
+                                context
+                                    .read<ScoringBloc>()
+                                    .add(const UndoEvent());
+                              },
                             child: const Text('Undo'),
                           ),
                         ],

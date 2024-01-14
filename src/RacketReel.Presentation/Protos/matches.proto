@@ -31,6 +31,9 @@ service Matches {
   
   // Update the match by removing the last point which was added
   rpc UndoPoint (UndoPointRequest) returns (UndoPointReply);
+  
+  // Update a state by marking it as a highlight
+  rpc ToggleHighlight(ToggleHighlightRequest) returns (ToggleHighlightReply);
 }
 
 message ConfigureRequest {
@@ -109,6 +112,21 @@ enum GetSummaryError {
   GET_SUMMARY_UNKNOWN = 1;
 }
 
+message ToggleHighlightRequest {
+  int32 match_id = 1;
+  int32 version = 2;
+}
+
+message ToggleHighlightReply {
+  bool success = 1;
+  optional ToggleHighlightError error = 2;
+}
+
+enum ToggleHighlightError {
+  TOGGLE_HIGHLIGHT_UNKNOWN = 0;
+  TOGGLE_HIGHLIGHT_STATE_DOES_NOT_EXIST = 1;
+}
+
 message Summary {
   int32 match_id = 1;
   google.protobuf.Timestamp started_at_utc = 2;
@@ -165,6 +183,7 @@ message State {
   string team_two_games = 10;
   string team_one_sets = 11;
   string team_two_sets = 12;
+  bool completed = 13;
 }
 
 message GetStateHistoryRequest {

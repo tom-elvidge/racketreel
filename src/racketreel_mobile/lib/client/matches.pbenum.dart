@@ -113,5 +113,20 @@ class GetSummaryError extends $pb.ProtobufEnum {
   const GetSummaryError._($core.int v, $core.String n) : super(v, n);
 }
 
+class ToggleHighlightError extends $pb.ProtobufEnum {
+  static const ToggleHighlightError TOGGLE_HIGHLIGHT_UNKNOWN = ToggleHighlightError._(0, _omitEnumNames ? '' : 'TOGGLE_HIGHLIGHT_UNKNOWN');
+  static const ToggleHighlightError TOGGLE_HIGHLIGHT_STATE_DOES_NOT_EXIST = ToggleHighlightError._(1, _omitEnumNames ? '' : 'TOGGLE_HIGHLIGHT_STATE_DOES_NOT_EXIST');
+
+  static const $core.List<ToggleHighlightError> values = <ToggleHighlightError> [
+    TOGGLE_HIGHLIGHT_UNKNOWN,
+    TOGGLE_HIGHLIGHT_STATE_DOES_NOT_EXIST,
+  ];
+
+  static final $core.Map<$core.int, ToggleHighlightError> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static ToggleHighlightError? valueOf($core.int value) => _byValue[value];
+
+  const ToggleHighlightError._($core.int v, $core.String n) : super(v, n);
+}
+
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

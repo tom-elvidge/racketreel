@@ -25,16 +25,11 @@ public class GetStateByIndexQueryHandler : IQueryHandler<GetStateByIndexQuery, S
             return Result.Failure<State>(ApplicationErrors.NotFound);
         }
         
-        try
-        {
-            var stateEntity = matchEntity.States
-                .OrderBy(s => s.CreatedAtDateTime)
-                .ToList()[query.StateIndex];
-            return Result.Success(StateCreator.CreateState(matchEntity, stateEntity));
-        }
-        catch (ArgumentOutOfRangeException)
-        {
+        var stateEntity = matchEntity.States.FirstOrDefault(s => s.Version == query.StateIndex);
+
+        if (stateEntity == null)
             return Result.Failure<State>(ApplicationErrors.NotFound);
-        }
+        
+        return Result.Success(StateCreator.CreateState(matchEntity, stateEntity));
     }
 }

@@ -10,7 +10,8 @@ public class StateCreator
     {
         return new State(
             MatchId: matchEntity.Id,
-            Version: stateEntity.Id, 
+            StateId: stateEntity.Id,
+            Version: stateEntity.Version, 
             CreatedAtUtc: stateEntity.CreatedAtDateTime, 
             Highlighted: stateEntity.Highlight,
             Tiebreak: Scorer.IsTiebreak(matchEntity.Format, stateEntity),
@@ -20,6 +21,7 @@ public class StateCreator
             TeamOneSets: stateEntity.Score.P1Sets, 
             TeamTwoGames: stateEntity.Score.P2Games, 
             TeamTwoPoints: stateEntity.Score.P2Points, 
-            TeamTwoSets: stateEntity.Score.P2Sets);
+            TeamTwoSets: stateEntity.Score.P2Sets,
+            Completed: matchEntity.IsComplete());
     }
 }

@@ -4,6 +4,7 @@ namespace RacketReel.Domain.AggregatesModel.MatchAggregate;
 
 public class StateEntity : Entity
 {
+    public int Version { get; set; }
     public DateTime CreatedAtDateTime { get; private set; } = DateTime.MinValue;
 
     public ParticipantEnum Serving { get; set; } = ParticipantEnum.One;
@@ -18,12 +19,14 @@ public class StateEntity : Entity
         DateTime createdAtDateTime,
         ParticipantEnum serving,
         Score score,
-        bool highlight = false)
+        bool highlight = false,
+        int version = 0)
     {
         CreatedAtDateTime = createdAtDateTime;
         Serving = serving;
         Score = score;
         Highlight = highlight;
+        Version = version;
     }
 
     public static StateEntity Initial(ParticipantEnum servingFirst)
