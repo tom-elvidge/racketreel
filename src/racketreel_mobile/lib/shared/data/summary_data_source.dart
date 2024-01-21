@@ -53,4 +53,33 @@ class SummaryDataSource implements ISummaryDataSource
     var response = await stub.getSummary(request);
     return response.summary;
   }
+
+  @override
+  Future<List<SummaryV2>> getSummariesV2(int pageNumber) async {
+    _channel ??= _getClientChannel();
+
+    var stub = MatchesClient(_channel!,
+        options: CallOptions(timeout: const Duration(seconds: 30)));
+
+    var request = GetSummariesRequest();
+    request.pageNumber = pageNumber;
+    request.pageSize = 10;
+
+    var reply = await stub.getSummariesV2(request);
+    return reply.summaries;
+  }
+
+  @override
+  Future<SummaryV2> getSummaryV2(int matchId) async {
+    _channel ??= _getClientChannel();
+
+    var stub = MatchesClient(_channel!,
+        options: CallOptions(timeout: const Duration(seconds: 30)));
+
+    var request = GetSummaryRequest();
+    request.matchId = matchId;
+
+    var response = await stub.getSummaryV2(request);
+    return response.summary;
+  }
 }

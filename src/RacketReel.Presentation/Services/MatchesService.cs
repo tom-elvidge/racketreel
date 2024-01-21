@@ -78,6 +78,55 @@ public class MatchesService : Matches.MatchesBase
         reply.Summaries.AddRange(result.Value.Page.Select(CreateSummary));
         return reply;
     }
+    
+    public override async Task<GetSummaryV2Reply> GetSummaryV2(GetSummaryRequest request, ServerCallContext context)
+    {
+        var result = await _sender.Send(new GetMatchByIdQuery(request.MatchId));
+
+        if (result.IsFailure)
+        {
+            if (result.Error == ApplicationErrors.NotFound)
+                return new GetSummaryV2Reply
+                {
+                    Success = false,
+                    Error = GetSummaryError.GetSummaryMatchDoesNotExist
+                };
+            
+            return new GetSummaryV2Reply
+            {
+                Success = false,
+                Error = GetSummaryError.GetSummaryUnknown
+            };
+        }
+
+        var match = result.Value;
+        return new GetSummaryV2Reply
+        {
+            Success = true,
+            Summary = CreateSummaryV2(match)
+        };
+    }
+
+    public override async Task<GetSummariesV2Reply> GetSummariesV2(GetSummariesRequest request, ServerCallContext context)
+    {
+        var result = await _sender.Send(new GetMatchesQuery(request.PageSize, request.PageNumber));
+
+        if (result.IsFailure)
+        {
+            return new GetSummariesV2Reply
+            {
+                Success = false
+            };
+        }
+
+        var reply = new GetSummariesV2Reply
+        {
+            Success = true,
+            PageCount = result.Value.PageCount
+        };
+        reply.Summaries.AddRange(result.Value.Page.Select(CreateSummaryV2));
+        return reply;
+    }
 
     public override async Task<GetStateReply> GetState(GetStateRequest request, ServerCallContext context)
     {
@@ -344,6 +393,85 @@ public class MatchesService : Matches.MatchesBase
                     TeamOneTiebreakPoints = match.SetFive.TeamOneTiebreakPoints ?? 0,
                     TeamTwoTiebreakPoints = match.SetFive.TeamTwoTiebreakPoints ?? 0
                 }
+        };
+    }
+
+    private SummaryV2 CreateSummaryV2(Match match)
+    {
+        var summary = new SummaryV2
+        {
+            StartedAtUtc = Timestamp.FromDateTime(match.CreatedAt),
+            CompletedAtUtc = Timestamp.FromDateTime(match.CompletedAt),
+            Duration = Duration.FromTimeSpan(match.CompletedAt - match.CreatedAt),
+            Format = match.Format switch
+            {
+                ApplicationFormat.TiebreakToTen => Format.TiebreakToTen,
+                ApplicationFormat.BestOfOne => Format.BestOfOne,
+                ApplicationFormat.BestOfThree => Format.BestOfThree,
+                ApplicationFormat.BestOfFive => Format.BestOfFive,
+                ApplicationFormat.BestOfThreeFinalSetTiebreak => Format.BestOfThreeFst,
+                ApplicationFormat.BestOfFiveFinalSetTiebreak => Format.BestOfFiveFst,
+                ApplicationFormat.FastFour => Format.Fast4,
+                _ => throw new ArgumentOutOfRangeException($"Unexpected Format of {nameof(ApplicationFormat)}")
+            },
+            MatchId = match.Id,
+            TeamOneName = match.TeamOneName,
+            TeamTwoName = match.TeamTwoName,
+            TeamOneSets = TotalSets(match, ApplicationTeam.TeamOne),
+            TeamTwoSets = TotalSets(match, ApplicationTeam.TeamTwo)
+        };
+        
+        summary.TeamOneSetScores.AddRange(GetTeamSetScores(match, ApplicationTeam.TeamOne));
+        summary.TeamTwoSetScores.AddRange(GetTeamSetScores(match, ApplicationTeam.TeamTwo));
+
+        return summary;
+    }
+
+    private static int TotalSets(Match match, ApplicationTeam team)
+    {
+        var total = 0;
+
+        if (match.SetOne.Winner == team) total++;
+        if (match.SetTwo != null && match.SetTwo.Winner == team) total++;
+        if (match.SetThree != null && match.SetThree.Winner == team) total++;
+        if (match.SetFour != null && match.SetFour.Winner == team) total++;
+        if (match.SetFive != null && match.SetFive.Winner == team) total++;
+
+        return total;
+    }
+
+    private static IEnumerable<TeamSetScore> GetTeamSetScores(Match match, ApplicationTeam team)
+    {
+        for (var set = 1; set <= 5; set++)
+        {
+            var teamSetScore = GetTeamSetScore(match, team, set);
+            
+            if (teamSetScore != null) yield return teamSetScore;
+        }
+    }
+
+    private static TeamSetScore? GetTeamSetScore(Match match, ApplicationTeam team, int setNumber)
+    {
+        var set = setNumber switch
+        {
+            1 => match.SetOne,
+            2 => match.SetTwo,
+            3 => match.SetThree,
+            4 => match.SetFour,
+            5 => match.SetFive,
+            _ => throw new ArgumentException("the set number must be 1-5", nameof(setNumber))
+        };
+
+        if (set == null) return null;
+        
+        return new TeamSetScore
+        {
+            Games = team == ApplicationTeam.TeamOne ? set.TeamOneGames : set.TeamTwoGames,
+            SetNumber = 1,
+            SetWon = set.Winner == team,
+            TiebreakPoints = team == ApplicationTeam.TeamOne
+                ? set.TeamOneTiebreakPoints ?? 0
+                : set.TeamTwoTiebreakPoints ?? 0
         };
     }
 }

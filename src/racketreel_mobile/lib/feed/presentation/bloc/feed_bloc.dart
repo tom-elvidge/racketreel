@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:racketreel/feed/domain/feed_item_entity.dart';
+import 'package:racketreel/feed/domain/feed_item_v2_entity.dart';
 import 'package:racketreel/feed/domain/i_feed_item_repository.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -30,7 +30,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   }
 
   void _onInitialFetch(FetchInitialEvent event, Emitter<FeedState> emit) async {
-    var feedItems = await repo.getFeedItems(1);
+    var feedItems = await repo.getFeedItemsV2(1);
     emit(FetchedInitial(feedItems.isEmpty, feedItems));
   }
 
@@ -44,7 +44,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     emit(FetchingOlder(state.endOfFeed, state.lastPageFetched, state.items));
 
     var page = state.lastPageFetched + 1;
-    var feedItems = await repo.getFeedItems(page);
-    emit(FetchedOlder(feedItems.isEmpty, page, List<FeedItemEntity>.from(state.items)..addAll(feedItems)));
+    var feedItems = await repo.getFeedItemsV2(page);
+    emit(FetchedOlder(feedItems.isEmpty, page, List<FeedItemV2Entity>.from(state.items)..addAll(feedItems)));
   }
 }

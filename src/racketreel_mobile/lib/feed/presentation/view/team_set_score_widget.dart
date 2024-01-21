@@ -21,10 +21,7 @@ class TeamSetScoreContainer extends StatelessWidget {
             teamSetScore.games.toString(),
             style: TextStyle(
               color: Colors.blue.shade900,
-              fontWeight: teamSetScore.setWon
-                  ? FontWeight.bold
-                  : FontWeight.normal,
-              fontSize: 18,
+              fontSize: 16,
             ),
           ),
           Container(
@@ -32,12 +29,9 @@ class TeamSetScoreContainer extends StatelessWidget {
             child: Text(
               teamSetScore.tiebreakPoints.toString(),
               style: TextStyle(
-                color: teamSetScore.tiebreakPoints == null
+                color: teamSetScore.tiebreakPoints == 0
                     ? Colors.transparent
                     : Colors.blue.shade900,
-                fontWeight: teamSetScore.setWon
-                    ? FontWeight.bold
-                    : FontWeight.normal,
                 fontSize: 10,
               ),
             ),

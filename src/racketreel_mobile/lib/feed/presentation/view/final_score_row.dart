@@ -29,13 +29,11 @@ class FinalScoreRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: const EdgeInsets.only(left: 12, bottom: 7, top: 7),
                   child: Text(
                     name,
                     style: TextStyle(
                       color: Colors.blue.shade900,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                 ),
@@ -50,19 +48,15 @@ class FinalScoreRow extends StatelessWidget {
           ),
           Container(
             alignment: Alignment.center,
-            width: 30,
+            width: 70,
             height: 30,
-            child: Stack(
-              children: [
-                Text(
-                  totalSetsWon.toString(),
-                  style: TextStyle(
-                  color: Colors.blue.shade900,
-                  fontWeight: matchWon ? FontWeight.bold : FontWeight.normal,
-                  fontSize: 18,
-                  ),
-                ),
-              ],
+            padding: EdgeInsets.only(left: 20, right: 20),
+            child: Text(
+              totalSetsWon.toString(),
+              style: TextStyle(
+              color: Colors.blue.shade900,
+              fontSize: 18,
+              ),
             ),
           ),
           Row(

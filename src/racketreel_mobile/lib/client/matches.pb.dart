@@ -4,7 +4,7 @@
 //
 // @dart = 2.12
 
-// ignore_for_file: annotate_overrides, camel_case_types
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
 // ignore_for_file: non_constant_identifier_names, prefer_final_fields
 // ignore_for_file: unnecessary_import, unnecessary_this, unused_import
@@ -20,7 +20,27 @@ import 'matches.pbenum.dart';
 export 'matches.pbenum.dart';
 
 class ConfigureRequest extends $pb.GeneratedMessage {
-  factory ConfigureRequest() => create();
+  factory ConfigureRequest({
+    Format? format,
+    Team? servingFirst,
+    $core.String? teamOneName,
+    $core.String? teamTwoName,
+  }) {
+    final $result = create();
+    if (format != null) {
+      $result.format = format;
+    }
+    if (servingFirst != null) {
+      $result.servingFirst = servingFirst;
+    }
+    if (teamOneName != null) {
+      $result.teamOneName = teamOneName;
+    }
+    if (teamTwoName != null) {
+      $result.teamTwoName = teamTwoName;
+    }
+    return $result;
+  }
   ConfigureRequest._() : super();
   factory ConfigureRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ConfigureRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -92,7 +112,23 @@ class ConfigureRequest extends $pb.GeneratedMessage {
 }
 
 class ConfigureReply extends $pb.GeneratedMessage {
-  factory ConfigureReply() => create();
+  factory ConfigureReply({
+    $core.bool? success,
+    ConfigureError? error,
+    $core.int? matchId,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    if (error != null) {
+      $result.error = error;
+    }
+    if (matchId != null) {
+      $result.matchId = matchId;
+    }
+    return $result;
+  }
   ConfigureReply._() : super();
   factory ConfigureReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ConfigureReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -154,7 +190,19 @@ class ConfigureReply extends $pb.GeneratedMessage {
 }
 
 class AddPointRequest extends $pb.GeneratedMessage {
-  factory AddPointRequest() => create();
+  factory AddPointRequest({
+    $core.int? matchId,
+    Team? team,
+  }) {
+    final $result = create();
+    if (matchId != null) {
+      $result.matchId = matchId;
+    }
+    if (team != null) {
+      $result.team = team;
+    }
+    return $result;
+  }
   AddPointRequest._() : super();
   factory AddPointRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory AddPointRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -206,7 +254,19 @@ class AddPointRequest extends $pb.GeneratedMessage {
 }
 
 class AddPointReply extends $pb.GeneratedMessage {
-  factory AddPointReply() => create();
+  factory AddPointReply({
+    $core.bool? success,
+    AddPointError? error,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    if (error != null) {
+      $result.error = error;
+    }
+    return $result;
+  }
   AddPointReply._() : super();
   factory AddPointReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory AddPointReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -258,7 +318,15 @@ class AddPointReply extends $pb.GeneratedMessage {
 }
 
 class UndoPointRequest extends $pb.GeneratedMessage {
-  factory UndoPointRequest() => create();
+  factory UndoPointRequest({
+    $core.int? matchId,
+  }) {
+    final $result = create();
+    if (matchId != null) {
+      $result.matchId = matchId;
+    }
+    return $result;
+  }
   UndoPointRequest._() : super();
   factory UndoPointRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory UndoPointRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -300,7 +368,19 @@ class UndoPointRequest extends $pb.GeneratedMessage {
 }
 
 class UndoPointReply extends $pb.GeneratedMessage {
-  factory UndoPointReply() => create();
+  factory UndoPointReply({
+    $core.bool? success,
+    UndoPointError? error,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    if (error != null) {
+      $result.error = error;
+    }
+    return $result;
+  }
   UndoPointReply._() : super();
   factory UndoPointReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory UndoPointReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -352,7 +432,15 @@ class UndoPointReply extends $pb.GeneratedMessage {
 }
 
 class GetSummaryRequest extends $pb.GeneratedMessage {
-  factory GetSummaryRequest() => create();
+  factory GetSummaryRequest({
+    $core.int? matchId,
+  }) {
+    final $result = create();
+    if (matchId != null) {
+      $result.matchId = matchId;
+    }
+    return $result;
+  }
   GetSummaryRequest._() : super();
   factory GetSummaryRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory GetSummaryRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -394,7 +482,23 @@ class GetSummaryRequest extends $pb.GeneratedMessage {
 }
 
 class GetSummaryReply extends $pb.GeneratedMessage {
-  factory GetSummaryReply() => create();
+  factory GetSummaryReply({
+    $core.bool? success,
+    GetSummaryError? error,
+    Summary? summary,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    if (error != null) {
+      $result.error = error;
+    }
+    if (summary != null) {
+      $result.summary = summary;
+    }
+    return $result;
+  }
   GetSummaryReply._() : super();
   factory GetSummaryReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory GetSummaryReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -457,8 +561,100 @@ class GetSummaryReply extends $pb.GeneratedMessage {
   Summary ensureSummary() => $_ensure(2);
 }
 
+class GetSummaryV2Reply extends $pb.GeneratedMessage {
+  factory GetSummaryV2Reply({
+    $core.bool? success,
+    GetSummaryError? error,
+    SummaryV2? summary,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    if (error != null) {
+      $result.error = error;
+    }
+    if (summary != null) {
+      $result.summary = summary;
+    }
+    return $result;
+  }
+  GetSummaryV2Reply._() : super();
+  factory GetSummaryV2Reply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetSummaryV2Reply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetSummaryV2Reply', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'success')
+    ..e<GetSummaryError>(2, _omitFieldNames ? '' : 'error', $pb.PbFieldType.OE, defaultOrMaker: GetSummaryError.GET_SUMMARY_MATCH_DOES_NOT_EXIST, valueOf: GetSummaryError.valueOf, enumValues: GetSummaryError.values)
+    ..aOM<SummaryV2>(4, _omitFieldNames ? '' : 'summary', subBuilder: SummaryV2.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetSummaryV2Reply clone() => GetSummaryV2Reply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetSummaryV2Reply copyWith(void Function(GetSummaryV2Reply) updates) => super.copyWith((message) => updates(message as GetSummaryV2Reply)) as GetSummaryV2Reply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetSummaryV2Reply create() => GetSummaryV2Reply._();
+  GetSummaryV2Reply createEmptyInstance() => create();
+  static $pb.PbList<GetSummaryV2Reply> createRepeated() => $pb.PbList<GetSummaryV2Reply>();
+  @$core.pragma('dart2js:noInline')
+  static GetSummaryV2Reply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetSummaryV2Reply>(create);
+  static GetSummaryV2Reply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get success => $_getBF(0);
+  @$pb.TagNumber(1)
+  set success($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSuccess() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSuccess() => clearField(1);
+
+  @$pb.TagNumber(2)
+  GetSummaryError get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(GetSummaryError v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+
+  @$pb.TagNumber(4)
+  SummaryV2 get summary => $_getN(2);
+  @$pb.TagNumber(4)
+  set summary(SummaryV2 v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasSummary() => $_has(2);
+  @$pb.TagNumber(4)
+  void clearSummary() => clearField(4);
+  @$pb.TagNumber(4)
+  SummaryV2 ensureSummary() => $_ensure(2);
+}
+
 class ToggleHighlightRequest extends $pb.GeneratedMessage {
-  factory ToggleHighlightRequest() => create();
+  factory ToggleHighlightRequest({
+    $core.int? matchId,
+    $core.int? version,
+  }) {
+    final $result = create();
+    if (matchId != null) {
+      $result.matchId = matchId;
+    }
+    if (version != null) {
+      $result.version = version;
+    }
+    return $result;
+  }
   ToggleHighlightRequest._() : super();
   factory ToggleHighlightRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ToggleHighlightRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -510,7 +706,19 @@ class ToggleHighlightRequest extends $pb.GeneratedMessage {
 }
 
 class ToggleHighlightReply extends $pb.GeneratedMessage {
-  factory ToggleHighlightReply() => create();
+  factory ToggleHighlightReply({
+    $core.bool? success,
+    ToggleHighlightError? error,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    if (error != null) {
+      $result.error = error;
+    }
+    return $result;
+  }
   ToggleHighlightReply._() : super();
   factory ToggleHighlightReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ToggleHighlightReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -562,7 +770,59 @@ class ToggleHighlightReply extends $pb.GeneratedMessage {
 }
 
 class Summary extends $pb.GeneratedMessage {
-  factory Summary() => create();
+  factory Summary({
+    $core.int? matchId,
+    $1.Timestamp? startedAtUtc,
+    $1.Timestamp? completedAtUtc,
+    $2.Duration? duration,
+    Format? format,
+    $core.String? teamOneName,
+    $core.String? teamTwoName,
+    SetSummary? setOne,
+    SetSummary? setTwo,
+    SetSummary? setThree,
+    SetSummary? setFour,
+    SetSummary? setFive,
+  }) {
+    final $result = create();
+    if (matchId != null) {
+      $result.matchId = matchId;
+    }
+    if (startedAtUtc != null) {
+      $result.startedAtUtc = startedAtUtc;
+    }
+    if (completedAtUtc != null) {
+      $result.completedAtUtc = completedAtUtc;
+    }
+    if (duration != null) {
+      $result.duration = duration;
+    }
+    if (format != null) {
+      $result.format = format;
+    }
+    if (teamOneName != null) {
+      $result.teamOneName = teamOneName;
+    }
+    if (teamTwoName != null) {
+      $result.teamTwoName = teamTwoName;
+    }
+    if (setOne != null) {
+      $result.setOne = setOne;
+    }
+    if (setTwo != null) {
+      $result.setTwo = setTwo;
+    }
+    if (setThree != null) {
+      $result.setThree = setThree;
+    }
+    if (setFour != null) {
+      $result.setFour = setFour;
+    }
+    if (setFive != null) {
+      $result.setFive = setFive;
+    }
+    return $result;
+  }
   Summary._() : super();
   factory Summary.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Summary.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -730,7 +990,31 @@ class Summary extends $pb.GeneratedMessage {
 }
 
 class SetSummary extends $pb.GeneratedMessage {
-  factory SetSummary() => create();
+  factory SetSummary({
+    $core.int? teamOneGames,
+    $core.int? teamTwoGames,
+    $core.bool? tiebreak,
+    $core.int? teamOneTiebreakPoints,
+    $core.int? teamTwoTiebreakPoints,
+  }) {
+    final $result = create();
+    if (teamOneGames != null) {
+      $result.teamOneGames = teamOneGames;
+    }
+    if (teamTwoGames != null) {
+      $result.teamTwoGames = teamTwoGames;
+    }
+    if (tiebreak != null) {
+      $result.tiebreak = tiebreak;
+    }
+    if (teamOneTiebreakPoints != null) {
+      $result.teamOneTiebreakPoints = teamOneTiebreakPoints;
+    }
+    if (teamTwoTiebreakPoints != null) {
+      $result.teamTwoTiebreakPoints = teamTwoTiebreakPoints;
+    }
+    return $result;
+  }
   SetSummary._() : super();
   factory SetSummary.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory SetSummary.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -811,8 +1095,296 @@ class SetSummary extends $pb.GeneratedMessage {
   void clearTeamTwoTiebreakPoints() => clearField(5);
 }
 
+class SummaryV2 extends $pb.GeneratedMessage {
+  factory SummaryV2({
+    $core.int? matchId,
+    $1.Timestamp? startedAtUtc,
+    $1.Timestamp? completedAtUtc,
+    $2.Duration? duration,
+    Format? format,
+    $core.String? teamOneName,
+    $core.String? teamTwoName,
+    $core.int? teamOneSets,
+    $core.int? teamTwoSets,
+    $core.Iterable<TeamSetScore>? teamOneSetScores,
+    $core.Iterable<TeamSetScore>? teamTwoSetScores,
+  }) {
+    final $result = create();
+    if (matchId != null) {
+      $result.matchId = matchId;
+    }
+    if (startedAtUtc != null) {
+      $result.startedAtUtc = startedAtUtc;
+    }
+    if (completedAtUtc != null) {
+      $result.completedAtUtc = completedAtUtc;
+    }
+    if (duration != null) {
+      $result.duration = duration;
+    }
+    if (format != null) {
+      $result.format = format;
+    }
+    if (teamOneName != null) {
+      $result.teamOneName = teamOneName;
+    }
+    if (teamTwoName != null) {
+      $result.teamTwoName = teamTwoName;
+    }
+    if (teamOneSets != null) {
+      $result.teamOneSets = teamOneSets;
+    }
+    if (teamTwoSets != null) {
+      $result.teamTwoSets = teamTwoSets;
+    }
+    if (teamOneSetScores != null) {
+      $result.teamOneSetScores.addAll(teamOneSetScores);
+    }
+    if (teamTwoSetScores != null) {
+      $result.teamTwoSetScores.addAll(teamTwoSetScores);
+    }
+    return $result;
+  }
+  SummaryV2._() : super();
+  factory SummaryV2.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SummaryV2.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SummaryV2', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'matchId', $pb.PbFieldType.O3)
+    ..aOM<$1.Timestamp>(2, _omitFieldNames ? '' : 'startedAtUtc', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(3, _omitFieldNames ? '' : 'completedAtUtc', subBuilder: $1.Timestamp.create)
+    ..aOM<$2.Duration>(4, _omitFieldNames ? '' : 'duration', subBuilder: $2.Duration.create)
+    ..e<Format>(5, _omitFieldNames ? '' : 'format', $pb.PbFieldType.OE, defaultOrMaker: Format.BEST_OF_ONE, valueOf: Format.valueOf, enumValues: Format.values)
+    ..aOS(7, _omitFieldNames ? '' : 'teamOneName')
+    ..aOS(8, _omitFieldNames ? '' : 'teamTwoName')
+    ..a<$core.int>(9, _omitFieldNames ? '' : 'teamOneSets', $pb.PbFieldType.O3)
+    ..a<$core.int>(10, _omitFieldNames ? '' : 'teamTwoSets', $pb.PbFieldType.O3)
+    ..pc<TeamSetScore>(11, _omitFieldNames ? '' : 'teamOneSetScores', $pb.PbFieldType.PM, subBuilder: TeamSetScore.create)
+    ..pc<TeamSetScore>(12, _omitFieldNames ? '' : 'teamTwoSetScores', $pb.PbFieldType.PM, subBuilder: TeamSetScore.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  SummaryV2 clone() => SummaryV2()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  SummaryV2 copyWith(void Function(SummaryV2) updates) => super.copyWith((message) => updates(message as SummaryV2)) as SummaryV2;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SummaryV2 create() => SummaryV2._();
+  SummaryV2 createEmptyInstance() => create();
+  static $pb.PbList<SummaryV2> createRepeated() => $pb.PbList<SummaryV2>();
+  @$core.pragma('dart2js:noInline')
+  static SummaryV2 getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SummaryV2>(create);
+  static SummaryV2? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get matchId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set matchId($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasMatchId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMatchId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $1.Timestamp get startedAtUtc => $_getN(1);
+  @$pb.TagNumber(2)
+  set startedAtUtc($1.Timestamp v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasStartedAtUtc() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearStartedAtUtc() => clearField(2);
+  @$pb.TagNumber(2)
+  $1.Timestamp ensureStartedAtUtc() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  $1.Timestamp get completedAtUtc => $_getN(2);
+  @$pb.TagNumber(3)
+  set completedAtUtc($1.Timestamp v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasCompletedAtUtc() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearCompletedAtUtc() => clearField(3);
+  @$pb.TagNumber(3)
+  $1.Timestamp ensureCompletedAtUtc() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  $2.Duration get duration => $_getN(3);
+  @$pb.TagNumber(4)
+  set duration($2.Duration v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasDuration() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearDuration() => clearField(4);
+  @$pb.TagNumber(4)
+  $2.Duration ensureDuration() => $_ensure(3);
+
+  @$pb.TagNumber(5)
+  Format get format => $_getN(4);
+  @$pb.TagNumber(5)
+  set format(Format v) { setField(5, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasFormat() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearFormat() => clearField(5);
+
+  @$pb.TagNumber(7)
+  $core.String get teamOneName => $_getSZ(5);
+  @$pb.TagNumber(7)
+  set teamOneName($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasTeamOneName() => $_has(5);
+  @$pb.TagNumber(7)
+  void clearTeamOneName() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get teamTwoName => $_getSZ(6);
+  @$pb.TagNumber(8)
+  set teamTwoName($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasTeamTwoName() => $_has(6);
+  @$pb.TagNumber(8)
+  void clearTeamTwoName() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.int get teamOneSets => $_getIZ(7);
+  @$pb.TagNumber(9)
+  set teamOneSets($core.int v) { $_setSignedInt32(7, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasTeamOneSets() => $_has(7);
+  @$pb.TagNumber(9)
+  void clearTeamOneSets() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.int get teamTwoSets => $_getIZ(8);
+  @$pb.TagNumber(10)
+  set teamTwoSets($core.int v) { $_setSignedInt32(8, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasTeamTwoSets() => $_has(8);
+  @$pb.TagNumber(10)
+  void clearTeamTwoSets() => clearField(10);
+
+  @$pb.TagNumber(11)
+  $core.List<TeamSetScore> get teamOneSetScores => $_getList(9);
+
+  @$pb.TagNumber(12)
+  $core.List<TeamSetScore> get teamTwoSetScores => $_getList(10);
+}
+
+class TeamSetScore extends $pb.GeneratedMessage {
+  factory TeamSetScore({
+    $core.int? setNumber,
+    $core.int? games,
+    $core.int? tiebreakPoints,
+    $core.bool? setWon,
+  }) {
+    final $result = create();
+    if (setNumber != null) {
+      $result.setNumber = setNumber;
+    }
+    if (games != null) {
+      $result.games = games;
+    }
+    if (tiebreakPoints != null) {
+      $result.tiebreakPoints = tiebreakPoints;
+    }
+    if (setWon != null) {
+      $result.setWon = setWon;
+    }
+    return $result;
+  }
+  TeamSetScore._() : super();
+  factory TeamSetScore.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory TeamSetScore.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TeamSetScore', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'setNumber', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'games', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'tiebreakPoints', $pb.PbFieldType.O3)
+    ..aOB(4, _omitFieldNames ? '' : 'setWon')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  TeamSetScore clone() => TeamSetScore()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  TeamSetScore copyWith(void Function(TeamSetScore) updates) => super.copyWith((message) => updates(message as TeamSetScore)) as TeamSetScore;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static TeamSetScore create() => TeamSetScore._();
+  TeamSetScore createEmptyInstance() => create();
+  static $pb.PbList<TeamSetScore> createRepeated() => $pb.PbList<TeamSetScore>();
+  @$core.pragma('dart2js:noInline')
+  static TeamSetScore getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TeamSetScore>(create);
+  static TeamSetScore? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get setNumber => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set setNumber($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSetNumber() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSetNumber() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get games => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set games($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasGames() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearGames() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.int get tiebreakPoints => $_getIZ(2);
+  @$pb.TagNumber(3)
+  set tiebreakPoints($core.int v) { $_setSignedInt32(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasTiebreakPoints() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearTiebreakPoints() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.bool get setWon => $_getBF(3);
+  @$pb.TagNumber(4)
+  set setWon($core.bool v) { $_setBool(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasSetWon() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearSetWon() => clearField(4);
+}
+
 class GetSummariesRequest extends $pb.GeneratedMessage {
-  factory GetSummariesRequest() => create();
+  factory GetSummariesRequest({
+    $core.int? pageSize,
+    $core.int? pageNumber,
+  }) {
+    final $result = create();
+    if (pageSize != null) {
+      $result.pageSize = pageSize;
+    }
+    if (pageNumber != null) {
+      $result.pageNumber = pageNumber;
+    }
+    return $result;
+  }
   GetSummariesRequest._() : super();
   factory GetSummariesRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory GetSummariesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -864,7 +1436,23 @@ class GetSummariesRequest extends $pb.GeneratedMessage {
 }
 
 class GetSummariesReply extends $pb.GeneratedMessage {
-  factory GetSummariesReply() => create();
+  factory GetSummariesReply({
+    $core.bool? success,
+    $core.int? pageCount,
+    $core.Iterable<Summary>? summaries,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    if (pageCount != null) {
+      $result.pageCount = pageCount;
+    }
+    if (summaries != null) {
+      $result.summaries.addAll(summaries);
+    }
+    return $result;
+  }
   GetSummariesReply._() : super();
   factory GetSummariesReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory GetSummariesReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -919,8 +1507,88 @@ class GetSummariesReply extends $pb.GeneratedMessage {
   $core.List<Summary> get summaries => $_getList(2);
 }
 
+class GetSummariesV2Reply extends $pb.GeneratedMessage {
+  factory GetSummariesV2Reply({
+    $core.bool? success,
+    $core.int? pageCount,
+    $core.Iterable<SummaryV2>? summaries,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    if (pageCount != null) {
+      $result.pageCount = pageCount;
+    }
+    if (summaries != null) {
+      $result.summaries.addAll(summaries);
+    }
+    return $result;
+  }
+  GetSummariesV2Reply._() : super();
+  factory GetSummariesV2Reply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetSummariesV2Reply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetSummariesV2Reply', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'success')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'pageCount', $pb.PbFieldType.O3)
+    ..pc<SummaryV2>(3, _omitFieldNames ? '' : 'summaries', $pb.PbFieldType.PM, subBuilder: SummaryV2.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetSummariesV2Reply clone() => GetSummariesV2Reply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetSummariesV2Reply copyWith(void Function(GetSummariesV2Reply) updates) => super.copyWith((message) => updates(message as GetSummariesV2Reply)) as GetSummariesV2Reply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetSummariesV2Reply create() => GetSummariesV2Reply._();
+  GetSummariesV2Reply createEmptyInstance() => create();
+  static $pb.PbList<GetSummariesV2Reply> createRepeated() => $pb.PbList<GetSummariesV2Reply>();
+  @$core.pragma('dart2js:noInline')
+  static GetSummariesV2Reply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetSummariesV2Reply>(create);
+  static GetSummariesV2Reply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get success => $_getBF(0);
+  @$pb.TagNumber(1)
+  set success($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSuccess() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSuccess() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get pageCount => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set pageCount($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPageCount() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPageCount() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.List<SummaryV2> get summaries => $_getList(2);
+}
+
 class GetStateRequest extends $pb.GeneratedMessage {
-  factory GetStateRequest() => create();
+  factory GetStateRequest({
+    $core.int? matchId,
+  }) {
+    final $result = create();
+    if (matchId != null) {
+      $result.matchId = matchId;
+    }
+    return $result;
+  }
   GetStateRequest._() : super();
   factory GetStateRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory GetStateRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -962,7 +1630,19 @@ class GetStateRequest extends $pb.GeneratedMessage {
 }
 
 class GetStateReply extends $pb.GeneratedMessage {
-  factory GetStateReply() => create();
+  factory GetStateReply({
+    $core.bool? success,
+    State? state,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    if (state != null) {
+      $result.state = state;
+    }
+    return $result;
+  }
   GetStateReply._() : super();
   factory GetStateReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory GetStateReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -1016,7 +1696,63 @@ class GetStateReply extends $pb.GeneratedMessage {
 }
 
 class State extends $pb.GeneratedMessage {
-  factory State() => create();
+  factory State({
+    $core.int? version,
+    $1.Timestamp? createdAtUtc,
+    Team? serving,
+    $core.bool? highlighted,
+    $core.String? teamOneName,
+    $core.String? teamTwoName,
+    $core.String? teamOnePoints,
+    $core.String? teamTwoPoints,
+    $core.String? teamOneGames,
+    $core.String? teamTwoGames,
+    $core.String? teamOneSets,
+    $core.String? teamTwoSets,
+    $core.bool? completed,
+  }) {
+    final $result = create();
+    if (version != null) {
+      $result.version = version;
+    }
+    if (createdAtUtc != null) {
+      $result.createdAtUtc = createdAtUtc;
+    }
+    if (serving != null) {
+      $result.serving = serving;
+    }
+    if (highlighted != null) {
+      $result.highlighted = highlighted;
+    }
+    if (teamOneName != null) {
+      $result.teamOneName = teamOneName;
+    }
+    if (teamTwoName != null) {
+      $result.teamTwoName = teamTwoName;
+    }
+    if (teamOnePoints != null) {
+      $result.teamOnePoints = teamOnePoints;
+    }
+    if (teamTwoPoints != null) {
+      $result.teamTwoPoints = teamTwoPoints;
+    }
+    if (teamOneGames != null) {
+      $result.teamOneGames = teamOneGames;
+    }
+    if (teamTwoGames != null) {
+      $result.teamTwoGames = teamTwoGames;
+    }
+    if (teamOneSets != null) {
+      $result.teamOneSets = teamOneSets;
+    }
+    if (teamTwoSets != null) {
+      $result.teamTwoSets = teamTwoSets;
+    }
+    if (completed != null) {
+      $result.completed = completed;
+    }
+    return $result;
+  }
   State._() : super();
   factory State.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory State.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -1180,7 +1916,15 @@ class State extends $pb.GeneratedMessage {
 }
 
 class GetStateHistoryRequest extends $pb.GeneratedMessage {
-  factory GetStateHistoryRequest() => create();
+  factory GetStateHistoryRequest({
+    $core.int? matchId,
+  }) {
+    final $result = create();
+    if (matchId != null) {
+      $result.matchId = matchId;
+    }
+    return $result;
+  }
   GetStateHistoryRequest._() : super();
   factory GetStateHistoryRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory GetStateHistoryRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -1222,7 +1966,19 @@ class GetStateHistoryRequest extends $pb.GeneratedMessage {
 }
 
 class GetStateHistoryReply extends $pb.GeneratedMessage {
-  factory GetStateHistoryReply() => create();
+  factory GetStateHistoryReply({
+    $core.bool? success,
+    $core.Iterable<State>? states,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    if (states != null) {
+      $result.states.addAll(states);
+    }
+    return $result;
+  }
   GetStateHistoryReply._() : super();
   factory GetStateHistoryReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory GetStateHistoryReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
@@ -1268,7 +2024,19 @@ class GetStateHistoryReply extends $pb.GeneratedMessage {
 }
 
 class GetStateAtVersionRequest extends $pb.GeneratedMessage {
-  factory GetStateAtVersionRequest() => create();
+  factory GetStateAtVersionRequest({
+    $core.int? matchId,
+    $core.int? version,
+  }) {
+    final $result = create();
+    if (matchId != null) {
+      $result.matchId = matchId;
+    }
+    if (version != null) {
+      $result.version = version;
+    }
+    return $result;
+  }
   GetStateAtVersionRequest._() : super();
   factory GetStateAtVersionRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory GetStateAtVersionRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);

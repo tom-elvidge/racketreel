@@ -52,16 +52,19 @@ class FeedPage extends StatelessWidget {
                     // todo: load new feed items when coming back to this page
                     SliverList(
                       delegate: SliverChildListDelegate(
-                        state.items.map((item) => InkWell(
-                          child: FeedItem(feedItem: item),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MatchPage(matchId: item.matchId)
-                                )
-                            );
-                          },
+                        state.items.map((item) => Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                            child:InkWell(
+                              child: FeedItem(feedItem: item),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MatchPage(matchId: item.matchId)
+                                    )
+                                );
+                              },
+                            ),
                         )).toList(),
                       ),
                     ),

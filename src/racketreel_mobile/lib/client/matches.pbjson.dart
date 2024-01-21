@@ -4,7 +4,7 @@
 //
 // @dart = 2.12
 
-// ignore_for_file: annotate_overrides, camel_case_types
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
 // ignore_for_file: non_constant_identifier_names, prefer_final_fields
 // ignore_for_file: unnecessary_import, unnecessary_this, unused_import
@@ -246,6 +246,27 @@ final $typed_data.Uint8List getSummaryReplyDescriptor = $convert.base64Decode(
     'AyABKAsyEy5SYWNrZXRSZWVsLlN1bW1hcnlIAVIHc3VtbWFyeYgBAUIICgZfZXJyb3JCCgoIX3'
     'N1bW1hcnk=');
 
+@$core.Deprecated('Use getSummaryV2ReplyDescriptor instead')
+const GetSummaryV2Reply$json = {
+  '1': 'GetSummaryV2Reply',
+  '2': [
+    {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
+    {'1': 'error', '3': 2, '4': 1, '5': 14, '6': '.RacketReel.GetSummaryError', '9': 0, '10': 'error', '17': true},
+    {'1': 'summary', '3': 4, '4': 1, '5': 11, '6': '.RacketReel.SummaryV2', '9': 1, '10': 'summary', '17': true},
+  ],
+  '8': [
+    {'1': '_error'},
+    {'1': '_summary'},
+  ],
+};
+
+/// Descriptor for `GetSummaryV2Reply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getSummaryV2ReplyDescriptor = $convert.base64Decode(
+    'ChFHZXRTdW1tYXJ5VjJSZXBseRIYCgdzdWNjZXNzGAEgASgIUgdzdWNjZXNzEjYKBWVycm9yGA'
+    'IgASgOMhsuUmFja2V0UmVlbC5HZXRTdW1tYXJ5RXJyb3JIAFIFZXJyb3KIAQESNAoHc3VtbWFy'
+    'eRgEIAEoCzIVLlJhY2tldFJlZWwuU3VtbWFyeVYySAFSB3N1bW1hcnmIAQFCCAoGX2Vycm9yQg'
+    'oKCF9zdW1tYXJ5');
+
 @$core.Deprecated('Use toggleHighlightRequestDescriptor instead')
 const ToggleHighlightRequest$json = {
   '1': 'ToggleHighlightRequest',
@@ -339,6 +360,55 @@ final $typed_data.Uint8List setSummaryDescriptor = $convert.base64Decode(
     'tQb2ludHMSNwoYdGVhbV90d29fdGllYnJlYWtfcG9pbnRzGAUgASgFUhV0ZWFtVHdvVGllYnJl'
     'YWtQb2ludHM=');
 
+@$core.Deprecated('Use summaryV2Descriptor instead')
+const SummaryV2$json = {
+  '1': 'SummaryV2',
+  '2': [
+    {'1': 'match_id', '3': 1, '4': 1, '5': 5, '10': 'matchId'},
+    {'1': 'started_at_utc', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startedAtUtc'},
+    {'1': 'completed_at_utc', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'completedAtUtc'},
+    {'1': 'duration', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Duration', '10': 'duration'},
+    {'1': 'format', '3': 5, '4': 1, '5': 14, '6': '.RacketReel.Format', '10': 'format'},
+    {'1': 'team_one_name', '3': 7, '4': 1, '5': 9, '10': 'teamOneName'},
+    {'1': 'team_two_name', '3': 8, '4': 1, '5': 9, '10': 'teamTwoName'},
+    {'1': 'team_one_sets', '3': 9, '4': 1, '5': 5, '10': 'teamOneSets'},
+    {'1': 'team_two_sets', '3': 10, '4': 1, '5': 5, '10': 'teamTwoSets'},
+    {'1': 'team_one_set_scores', '3': 11, '4': 3, '5': 11, '6': '.RacketReel.TeamSetScore', '10': 'teamOneSetScores'},
+    {'1': 'team_two_set_scores', '3': 12, '4': 3, '5': 11, '6': '.RacketReel.TeamSetScore', '10': 'teamTwoSetScores'},
+  ],
+};
+
+/// Descriptor for `SummaryV2`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List summaryV2Descriptor = $convert.base64Decode(
+    'CglTdW1tYXJ5VjISGQoIbWF0Y2hfaWQYASABKAVSB21hdGNoSWQSQAoOc3RhcnRlZF9hdF91dG'
+    'MYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgxzdGFydGVkQXRVdGMSRAoQY29t'
+    'cGxldGVkX2F0X3V0YxgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSDmNvbXBsZX'
+    'RlZEF0VXRjEjUKCGR1cmF0aW9uGAQgASgLMhkuZ29vZ2xlLnByb3RvYnVmLkR1cmF0aW9uUghk'
+    'dXJhdGlvbhIqCgZmb3JtYXQYBSABKA4yEi5SYWNrZXRSZWVsLkZvcm1hdFIGZm9ybWF0EiIKDX'
+    'RlYW1fb25lX25hbWUYByABKAlSC3RlYW1PbmVOYW1lEiIKDXRlYW1fdHdvX25hbWUYCCABKAlS'
+    'C3RlYW1Ud29OYW1lEiIKDXRlYW1fb25lX3NldHMYCSABKAVSC3RlYW1PbmVTZXRzEiIKDXRlYW'
+    '1fdHdvX3NldHMYCiABKAVSC3RlYW1Ud29TZXRzEkcKE3RlYW1fb25lX3NldF9zY29yZXMYCyAD'
+    'KAsyGC5SYWNrZXRSZWVsLlRlYW1TZXRTY29yZVIQdGVhbU9uZVNldFNjb3JlcxJHChN0ZWFtX3'
+    'R3b19zZXRfc2NvcmVzGAwgAygLMhguUmFja2V0UmVlbC5UZWFtU2V0U2NvcmVSEHRlYW1Ud29T'
+    'ZXRTY29yZXM=');
+
+@$core.Deprecated('Use teamSetScoreDescriptor instead')
+const TeamSetScore$json = {
+  '1': 'TeamSetScore',
+  '2': [
+    {'1': 'set_number', '3': 1, '4': 1, '5': 5, '10': 'setNumber'},
+    {'1': 'games', '3': 2, '4': 1, '5': 5, '10': 'games'},
+    {'1': 'tiebreak_points', '3': 3, '4': 1, '5': 5, '10': 'tiebreakPoints'},
+    {'1': 'set_won', '3': 4, '4': 1, '5': 8, '10': 'setWon'},
+  ],
+};
+
+/// Descriptor for `TeamSetScore`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List teamSetScoreDescriptor = $convert.base64Decode(
+    'CgxUZWFtU2V0U2NvcmUSHQoKc2V0X251bWJlchgBIAEoBVIJc2V0TnVtYmVyEhQKBWdhbWVzGA'
+    'IgASgFUgVnYW1lcxInCg90aWVicmVha19wb2ludHMYAyABKAVSDnRpZWJyZWFrUG9pbnRzEhcK'
+    'B3NldF93b24YBCABKAhSBnNldFdvbg==');
+
 @$core.Deprecated('Use getSummariesRequestDescriptor instead')
 const GetSummariesRequest$json = {
   '1': 'GetSummariesRequest',
@@ -368,6 +438,22 @@ final $typed_data.Uint8List getSummariesReplyDescriptor = $convert.base64Decode(
     'ChFHZXRTdW1tYXJpZXNSZXBseRIYCgdzdWNjZXNzGAEgASgIUgdzdWNjZXNzEh0KCnBhZ2VfY2'
     '91bnQYAiABKAVSCXBhZ2VDb3VudBIxCglzdW1tYXJpZXMYAyADKAsyEy5SYWNrZXRSZWVsLlN1'
     'bW1hcnlSCXN1bW1hcmllcw==');
+
+@$core.Deprecated('Use getSummariesV2ReplyDescriptor instead')
+const GetSummariesV2Reply$json = {
+  '1': 'GetSummariesV2Reply',
+  '2': [
+    {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
+    {'1': 'page_count', '3': 2, '4': 1, '5': 5, '10': 'pageCount'},
+    {'1': 'summaries', '3': 3, '4': 3, '5': 11, '6': '.RacketReel.SummaryV2', '10': 'summaries'},
+  ],
+};
+
+/// Descriptor for `GetSummariesV2Reply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getSummariesV2ReplyDescriptor = $convert.base64Decode(
+    'ChNHZXRTdW1tYXJpZXNWMlJlcGx5EhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3MSHQoKcGFnZV'
+    '9jb3VudBgCIAEoBVIJcGFnZUNvdW50EjMKCXN1bW1hcmllcxgDIAMoCzIVLlJhY2tldFJlZWwu'
+    'U3VtbWFyeVYyUglzdW1tYXJpZXM=');
 
 @$core.Deprecated('Use getStateRequestDescriptor instead')
 const GetStateRequest$json = {

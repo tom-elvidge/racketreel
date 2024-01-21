@@ -13,6 +13,12 @@ service Matches {
   
   // Get a page of summaries of completed matches
   rpc GetSummaries (GetSummariesRequest) returns (GetSummariesReply);
+
+  // Get the summary of a completed match
+  rpc GetSummaryV2 (GetSummaryRequest) returns (GetSummaryV2Reply);
+
+  // Get a page of summaries of completed matches
+  rpc GetSummariesV2 (GetSummariesRequest) returns (GetSummariesV2Reply);
   
   // Get the current state of an in-progress match
   rpc GetState (GetStateRequest) returns (GetStateReply);
@@ -107,6 +113,12 @@ message GetSummaryReply {
   optional Summary summary = 3;
 }
 
+message GetSummaryV2Reply {
+  bool success = 1;
+  optional GetSummaryError error = 2;
+  optional SummaryV2 summary = 4;
+}
+
 enum GetSummaryError { 
   GET_SUMMARY_MATCH_DOES_NOT_EXIST = 0;
   GET_SUMMARY_UNKNOWN = 1;
@@ -150,6 +162,27 @@ message SetSummary {
   int32 team_two_tiebreak_points = 5;
 }
 
+message SummaryV2 {
+  int32 match_id = 1;
+  google.protobuf.Timestamp started_at_utc = 2;
+  google.protobuf.Timestamp completed_at_utc = 3;
+  google.protobuf.Duration duration = 4;
+  Format format = 5;
+  string team_one_name = 7;
+  string team_two_name = 8;
+  int32 team_one_sets = 9;
+  int32 team_two_sets = 10;
+  repeated TeamSetScore team_one_set_scores = 11;
+  repeated TeamSetScore team_two_set_scores = 12;
+}
+
+message TeamSetScore {
+  int32 set_number = 1;
+  int32 games = 2;
+  int32 tiebreak_points = 3;
+  bool set_won = 4;
+}
+
 message GetSummariesRequest {
   int32 page_size = 1;
   int32 page_number = 2;
@@ -159,6 +192,12 @@ message GetSummariesReply {
   bool success = 1;
   int32 page_count = 2;
   repeated Summary summaries = 3;
+}
+
+message GetSummariesV2Reply {
+  bool success = 1;
+  int32 page_count = 2;
+  repeated SummaryV2 summaries = 3;
 }
 
 message GetStateRequest {

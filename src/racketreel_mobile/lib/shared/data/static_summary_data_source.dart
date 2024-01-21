@@ -45,4 +45,16 @@ class StaticSummaryDataSource implements ISummaryDataSource
 
     return summary;
   }
+
+  @override
+  Future<List<SummaryV2>> getSummariesV2(int pageNumber) {
+    // TODO: implement getSummariesV2
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<SummaryV2> getSummaryV2(int matchId) {
+    // TODO: implement getSummaryV2
+    throw UnimplementedError();
+  }
 }

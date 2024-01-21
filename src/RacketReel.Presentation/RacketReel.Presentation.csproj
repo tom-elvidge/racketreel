@@ -21,4 +21,8 @@
       <ProjectReference Include="..\RacketReel.Application\RacketReel.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Protos\google\" />
+    </ItemGroup>
+
 </Project>

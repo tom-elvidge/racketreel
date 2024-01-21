@@ -6,7 +6,7 @@ sealed class FeedState extends Equatable {
   final bool fetchingOlder;
   final bool endOfFeed;
   final int lastPageFetched;
-  final List<FeedItemEntity> items;
+  final List<FeedItemV2Entity> items;
 
   const FeedState(this.fetchingInitial, this.fetchingOlder, this.endOfFeed, this.lastPageFetched, this.items);
 
