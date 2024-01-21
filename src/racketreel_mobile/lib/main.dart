@@ -15,7 +15,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await FirebaseAuth.instance.useAuthEmulator('10.0.2.2', 9099);
+  // await FirebaseAuth.instance.useAuthEmulator('10.0.2.2', 9099);
+  // todo: add config for different environments (local emulator, test and prod)
+  FirebaseAuth.instanceFor(app: Firebase.app());
 
   runApp(const RacketReelApp());
 }

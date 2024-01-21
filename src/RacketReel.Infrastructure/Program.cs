@@ -22,6 +22,18 @@ services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavi
 services.AddValidatorsFromAssembly(applicationAssembly, includeInternalTypes: true);
 services.AddGrpc();
 
+// todo move to config with options
+services.AddAuthentication().AddJwtBearer(options =>
+{
+    options.Authority = "https://securetoken.google.com/racketreel-6453d";
+    options.Audience = "racketreel-6453d";
+});
+
+services.AddAuthorization(options =>
+{
+    options.AddPolicy("UsersOnly", policy => policy.RequireClaim("user_id"));
+});
+
 // TODO: ONLY IN DEV: HTTP/2 endpoint without TLS 
 builder.WebHost.ConfigureKestrel(options =>
 {

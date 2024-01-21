@@ -1,6 +1,7 @@
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using RacketReel.Application.Commands.AddPoint;
 using RacketReel.Application.Commands.CreateMatch;
 using RacketReel.Application.Commands.ToggleHighlight;
@@ -20,7 +21,7 @@ using ApplicationState = RacketReel.Application.Models.State;
 namespace RacketReel.Presentation.Services;
 
 // Separate project for Presentation so it cannot access infrastructure directly
-
+[Authorize]
 public class MatchesService : Matches.MatchesBase
 {
     private readonly ISender _sender;
@@ -57,7 +58,7 @@ public class MatchesService : Matches.MatchesBase
             Summary = CreateSummary(match)
         };
     }
-
+    
     public override async Task<GetSummariesReply> GetSummaries(GetSummariesRequest request, ServerCallContext context)
     {
         var result = await _sender.Send(new GetMatchesQuery(request.PageSize, request.PageNumber));
@@ -203,6 +204,10 @@ public class MatchesService : Matches.MatchesBase
 
     public override async Task<ConfigureReply> Configure(ConfigureRequest request, ServerCallContext context)
     {
+        // todo add user id
+        
+        var userId = context.GetUserId();
+
         var command = new CreateMatchCommand(
             request.TeamOneName,
             request.TeamTwoName,
@@ -236,6 +241,9 @@ public class MatchesService : Matches.MatchesBase
 
     public override async Task<AddPointReply> AddPoint(AddPointRequest request, ServerCallContext context)
     {
+        // todo add user_id and handle case where mediatr comes back with unauthenticated
+        var userId = context.GetUserId();
+        
         var result = await _sender.Send(new AddPointCommand(
             request.MatchId,
             request.Team == Team.One ? ApplicationTeam.TeamOne : ApplicationTeam.TeamTwo));
@@ -255,6 +263,9 @@ public class MatchesService : Matches.MatchesBase
 
     public override async Task<UndoPointReply> UndoPoint(UndoPointRequest request, ServerCallContext context)
     {
+        // todo add user_id and handle case where mediatr comes back with unauthenticated
+        var userId = context.GetUserId();
+        
         var result = await _sender.Send(new UndoPointCommand(request.MatchId));
         
         if (result.IsFailure)
@@ -272,6 +283,9 @@ public class MatchesService : Matches.MatchesBase
 
     public override async Task<ToggleHighlightReply> ToggleHighlight(ToggleHighlightRequest request, ServerCallContext context)
     {
+        // todo add user_id and handle case where mediatr comes back with unauthenticated
+        var userId = context.GetUserId();
+        
         var result = await _sender.Send(new ToggleHighlightCommand(request.MatchId, request.Version));
         
         if (result.IsFailure)
@@ -473,5 +487,22 @@ public class MatchesService : Matches.MatchesBase
                 ? set.TeamOneTiebreakPoints ?? 0
                 : set.TeamTwoTiebreakPoints ?? 0
         };
+    }
+}
+
+public static class ServerCallContextExtensions
+{
+    public static string GetUserId(this ServerCallContext context)
+    {
+        var userIdClaim = context
+            .GetHttpContext()
+            .User
+            .Claims
+            .FirstOrDefault(c => c.Type.Equals("user_id"));
+
+        if (userIdClaim == null)
+            throw new ApplicationException("Request with no 'user_id' claim bypassed authorization middleware");
+
+        return userIdClaim.Value;
     }
 }

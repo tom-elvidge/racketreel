@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:grpc/grpc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:racketreel/create_match/data/i_match_creator_service.dart';
@@ -39,7 +40,14 @@ class MatchCreatorService implements IMatchCreatorService
     request.servingFirst = servingFirst;
     request.format = format;
 
-    var reply = await stub.configure(request);
+    // https://learn.microsoft.com/en-us/aspnet/core/grpc/authn-and-authz?view=aspnetcore-8.0
+    // todo: use interceptors so this is done for all requests
+    var token = await FirebaseAuth.instance.currentUser?.getIdToken();
+
+    var reply = await stub.configure(
+        request,
+        options: CallOptions(metadata: { "Authorization": "Bearer $token" }));
+
     return (reply.success, reply.matchId);
   }
 }
