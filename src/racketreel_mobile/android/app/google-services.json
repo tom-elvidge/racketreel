@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "930958136815",
+    "project_id": "racketreel-6453d",
+    "storage_bucket": "racketreel-6453d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930958136815:android:c7aadd346177b91aabd21a",
+        "android_client_info": {
+          "package_name": "com.racketreel.racketreel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTtd4rlr_eIf6fTfAL8I_QuiwVSCj-JW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

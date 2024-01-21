@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyC6Bc1bKCm6FVS1ufTi7cj9py6jneK7sGY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>930958136815</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.racketreel.racketreelMobile</string>
+	<key>PROJECT_ID</key>
+	<string>racketreel-6453d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>racketreel-6453d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:930958136815:ios:0068eca996f22d21abd21a</string>
+</dict>
+</plist>

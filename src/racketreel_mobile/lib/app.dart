@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:racketreel/feed/presentation/view/feed_page.dart';
+import 'package:racketreel/auth/presentation/view/auth_gate.dart';
 
 class RacketReelApp extends StatelessWidget {
   const RacketReelApp({super.key});
@@ -7,10 +7,11 @@ class RacketReelApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(useMaterial3: true),
       initialRoute: '/',
       routes: {
-        '/': (context) => const FeedPage(),
-      },
+        '/': (context) => const AuthGate(),
+      }
     );
   }
 }
