@@ -12,7 +12,7 @@ class ProfilePage extends StatelessWidget {
         ),
         body: const ProfileScreen(
           showDeleteConfirmationDialog: true,
-          showMFATile: true,
+          showMFATile: false,
           showUnlinkConfirmationDialog: true,
         )
       );

@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:grpc/grpc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:racketreel/app_config.dart';
+import 'package:racketreel/auth/data/auth_interceptor.dart';
 import 'package:racketreel/client/matches.pbgrpc.dart';
 import 'package:racketreel/scoring/data/i_scoring_service.dart';
 import 'package:racketreel/shared/domain/match_state_entity.dart';
@@ -10,7 +12,7 @@ import 'package:racketreel/shared/domain/team.dart' as DomainTeam;
 class ScoringService implements IScoringService
 {
   late AppConfig _config;
-  ClientChannel? _channel;
+  MatchesClient? _client;
 
   ScoringService({
     required AppConfig config,
@@ -18,26 +20,30 @@ class ScoringService implements IScoringService
     _config = config;
   }
 
-  ClientChannel _getClientChannel()
+  MatchesClient _getClient()
   {
-    return ClientChannel(
-        _config.grpcHost,
-        port: _config.grpcPort,
-        options: const ChannelOptions(
-            credentials: ChannelCredentials.insecure()));
+    return MatchesClient(
+        ClientChannel(
+          _config.grpcHost,
+          port: _config.grpcPort,
+          options: const ChannelOptions(
+            credentials: ChannelCredentials.insecure(),
+          ),
+        ),
+        interceptors: [
+          AuthInterceptor(firebaseAuth: FirebaseAuth.instance)
+        ]
+    );
   }
 
   @override
   Future<MatchStateEntity?> getState(int matchId) async {
-    _channel ??= _getClientChannel();
-
-    var stub = MatchesClient(_channel!,
-        options: CallOptions(timeout: const Duration(seconds: 30)));
+    _client ??= _getClient();
 
     var request = GetStateRequest();
     request.matchId = matchId;
 
-    var reply = await stub.getState(request);
+    var reply = await _client!.getState(request);
 
     if (!reply.success)
     {
@@ -49,61 +55,49 @@ class ScoringService implements IScoringService
 
   @override
   Future<bool> toggleHighlight(int matchId, int version) async {
-    _channel ??= _getClientChannel();
-
-    var stub = MatchesClient(_channel!,
-        options: CallOptions(timeout: const Duration(seconds: 30)));
+    _client ??= _getClient();
 
     var request = ToggleHighlightRequest();
     request.matchId = matchId;
     request.version = version;
 
-    var reply = await stub.toggleHighlight(request);
+    var reply = await _client!.toggleHighlight(request);
 
     return reply.success;
   }
 
   @override
   Future<bool> addPoint(int matchId, DomainTeam.Team team) async {
-    _channel ??= _getClientChannel();
-
-    var stub = MatchesClient(_channel!,
-        options: CallOptions(timeout: const Duration(seconds: 30)));
+    _client ??= _getClient();
 
     var request = AddPointRequest();
     request.matchId = matchId;
     request.team = team == DomainTeam.Team.teamOne ? Team.TEAM_ONE : Team.TEAM_TWO;
 
-    var reply = await stub.addPoint(request);
+    var reply = await _client!.addPoint(request);
     return reply.success;
   }
 
   @override
   Future<bool> undoPoint(int matchId) async {
-    _channel ??= _getClientChannel();
-
-    var stub = MatchesClient(_channel!,
-        options: CallOptions(timeout: const Duration(seconds: 30)));
+    _client ??= _getClient();
 
     var request = UndoPointRequest();
     request.matchId = matchId;
 
-    var reply = await stub.undoPoint(request);
+    var reply = await _client!.undoPoint(request);
     return reply.success;
   }
 
   @override
   Future<MatchStateEntity?> getStateAtVersion(int matchId, int version) async {
-    _channel ??= _getClientChannel();
-
-    var stub = MatchesClient(_channel!,
-        options: CallOptions(timeout: const Duration(seconds: 30)));
+    _client ??= _getClient();
 
     var request = GetStateAtVersionRequest();
     request.matchId = matchId;
     request.version = version;
 
-    var reply = await stub.getStateAtVersion(request);
+    var reply = await _client!.getStateAtVersion(request);
 
     if (!reply.success)
     {

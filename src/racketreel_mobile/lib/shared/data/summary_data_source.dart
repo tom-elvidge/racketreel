@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:grpc/grpc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:racketreel/app_config.dart';
+import 'package:racketreel/auth/data/auth_interceptor.dart';
 import 'package:racketreel/client/matches.pbgrpc.dart';
 import 'package:racketreel/shared/data/i_summary_data_source.dart';
 
@@ -8,7 +10,7 @@ import 'package:racketreel/shared/data/i_summary_data_source.dart';
 class SummaryDataSource implements ISummaryDataSource
 {
   late AppConfig _config;
-  ClientChannel? _channel;
+  MatchesClient? _client;
 
   SummaryDataSource({
     required AppConfig config,
@@ -16,70 +18,66 @@ class SummaryDataSource implements ISummaryDataSource
     _config = config;
   }
 
-  ClientChannel _getClientChannel()
+  MatchesClient _getClient()
   {
-    return ClientChannel(
-        _config.grpcHost,
-        port: _config.grpcPort,
-        options: const ChannelOptions(
-            credentials: ChannelCredentials.insecure()));
+    return MatchesClient(
+        ClientChannel(
+          _config.grpcHost,
+          port: _config.grpcPort,
+          options: const ChannelOptions(
+            credentials: ChannelCredentials.insecure(),
+          ),
+        ),
+        interceptors: [
+          AuthInterceptor(firebaseAuth: FirebaseAuth.instance)
+        ]
+    );
   }
 
   @override
   Future<List<Summary>> getSummaries(int pageNumber) async {
-    _channel ??= _getClientChannel();
+    _client ??= _getClient();
 
-    var stub = MatchesClient(_channel!,
-        options: CallOptions(timeout: const Duration(seconds: 30)));
 
     var request = GetSummariesRequest();
     request.pageNumber = pageNumber;
     request.pageSize = 10;
 
-    var reply = await stub.getSummaries(request);
+    var reply = await _client!.getSummaries(request);
     return reply.summaries;
   }
 
   @override
   Future<Summary> getSummary(int matchId) async {
-    _channel ??= _getClientChannel();
-
-    var stub = MatchesClient(_channel!,
-        options: CallOptions(timeout: const Duration(seconds: 30)));
+    _client ??= _getClient();
 
     var request = GetSummaryRequest();
     request.matchId = matchId;
 
-    var response = await stub.getSummary(request);
+    var response = await _client!.getSummary(request);
     return response.summary;
   }
 
   @override
   Future<List<SummaryV2>> getSummariesV2(int pageNumber) async {
-    _channel ??= _getClientChannel();
-
-    var stub = MatchesClient(_channel!,
-        options: CallOptions(timeout: const Duration(seconds: 30)));
+    _client ??= _getClient();
 
     var request = GetSummariesRequest();
     request.pageNumber = pageNumber;
     request.pageSize = 10;
 
-    var reply = await stub.getSummariesV2(request);
+    var reply = await _client!.getSummariesV2(request);
     return reply.summaries;
   }
 
   @override
   Future<SummaryV2> getSummaryV2(int matchId) async {
-    _channel ??= _getClientChannel();
-
-    var stub = MatchesClient(_channel!,
-        options: CallOptions(timeout: const Duration(seconds: 30)));
+    _client ??= _getClient();
 
     var request = GetSummaryRequest();
     request.matchId = matchId;
 
-    var response = await stub.getSummaryV2(request);
+    var response = await _client!.getSummaryV2(request);
     return response.summary;
   }
 }
