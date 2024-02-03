@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>11</LangVersion>
+        <!-- 8981: Generated code cannot be edited to rename problem fields -->
+        <NoWarn>$(NoWarn);8981</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Protos\matches.proto">
+            <GrpcServices>Server</GrpcServices>
+            <Access>Public</Access>
+            <ProtoCompile>True</ProtoCompile>
+            <CompileOutputs>True</CompileOutputs>
+            <OutputDir>obj\Debug\net7.0\</OutputDir>
+            <Generator>MSBuild:Compile</Generator>
+        </Protobuf>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Matches.Application\Matches.Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Protos\google\" />
+    </ItemGroup>
+
+</Project>
