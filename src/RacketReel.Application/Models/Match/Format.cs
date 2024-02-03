@@ -1,4 +1,4 @@
-namespace RacketReel.Application.Models;
+namespace RacketReel.Application.Models.Match;
 
 public enum Format
 {

@@ -1,7 +1,8 @@
-namespace RacketReel.Application.Models;
+namespace RacketReel.Application.Models.Match;
 
 public record Match(
     int Id,
+    string UserId,
     DateTime CreatedAt,
     DateTime CompletedAt,
     Format Format,

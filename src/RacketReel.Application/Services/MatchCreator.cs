@@ -1,8 +1,9 @@
 using RacketReel.Application.Models;
+using RacketReel.Application.Models.Match;
 using RacketReel.Domain;
 using RacketReel.Domain.AggregatesModel.MatchAggregate;
 using RacketReel.Domain.AggregatesModel.MatchAggregate.Formats;
-using Format = RacketReel.Application.Models.Format;
+using Format = RacketReel.Application.Models.Match.Format;
 
 namespace RacketReel.Application.Services;
 
@@ -15,6 +16,7 @@ public static class MatchCreator
         
         return new Match(
             matchEntity.Id,
+            matchEntity.UserId,
             firstState.CreatedAtDateTime,
             lastState.CreatedAtDateTime,
             GetFormatAsEnum(matchEntity.Format),

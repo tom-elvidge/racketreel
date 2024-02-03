@@ -1,6 +1,7 @@
 using RacketReel.Application.Abstractions.Messaging;
 using RacketReel.Application.Errors;
 using RacketReel.Application.Models;
+using RacketReel.Application.Models.Match;
 using RacketReel.Domain.AggregatesModel.MatchAggregate;
 using RacketReel.Domain.Exceptions;
 using RacketReel.Domain.SeedWork;
@@ -22,6 +23,9 @@ public class AddPointCommandHandler : ICommandHandler<AddPointCommand>
 
         if (matchEntity == null)
             return Result.Failure(ApplicationErrors.NotFound);
+
+        if (matchEntity.UserId != command.UserId)
+            return Result.Failure(ApplicationErrors.Unauthorized);
         
         try
         {

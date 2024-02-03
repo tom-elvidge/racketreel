@@ -1,6 +1,4 @@
-using RacketReel.Domain.AggregatesModel.MatchAggregate;
-
-namespace RacketReel.Application.Models;
+namespace RacketReel.Application.Models.Match;
 
 public record State(
     int MatchId,

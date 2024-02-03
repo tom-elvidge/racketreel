@@ -10,7 +10,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="Protos\matches.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\matches.proto">
+            <GrpcServices>Server</GrpcServices>
+            <Access>Public</Access>
+            <ProtoCompile>True</ProtoCompile>
+            <CompileOutputs>True</CompileOutputs>
+            <OutputDir>obj\Debug\net7.0\</OutputDir>
+            <Generator>MSBuild:Compile</Generator>
+        </Protobuf>
     </ItemGroup>
 
     <ItemGroup>
@@ -18,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\RacketReel.Application\RacketReel.Application.csproj" />
+        <ProjectReference Include="..\RacketReel.Application\RacketReel.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>

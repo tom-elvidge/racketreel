@@ -1,11 +1,12 @@
 using RacketReel.Application.Abstractions.Messaging;
 using RacketReel.Application.Models;
+using RacketReel.Application.Models.Match;
 using RacketReel.Application.Services;
 using RacketReel.Domain.AggregatesModel.MatchAggregate;
 using RacketReel.Domain.AggregatesModel.MatchAggregate.Formats;
 using RacketReel.Domain.AggregatesModel.MatchAggregate.Participants;
 using RacketReel.Domain.SeedWork;
-using ApplicationFormat = RacketReel.Application.Models.Format;
+using ApplicationFormat = RacketReel.Application.Models.Match.Format;
 using DomainFormat = RacketReel.Domain.AggregatesModel.MatchAggregate.Formats.Format;
 
 namespace RacketReel.Application.Commands.CreateMatch;
@@ -22,6 +23,7 @@ public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, Sta
     public async Task<Result<State>> Handle(CreateMatchCommand command, CancellationToken cancellationToken)
     {
         var matchEntity = MatchEntity.Create(
+            command.UserId,
             new NoUserParticipant(command.TeamOneName),
             new NoUserParticipant(command.TeamTwoName),
             command.ServingFirst == Team.TeamOne ? ParticipantEnum.One : ParticipantEnum.Two,

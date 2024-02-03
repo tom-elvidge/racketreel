@@ -1,4 +1,5 @@
 using RacketReel.Application.Models;
+using RacketReel.Application.Models.Match;
 using RacketReel.Domain;
 using RacketReel.Domain.AggregatesModel.MatchAggregate;
 

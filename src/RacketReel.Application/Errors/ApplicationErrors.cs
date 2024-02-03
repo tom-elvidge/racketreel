@@ -11,4 +11,6 @@ public static class ApplicationErrors
     public static readonly Error DeleteInitialState = new Error("DeleteInitialState", "The initial state cannot be deleted.");
     
     public static readonly Error NotComplete = new Error("NotComplete", "The match is not yet complete.");
+    
+    public static readonly Error Unauthorized = new Error("Unauthorized", "The user is not authorized to take this action.");
 }

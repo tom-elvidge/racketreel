@@ -18,6 +18,9 @@ public class UndoPointCommandHandler : ICommandHandler<UndoPointCommand>
     public async Task<Result> Handle(UndoPointCommand command, CancellationToken cancellationToken)
     {
         var matchEntity = await _matchRepository.GetAsync(command.MatchId, true);
+        
+        if (matchEntity.UserId != command.UserId)
+            return Result.Failure(ApplicationErrors.Unauthorized);
 
         try
         {

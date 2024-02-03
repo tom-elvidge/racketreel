@@ -1,5 +1,6 @@
 using System.Text;
 using RacketReel.Application.Models;
+using RacketReel.Application.Models.Match;
 
 namespace RacketReel.Application.Commands.CreateMatch;
 

@@ -7,37 +7,37 @@ using RacketReel.Application.Commands.CreateMatch;
 using RacketReel.Application.Commands.ToggleHighlight;
 using RacketReel.Application.Commands.UndoPoint;
 using RacketReel.Application.Errors;
-using RacketReel.Application.Models;
+using RacketReel.Application.Models.Match;
 using RacketReel.Application.Queries.GetAllStates;
 using RacketReel.Application.Queries.GetLatestState;
 using RacketReel.Application.Queries.GetMatchById;
 using RacketReel.Application.Queries.GetMatches;
 using RacketReel.Application.Queries.GetMatchMetadata;
 using RacketReel.Application.Queries.GetStateByIndex;
-using ApplicationTeam = RacketReel.Application.Models.Team;
-using ApplicationFormat = RacketReel.Application.Models.Format;
-using ApplicationState = RacketReel.Application.Models.State;
+using ApplicationTeam = RacketReel.Application.Models.Match.Team;
+using ApplicationFormat = RacketReel.Application.Models.Match.Format;
+using ApplicationState = RacketReel.Application.Models.Match.State;
 
 namespace RacketReel.Presentation.Services;
 
 // Separate project for Presentation so it cannot access infrastructure directly
 [Authorize]
-public class MatchesService : Matches.MatchesBase
+public class MatchesRpcService : Matches.MatchesBase
 {
     private readonly ISender _sender;
 
-    public MatchesService(ISender sender)
+    public MatchesRpcService(ISender sender)
     {
         _sender = sender;
     }
 
     public override async Task<GetSummaryReply> GetSummary(GetSummaryRequest request, ServerCallContext context)
     {
-        var result = await _sender.Send(new GetMatchByIdQuery(request.MatchId));
+        var getMatchResult = await _sender.Send(new GetMatchByIdQuery(request.MatchId));
 
-        if (result.IsFailure)
+        if (getMatchResult.IsFailure)
         {
-            if (result.Error == ApplicationErrors.NotFound)
+            if (getMatchResult.Error == ApplicationErrors.NotFound)
                 return new GetSummaryReply
                 {
                     Success = false,
@@ -50,8 +50,9 @@ public class MatchesService : Matches.MatchesBase
                 Error = GetSummaryError.GetSummaryUnknown
             };
         }
+        
+        var match = getMatchResult.Value;
 
-        var match = result.Value;
         return new GetSummaryReply
         {
             Success = true,
@@ -101,6 +102,7 @@ public class MatchesService : Matches.MatchesBase
         }
 
         var match = result.Value;
+        
         return new GetSummaryV2Reply
         {
             Success = true,
@@ -125,7 +127,9 @@ public class MatchesService : Matches.MatchesBase
             Success = true,
             PageCount = result.Value.PageCount
         };
-        reply.Summaries.AddRange(result.Value.Page.Select(CreateSummaryV2));
+        
+        reply.Summaries.AddRange(result.Value.Page.Select(m => CreateSummaryV2(m)));
+        
         return reply;
     }
 
@@ -204,11 +208,10 @@ public class MatchesService : Matches.MatchesBase
 
     public override async Task<ConfigureReply> Configure(ConfigureRequest request, ServerCallContext context)
     {
-        // todo add user id
-        
         var userId = context.GetUserId();
 
         var command = new CreateMatchCommand(
+            userId,
             request.TeamOneName,
             request.TeamTwoName,
             request.ServingFirst == Team.One ? ApplicationTeam.TeamOne : ApplicationTeam.TeamTwo,
@@ -245,61 +248,96 @@ public class MatchesService : Matches.MatchesBase
         var userId = context.GetUserId();
         
         var result = await _sender.Send(new AddPointCommand(
+            userId,
             request.MatchId,
             request.Team == Team.One ? ApplicationTeam.TeamOne : ApplicationTeam.TeamTwo));
 
-        if (result.IsFailure)
+        if (!result.IsFailure)
+            return new AddPointReply
+            {
+                Success = true
+            };
+        
+        if (result.Error == ApplicationErrors.Unauthorized)
+        {
             return new AddPointReply
             {
                 Success = false,
-                Error = AddPointError.AddPointUnknown
+                Error = AddPointError.AddPointUnauthorized
             };
-
+        }
+            
         return new AddPointReply
         {
-            Success = true
+            Success = false,
+            Error = AddPointError.AddPointUnknown
         };
     }
 
     public override async Task<UndoPointReply> UndoPoint(UndoPointRequest request, ServerCallContext context)
     {
-        // todo add user_id and handle case where mediatr comes back with unauthenticated
         var userId = context.GetUserId();
         
-        var result = await _sender.Send(new UndoPointCommand(request.MatchId));
+        var result = await _sender.Send(new UndoPointCommand(
+            userId,
+            request.MatchId));
+
+        if (!result.IsFailure)
+            return new UndoPointReply
+            {
+                Success = true
+            };
         
-        if (result.IsFailure)
+        if (result.Error == ApplicationErrors.Unauthorized)
             return new UndoPointReply
             {
                 Success = false,
-                Error = UndoPointError.UndoPointUnknown
+                Error = UndoPointError.UndoPointUnauthorized
             };
-
+            
         return new UndoPointReply
         {
-            Success = true
+            Success = false,
+            Error = UndoPointError.UndoPointUnknown
         };
+
     }
 
     public override async Task<ToggleHighlightReply> ToggleHighlight(ToggleHighlightRequest request, ServerCallContext context)
     {
-        // todo add user_id and handle case where mediatr comes back with unauthenticated
         var userId = context.GetUserId();
         
-        var result = await _sender.Send(new ToggleHighlightCommand(request.MatchId, request.Version));
+        var result = await _sender.Send(new ToggleHighlightCommand(
+            userId,
+            request.MatchId,
+            request.Version));
         
-        if (result.IsFailure)
+        // todo generic error handling
+
+        if (!result.IsFailure)
+            return new ToggleHighlightReply
+            {
+                Success = true
+            };
+        
+        if (result.Error == ApplicationErrors.Unauthorized)
             return new ToggleHighlightReply
             {
                 Success = false,
-                Error = result.Error == ApplicationErrors.NotFound
-                    ? ToggleHighlightError.ToggleHighlightStateDoesNotExist
-                    : ToggleHighlightError.ToggleHighlightUnknown
+                Error = ToggleHighlightError.ToggleHighlightUnauthorized
             };
 
+        if (result.Error == ApplicationErrors.NotFound)
+            return new ToggleHighlightReply
+            {
+                Success = false,
+                Error = ToggleHighlightError.ToggleHighlightStateDoesNotExist
+            };
+            
         return new ToggleHighlightReply
         {
-            Success = true
+            Success = false,
+            Error = ToggleHighlightError.ToggleHighlightUnknown
         };
     }
     
@@ -414,6 +452,7 @@ public class MatchesService : Matches.MatchesBase
     {
         var summary = new SummaryV2
         {
+            CreatorUserId = match.UserId,
             StartedAtUtc = Timestamp.FromDateTime(match.CreatedAt),
             CompletedAtUtc = Timestamp.FromDateTime(match.CompletedAt),
             Duration = Duration.FromTimeSpan(match.CompletedAt - match.CreatedAt),
@@ -487,22 +526,5 @@ public class MatchesService : Matches.MatchesBase
                 ? set.TeamOneTiebreakPoints ?? 0
                 : set.TeamTwoTiebreakPoints ?? 0
         };
-    }
-}
-
-public static class ServerCallContextExtensions
-{
-    public static string GetUserId(this ServerCallContext context)
-    {
-        var userIdClaim = context
-            .GetHttpContext()
-            .User
-            .Claims
-            .FirstOrDefault(c => c.Type.Equals("user_id"));
-
-        if (userIdClaim == null)
-            throw new ApplicationException("Request with no 'user_id' claim bypassed authorization middleware");
-
-        return userIdClaim.Value;
     }
 }

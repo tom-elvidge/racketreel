@@ -70,11 +70,13 @@ class AddPointError extends $pb.ProtobufEnum {
   static const AddPointError ADD_POINT_UNKNOWN = AddPointError._(0, _omitEnumNames ? '' : 'ADD_POINT_UNKNOWN');
   static const AddPointError ADD_POINT_DOES_NOT_EXIST = AddPointError._(1, _omitEnumNames ? '' : 'ADD_POINT_DOES_NOT_EXIST');
   static const AddPointError ADD_POINT_IS_COMPLETE = AddPointError._(2, _omitEnumNames ? '' : 'ADD_POINT_IS_COMPLETE');
+  static const AddPointError ADD_POINT_UNAUTHORIZED = AddPointError._(3, _omitEnumNames ? '' : 'ADD_POINT_UNAUTHORIZED');
 
   static const $core.List<AddPointError> values = <AddPointError> [
     ADD_POINT_UNKNOWN,
     ADD_POINT_DOES_NOT_EXIST,
     ADD_POINT_IS_COMPLETE,
+    ADD_POINT_UNAUTHORIZED,
   ];
 
   static final $core.Map<$core.int, AddPointError> _byValue = $pb.ProtobufEnum.initByValue(values);
@@ -86,10 +88,12 @@ class AddPointError extends $pb.ProtobufEnum {
 class UndoPointError extends $pb.ProtobufEnum {
   static const UndoPointError UNDO_POINT_UNKNOWN = UndoPointError._(0, _omitEnumNames ? '' : 'UNDO_POINT_UNKNOWN');
   static const UndoPointError UNDO_POINT_NOTHING_TO_UNDO = UndoPointError._(1, _omitEnumNames ? '' : 'UNDO_POINT_NOTHING_TO_UNDO');
+  static const UndoPointError UNDO_POINT_UNAUTHORIZED = UndoPointError._(2, _omitEnumNames ? '' : 'UNDO_POINT_UNAUTHORIZED');
 
   static const $core.List<UndoPointError> values = <UndoPointError> [
     UNDO_POINT_UNKNOWN,
     UNDO_POINT_NOTHING_TO_UNDO,
+    UNDO_POINT_UNAUTHORIZED,
   ];
 
   static final $core.Map<$core.int, UndoPointError> _byValue = $pb.ProtobufEnum.initByValue(values);
@@ -116,10 +120,12 @@ class GetSummaryError extends $pb.ProtobufEnum {
 class ToggleHighlightError extends $pb.ProtobufEnum {
   static const ToggleHighlightError TOGGLE_HIGHLIGHT_UNKNOWN = ToggleHighlightError._(0, _omitEnumNames ? '' : 'TOGGLE_HIGHLIGHT_UNKNOWN');
   static const ToggleHighlightError TOGGLE_HIGHLIGHT_STATE_DOES_NOT_EXIST = ToggleHighlightError._(1, _omitEnumNames ? '' : 'TOGGLE_HIGHLIGHT_STATE_DOES_NOT_EXIST');
+  static const ToggleHighlightError TOGGLE_HIGHLIGHT_UNAUTHORIZED = ToggleHighlightError._(2, _omitEnumNames ? '' : 'TOGGLE_HIGHLIGHT_UNAUTHORIZED');
 
   static const $core.List<ToggleHighlightError> values = <ToggleHighlightError> [
     TOGGLE_HIGHLIGHT_UNKNOWN,
     TOGGLE_HIGHLIGHT_STATE_DOES_NOT_EXIST,
+    TOGGLE_HIGHLIGHT_UNAUTHORIZED,
   ];
 
   static final $core.Map<$core.int, ToggleHighlightError> _byValue = $pb.ProtobufEnum.initByValue(values);

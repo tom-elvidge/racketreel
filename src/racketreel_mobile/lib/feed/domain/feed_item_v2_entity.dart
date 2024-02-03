@@ -2,6 +2,7 @@ import 'package:racketreel/feed/domain/team_set_score.dart';
 
 class FeedItemV2Entity {
   int matchId;
+  String user;
   String format;
   String teamOneName;
   String teamTwoName;
@@ -15,6 +16,7 @@ class FeedItemV2Entity {
 
   FeedItemV2Entity(
       this.matchId,
+      this.user,
       this.format,
       this.teamOneName,
       this.teamTwoName,

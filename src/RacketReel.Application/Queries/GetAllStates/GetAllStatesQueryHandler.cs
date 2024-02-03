@@ -1,6 +1,7 @@
 using RacketReel.Application.Abstractions.Messaging;
 using RacketReel.Application.Errors;
 using RacketReel.Application.Models;
+using RacketReel.Application.Models.Match;
 using RacketReel.Application.Services;
 using RacketReel.Domain.AggregatesModel.MatchAggregate;
 using RacketReel.Domain.SeedWork;

@@ -7,6 +7,8 @@ namespace RacketReel.Domain.AggregatesModel.MatchAggregate;
 
 public class MatchEntity : Entity, IAggregateRoot
 {
+    public string UserId { get; private set; }
+    
     public DateTime CreatedAtDateTime { get; private set; } = DateTime.MinValue;
     
     public DateTime CompletedAtDateTime { get; private set; } = DateTime.MaxValue;
@@ -32,6 +34,7 @@ public class MatchEntity : Entity, IAggregateRoot
     public MatchEntity() {}
 
     public MatchEntity(
+        string userId,
         DateTime createdAtDateTime,
         DateTime completedAtDateTime,
         NoUserParticipant participantOne,
@@ -40,6 +43,7 @@ public class MatchEntity : Entity, IAggregateRoot
         Format format,
         List<StateEntity> states)
     {
+        UserId = userId;
         CreatedAtDateTime = createdAtDateTime;
         CompletedAtDateTime = completedAtDateTime;
         ParticipantOne = participantOne;
@@ -50,12 +54,14 @@ public class MatchEntity : Entity, IAggregateRoot
     }
 
     public static MatchEntity Create(
+        string userId,
         NoUserParticipant participantOne,
         NoUserParticipant participantTwo,
         ParticipantEnum servingFirst,
         Format format)
     {
         return new MatchEntity(
+            userId,
             DateTime.UtcNow,
             DateTime.MaxValue, // DateTime.MaxValue indicates this match is not complete
             participantOne,

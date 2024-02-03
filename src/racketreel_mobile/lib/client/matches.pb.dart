@@ -1108,6 +1108,7 @@ class SummaryV2 extends $pb.GeneratedMessage {
     $core.int? teamTwoSets,
     $core.Iterable<TeamSetScore>? teamOneSetScores,
     $core.Iterable<TeamSetScore>? teamTwoSetScores,
+    $core.String? creatorUserId,
   }) {
     final $result = create();
     if (matchId != null) {
@@ -1143,6 +1144,9 @@ class SummaryV2 extends $pb.GeneratedMessage {
     if (teamTwoSetScores != null) {
       $result.teamTwoSetScores.addAll(teamTwoSetScores);
     }
+    if (creatorUserId != null) {
+      $result.creatorUserId = creatorUserId;
+    }
     return $result;
   }
   SummaryV2._() : super();
@@ -1161,6 +1165,7 @@ class SummaryV2 extends $pb.GeneratedMessage {
     ..a<$core.int>(10, _omitFieldNames ? '' : 'teamTwoSets', $pb.PbFieldType.O3)
     ..pc<TeamSetScore>(11, _omitFieldNames ? '' : 'teamOneSetScores', $pb.PbFieldType.PM, subBuilder: TeamSetScore.create)
     ..pc<TeamSetScore>(12, _omitFieldNames ? '' : 'teamTwoSetScores', $pb.PbFieldType.PM, subBuilder: TeamSetScore.create)
+    ..aOS(13, _omitFieldNames ? '' : 'creatorUserId')
     ..hasRequiredFields = false
   ;
 
@@ -1277,6 +1282,15 @@ class SummaryV2 extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(12)
   $core.List<TeamSetScore> get teamTwoSetScores => $_getList(10);
+
+  @$pb.TagNumber(13)
+  $core.String get creatorUserId => $_getSZ(11);
+  @$pb.TagNumber(13)
+  set creatorUserId($core.String v) { $_setString(11, v); }
+  @$pb.TagNumber(13)
+  $core.bool hasCreatorUserId() => $_has(11);
+  @$pb.TagNumber(13)
+  void clearCreatorUserId() => clearField(13);
 }
 
 class TeamSetScore extends $pb.GeneratedMessage {

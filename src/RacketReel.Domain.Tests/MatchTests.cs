@@ -17,6 +17,7 @@ public class MatchTests
         yield return new object[]
         {
             new MatchEntity(
+                "12345",
                 DateTime.MinValue,
                 DateTime.MaxValue,
                 new NoUserParticipant("Tom Elvidge"),
@@ -38,6 +39,7 @@ public class MatchTests
         yield return new object[]
         {
             new MatchEntity(
+                "12345",
                 DateTime.MinValue,
                 DateTime.MaxValue,
                 new NoUserParticipant("Tom Elvidge"),
@@ -68,6 +70,7 @@ public class MatchTests
     public void TestUpdateServingAfterTiebreak()
     {
         var match = MatchEntity.Create(
+            "12345",
             new NoUserParticipant("Tom Elvidge"),
             new NoUserParticipant("Joe Bloggs"),
             ParticipantEnum.One,

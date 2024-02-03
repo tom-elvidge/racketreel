@@ -83,6 +83,7 @@ enum AddPointError {
   ADD_POINT_UNKNOWN = 0;
   ADD_POINT_DOES_NOT_EXIST = 1;
   ADD_POINT_IS_COMPLETE = 2;
+  ADD_POINT_UNAUTHORIZED = 3;
 }
 
 message AddPointReply {
@@ -96,6 +97,7 @@ message UndoPointRequest {
 enum UndoPointError {
   UNDO_POINT_UNKNOWN = 0;
   UNDO_POINT_NOTHING_TO_UNDO = 1;
+  UNDO_POINT_UNAUTHORIZED = 2;
 }
 
 message UndoPointReply {
@@ -137,6 +139,7 @@ message ToggleHighlightReply {
 enum ToggleHighlightError {
   TOGGLE_HIGHLIGHT_UNKNOWN = 0;
   TOGGLE_HIGHLIGHT_STATE_DOES_NOT_EXIST = 1;
+  TOGGLE_HIGHLIGHT_UNAUTHORIZED = 2;
 }
 
 message Summary {
@@ -174,6 +177,7 @@ message SummaryV2 {
   int32 team_two_sets = 10;
   repeated TeamSetScore team_one_set_scores = 11;
   repeated TeamSetScore team_two_set_scores = 12;
+  string creator_user_id = 13;
 }
 
 message TeamSetScore {

@@ -9,17 +9,17 @@ import 'package:racketreel/shared/data/repository_utils.dart';
 
 @Injectable(as: IFeedItemRepository)
 class FeedItemRepository implements IFeedItemRepository {
-  late ISummaryDataSource _dataSource;
+  late ISummaryDataSource _summaryDataSource;
 
   FeedItemRepository({
     required ISummaryDataSource dataSource,
   }) {
-    _dataSource = dataSource;
+    _summaryDataSource = dataSource;
   }
 
   @override
   Future<List<FeedItemEntity>> getFeedItems(int pageNumber) async {
-    List<Service.Summary> response = await _dataSource.getSummaries(pageNumber);
+    List<Service.Summary> response = await _summaryDataSource.getSummaries(pageNumber);
 
     List<FeedItemEntity> matches = List<FeedItemEntity>
         .generate(
@@ -97,7 +97,7 @@ class FeedItemRepository implements IFeedItemRepository {
 
   @override
   Future<List<FeedItemV2Entity>> getFeedItemsV2(int pageNumber) async {
-    List<Service.SummaryV2> response = await _dataSource.getSummariesV2(pageNumber);
+    List<Service.SummaryV2> response = await _summaryDataSource.getSummariesV2(pageNumber);
 
     List<FeedItemV2Entity> matches = List<FeedItemV2Entity>
         .generate(
@@ -109,6 +109,7 @@ class FeedItemRepository implements IFeedItemRepository {
   FeedItemV2Entity _createFeedItemV2Entity(Service.SummaryV2 summary) {
     return new FeedItemV2Entity(
         summary.matchId,
+        "USer name",
         _getFormatText(summary.format),
         summary.teamOneName,
         summary.teamTwoName,
