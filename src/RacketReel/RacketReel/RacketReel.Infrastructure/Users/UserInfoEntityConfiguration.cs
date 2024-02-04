@@ -12,8 +12,6 @@ public class UserInfoEntityConfiguration : IEntityTypeConfiguration<UserInfoEnti
 
         builder.HasKey(uie => uie.Id);
 
-        builder.Ignore(uie => uie.DomainEvents);
-
         builder.Property(uie => uie.Id).HasConversion(id => id.Value, value => new UserId(value));
     }
 }

@@ -11,8 +11,8 @@ using RacketReel.Infrastructure.Users;
 
 namespace RacketReel.Infrastructure.Migrations
 {
-    [DbContext(typeof(UserInfoDbContext))]
-    [Migration("20240204101454_InitialCreate")]
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20240204231106_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -44,6 +44,34 @@ namespace RacketReel.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserInfo", "RacketReel");
+                });
+
+            modelBuilder.Entity("RacketReel.Infrastructure.Outbox.OutboxEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreateAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("ProcessedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Outbox", "RacketReel");
                 });
 #pragma warning restore 612, 618
         }

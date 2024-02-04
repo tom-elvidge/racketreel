@@ -10,7 +10,7 @@ using RacketReel.Infrastructure.Users;
 
 namespace RacketReel.Infrastructure.Migrations
 {
-    [DbContext(typeof(UserInfoDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class UserInfoDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -41,6 +41,34 @@ namespace RacketReel.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserInfo", "RacketReel");
+                });
+
+            modelBuilder.Entity("RacketReel.Infrastructure.Outbox.OutboxEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreateAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("ProcessedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Outbox", "RacketReel");
                 });
 #pragma warning restore 612, 618
         }

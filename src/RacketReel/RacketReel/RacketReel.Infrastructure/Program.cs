@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RacketReel.Domain.Users;
 using RacketReel.Infrastructure;
 using RacketReel.Infrastructure.Options;
+using RacketReel.Infrastructure.Outbox;
 using RacketReel.Infrastructure.Users;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,14 @@ services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(applicationAssembl
 
 var postgresConfig = builder.Configuration.GetSection(nameof(Postgres)).Get<Postgres>()!;
 
-services.AddDbContext<UserInfoDbContext>(c => c.UseNpgsql(postgresConfig.GetConnectionString()));
+services.AddSingleton<UpdateOutboxInterceptor>();
+
+services.AddDbContext<ApplicationDbContext>((sp, options) =>
+{
+    var interceptor = sp.GetService<UpdateOutboxInterceptor>();
+    options.UseNpgsql(postgresConfig.GetConnectionString()).AddInterceptors(interceptor!);
+});
+
 services.AddScoped<IUserInfoRepository, UserInfoRepository>();
 
 var authConfig = builder.Configuration.GetSection(nameof(OAuth)).Get<OAuth>()!;

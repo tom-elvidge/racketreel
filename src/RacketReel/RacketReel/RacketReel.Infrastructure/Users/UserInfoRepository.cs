@@ -2,7 +2,7 @@ using RacketReel.Domain.Users;
 
 namespace RacketReel.Infrastructure.Users;
 
-public class UserInfoRepository(UserInfoDbContext dbContext) : IUserInfoRepository
+public class UserInfoRepository(ApplicationDbContext dbContext) : IUserInfoRepository
 {
     public UserInfoEntity? GetUserInfoEntity(UserId id) =>
         dbContext.UserInfoEntities.FirstOrDefault(uie => uie.Id.Equals(id));

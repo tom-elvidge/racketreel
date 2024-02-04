@@ -20,7 +20,9 @@ public class CreateUserInfoHandler(
             if (userInfoEntity != null)
                 return Result.Failure<UserInfoEntity>(new Error("UserAlreadyExists", "Cannot create the user because it already exists"));
 
-            var newUserInfoEntity = new UserInfoEntity(request.Id, timeProvider.GetUtcNow());
+            var newUserInfoEntity = new UserInfoEntity();
+            
+            newUserInfoEntity.Create(request.Id, timeProvider.GetUtcNow());
 
             repository.AddUserInfoEntity(newUserInfoEntity);
 

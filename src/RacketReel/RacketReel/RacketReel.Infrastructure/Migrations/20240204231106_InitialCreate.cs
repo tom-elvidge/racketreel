@@ -15,6 +15,23 @@ namespace RacketReel.Infrastructure.Migrations
                 name: "RacketReel");
 
             migrationBuilder.CreateTable(
+                name: "Outbox",
+                schema: "RacketReel",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    CreateAtUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    ProcessedAtUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    Error = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Outbox", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserInfo",
                 schema: "RacketReel",
                 columns: table => new
@@ -33,6 +50,10 @@ namespace RacketReel.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Outbox",
+                schema: "RacketReel");
+
             migrationBuilder.DropTable(
                 name: "UserInfo",
                 schema: "RacketReel");
