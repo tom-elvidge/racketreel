@@ -1,5 +1,8 @@
 # Deployment
 
+TODO: run migrations `dotnet ef database update` from a controlled environment
+TODO: secrets
+
 Install `gcloud` and login.
 
 ```sh

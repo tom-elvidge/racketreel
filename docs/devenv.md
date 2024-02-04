@@ -10,4 +10,22 @@ docker compose -f infra/postgres.docker-compose.yaml up -d
 
 The connection configuration from the application to this database is already configured in `appsettings.Development.json`.
 
-All the database configuration is done the first time the application is started.
+### Migrations
+
+Add migrations
+
+```sh
+dotnet ef migrations add MigrationName
+```
+
+Remove the last migrations
+
+```sh
+dotnet ef migrations remove
+```
+
+Apply migrations
+
+```sh
+dotnet ef database update
+```

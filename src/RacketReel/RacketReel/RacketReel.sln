@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacketReel.Infrastructure", "RacketReel.Infrastructure\RacketReel.Infrastructure.csproj", "{2A74C1F9-5FCE-4DBA-915E-F3E7C45F5100}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacketReel.Domain", "RacketReel.Domain\RacketReel.Domain.csproj", "{13FAE66D-0E88-4B85-BB9B-793E1BE7DB32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacketReel.Application", "RacketReel.Application\RacketReel.Application.csproj", "{7CCDA520-96AE-4CAB-91BE-B1D2D62C9A44}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A74C1F9-5FCE-4DBA-915E-F3E7C45F5100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A74C1F9-5FCE-4DBA-915E-F3E7C45F5100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A74C1F9-5FCE-4DBA-915E-F3E7C45F5100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A74C1F9-5FCE-4DBA-915E-F3E7C45F5100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13FAE66D-0E88-4B85-BB9B-793E1BE7DB32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13FAE66D-0E88-4B85-BB9B-793E1BE7DB32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13FAE66D-0E88-4B85-BB9B-793E1BE7DB32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13FAE66D-0E88-4B85-BB9B-793E1BE7DB32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CCDA520-96AE-4CAB-91BE-B1D2D62C9A44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CCDA520-96AE-4CAB-91BE-B1D2D62C9A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CCDA520-96AE-4CAB-91BE-B1D2D62C9A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CCDA520-96AE-4CAB-91BE-B1D2D62C9A44}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

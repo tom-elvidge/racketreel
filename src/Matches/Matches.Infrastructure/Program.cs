@@ -42,9 +42,9 @@ builder.WebHost.ConfigureKestrel(options =>
 
 var app = builder.Build();
 
-app.MapGrpcService<MatchesRpcService>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through the client.");
 
+app.MapGrpcService<MatchesRpcService>();
 // Need to create a scope as cannot get scoped service from root provider
 using (var scope = app.Services.CreateScope())
 {
