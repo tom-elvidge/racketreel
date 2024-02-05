@@ -27,3 +27,4 @@ final class UndoEvent extends ScoringEvent {
 final class ToggleHighlightEvent extends ScoringEvent {
   const ToggleHighlightEvent();
 }
+
