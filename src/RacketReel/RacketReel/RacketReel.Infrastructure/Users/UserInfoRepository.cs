@@ -7,6 +7,9 @@ public class UserInfoRepository(ApplicationDbContext dbContext) : IUserInfoRepos
     public UserInfoEntity? GetUserInfoEntity(UserId id) =>
         dbContext.UserInfoEntities.FirstOrDefault(uie => uie.Id.Equals(id));
 
+    public IEnumerable<UserInfoEntity> GetUserInfoEntities(IEnumerable<UserId> ids) =>
+        dbContext.UserInfoEntities.Where(uie => ids.Contains(uie.Id));
+
     public void AddUserInfoEntity(UserInfoEntity userInfoEntity) =>
         dbContext.UserInfoEntities.Add(userInfoEntity);
 

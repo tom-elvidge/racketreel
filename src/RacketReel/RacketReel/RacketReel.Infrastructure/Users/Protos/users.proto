@@ -12,6 +12,14 @@ service UsersService {
   rpc GetUserInfo (GetUserInfoRequest) returns (GetUserInfoReply);
   
   rpc UpdateUserInfo (UpdateUserInfoRequest) returns (UpdateUserInfoReply);
+  
+  rpc FollowUser (FollowUserRequest) returns (FollowUserReply);
+  
+  rpc UnfollowUser (UnfollowUserRequest) returns (UnfollowUserReply);
+  
+  rpc GetFollowers (GetFollowersRequest) returns (GetFollowersReply);
+  
+  rpc GetFollowing (GetFollowingRequest) returns (GetFollowingReply);
 }
 
 message Error
@@ -53,4 +61,42 @@ message UpdateUserInfoRequest {
 message UpdateUserInfoReply {
   bool success = 1;
   optional Error error = 2;
+}
+
+message FollowUserRequest {
+  string user_id = 1;
+}
+
+message FollowUserReply {
+  bool success = 1;
+  optional Error error = 2;
+}
+
+message UnfollowUserRequest {
+  string user_id = 1;
+}
+
+message UnfollowUserReply {
+  bool success = 1;
+  optional Error error = 2;
+}
+
+message GetFollowersRequest {
+  string user_id = 1;
+}
+
+message GetFollowersReply {
+  bool success = 1;
+  optional Error error = 2;
+  repeated UserInfo follower_user_infos = 3;
+}
+
+message GetFollowingRequest {
+  string user_id = 1;
+}
+
+message GetFollowingReply {
+  bool success = 1;
+  optional Error error = 2;
+  repeated UserInfo following_user_infos = 3;
 }

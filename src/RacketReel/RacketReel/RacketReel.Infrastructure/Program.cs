@@ -24,6 +24,7 @@ services.AddDbContext<ApplicationDbContext>((sp, options) =>
 });
 
 services.AddScoped<IUserInfoRepository, UserInfoRepository>();
+services.AddScoped<IFollowerRepository, FollowerRepository>();
 
 var authConfig = builder.Configuration.GetSection(nameof(OAuth)).Get<OAuth>()!;
 
