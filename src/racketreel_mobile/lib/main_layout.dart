@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:racketreel/auth/presentation/view/profile_page.dart';
 import 'package:racketreel/feed/presentation/view/feed_page.dart';
-import 'package:racketreel/video_scoring/presentation/view/video_scoring_page.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -31,17 +30,12 @@ class _MainLayoutState extends State<MainLayout> {
           NavigationDestination(
             icon: Icon(Icons.person),
             label: 'Profile',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.video_camera_back),
-            label: 'Scoring',
-          ),
+          )
         ],
       ),
       body: <Widget>[
         FeedPage(),
-        ProfilePage(),
-        VideoScoringRootPage()
+        ProfilePage()
       ][currentPageIndex],
     );
   }
