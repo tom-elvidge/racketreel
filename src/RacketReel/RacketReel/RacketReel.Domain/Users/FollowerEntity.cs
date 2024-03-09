@@ -4,7 +4,7 @@ using RacketReel.Domain.Users;
 
 namespace RacketReel.Domain.Followers;
 
-public class FollowerRelationEntity : Entity
+public class FollowerEntity : Entity
 {
     public UserId UserId { get; private set; } = new("");
     
@@ -12,14 +12,14 @@ public class FollowerRelationEntity : Entity
     
     public DateTimeOffset FollowedAtUtc { get; private set; } = DateTimeOffset.MinValue;
 
-    public FollowerRelationEntity(UserId userId, UserId followerUserId, DateTimeOffset followedAtUtc)
+    public FollowerEntity(UserId userId, UserId followerUserId, DateTimeOffset followedAtUtc)
     {
         UserId = userId;
         FollowerUserId = followerUserId;
         FollowedAtUtc = followedAtUtc;
     }
 
-    public FollowerRelationEntity()
+    public FollowerEntity()
     {
     }
 

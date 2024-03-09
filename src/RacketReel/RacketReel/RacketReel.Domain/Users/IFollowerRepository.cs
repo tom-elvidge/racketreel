@@ -2,13 +2,13 @@ using RacketReel.Domain.Followers;
 
 namespace RacketReel.Domain.Users;
 
-public interface IFollowerEntityRepository
+public interface IFollowerRepository
 {
     public FollowerEntity? GetFollowerEntity(UserId userId, UserId followerUserId);
     
-    public List<FollowerEntity> GetFollowerEntities(UserId userId);
+    public IEnumerable<FollowerEntity> GetFollowerEntities(UserId userId);
 
-    public List<FollowerEntity> GetFollowerEntitiesByFollowerUserId(UserId followerUserId);
+    public IEnumerable<FollowerEntity> GetFollowerEntitiesByFollowerUserId(UserId followerUserId);
 
     public void AddFollowerEntity(FollowerEntity followerEntity);
 
