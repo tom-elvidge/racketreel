@@ -32,7 +32,7 @@ class UserService implements IUserService {
           _config.usersGrpcHost,
           port: _config.usersGrpcPort,
           options: const ChannelOptions(
-            credentials: ChannelCredentials.insecure(),
+            credentials: ChannelCredentials.secure(),
           ),
         ),
         interceptors: [
@@ -47,6 +47,7 @@ class UserService implements IUserService {
 
     var request = GetUserInfoRequest(userId: userId);
 
+    // todo: something not working here
     var reply = await _client!.getUserInfo(request);
 
     if (!reply.success)
@@ -140,7 +141,6 @@ class UserService implements IUserService {
 
   @override
   Future<bool> isUserFollower(String userId, String followerUserId) {
-    // regen client and implement
     // TODO: implement isUserFollower
     throw UnimplementedError();
   }

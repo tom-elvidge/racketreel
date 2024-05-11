@@ -260,3 +260,36 @@ final $typed_data.Uint8List getFollowingReplyDescriptor = $convert.base64Decode(
     'bmZvcxgDIAMoCzIULlJhY2tldFJlZWwuVXNlckluZm9SEmZvbGxvd2luZ1VzZXJJbmZvc0IICg'
     'ZfZXJyb3I=');
 
+@$core.Deprecated('Use isUserFollowerRequestDescriptor instead')
+const IsUserFollowerRequest$json = {
+  '1': 'IsUserFollowerRequest',
+  '2': [
+    {'1': 'user_id', '3': 1, '4': 1, '5': 9, '10': 'userId'},
+    {'1': 'follower_user_id', '3': 2, '4': 1, '5': 9, '10': 'followerUserId'},
+  ],
+};
+
+/// Descriptor for `IsUserFollowerRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List isUserFollowerRequestDescriptor = $convert.base64Decode(
+    'ChVJc1VzZXJGb2xsb3dlclJlcXVlc3QSFwoHdXNlcl9pZBgBIAEoCVIGdXNlcklkEigKEGZvbG'
+    'xvd2VyX3VzZXJfaWQYAiABKAlSDmZvbGxvd2VyVXNlcklk');
+
+@$core.Deprecated('Use isUserFollowerReplyDescriptor instead')
+const IsUserFollowerReply$json = {
+  '1': 'IsUserFollowerReply',
+  '2': [
+    {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
+    {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.RacketReel.Error', '9': 0, '10': 'error', '17': true},
+    {'1': 'isUserFollower', '3': 3, '4': 1, '5': 8, '10': 'isUserFollower'},
+  ],
+  '8': [
+    {'1': '_error'},
+  ],
+};
+
+/// Descriptor for `IsUserFollowerReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List isUserFollowerReplyDescriptor = $convert.base64Decode(
+    'ChNJc1VzZXJGb2xsb3dlclJlcGx5EhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3MSLAoFZXJyb3'
+    'IYAiABKAsyES5SYWNrZXRSZWVsLkVycm9ySABSBWVycm9yiAEBEiYKDmlzVXNlckZvbGxvd2Vy'
+    'GAMgASgIUg5pc1VzZXJGb2xsb3dlckIICgZfZXJyb3I=');
+

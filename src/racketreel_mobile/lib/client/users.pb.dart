@@ -1013,6 +1013,150 @@ class GetFollowingReply extends $pb.GeneratedMessage {
   $core.List<UserInfo> get followingUserInfos => $_getList(2);
 }
 
+class IsUserFollowerRequest extends $pb.GeneratedMessage {
+  factory IsUserFollowerRequest({
+    $core.String? userId,
+    $core.String? followerUserId,
+  }) {
+    final $result = create();
+    if (userId != null) {
+      $result.userId = userId;
+    }
+    if (followerUserId != null) {
+      $result.followerUserId = followerUserId;
+    }
+    return $result;
+  }
+  IsUserFollowerRequest._() : super();
+  factory IsUserFollowerRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory IsUserFollowerRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'IsUserFollowerRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'userId')
+    ..aOS(2, _omitFieldNames ? '' : 'followerUserId')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  IsUserFollowerRequest clone() => IsUserFollowerRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  IsUserFollowerRequest copyWith(void Function(IsUserFollowerRequest) updates) => super.copyWith((message) => updates(message as IsUserFollowerRequest)) as IsUserFollowerRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static IsUserFollowerRequest create() => IsUserFollowerRequest._();
+  IsUserFollowerRequest createEmptyInstance() => create();
+  static $pb.PbList<IsUserFollowerRequest> createRepeated() => $pb.PbList<IsUserFollowerRequest>();
+  @$core.pragma('dart2js:noInline')
+  static IsUserFollowerRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<IsUserFollowerRequest>(create);
+  static IsUserFollowerRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get userId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set userId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get followerUserId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set followerUserId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasFollowerUserId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearFollowerUserId() => clearField(2);
+}
+
+class IsUserFollowerReply extends $pb.GeneratedMessage {
+  factory IsUserFollowerReply({
+    $core.bool? success,
+    Error? error,
+    $core.bool? isUserFollower,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    if (error != null) {
+      $result.error = error;
+    }
+    if (isUserFollower != null) {
+      $result.isUserFollower = isUserFollower;
+    }
+    return $result;
+  }
+  IsUserFollowerReply._() : super();
+  factory IsUserFollowerReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory IsUserFollowerReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'IsUserFollowerReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'success')
+    ..aOM<Error>(2, _omitFieldNames ? '' : 'error', subBuilder: Error.create)
+    ..aOB(3, _omitFieldNames ? '' : 'isUserFollower', protoName: 'isUserFollower')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  IsUserFollowerReply clone() => IsUserFollowerReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  IsUserFollowerReply copyWith(void Function(IsUserFollowerReply) updates) => super.copyWith((message) => updates(message as IsUserFollowerReply)) as IsUserFollowerReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static IsUserFollowerReply create() => IsUserFollowerReply._();
+  IsUserFollowerReply createEmptyInstance() => create();
+  static $pb.PbList<IsUserFollowerReply> createRepeated() => $pb.PbList<IsUserFollowerReply>();
+  @$core.pragma('dart2js:noInline')
+  static IsUserFollowerReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<IsUserFollowerReply>(create);
+  static IsUserFollowerReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get success => $_getBF(0);
+  @$pb.TagNumber(1)
+  set success($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSuccess() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSuccess() => clearField(1);
+
+  @$pb.TagNumber(2)
+  Error get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(Error v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  Error ensureError() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  $core.bool get isUserFollower => $_getBF(2);
+  @$pb.TagNumber(3)
+  set isUserFollower($core.bool v) { $_setBool(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasIsUserFollower() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearIsUserFollower() => clearField(3);
+}
+
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
 const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

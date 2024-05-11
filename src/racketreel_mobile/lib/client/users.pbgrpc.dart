@@ -49,6 +49,10 @@ class UsersServiceClient extends $grpc.Client {
       '/RacketReel.UsersService/GetFollowing',
       ($0.GetFollowingRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetFollowingReply.fromBuffer(value));
+  static final _$isUserFollower = $grpc.ClientMethod<$0.IsUserFollowerRequest, $0.IsUserFollowerReply>(
+      '/RacketReel.UsersService/IsUserFollower',
+      ($0.IsUserFollowerRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.IsUserFollowerReply.fromBuffer(value));
 
   UsersServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -82,6 +86,10 @@ class UsersServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.GetFollowingReply> getFollowing($0.GetFollowingRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getFollowing, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.IsUserFollowerReply> isUserFollower($0.IsUserFollowerRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$isUserFollower, request, options: options);
   }
 }
 
@@ -139,6 +147,13 @@ abstract class UsersServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetFollowingRequest.fromBuffer(value),
         ($0.GetFollowingReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.IsUserFollowerRequest, $0.IsUserFollowerReply>(
+        'IsUserFollower',
+        isUserFollower_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.IsUserFollowerRequest.fromBuffer(value),
+        ($0.IsUserFollowerReply value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.CreateUserInfoReply> createUserInfo_Pre($grpc.ServiceCall call, $async.Future<$0.CreateUserInfoRequest> request) async {
@@ -169,6 +184,10 @@ abstract class UsersServiceBase extends $grpc.Service {
     return getFollowing(call, await request);
   }
 
+  $async.Future<$0.IsUserFollowerReply> isUserFollower_Pre($grpc.ServiceCall call, $async.Future<$0.IsUserFollowerRequest> request) async {
+    return isUserFollower(call, await request);
+  }
+
   $async.Future<$0.CreateUserInfoReply> createUserInfo($grpc.ServiceCall call, $0.CreateUserInfoRequest request);
   $async.Future<$0.GetUserInfoReply> getUserInfo($grpc.ServiceCall call, $0.GetUserInfoRequest request);
   $async.Future<$0.UpdateUserInfoReply> updateUserInfo($grpc.ServiceCall call, $0.UpdateUserInfoRequest request);
@@ -176,4 +195,5 @@ abstract class UsersServiceBase extends $grpc.Service {
   $async.Future<$0.UnfollowUserReply> unfollowUser($grpc.ServiceCall call, $0.UnfollowUserRequest request);
   $async.Future<$0.GetFollowersReply> getFollowers($grpc.ServiceCall call, $0.GetFollowersRequest request);
   $async.Future<$0.GetFollowingReply> getFollowing($grpc.ServiceCall call, $0.GetFollowingRequest request);
+  $async.Future<$0.IsUserFollowerReply> isUserFollower($grpc.ServiceCall call, $0.IsUserFollowerRequest request);
 }

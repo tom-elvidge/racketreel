@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:racketreel/feed/domain/feed_item_v2_entity.dart';
 import 'package:racketreel/feed/domain/team_set_score.dart';
+import 'package:racketreel/profile/user_service.dart';
 import 'package:racketreel/shared/data/i_summary_data_source.dart';
 import 'package:racketreel/feed/domain/feed_item_entity.dart';
 import 'package:racketreel/feed/domain/i_feed_item_repository.dart';
@@ -10,11 +11,14 @@ import 'package:racketreel/shared/data/repository_utils.dart';
 @Injectable(as: IFeedItemRepository)
 class FeedItemRepository implements IFeedItemRepository {
   late ISummaryDataSource _summaryDataSource;
+  late IUserService _userService;
 
   FeedItemRepository({
     required ISummaryDataSource dataSource,
+    required IUserService userService,
   }) {
     _summaryDataSource = dataSource;
+    _userService = userService;
   }
 
   @override
@@ -99,17 +103,21 @@ class FeedItemRepository implements IFeedItemRepository {
   Future<List<FeedItemV2Entity>> getFeedItemsV2(int pageNumber) async {
     List<Service.SummaryV2> response = await _summaryDataSource.getSummariesV2(pageNumber);
 
-    List<FeedItemV2Entity> matches = List<FeedItemV2Entity>
-        .generate(
-        response.length, (index) => _createFeedItemV2Entity(response[index]));
+    var futures = <Future<FeedItemV2Entity>>[];
 
-    return matches;
+    for (var item in response) {
+      futures.add(_createFeedItemV2Entity(item));
+    }
+
+    return await Future.wait(futures);
   }
 
-  FeedItemV2Entity _createFeedItemV2Entity(Service.SummaryV2 summary) {
+  Future<FeedItemV2Entity> _createFeedItemV2Entity(Service.SummaryV2 summary) async {
+    var userInfo = await _userService.getUserInfo(summary.creatorUserId);
+
     return new FeedItemV2Entity(
         summary.matchId,
-        "USer name",
+        userInfo?.displayName ?? "Unknown User",
         _getFormatText(summary.format),
         summary.teamOneName,
         summary.teamTwoName,

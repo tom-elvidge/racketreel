@@ -20,8 +20,7 @@ class ScoringService implements IScoringService
     _config = config;
   }
 
-  MatchesClient _getClient()
-  {
+  MatchesClient _getClient() {
     return MatchesClient(
         ClientChannel(
           _config.grpcHost,
