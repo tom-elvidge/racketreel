@@ -208,4 +208,28 @@ public class UsersRpcService(ISender sender) : UsersService.UsersServiceBase
 
         return reply;
     }
+
+    public override async Task<IsUserFollowerReply> IsUserFollower(IsUserFollowerRequest request, ServerCallContext context)
+    {
+        var result = await sender.Send(new IsUserFollowerQuery(
+            new UserId(request.UserId),
+            new UserId(request.FollowerUserId)));
+        
+        if (result.IsFailure)
+            return new IsUserFollowerReply
+            {
+                Error = new Error
+                {
+                    Code = result.Error.Code,
+                    Message = result.Error.Message
+                },
+                Success = false
+            };
+
+        return new IsUserFollowerReply
+        {
+            Success = true,
+            IsUserFollower = result.Value
+        };
+    }
 }

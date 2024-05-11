@@ -1,4 +1,6 @@
 {
   "grpcHost": "10.0.2.2",
-  "grpcPort": 7192
+  "grpcPort": 7192,
+  "usersGrpcHost": "10.0.2.2",
+  "usersGrpcPort": 7162
 }

@@ -4,8 +4,15 @@ import 'package:flutter/services.dart';
 class AppConfig {
   final String grpcHost;
   final int grpcPort;
+  final String usersGrpcHost;
+  final int usersGrpcPort;
 
-  AppConfig({required this.grpcHost, required this.grpcPort});
+  AppConfig({
+    required this.grpcHost,
+    required this.grpcPort,
+    required this.usersGrpcHost,
+    required this.usersGrpcPort,
+  });
 
   static Future<AppConfig> forEnvironment(String env) async {
     final contents = await rootBundle.loadString(
@@ -13,6 +20,11 @@ class AppConfig {
       'assets/config/dev.android.json',
     );
     final json = jsonDecode(contents);
-    return AppConfig(grpcHost: json['grpcHost'], grpcPort: json['grpcPort']);
+    return AppConfig(
+        grpcHost: json['grpcHost'],
+        grpcPort: json['grpcPort'],
+        usersGrpcHost: json['usersGrpcHost'],
+        usersGrpcPort: json['usersGrpcPort'],
+    );
   }
 }
