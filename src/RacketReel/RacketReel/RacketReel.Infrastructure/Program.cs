@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using RacketReel.Domain.Users;
 using RacketReel.Infrastructure;
@@ -6,6 +7,12 @@ using RacketReel.Infrastructure.Outbox;
 using RacketReel.Infrastructure.Users;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    // Setup a HTTP/2 endpoint without TLS.
+    options.ListenLocalhost(5000, o => o.Protocols = HttpProtocols.Http2);
+});
 
 var services = builder.Services;
 
