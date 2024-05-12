@@ -13,29 +13,27 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.x
+    - name: Build
+      working-directory: src/RacketReel/RacketReel/RacketReel.Infrastructure
+      run: dotnet build
     - name: Install dotnet-ef
       run: dotnet tool install --global dotnet-ef
     - name: Create migration bundle
       working-directory: src/RacketReel/RacketReel/RacketReel.Infrastructure
       run: dotnet ef migrations bundle --self-contained -r linux-x64
-    - uses: paulhatch/semantic-version@v5.3.0
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v6.2
       with:
-        tag_prefix: "v"
-        major_pattern: "major"
-        minor_pattern: "minor"
-        version_format: "${major}.${minor}.${patch}-prerelease${increment}"
-        namespace: racketreel
-        bump_each_commit: true
-        search_commit_body: false
-        debug: true
+        github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: Create release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ steps.tag_version.outputs.new_tag }}
+        release_name: Release ${{ steps.tag_version.outputs.new_tag }}
         draft: false
         prerelease: false
     - name: Upload migration bundle to release
@@ -44,4 +42,4 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: src/RacketReel/RacketReel/RacketReel.Infrastructure/efbundle
         asset_name: efbundle
-        tag: ${{ github.ref }}
+        tag: ${{ steps.tag_version.outputs.new_tag }}
