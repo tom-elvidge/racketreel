@@ -33,7 +33,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.tag_version.outputs.new_tag }}
-        release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+        release_name: ${{ steps.tag_version.outputs.new_tag }}
         draft: false
         prerelease: false
     - name: Upload migration bundle to release
