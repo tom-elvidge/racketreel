@@ -12,7 +12,7 @@ namespace Matches.Infrastructure;
 // https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/seedwork-domain-model-base-classes-interfaces
 public class MatchesContext : DbContext, IUnitOfWork
 {
-    public const string DEFAULT_SCHEMA = "matches";
+    public const string DEFAULT_SCHEMA = "Matches";
     public DbSet<MatchEntity> Matches { get; set; }
     public DbSet<StateEntity> MatchStates { get; set; }
     // public DbSet<SetType> SetTypes { get; set; }
@@ -104,49 +104,6 @@ public class MatchesContext : DbContext, IUnitOfWork
                 _currentTransaction.Dispose();
                 _currentTransaction = null;
             }
-        }
-    }
-}
-
-public class MatchesContextDesignFactory : IDesignTimeDbContextFactory<MatchesContext>
-{
-    public MatchesContext CreateDbContext(string[] args)
-    {
-        var optionsBuilder = new DbContextOptionsBuilder<MatchesContext>();
-
-        return new MatchesContext(optionsBuilder.Options, new NoMediator());
-    }
-
-    class NoMediator : IMediator
-    {
-        public IAsyncEnumerable<TResponse> CreateStream<TResponse>(IStreamRequest<TResponse> request, CancellationToken cancellationToken = default)
-        {
-            return default(IAsyncEnumerable<TResponse>);
-        }
-
-        public IAsyncEnumerable<object> CreateStream(object request, CancellationToken cancellationToken = default)
-        {
-            return default(IAsyncEnumerable<object>);
-        }
-
-        public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default(CancellationToken)) where TNotification : INotification
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task Publish(object notification, CancellationToken cancellationToken = default)
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return Task.FromResult<TResponse>(default(TResponse));
-        }
-
-        public Task<object> Send(object request, CancellationToken cancellationToken = default)
-        {
-            return Task.FromResult(default(object));
         }
     }
 }

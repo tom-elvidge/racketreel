@@ -13,13 +13,19 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.x
-    - name: Build
-      working-directory: src/RacketReel/RacketReel/RacketReel.Infrastructure
-      run: dotnet build
     - name: Install dotnet-ef
       run: dotnet tool install --global dotnet-ef
-    - name: Create migration bundle
+    - name: Build RacketReel
       working-directory: src/RacketReel/RacketReel/RacketReel.Infrastructure
+      run: dotnet build
+    - name: Create migration bundle RacketReel
+      working-directory: src/RacketReel/RacketReel/RacketReel.Infrastructure
+      run: dotnet ef migrations bundle --self-contained -r linux-x64
+    - name: Build Matches
+      working-directory: src/Matches/Matches.Infrastructure
+      run: dotnet build
+    - name: Create migration bundle Matches
+      working-directory: src/Matches/Matches.Infrastructure
       run: dotnet ef migrations bundle --self-contained -r linux-x64
     - name: Bump version and push tag
       id: tag_version
@@ -36,10 +42,17 @@ jobs:
         release_name: ${{ steps.tag_version.outputs.new_tag }}
         draft: false
         prerelease: false
-    - name: Upload migration bundle to release
+    - name: Upload migration bundle to release Racket Reel
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: src/RacketReel/RacketReel/RacketReel.Infrastructure/efbundle
-        asset_name: efbundle
+        asset_name: efbundle-RacketReel
+        tag: ${{ steps.tag_version.outputs.new_tag }}
+    - name: Upload migration bundle to release Matches
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: src/Matches/Matches.Infrastructure/efbundle
+        asset_name: efbundle-Matches
         tag: ${{ steps.tag_version.outputs.new_tag }}
