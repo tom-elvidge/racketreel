@@ -7,9 +7,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY . .
-RUN dotnet restore RacketReel.Application/RacketReel.Application.csproj && \
-dotnet restore RacketReel.Domain/RacketReel.Domain.csproj && \
-dotnet restore RacketReel.Infrastructure/RacketReel.Infrastructure.csproj
 RUN dotnet build RacketReel.Infrastructure/RacketReel.Infrastructure.csproj -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

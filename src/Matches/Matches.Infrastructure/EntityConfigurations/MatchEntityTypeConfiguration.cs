@@ -10,14 +10,14 @@ class MatchEntityTypeConfiguration : IEntityTypeConfiguration<MatchEntity>
 {
     public void Configure(EntityTypeBuilder<MatchEntity> match)
     {
-        match.ToTable("matches", MatchesContext.DEFAULT_SCHEMA);
+        match.ToTable("Matches", MatchesContext.DEFAULT_SCHEMA);
 
         match.HasKey(m => m.Id);
 
         match.Ignore(m => m.DomainEvents);
 
         match.Property(m => m.Id)
-            .UseHiLo("matchseq", MatchesContext.DEFAULT_SCHEMA);
+            .UseHiLo("Matchseq", MatchesContext.DEFAULT_SCHEMA);
 
         match
             .Property<DateTime>("CreatedAtDateTime")
@@ -35,7 +35,7 @@ class MatchEntityTypeConfiguration : IEntityTypeConfiguration<MatchEntity>
                 // Explicit configuration of the shadow key property in the owned type 
                 // as a workaround for a documented issue in EF Core 5: https://github.com/dotnet/efcore/issues/20740
                 p.Property<int>("MatchEntityId")
-                .UseHiLo("matcheseq", MatchesContext.DEFAULT_SCHEMA);
+                .UseHiLo("Matcheseq", MatchesContext.DEFAULT_SCHEMA);
                 p.WithOwner();
             });
 
@@ -45,7 +45,7 @@ class MatchEntityTypeConfiguration : IEntityTypeConfiguration<MatchEntity>
                 // Explicit configuration of the shadow key property in the owned type 
                 // as a workaround for a documented issue in EF Core 5: https://github.com/dotnet/efcore/issues/20740
                 p.Property<int>("MatchEntityId")
-                .UseHiLo("matcheseq", MatchesContext.DEFAULT_SCHEMA);
+                .UseHiLo("Matcheseq", MatchesContext.DEFAULT_SCHEMA);
                 p.WithOwner();
             });
 
@@ -61,7 +61,7 @@ class MatchEntityTypeConfiguration : IEntityTypeConfiguration<MatchEntity>
                 // Explicit configuration of the shadow key property in the owned type 
                 // as a workaround for a documented issue in EF Core 5: https://github.com/dotnet/efcore/issues/20740
                 f.Property<int>("MatchEntityId")
-                    .UseHiLo("matchseq", MatchesContext.DEFAULT_SCHEMA);
+                    .UseHiLo("Matchseq", MatchesContext.DEFAULT_SCHEMA);
                 f.WithOwner();
 
                 f.Property<SetsEnum>("Sets")
