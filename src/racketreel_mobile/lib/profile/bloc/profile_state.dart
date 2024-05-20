@@ -2,7 +2,7 @@ part of 'profile_bloc.dart';
 
 final class FollowerUser extends Equatable {
   final String userId;
-  final String displayName;
+  final String? displayName;
   final Uri avatar;
 
   FollowerUser(
@@ -17,7 +17,7 @@ final class FollowerUser extends Equatable {
 
 final class FollowedUser extends Equatable {
   final String userId;
-  final String displayName;
+  final String? displayName;
   final Uri avatar;
 
   FollowedUser(
@@ -36,7 +36,7 @@ final class ProfileState extends Equatable {
   final bool isInitializing;
   final String? userId;
   final bool isUserFound;
-  final String displayName;
+  final String? displayName;
   final Uri? avatar;
   final bool userIsCurrentUser;
   final bool? userFollowsCurrentUser;
@@ -48,7 +48,7 @@ final class ProfileState extends Equatable {
     this.isInitializing = false,
     this.userId,
     this.isUserFound = false,
-    this.displayName = "",
+    this.displayName,
     this.avatar,
     this.userIsCurrentUser = false,
     this.userFollowsCurrentUser,

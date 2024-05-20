@@ -25,6 +25,18 @@ class FeedPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Matches'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.add),
+              tooltip: 'Add',
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const CreateMatchPage())
+                );
+              }
+            )
+          ]
         ),
         body: BlocBuilder<FeedBloc, FeedState>(
           builder: (context, state) {
@@ -53,7 +65,7 @@ class FeedPage extends StatelessWidget {
                     SliverList(
                       delegate: SliverChildListDelegate(
                         state.items.map((item) => Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                            padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                             child:InkWell(
                               child: FeedItem(feedItem: item),
                               onTap: () {
@@ -86,16 +98,6 @@ class FeedPage extends StatelessWidget {
               ),
             );
           },
-        ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CreateMatchPage())
-              );
-            },
-            backgroundColor: Colors.blue,
-            child: const Icon(Icons.add)
         ),
       ),
     );

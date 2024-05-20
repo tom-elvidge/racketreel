@@ -1,0 +1,6 @@
+{
+  "grpcHost": "matches.racketreel.com",
+  "grpcPort": 443,
+  "usersGrpcHost": "app.racketreel.com",
+  "usersGrpcPort": 443
+}

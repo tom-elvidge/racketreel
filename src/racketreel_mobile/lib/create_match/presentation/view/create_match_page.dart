@@ -44,11 +44,11 @@ class _CreateMatchPageState extends State<CreateMatchPage> {
           {
             return Scaffold(
               appBar: AppBar(
-                title: const Text("Enter match details"),
+                title: const Text("Create match"),
                 actions: <Widget>[
                   IconButton(
-                    icon: const Icon(Icons.add),
-                    tooltip: 'Create Match',
+                    icon: const Icon(Icons.check),
+                    tooltip: 'Start',
                     onPressed: state.creating ? () {} : () async {
                       var matchId = await context.read<CreateMatchFormatCubit>().submit();
 
