@@ -13,7 +13,7 @@ class FeedItem extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.blue.shade50,
           border: Border.all(width: 1, color: Colors.blue.shade400),
-          borderRadius: BorderRadius.all(Radius.circular(8))
+          borderRadius: const BorderRadius.all(Radius.circular(8))
       ),
       alignment: Alignment.center,
       padding: const EdgeInsets.all(8),
@@ -26,11 +26,11 @@ class FeedItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                child: Text("US"),
                 backgroundColor: Colors.blue.shade200,
+                child: Text(getInitials(feedItem.user)),
               ),
               Container(
-                padding: EdgeInsets.only(left: 5),
+                padding: const EdgeInsets.only(left: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -51,7 +51,7 @@ class FeedItem extends StatelessWidget {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -76,11 +76,11 @@ class FeedItem extends StatelessWidget {
           // Scoreboard headers
           Row(
             children: [
-              Spacer(),
+              const Spacer(),
               Container(
                 alignment: Alignment.center,
                 width: 70,
-                padding: EdgeInsets.only(left: 20, right: 20),
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   "SETS",
                   style: TextStyle(
@@ -118,5 +118,18 @@ class FeedItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String getInitials(String name) {
+    // Split the name by spaces
+    List<String> words = name.split(' ');
+
+    // Filter out any empty strings (in case of multiple spaces)
+    words = words.where((word) => word.isNotEmpty).toList();
+
+    // Map each word to its first character, convert to uppercase, and join them
+    String initials = words.map((word) => word[0].toUpperCase()).join('');
+
+    return initials;
   }
 }
