@@ -36,7 +36,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       return;
     }
 
-    var userInfo = await users.getUserInfo(event.userId);
+    if (event.userId == null) {
+      return;
+    }
+
+    var userInfo = await users.getUserInfo(event.userId!);
 
     var userIsCurrentUser = currentUserId == event.userId;
 
@@ -58,8 +62,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           displayName: userInfo.displayName,
           avatar: userInfo.avatar,
           userIsCurrentUser: userIsCurrentUser,
-          userFollowsCurrentUser: userIsCurrentUser ? null : await users.isUserFollower(currentUserId, event.userId),
-          currentUserFollowsUser: userIsCurrentUser ? null : await users.isUserFollower(event.userId, currentUserId),
+          userFollowsCurrentUser: userIsCurrentUser ? null : await users.isUserFollower(currentUserId, event.userId!),
+          currentUserFollowsUser: userIsCurrentUser ? null : await users.isUserFollower(event.userId!, currentUserId),
         )
     );
   }

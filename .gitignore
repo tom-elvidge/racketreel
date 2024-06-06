@@ -26,7 +26,6 @@ build.sh
 analysis_options.yaml
 git_push.sh
 pubspec.lock
-.gitignore
 
 .dart_tool/
 pubspec.lock
@@ -34,3 +33,21 @@ pubspec.lock
 .idea/
 src/racketreel_mobile/build/*
 DataProtection-Keys//*
+
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/

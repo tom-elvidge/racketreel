@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:racketreel/auth/presentation/view/profile_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:racketreel/feed/presentation/bloc/feed_bloc.dart';
 import 'package:racketreel/feed/presentation/view/feed_page.dart';
+import 'package:racketreel/injection.dart';
+import 'package:racketreel/profile/bloc/profile_bloc.dart';
+import 'package:racketreel/profile/view/profile_page.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -34,8 +39,15 @@ class _MainLayoutState extends State<MainLayout> {
         ],
       ),
       body: <Widget>[
-        FeedPage(),
-        ProfilePage()
+        BlocProvider(
+          create: (_) => getIt<FeedBloc>()..add(const FetchInitialEvent()),
+          child: const FeedPage(),
+        ),
+        BlocProvider(
+          create: (_) => getIt<ProfileBloc>()
+            ..add(Initialize(userId: FirebaseAuth.instance.currentUser?.uid)),
+          child: const ProfilePage(),
+        )
       ][currentPageIndex],
     );
   }

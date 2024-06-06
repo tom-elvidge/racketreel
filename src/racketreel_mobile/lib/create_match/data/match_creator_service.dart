@@ -25,7 +25,7 @@ class MatchCreatorService implements IMatchCreatorService
         _config.grpcHost,
         port: _config.grpcPort,
         options: const ChannelOptions(
-            credentials: ChannelCredentials.insecure(),
+            credentials: ChannelCredentials.secure(),
         ),
       ),
       interceptors: [

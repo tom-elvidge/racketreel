@@ -11,10 +11,10 @@ sealed class ProfileEvent extends Equatable {
 final class Initialize extends ProfileEvent {
   const Initialize({required this.userId});
 
-  final String userId;
+  final String? userId;
 
   @override
-  List<Object> get props => [userId];
+  List<Object> get props => [userId ?? ""];
 }
 
 final class SignOut extends ProfileEvent {}

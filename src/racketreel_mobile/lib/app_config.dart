@@ -16,8 +16,7 @@ class AppConfig {
 
   static Future<AppConfig> forEnvironment(String env) async {
     final contents = await rootBundle.loadString(
-      // 'assets/config/$env.json',
-      'assets/config/dev.android.json',
+      'assets/config/$env.json',
     );
     final json = jsonDecode(contents);
     return AppConfig(

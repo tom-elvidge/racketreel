@@ -41,10 +41,17 @@ class AuthInterceptor implements ClientInterceptor {
     final user = firebaseAuth.currentUser;
 
     if (user != null) {
-      final token = await user.getIdToken();
+      try {
+        final token = await user.getIdToken();
 
-      // https://learn.microsoft.com/en-us/aspnet/core/grpc/authn-and-authz?view=aspnetcore-8.0
-      metadata['Authorization'] = "Bearer $token";
+        // https://learn.microsoft.com/en-us/aspnet/core/grpc/authn-and-authz?view=aspnetcore-8.0
+        metadata['Authorization'] = "Bearer $token";
+      }
+      catch (e) {
+        // there can sometimes be an issue getting a new id token
+        // forcing the user to log in again fixes it but not an ideal solution
+        await firebaseAuth.signOut();
+      }
     }
   }
 }
