@@ -51,7 +51,6 @@ dependencies:
   url_launcher: ^6.1.14
   firebase_auth: ^4.16.0
   firebase_ui_auth: ^1.12.1
-  image_picker: ^1.1.1
 
 dev_dependencies:
   flutter_test:
