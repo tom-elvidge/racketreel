@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:racketreel/feed/presentation/bloc/feed_bloc.dart';
 import 'package:racketreel/feed/presentation/view/feed_page.dart';
 import 'package:racketreel/injection.dart';
 import 'package:racketreel/profile/bloc/profile_bloc.dart';
@@ -38,11 +39,14 @@ class _MainLayoutState extends State<MainLayout> {
         ],
       ),
       body: <Widget>[
-        const FeedPage(),
+        BlocProvider(
+          create: (_) => getIt<FeedBloc>()..add(const FetchInitialEvent()),
+          child: const FeedPage(),
+        ),
         BlocProvider(
           create: (_) => getIt<ProfileBloc>()
             ..add(Initialize(userId: FirebaseAuth.instance.currentUser?.uid)),
-          child: const ProfilePage()
+          child: const ProfilePage(),
         )
       ][currentPageIndex],
     );

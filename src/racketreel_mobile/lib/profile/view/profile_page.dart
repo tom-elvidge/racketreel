@@ -123,15 +123,14 @@ class ProfilePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  ListView(
-                    padding: const EdgeInsets.all(20),
-                    children: const [
-                      Text("user's matches here"),
-                      Text("user's matches here"),
-                      Text("user's matches here"),
-                      Text("user's matches here"),
-                    ]
-                  )
+                  // Expanded(
+                  //   child: ListView(
+                  //     padding: const EdgeInsets.all(20),
+                  //     children: const [
+                  //       Text("user's matches here"),
+                  //     ]
+                  // ),
+                  // )
                 ],
               )
         )
