@@ -40,6 +40,9 @@ service Matches {
   
   // Update a state by marking it as a highlight
   rpc ToggleHighlight(ToggleHighlightRequest) returns (ToggleHighlightReply);
+  
+  // Get the state steam for a match
+  rpc GetStateStream(GetStateStreamRequest) returns (stream State);
 }
 
 message ConfigureRequest {
@@ -241,4 +244,8 @@ message GetStateHistoryReply {
 message GetStateAtVersionRequest {
   int32 match_id = 1;
   int32 version = 2;
+}
+
+message GetStateStreamRequest {
+  int32 match_id = 1;
 }

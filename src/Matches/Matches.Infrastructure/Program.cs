@@ -1,5 +1,6 @@
 using MediatR;
 using FluentValidation;
+using Matches.Application;
 using Microsoft.EntityFrameworkCore;
 using Matches.Infrastructure.Configuration;
 using Matches.Infrastructure;
@@ -16,6 +17,7 @@ var pgsqlConnectionString = builder.Configuration.GetSection(nameof(Postgres)).G
 var applicationAssembly = typeof(Matches.Application.AssemblyReference).Assembly;
 
 services.AddDbContext<MatchesContext>(c => c.UseNpgsql(pgsqlConnectionString));
+services.AddSingleton<IChannelProvider, ChannelProvider>();
 services.AddScoped<IMatchRepository, MatchRepository>();
 services.AddMediatR(applicationAssembly);
 services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));

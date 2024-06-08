@@ -1,5 +1,6 @@
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Matches.Application;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Matches.Application.Commands.AddPoint;
@@ -14,6 +15,7 @@ using Matches.Application.Queries.GetMatchById;
 using Matches.Application.Queries.GetMatches;
 using Matches.Application.Queries.GetMatchMetadata;
 using Matches.Application.Queries.GetStateByIndex;
+using Microsoft.Extensions.Logging;
 using ApplicationTeam = Matches.Application.Models.Match.Team;
 using ApplicationFormat = Matches.Application.Models.Match.Format;
 using ApplicationState = Matches.Application.Models.Match.State;
@@ -25,10 +27,14 @@ namespace Matches.Presentation.Services;
 public class MatchesRpcService : Matches.MatchesBase
 {
     private readonly ISender _sender;
+    private readonly IChannelProvider _channelProvider;
+    private readonly ILogger<MatchesRpcService> _logger;
 
-    public MatchesRpcService(ISender sender)
+    public MatchesRpcService(ISender sender, IChannelProvider channelProvider, ILogger<MatchesRpcService> logger)
     {
         _sender = sender;
+        _channelProvider = channelProvider;
+        _logger = logger;
     }
 
     public override async Task<GetSummaryReply> GetSummary(GetSummaryRequest request, ServerCallContext context)
@@ -339,6 +345,46 @@ public class MatchesRpcService : Matches.MatchesBase
             Success = false,
             Error = ToggleHighlightError.ToggleHighlightUnknown
         };
+    }
+    
+    public override async Task GetStateStream(
+        GetStateStreamRequest request,
+        IServerStreamWriter<State> responseStream,
+        ServerCallContext context)
+    {
+        try
+        {
+            var getMetadataResult = await _sender.Send(new GetMatchMetadataQuery(request.MatchId));
+
+            if (getMetadataResult.IsFailure) return;
+
+            var teamOneName = getMetadataResult.Value.TeamOneName;
+            var teamTwoName = getMetadataResult.Value.TeamTwoName;
+
+            var getLatestStateResult = await _sender.Send(new GetLatestStateQuery(request.MatchId));
+
+            if (getLatestStateResult.IsFailure) return;
+
+            await responseStream.WriteAsync(CreateState(getLatestStateResult.Value, teamOneName, teamTwoName));
+
+            var reader = await _channelProvider.CreateChannel(request.MatchId, context.Peer);
+
+            while (!context.CancellationToken.IsCancellationRequested)
+            {
+                if (reader.TryRead(out var state))
+                {
+                    await responseStream.WriteAsync(CreateState(state, teamOneName, teamTwoName));
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Unexpected exception handling state stream");
+        }
+        finally
+        {
+            await _channelProvider.DeleteChannel(request.MatchId, context.Peer);
+        }
     }
     
     private State CreateState(ApplicationState state, string teamOneName, string teamTwoName)
