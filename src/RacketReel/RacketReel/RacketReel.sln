@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacketReel.Domain", "Racket
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacketReel.Application", "RacketReel.Application\RacketReel.Application.csproj", "{7CCDA520-96AE-4CAB-91BE-B1D2D62C9A44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacketReel.Web", "RacketReel.Web\RacketReel.Web.csproj", "{21068968-01A2-4649-893E-79A5BDFD7FFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{7CCDA520-96AE-4CAB-91BE-B1D2D62C9A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CCDA520-96AE-4CAB-91BE-B1D2D62C9A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CCDA520-96AE-4CAB-91BE-B1D2D62C9A44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21068968-01A2-4649-893E-79A5BDFD7FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21068968-01A2-4649-893E-79A5BDFD7FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21068968-01A2-4649-893E-79A5BDFD7FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21068968-01A2-4649-893E-79A5BDFD7FFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

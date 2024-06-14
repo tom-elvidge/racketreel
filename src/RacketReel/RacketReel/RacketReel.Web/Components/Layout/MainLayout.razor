@@ -1,0 +1,27 @@
+﻿@inherits LayoutComponentBase
+
+<InitializeTimeZone />
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<div class="page">
+    <main>
+        <div class="top-row px-4 d-flex">
+            <div>Racket Reel</div>
+            <div class="flex-grow-1"></div>
+            <div></div>
+            <a href="https://github.com/tom-elvidge/racketreel" target="_blank">About</a>
+        </div>
+
+        <div class="content px-4" style="height: 500px;">
+            @Body
+        </div>
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>

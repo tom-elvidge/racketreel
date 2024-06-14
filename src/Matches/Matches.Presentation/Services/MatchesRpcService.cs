@@ -19,11 +19,11 @@ using Microsoft.Extensions.Logging;
 using ApplicationTeam = Matches.Application.Models.Match.Team;
 using ApplicationFormat = Matches.Application.Models.Match.Format;
 using ApplicationState = Matches.Application.Models.Match.State;
+using ApplicationMetadata = Matches.Application.Models.Match.Metadata;
 
 namespace Matches.Presentation.Services;
 
 // Separate project for Presentation so it cannot access infrastructure directly
-[Authorize]
 public class MatchesRpcService : Matches.MatchesBase
 {
     private readonly ISender _sender;
@@ -164,8 +164,7 @@ public class MatchesRpcService : Matches.MatchesBase
         return new GetStateReply
         {
             Success = true,
-            State = CreateState(getStateResult.Value, getMetadataResult.Value.TeamOneName,
-                getMetadataResult.Value.TeamTwoName)
+            State = CreateState(getStateResult.Value, getMetadataResult.Value)
         };
     }
 
@@ -185,7 +184,7 @@ public class MatchesRpcService : Matches.MatchesBase
         var reply = new GetStateHistoryReply { Success = true };
         var metadata = getMetadataTask.Value;
         reply.States.AddRange(getStatesTask.Value
-            .Select(x => CreateState(x, metadata.TeamOneName, metadata.TeamTwoName)));
+            .Select(x => CreateState(x, metadata)));
         return reply;
     }
 
@@ -208,10 +207,11 @@ public class MatchesRpcService : Matches.MatchesBase
         return new GetStateReply
         {
             Success = true,
-            State = CreateState(getStateTask.Value, metadata.TeamOneName, metadata.TeamTwoName)
+            State = CreateState(getStateTask.Value, metadata)
         };
     }
 
+    [Authorize]
     public override async Task<ConfigureReply> Configure(ConfigureRequest request, ServerCallContext context)
     {
         var userId = context.GetUserId();
@@ -248,6 +248,7 @@ public class MatchesRpcService : Matches.MatchesBase
         };
     }
 
+    [Authorize]
     public override async Task<AddPointReply> AddPoint(AddPointRequest request, ServerCallContext context)
     {
         // todo add user_id and handle case where mediatr comes back with unauthenticated
@@ -280,6 +281,7 @@ public class MatchesRpcService : Matches.MatchesBase
         };
     }
 
+    [Authorize]
     public override async Task<UndoPointReply> UndoPoint(UndoPointRequest request, ServerCallContext context)
     {
         var userId = context.GetUserId();
@@ -309,6 +311,7 @@ public class MatchesRpcService : Matches.MatchesBase
 
     }
 
+    [Authorize]
     public override async Task<ToggleHighlightReply> ToggleHighlight(ToggleHighlightRequest request, ServerCallContext context)
     {
         var userId = context.GetUserId();
@@ -358,14 +361,11 @@ public class MatchesRpcService : Matches.MatchesBase
 
             if (getMetadataResult.IsFailure) return;
 
-            var teamOneName = getMetadataResult.Value.TeamOneName;
-            var teamTwoName = getMetadataResult.Value.TeamTwoName;
-
             var getLatestStateResult = await _sender.Send(new GetLatestStateQuery(request.MatchId));
 
             if (getLatestStateResult.IsFailure) return;
 
-            await responseStream.WriteAsync(CreateState(getLatestStateResult.Value, teamOneName, teamTwoName));
+            await responseStream.WriteAsync(CreateState(getLatestStateResult.Value, getMetadataResult.Value));
 
             var reader = await _channelProvider.CreateChannel(request.MatchId, context.Peer);
 
@@ -373,7 +373,7 @@ public class MatchesRpcService : Matches.MatchesBase
             {
                 if (reader.TryRead(out var state))
                 {
-                    await responseStream.WriteAsync(CreateState(state, teamOneName, teamTwoName));
+                    await responseStream.WriteAsync(CreateState(state, getMetadataResult.Value));
                 }
             }
         }
@@ -387,7 +387,7 @@ public class MatchesRpcService : Matches.MatchesBase
         }
     }
     
-    private State CreateState(ApplicationState state, string teamOneName, string teamTwoName)
+    private State CreateState(ApplicationState state, ApplicationMetadata metadata)
     {
         string PointToString(bool tiebreak, int points)
         {
@@ -415,10 +415,22 @@ public class MatchesRpcService : Matches.MatchesBase
             TeamTwoGames = state.TeamTwoGames.ToString(),
             TeamOneSets = state.TeamOneSets.ToString(),
             TeamTwoSets = state.TeamTwoSets.ToString(),
-            TeamOneName = teamOneName,
-            TeamTwoName = teamTwoName,
+            TeamOneName = metadata.TeamOneName,
+            TeamTwoName = metadata.TeamTwoName,
             Version = state.Version,
-            Completed = state.Completed
+            Completed = state.Completed,
+            Format = metadata.Format switch
+            {
+                ApplicationFormat.TiebreakToTen => Format.TiebreakToTen,
+                ApplicationFormat.BestOfOne => Format.BestOfOne,
+                ApplicationFormat.BestOfThree => Format.BestOfThree,
+                ApplicationFormat.BestOfFive => Format.BestOfFive,
+                ApplicationFormat.BestOfThreeFinalSetTiebreak => Format.BestOfThreeFst,
+                ApplicationFormat.BestOfFiveFinalSetTiebreak => Format.BestOfFiveFst,
+                ApplicationFormat.FastFour => Format.Fast4,
+                _ => throw new ArgumentOutOfRangeException($"Unexpected Format of {nameof(ApplicationFormat)}")
+            },
+            StartedAtUtc = Timestamp.FromDateTime(metadata.CreatedAt)
         };
     }
 

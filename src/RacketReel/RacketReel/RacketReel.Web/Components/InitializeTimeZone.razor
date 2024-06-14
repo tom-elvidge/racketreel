@@ -1,0 +1,24 @@
+@using RacketReel.Web.Domain
+
+@rendermode InteractiveServer
+
+@code {
+    [Inject] public BrowserTimeProvider BrowserTimeProvider { get; set; } = default!;
+    [Inject] public IJSRuntime JSRuntime { get; set; } = default!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !BrowserTimeProvider.IsLocalTimeZoneSet)
+        {
+            try
+            {
+                await using var module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./timezone.js");
+                var timeZone = await module.InvokeAsync<string>("getBrowserTimeZone");
+                BrowserTimeProvider.SetBrowserTimeZone(timeZone);
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
+    }
+}

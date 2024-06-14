@@ -230,6 +230,8 @@ message State {
   string team_one_sets = 11;
   string team_two_sets = 12;
   bool completed = 13;
+  google.protobuf.Timestamp started_at_utc = 14;
+  Format format = 15; 
 }
 
 message GetStateHistoryRequest {
