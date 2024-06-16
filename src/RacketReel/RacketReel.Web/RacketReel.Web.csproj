@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="..\..\..\Matches\Matches.Presentation\Protos\matches.proto">
+        <Protobuf Include="..\..\Matches\Matches.Presentation\Protos\matches.proto">
             <GrpcServices>Client</GrpcServices>
             <Access>Public</Access>
             <ProtoCompile>True</ProtoCompile>

@@ -27,12 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="..\.dockerignore">
-            <Link>.dockerignore</Link>
-        </Content>
-    </ItemGroup>
-
-    <ItemGroup>
         <Protobuf Include="Users\Protos\users.proto">
             <Generator>MSBuild:Compile</Generator>
         </Protobuf>
