@@ -29,7 +29,19 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
   }
 
   void _onNativeEvent(dynamic event) {
-    print("received native event $event");
+    var eventStr = event.toString();
+
+    if (eventStr == "pointToTeamOne") {
+      add(const PointToTeamOneEvent());
+    } else if (eventStr == "pointToTeamTwo") {
+      add(const PointToTeamTwoEvent());
+    } else if (eventStr == "undo") {
+      add(const UndoEvent());
+    } else if (eventStr == "toggleHighlight") {
+      add(const ToggleHighlightEvent());
+    } else {
+      print("Unhandled event $eventStr");
+    }
   }
 
   void _onInitialScoringEvent(InitialScoringEvent event, Emitter<ScoringState> emit) async {
@@ -44,9 +56,7 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
     }
 
     try {
-      print("sending new state");
-      final response = await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState, event.matchId, false));
-      print(response);
+      await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState, event.matchId, false));
     } catch (e) {
       print(e);
     }
@@ -80,13 +90,10 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
       var matchState = await scoring.getState(state.matchId!);
 
       try {
-        print("sending new state");
-        final response = await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState!, state.matchId!, false));
-        print(response);
+        await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState!, state.matchId!, false));
       } catch (e) {
         print(e);
       }
-
 
       emit(state.copyWith(
         isUpdating: false,
@@ -117,9 +124,7 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
       var lastMatchState = await scoring.getStateAtVersion(state.matchId!, matchState!.version - 1);
 
       try {
-        print("sending new state");
-        final response = await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState, state.matchId!, lastMatchState!.highlighted));
-        print(response);
+        await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState, state.matchId!, lastMatchState!.highlighted));
       } catch (e) {
         print(e);
       }
@@ -150,9 +155,7 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
     if (await scoring.toggleHighlight(state.matchId!, version - 1))
     {
       try {
-        print("sending new state");
-        final response = await methodChannel.invokeMethod("newState", _createMatchStateMap(state.matchState!, state.matchId!, !state.isLastStateHighlighted));
-        print(response);
+        await methodChannel.invokeMethod("newState", _createMatchStateMap(state.matchState!, state.matchId!, !state.isLastStateHighlighted));
       } catch (e) {
         print(e);
       }
@@ -163,12 +166,12 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
     }
   }
 
-  Map<dynamic, dynamic> _createMatchStateMap(
+  Map<String, String> _createMatchStateMap(
       MatchStateEntity matchState,
       int matchId,
       bool lastStateHighlighted) =>
       {
-        "matchId": matchId,
+        "matchId": matchId.toString(),
         "teamOnePoints": matchState.teamOnePoints,
         "teamTwoPoints": matchState.teamTwoPoints,
         "teamOneGames": matchState.teamOneGames,
@@ -177,7 +180,7 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
         "teamTwoSets": matchState.teamTwoSets,
         "teamOneName": matchState.teamOneName,
         "teamTwoName": matchState.teamTwoName,
-        "serving": matchState.servingTeam == Team.teamOne ? 1 : 2,
-        "lastStateHighlighted": lastStateHighlighted
+        "serving": matchState.servingTeam == Team.teamOne ? "1" : "2",
+        "lastStateHighlighted": lastStateHighlighted ? "true" : "false"
       };
 }

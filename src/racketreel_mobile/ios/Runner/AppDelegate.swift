@@ -21,13 +21,24 @@ import WatchConnectivity
         }
         print("WCSession activated with state: \(activationState.rawValue)")
     }
-
-    // Handle incoming messages
+    
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
-            if let value = message["key"] as? String {
-                print("Received message from watch: \(value)")
+            let value = message["key"] as? String;
+            
+            if (value == nil) {
+                return;
             }
+            
+            if (value == "pointToTeamOne" ||
+                value == "pointToTeamTwo" ||
+                value == "undo" ||
+                value == "toggleHighlight") {
+                self.eventSink?(value)
+                return;
+            }
+            
+            print("unhandled message: \(value!)")
         }
     }
     
@@ -39,57 +50,57 @@ import WatchConnectivity
         print("Session deactivated")
     }
     
-  override func application(
-    _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-  ) -> Bool {
-    GeneratedPluginRegistrant.register(with: self)
-      
-    let controller: FlutterViewController = window?.rootViewController as! FlutterViewController
-    
-    let eventChannel = FlutterEventChannel(name: "com.racketreel.app/scoring_ec", binaryMessenger: controller.binaryMessenger)
-    eventChannel.setStreamHandler(self)
-      
-    // For demonstration, send a message to Flutter after a delay
-    DispatchQueue.main.asyncAfter(deadline: .now() + 20.0) {
-        print("send hello from native")
-        self.eventSink?("hello from native")
+    override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        GeneratedPluginRegistrant.register(with: self)
+        
+        let controller: FlutterViewController = window?.rootViewController as! FlutterViewController
+        
+        // Event Channel for sending messages to Flutter
+        
+        let eventChannel = FlutterEventChannel(name: "com.racketreel.app/scoring_ec", binaryMessenger: controller.binaryMessenger)
+        eventChannel.setStreamHandler(self)
+        
+        // Method Channel for receiving messages from Flutter
+        
+        let methodChannel = FlutterMethodChannel(name: "com.racketreel.app/scoring_mc", binaryMessenger: controller.binaryMessenger)
+        
+        methodChannel.setMethodCallHandler { (call: FlutterMethodCall, result: @escaping FlutterResult) in
+            if (call.method != "newState") {
+                result(FlutterMethodNotImplemented)
+                return
+            }
+            
+            let args = call.arguments as? [String: String]
+            
+            if (args == nil) {
+                result(FlutterError(code: "INVALID_ARGUMENT", message: "Could not cast args", details: nil))
+                return;
+            }
+            
+            if (!WCSession.default.isReachable) {
+                return;
+            }
+            
+            WCSession.default.sendMessage(args!, replyHandler: nil) { (error) in
+                result(FlutterError(code: "WC_ERROR", message: "Could not forward message to watch", details: error))
+                return;
+            }
+            
+            result("ok")
+        }
+        
+        return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
-      
-    let methodChannel = FlutterMethodChannel(name: "com.racketreel.app/scoring_mc",
-                                       binaryMessenger: controller.binaryMessenger)
-    methodChannel.setMethodCallHandler { (call: FlutterMethodCall, result: @escaping FlutterResult) in
-      guard call.method == "newState" else {
-        result(FlutterMethodNotImplemented)
-        return
-      }
-      if let args = call.arguments as? [String: Any] {
-        print("Map from Flutter: \(args)")
-          if (WCSession.default.isReachable) {
-              WCSession.default.sendMessage(args, replyHandler: nil) { (error) in
-                  print("Error sending message: \(error.localizedDescription)")
-              }
-          } else {
-              print("not reachable")
-          }
-        result("ok")
-      } else {
-        result(FlutterError(code: "INVALID_ARGUMENT", message: "Map argument not found", details: nil))
-      }
-    }
-
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-  }
 }
 
 extension AppDelegate: FlutterStreamHandler {
-  func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
-    self.eventSink = events
-    return nil
-  }
+    func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+        self.eventSink = events
+        return nil
+    }
 
-  func onCancel(withArguments arguments: Any?) -> FlutterError? {
-    self.eventSink = nil
-    return nil
-  }
+    func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        self.eventSink = nil
+        return nil
+    }
 }
