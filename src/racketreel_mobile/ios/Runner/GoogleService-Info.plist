@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyCgD0jNmHZ8iqR9YCCsSTKK037IWJWtcmU</string>
+	<string>AIzaSyA6qMNbn0gUmOP76tpVN00TygsHs_9cnbY</string>
 	<key>GCM_SENDER_ID</key>
 	<string>930958136815</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.racketreel.racketreelMobile</string>
+	<string>com.racketreel.app</string>
 	<key>PROJECT_ID</key>
 	<string>racketreel-6453d</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:930958136815:ios:0068eca996f22d21abd21a</string>
+	<string>1:930958136815:ios:e37fe6233a06cdb1abd21a</string>
 </dict>
 </plist>

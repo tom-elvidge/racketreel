@@ -1,11 +1,1 @@
-{
-  "emulators": {
-    "auth": {
-      "port": 9099
-    },
-    "ui": {
-      "enabled": true
-    },
-    "singleProjectMode": true
-  }
-}
+{"emulators":{"auth":{"port":9099},"ui":{"enabled":true},"singleProjectMode":true},"flutter":{"platforms":{"android":{"default":{"projectId":"racketreel-6453d","appId":"1:930958136815:android:c7aadd346177b91aabd21a","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"racketreel-6453d","appId":"1:930958136815:ios:e37fe6233a06cdb1abd21a","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"racketreel-6453d","configurations":{"android":"1:930958136815:android:c7aadd346177b91aabd21a","ios":"1:930958136815:ios:e37fe6233a06cdb1abd21a"}}}}}}

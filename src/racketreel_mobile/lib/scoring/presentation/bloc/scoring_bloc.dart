@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:logging/logging.dart';
@@ -13,6 +14,9 @@ part 'scoring_state.dart';
 class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
   final IScoringService scoring;
   final logger = Logger((ScoringBloc).toString());
+  
+  static const methodChannel = MethodChannel('com.racketreel.app/scoring_mc');
+  static const eventChannel = EventChannel('com.racketreel.app/scoring_ec');
 
   ScoringBloc(this.scoring) : super(ScoringUpdate.initial()) {
     on<InitialScoringEvent>(_onInitialScoringEvent);
@@ -20,6 +24,12 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
     on<PointToTeamTwoEvent>(_onPointToTeamTwoEvent);
     on<UndoEvent>(_onUndoEvent);
     on<ToggleHighlightEvent>(_onToggleHighlightEvent);
+
+    eventChannel.receiveBroadcastStream().listen(_onNativeEvent);
+  }
+
+  void _onNativeEvent(dynamic event) {
+    print("received native event $event");
   }
 
   void _onInitialScoringEvent(InitialScoringEvent event, Emitter<ScoringState> emit) async {
@@ -31,6 +41,14 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
     {
       logger.info("Could not get the state from scoring");
       return;
+    }
+
+    try {
+      print("sending new state");
+      final response = await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState, event.matchId, false));
+      print(response);
+    } catch (e) {
+      print(e);
     }
 
     emit(state.copyWith(
@@ -61,6 +79,15 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
 
       var matchState = await scoring.getState(state.matchId!);
 
+      try {
+        print("sending new state");
+        final response = await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState!, state.matchId!, false));
+        print(response);
+      } catch (e) {
+        print(e);
+      }
+
+
       emit(state.copyWith(
         isUpdating: false,
         matchState: matchState,
@@ -89,6 +116,14 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
 
       var lastMatchState = await scoring.getStateAtVersion(state.matchId!, matchState!.version - 1);
 
+      try {
+        print("sending new state");
+        final response = await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState, state.matchId!, lastMatchState!.highlighted));
+        print(response);
+      } catch (e) {
+        print(e);
+      }
+
       emit(state.copyWith(
         isUpdating: false,
         matchState: matchState,
@@ -114,9 +149,35 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
 
     if (await scoring.toggleHighlight(state.matchId!, version - 1))
     {
+      try {
+        print("sending new state");
+        final response = await methodChannel.invokeMethod("newState", _createMatchStateMap(state.matchState!, state.matchId!, !state.isLastStateHighlighted));
+        print(response);
+      } catch (e) {
+        print(e);
+      }
+
       emit(state.copyWith(
         isLastStateHighlighted: !state.isLastStateHighlighted
       ));
     }
   }
+
+  Map<dynamic, dynamic> _createMatchStateMap(
+      MatchStateEntity matchState,
+      int matchId,
+      bool lastStateHighlighted) =>
+      {
+        "matchId": matchId,
+        "teamOnePoints": matchState.teamOnePoints,
+        "teamTwoPoints": matchState.teamTwoPoints,
+        "teamOneGames": matchState.teamOneGames,
+        "teamTwoGames": matchState.teamTwoGames,
+        "teamOneSets": matchState.teamOneSets,
+        "teamTwoSets": matchState.teamTwoSets,
+        "teamOneName": matchState.teamOneName,
+        "teamTwoName": matchState.teamTwoName,
+        "serving": matchState.servingTeam == Team.teamOne ? 1 : 2,
+        "lastStateHighlighted": lastStateHighlighted
+      };
 }

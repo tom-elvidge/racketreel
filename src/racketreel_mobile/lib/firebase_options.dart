@@ -58,11 +58,12 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCgD0jNmHZ8iqR9YCCsSTKK037IWJWtcmU',
-    appId: '1:930958136815:ios:0068eca996f22d21abd21a',
+    apiKey: 'AIzaSyA6qMNbn0gUmOP76tpVN00TygsHs_9cnbY',
+    appId: '1:930958136815:ios:e37fe6233a06cdb1abd21a',
     messagingSenderId: '930958136815',
     projectId: 'racketreel-6453d',
     storageBucket: 'racketreel-6453d.appspot.com',
-    iosBundleId: 'com.racketreel.racketreelMobile',
+    iosBundleId: 'com.racketreel.app',
   );
+
 }
