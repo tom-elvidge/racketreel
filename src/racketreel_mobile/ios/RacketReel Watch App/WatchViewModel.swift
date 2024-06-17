@@ -25,9 +25,10 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     // Handle incoming messages
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
-            if let value = message["key"] as? String {
-                self.receivedMessage = "Received: \(value)"
-                print("Received message from iOS: \(value)")
+            print("received a message")
+            if let value = message["teamOnePoints"] as? String {
+                self.receivedMessage = "Team one points: \(value)"
+                print("Team one points: \(value)")
             }
         }
     }

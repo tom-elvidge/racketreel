@@ -69,6 +69,8 @@ import WatchConnectivity
               WCSession.default.sendMessage(args, replyHandler: nil) { (error) in
                   print("Error sending message: \(error.localizedDescription)")
               }
+          } else {
+              print("not reachable")
           }
         result("ok")
       } else {
