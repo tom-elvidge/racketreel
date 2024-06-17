@@ -1,24 +1,17 @@
-//
-//  ContentView.swift
-//  RacketReel Watch App
-//
-//  Created by Tom Elvidge on 16/06/2024.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var viewModel: WatchViewModel
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text(viewModel.receivedMessage)
+                .padding()
+            Button(action: {
+                viewModel.sendMessageToiOS()
+            }) {
+                Text("Send Message to iOS")
+            }
         }
-        .padding()
     }
-}
-
-#Preview {
-    ContentView()
 }

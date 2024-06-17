@@ -22,6 +22,7 @@
 		E227DC692C1F4FC900B6DF61 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E227DC682C1F4FC900B6DF61 /* Assets.xcassets */; };
 		E227DC6C2C1F4FC900B6DF61 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E227DC6B2C1F4FC900B6DF61 /* Preview Assets.xcassets */; };
 		E227DC702C1F4FCA00B6DF61 /* RacketReel Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = E227DC622C1F4FC600B6DF61 /* RacketReel Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E277F6432C204A2900E5D1FD /* WatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E277F6422C204A2900E5D1FD /* WatchViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,7 @@
 		E227DC682C1F4FC900B6DF61 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E227DC6B2C1F4FC900B6DF61 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E277F6402C20362A00E5D1FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E277F6422C204A2900E5D1FD /* WatchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 				E227DC662C1F4FC600B6DF61 /* ContentView.swift */,
 				E227DC682C1F4FC900B6DF61 /* Assets.xcassets */,
 				E227DC6A2C1F4FC900B6DF61 /* Preview Content */,
+				E277F6422C204A2900E5D1FD /* WatchViewModel.swift */,
 			);
 			path = "RacketReel Watch App";
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E227DC672C1F4FC600B6DF61 /* ContentView.swift in Sources */,
+				E277F6432C204A2900E5D1FD /* WatchViewModel.swift in Sources */,
 				E227DC652C1F4FC600B6DF61 /* RacketReelApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
