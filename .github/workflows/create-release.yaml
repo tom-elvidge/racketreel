@@ -1,0 +1,96 @@
+name: Create Release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+        default: 'v0.0.1'
+        type: string
+env:
+  REGISTRY: ghcr.io
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+    steps:
+    - name: Log in to the Container registry
+      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.x
+    - name: Install dotnet-ef
+      run: dotnet tool install --global dotnet-ef
+    - name: Build RacketReel
+      working-directory: src/RacketReel/RacketReel.Infrastructure
+      run: dotnet build
+    - name: Create migration bundle RacketReel
+      working-directory: src/RacketReel/RacketReel.Infrastructure
+      run: dotnet ef migrations bundle --self-contained -r linux-x64
+    - name: Build Matches
+      working-directory: src/Matches/Matches.Infrastructure
+      run: dotnet build
+    - name: Create migration bundle Matches
+      working-directory: src/Matches/Matches.Infrastructure
+      run: dotnet ef migrations bundle --self-contained -r linux-x64
+    - name: Create release
+      id: create_release
+      uses: ncipollo/release-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ inputs.version }}
+    - name: Upload migration bundle to release for racketreel-api
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: src/RacketReel/RacketReel.Infrastructure/efbundle
+        asset_name: racketreel-api-efbundle
+        tag: ${{ inputs.version }}
+    - name: Upload migration bundle to release for racketreel-matches
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: src/Matches/Matches.Infrastructure/efbundle
+        asset_name: racketreel-matches-efbundle
+        tag: ${{ inputs.version }}
+    - name: Build and push Docker image for racketreel-api
+      id: push-racketreel-api
+      uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+      with:
+        context: src
+        target: racketreel-api
+        push: true
+        tags: |
+          ${{ env.REGISTRY }}/${{ github.repository_owner }}/racketreel-api:${{ inputs.version }}
+          ${{ env.REGISTRY }}/${{ github.repository_owner }}/racketreel-api:latest
+    - name: Build and push Docker image for racketreel-web
+      id: push-racketreel-web
+      uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+      with:
+        context: src
+        target: racketreel-web
+        push: true
+        tags: |
+          ${{ env.REGISTRY }}/${{ github.repository_owner }}/racketreel-web:${{ inputs.version }}
+          ${{ env.REGISTRY }}/${{ github.repository_owner }}/racketreel-web:latest
+    - name: Build and push Docker image for racketreel-matches
+      id: push-matches
+      uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+      with:
+        context: src
+        target: racketreel-matches
+        push: true
+        tags: |
+          ${{ env.REGISTRY }}/${{ github.repository_owner }}/racketreel-matches:${{ inputs.version }}
+          ${{ env.REGISTRY }}/${{ github.repository_owner }}/racketreel-matches:latest
