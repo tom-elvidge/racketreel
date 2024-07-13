@@ -23,7 +23,7 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Swift.Error?) {
         if let error = error {
             print("WCSession activation failed with error: \(error.localizedDescription)")
             return
