@@ -78,6 +78,7 @@ import WatchConnectivity
             }
             
             if (!WCSession.default.isReachable) {
+                result("ok")
                 return;
             }
             
