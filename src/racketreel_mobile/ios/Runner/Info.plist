@@ -47,5 +47,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>NSHealthShareUsageDescription</key>
+    <string>We require access to your health data to record workouts while you play tennis.</string>
 </dict>
 </plist>

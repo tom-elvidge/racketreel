@@ -98,6 +98,8 @@
 		E227DC6B2C1F4FC900B6DF61 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E277F6402C20362A00E5D1FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E277F6422C204A2900E5D1FD /* WatchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchViewModel.swift; sourceTree = "<group>"; };
+		E2D4F1422C42F384001A603E /* RacketReel Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RacketReel Watch App.entitlements"; sourceTree = "<group>"; };
+		E2D4F1432C42F7D2001A603E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,11 +213,13 @@
 		E227DC632C1F4FC600B6DF61 /* RacketReel Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				E2D4F1422C42F384001A603E /* RacketReel Watch App.entitlements */,
 				E227DC642C1F4FC600B6DF61 /* RacketReelApp.swift */,
 				E227DC662C1F4FC600B6DF61 /* ContentView.swift */,
 				E227DC682C1F4FC900B6DF61 /* Assets.xcassets */,
 				E227DC6A2C1F4FC900B6DF61 /* Preview Content */,
 				E277F6422C204A2900E5D1FD /* WatchViewModel.swift */,
+				E2D4F1432C42F7D2001A603E /* Info.plist */,
 			);
 			path = "RacketReel Watch App";
 			sourceTree = "<group>";
@@ -635,11 +639,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				ENABLE_TESTABILITY = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WATCHOS_DEPLOYMENT_TARGET = 10.5;
 			};
 			name = Debug;
@@ -721,6 +727,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "RacketReel Watch App/RacketReel Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RacketReel Watch App/Preview Content\"";
@@ -728,7 +735,9 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RacketReel Watch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = RacketReel;
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We record each match as a workout and add it to Apple Health.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.racketreel.app;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -757,6 +766,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "RacketReel Watch App/RacketReel Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RacketReel Watch App/Preview Content\"";
@@ -764,7 +774,9 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RacketReel Watch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = RacketReel;
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We record each match as a workout and add it to Apple Health.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.racketreel.app;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -791,6 +803,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "RacketReel Watch App/RacketReel Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RacketReel Watch App/Preview Content\"";
@@ -798,7 +811,9 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RacketReel Watch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = RacketReel;
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We record each match as a workout and add it to Apple Health.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.racketreel.app;
 				LD_RUNPATH_SEARCH_PATHS = (
