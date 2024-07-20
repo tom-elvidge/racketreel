@@ -70,6 +70,8 @@
 
     private Timer? _timer;
 
+    private readonly CancellationTokenSource _cts = new();
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -86,8 +88,8 @@
                 null,
                 0,
                 1000);
-            
-            await foreach (var matchState in MatchesProvider.GetMatchStateStream(int.Parse(MatchId!)))
+
+            await foreach (var matchState in MatchesProvider.GetMatchStateStream(int.Parse(MatchId!), _cts.Token))
             {
                 _matchState = matchState;
                 StateHasChanged();
@@ -129,6 +131,7 @@
 
     public void Dispose()
     {
+        _cts.Cancel();
         _timer?.Dispose();
     }
 }

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Matches.Presentation;
@@ -25,7 +26,8 @@ public record MatchState(
 public interface IMatchesProvider
 {
     public IAsyncEnumerable<MatchState> GetMatchStateStream(
-        int matchId, CancellationToken ct = default);
+        int matchId,
+        CancellationToken ct = default);
 }
 
 public class MatchesProvider : IMatchesProvider
@@ -40,7 +42,8 @@ public class MatchesProvider : IMatchesProvider
     }
 
     public async IAsyncEnumerable<MatchState> GetMatchStateStream(
-        int matchId, CancellationToken ct = default)
+        int matchId,
+        [EnumeratorCancellation] CancellationToken ct = default)
     {
         // ReSharper disable once RedundantNameQualifier
         var request = new Matches.Presentation.GetStateStreamRequest { MatchId = matchId };
@@ -53,6 +56,8 @@ public class MatchesProvider : IMatchesProvider
             
             if (state.Completed) yield break;
         }
+        
+        stream.Dispose();
     }
 
     private MatchState CreateMatchState(int matchId, State state) => new MatchState(
