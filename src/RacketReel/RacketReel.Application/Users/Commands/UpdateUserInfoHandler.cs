@@ -8,6 +8,7 @@ public record UpdateUserInfoCommand(UserId Id, string? DisplayName = null, strin
 
 public class UpdateUserInfoHandler(
     ILogger<UpdateUserInfoHandler> logger,
+    TimeProvider timeProvider,
     IUserInfoRepository repository) : ICommandHandler<UpdateUserInfoCommand>
 {
     public async Task<Result> Handle(UpdateUserInfoCommand request, CancellationToken cancellationToken)
@@ -17,7 +18,15 @@ public class UpdateUserInfoHandler(
             var userInfoEntity = repository.GetUserInfoEntity(request.Id);
 
             if (userInfoEntity == null)
-                return Result.Failure(ApplicationErrors.NotFound);
+            {
+                var newUserInfoEntity = new UserInfoEntity();
+            
+                newUserInfoEntity.Create(request.Id, timeProvider.GetUtcNow());
+
+                repository.AddUserInfoEntity(newUserInfoEntity);
+
+                userInfoEntity = newUserInfoEntity;
+            }
 
             if (request.DisplayName != null)
                 userInfoEntity.SetDisplayName(request.DisplayName);
