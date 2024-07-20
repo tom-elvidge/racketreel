@@ -24,6 +24,7 @@ const Format$json = {
     {'1': 'BEST_OF_FIVE', '2': 4},
     {'1': 'BEST_OF_FIVE_FST', '2': 5},
     {'1': 'FAST4', '2': 6},
+    {'1': 'LTA_CAMBRIDGE_DOUBLES_LEAGUE', '2': 7},
   ],
 };
 
@@ -31,7 +32,8 @@ const Format$json = {
 final $typed_data.Uint8List formatDescriptor = $convert.base64Decode(
     'CgZGb3JtYXQSDwoLQkVTVF9PRl9PTkUQABITCg9USUVCUkVBS19UT19URU4QARIRCg1CRVNUX0'
     '9GX1RIUkVFEAISFQoRQkVTVF9PRl9USFJFRV9GU1QQAxIQCgxCRVNUX09GX0ZJVkUQBBIUChBC'
-    'RVNUX09GX0ZJVkVfRlNUEAUSCQoFRkFTVDQQBg==');
+    'RVNUX09GX0ZJVkVfRlNUEAUSCQoFRkFTVDQQBhIgChxMVEFfQ0FNQlJJREdFX0RPVUJMRVNfTE'
+    'VBR1VFEAc=');
 
 @$core.Deprecated('Use teamDescriptor instead')
 const Team$json = {
@@ -507,6 +509,8 @@ const State$json = {
     {'1': 'team_one_sets', '3': 11, '4': 1, '5': 9, '10': 'teamOneSets'},
     {'1': 'team_two_sets', '3': 12, '4': 1, '5': 9, '10': 'teamTwoSets'},
     {'1': 'completed', '3': 13, '4': 1, '5': 8, '10': 'completed'},
+    {'1': 'started_at_utc', '3': 14, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startedAtUtc'},
+    {'1': 'format', '3': 15, '4': 1, '5': 14, '6': '.RacketReel.Format', '10': 'format'},
   ],
 };
 
@@ -521,7 +525,9 @@ final $typed_data.Uint8List stateDescriptor = $convert.base64Decode(
     'dGVhbV9vbmVfZ2FtZXMYCSABKAlSDHRlYW1PbmVHYW1lcxIkCg50ZWFtX3R3b19nYW1lcxgKIA'
     'EoCVIMdGVhbVR3b0dhbWVzEiIKDXRlYW1fb25lX3NldHMYCyABKAlSC3RlYW1PbmVTZXRzEiIK'
     'DXRlYW1fdHdvX3NldHMYDCABKAlSC3RlYW1Ud29TZXRzEhwKCWNvbXBsZXRlZBgNIAEoCFIJY2'
-    '9tcGxldGVk');
+    '9tcGxldGVkEkAKDnN0YXJ0ZWRfYXRfdXRjGA4gASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVz'
+    'dGFtcFIMc3RhcnRlZEF0VXRjEioKBmZvcm1hdBgPIAEoDjISLlJhY2tldFJlZWwuRm9ybWF0Ug'
+    'Zmb3JtYXQ=');
 
 @$core.Deprecated('Use getStateHistoryRequestDescriptor instead')
 const GetStateHistoryRequest$json = {
@@ -562,4 +568,16 @@ const GetStateAtVersionRequest$json = {
 final $typed_data.Uint8List getStateAtVersionRequestDescriptor = $convert.base64Decode(
     'ChhHZXRTdGF0ZUF0VmVyc2lvblJlcXVlc3QSGQoIbWF0Y2hfaWQYASABKAVSB21hdGNoSWQSGA'
     'oHdmVyc2lvbhgCIAEoBVIHdmVyc2lvbg==');
+
+@$core.Deprecated('Use getStateStreamRequestDescriptor instead')
+const GetStateStreamRequest$json = {
+  '1': 'GetStateStreamRequest',
+  '2': [
+    {'1': 'match_id', '3': 1, '4': 1, '5': 5, '10': 'matchId'},
+  ],
+};
+
+/// Descriptor for `GetStateStreamRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getStateStreamRequestDescriptor = $convert.base64Decode(
+    'ChVHZXRTdGF0ZVN0cmVhbVJlcXVlc3QSGQoIbWF0Y2hfaWQYASABKAVSB21hdGNoSWQ=');
 

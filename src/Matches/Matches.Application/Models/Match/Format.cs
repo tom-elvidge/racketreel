@@ -38,5 +38,10 @@ public enum Format
     /// FAST4TENNIS
     /// https://www4.lta.org.uk/globalassets/competitions/rules-and-regulations/fast4-scoring-format--rules-january-2021-v3.pdf
     /// </summary>
-    FastFour = 6
+    FastFour = 6,
+    
+    /// <summary>
+    /// Cambridge doubles league
+    /// </summary>
+    LtaCambridgeDoublesLeague = 7
 }

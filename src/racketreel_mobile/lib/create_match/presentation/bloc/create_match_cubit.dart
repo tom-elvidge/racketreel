@@ -81,6 +81,9 @@ class CreateMatchFormatCubit extends Cubit<CreateMatchState> {
       case MatchFormat.fastFour:
         format = Format.FAST4;
         break;
+      case MatchFormat.ltaCambridgeDoublesLeague:
+        format = Format.LTA_CAMBRIDGE_DOUBLES_LEAGUE;
+        break;
       default:
         format = Format.BEST_OF_THREE;
         break;

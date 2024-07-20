@@ -6,5 +6,6 @@ enum MatchFormat
   bestOfThreeFinalSetTiebreak,
   bestOfFive,
   bestOfFiveFinalSetTiebreak,
-  fastFour
+  fastFour,
+  ltaCambridgeDoublesLeague
 }

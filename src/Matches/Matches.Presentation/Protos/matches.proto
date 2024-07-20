@@ -60,6 +60,7 @@ enum Format {
   BEST_OF_FIVE = 4;
   BEST_OF_FIVE_FST = 5;
   FAST4 = 6;
+  LTA_CAMBRIDGE_DOUBLES_LEAGUE = 7;
 }
 
 enum Team {

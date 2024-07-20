@@ -46,6 +46,7 @@ public class CreateMatchCommandHandler : ICommandHandler<CreateMatchCommand, Sta
         Match_Format.BestOfFive => BestOfFive.Create(),
         Match_Format.BestOfFiveFinalSetTiebreak => BestOfThreeFinalSetTiebreak.Create(),
         Match_Format.FastFour => FastFour.Create(),
+        Match_Format.LtaCambridgeDoublesLeague => LtaCambridgeDoublesLeague.Create(),
         _ => throw new ArgumentException($"Format {format} is not supported by domain")
     };
 }

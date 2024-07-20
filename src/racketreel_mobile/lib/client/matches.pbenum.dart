@@ -21,6 +21,7 @@ class Format extends $pb.ProtobufEnum {
   static const Format BEST_OF_FIVE = Format._(4, _omitEnumNames ? '' : 'BEST_OF_FIVE');
   static const Format BEST_OF_FIVE_FST = Format._(5, _omitEnumNames ? '' : 'BEST_OF_FIVE_FST');
   static const Format FAST4 = Format._(6, _omitEnumNames ? '' : 'FAST4');
+  static const Format LTA_CAMBRIDGE_DOUBLES_LEAGUE = Format._(7, _omitEnumNames ? '' : 'LTA_CAMBRIDGE_DOUBLES_LEAGUE');
 
   static const $core.List<Format> values = <Format> [
     BEST_OF_ONE,
@@ -30,6 +31,7 @@ class Format extends $pb.ProtobufEnum {
     BEST_OF_FIVE,
     BEST_OF_FIVE_FST,
     FAST4,
+    LTA_CAMBRIDGE_DOUBLES_LEAGUE,
   ];
 
   static final $core.Map<$core.int, Format> _byValue = $pb.ProtobufEnum.initByValue(values);

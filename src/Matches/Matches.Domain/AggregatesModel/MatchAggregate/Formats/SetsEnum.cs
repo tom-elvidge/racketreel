@@ -11,6 +11,11 @@ public enum SetsEnum
     _1Enum = 1,
     
     /// <summary>
+    /// Enum _1Enum for 2
+    /// </summary>
+    _2Enum = 2,
+    
+    /// <summary>
     /// Enum _3Enum for 3
     /// </summary>
     _3Enum = 3,

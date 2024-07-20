@@ -230,6 +230,7 @@ public class MatchesRpcService : Matches.MatchesBase
                 Format.TiebreakToTen => ApplicationFormat.TiebreakToTen,
                 Format.BestOfFiveFst => ApplicationFormat.BestOfFiveFinalSetTiebreak,
                 Format.BestOfThreeFst => ApplicationFormat.BestOfThreeFinalSetTiebreak,
+                Format.LtaCambridgeDoublesLeague => ApplicationFormat.LtaCambridgeDoublesLeague,
                 _ => throw new ArgumentException($"Missing format for {request.Format}")
             });
         var result = await _sender.Send(command);
@@ -428,6 +429,7 @@ public class MatchesRpcService : Matches.MatchesBase
                 ApplicationFormat.BestOfThreeFinalSetTiebreak => Format.BestOfThreeFst,
                 ApplicationFormat.BestOfFiveFinalSetTiebreak => Format.BestOfFiveFst,
                 ApplicationFormat.FastFour => Format.Fast4,
+                ApplicationFormat.LtaCambridgeDoublesLeague => Format.LtaCambridgeDoublesLeague,
                 _ => throw new ArgumentOutOfRangeException($"Unexpected Format of {nameof(ApplicationFormat)}")
             },
             StartedAtUtc = Timestamp.FromDateTime(metadata.CreatedAt)
@@ -450,6 +452,7 @@ public class MatchesRpcService : Matches.MatchesBase
                 ApplicationFormat.BestOfThreeFinalSetTiebreak => Format.BestOfThreeFst,
                 ApplicationFormat.BestOfFiveFinalSetTiebreak => Format.BestOfFiveFst,
                 ApplicationFormat.FastFour => Format.Fast4,
+                ApplicationFormat.LtaCambridgeDoublesLeague => Format.LtaCambridgeDoublesLeague,
                 _ => throw new ArgumentOutOfRangeException($"Unexpected Format of {nameof(ApplicationFormat)}")
             },
             MatchId = match.Id,
@@ -523,6 +526,7 @@ public class MatchesRpcService : Matches.MatchesBase
                 ApplicationFormat.BestOfThreeFinalSetTiebreak => Format.BestOfThreeFst,
                 ApplicationFormat.BestOfFiveFinalSetTiebreak => Format.BestOfFiveFst,
                 ApplicationFormat.FastFour => Format.Fast4,
+                ApplicationFormat.LtaCambridgeDoublesLeague => Format.LtaCambridgeDoublesLeague,
                 _ => throw new ArgumentOutOfRangeException($"Unexpected Format of {nameof(ApplicationFormat)}")
             },
             MatchId = match.Id,

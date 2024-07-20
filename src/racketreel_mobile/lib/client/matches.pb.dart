@@ -1724,6 +1724,8 @@ class State extends $pb.GeneratedMessage {
     $core.String? teamOneSets,
     $core.String? teamTwoSets,
     $core.bool? completed,
+    $1.Timestamp? startedAtUtc,
+    Format? format,
   }) {
     final $result = create();
     if (version != null) {
@@ -1765,6 +1767,12 @@ class State extends $pb.GeneratedMessage {
     if (completed != null) {
       $result.completed = completed;
     }
+    if (startedAtUtc != null) {
+      $result.startedAtUtc = startedAtUtc;
+    }
+    if (format != null) {
+      $result.format = format;
+    }
     return $result;
   }
   State._() : super();
@@ -1785,6 +1793,8 @@ class State extends $pb.GeneratedMessage {
     ..aOS(11, _omitFieldNames ? '' : 'teamOneSets')
     ..aOS(12, _omitFieldNames ? '' : 'teamTwoSets')
     ..aOB(13, _omitFieldNames ? '' : 'completed')
+    ..aOM<$1.Timestamp>(14, _omitFieldNames ? '' : 'startedAtUtc', subBuilder: $1.Timestamp.create)
+    ..e<Format>(15, _omitFieldNames ? '' : 'format', $pb.PbFieldType.OE, defaultOrMaker: Format.BEST_OF_ONE, valueOf: Format.valueOf, enumValues: Format.values)
     ..hasRequiredFields = false
   ;
 
@@ -1927,6 +1937,26 @@ class State extends $pb.GeneratedMessage {
   $core.bool hasCompleted() => $_has(12);
   @$pb.TagNumber(13)
   void clearCompleted() => clearField(13);
+
+  @$pb.TagNumber(14)
+  $1.Timestamp get startedAtUtc => $_getN(13);
+  @$pb.TagNumber(14)
+  set startedAtUtc($1.Timestamp v) { setField(14, v); }
+  @$pb.TagNumber(14)
+  $core.bool hasStartedAtUtc() => $_has(13);
+  @$pb.TagNumber(14)
+  void clearStartedAtUtc() => clearField(14);
+  @$pb.TagNumber(14)
+  $1.Timestamp ensureStartedAtUtc() => $_ensure(13);
+
+  @$pb.TagNumber(15)
+  Format get format => $_getN(14);
+  @$pb.TagNumber(15)
+  set format(Format v) { setField(15, v); }
+  @$pb.TagNumber(15)
+  $core.bool hasFormat() => $_has(14);
+  @$pb.TagNumber(15)
+  void clearFormat() => clearField(15);
 }
 
 class GetStateHistoryRequest extends $pb.GeneratedMessage {
@@ -2099,6 +2129,56 @@ class GetStateAtVersionRequest extends $pb.GeneratedMessage {
   $core.bool hasVersion() => $_has(1);
   @$pb.TagNumber(2)
   void clearVersion() => clearField(2);
+}
+
+class GetStateStreamRequest extends $pb.GeneratedMessage {
+  factory GetStateStreamRequest({
+    $core.int? matchId,
+  }) {
+    final $result = create();
+    if (matchId != null) {
+      $result.matchId = matchId;
+    }
+    return $result;
+  }
+  GetStateStreamRequest._() : super();
+  factory GetStateStreamRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetStateStreamRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStateStreamRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'matchId', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetStateStreamRequest clone() => GetStateStreamRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetStateStreamRequest copyWith(void Function(GetStateStreamRequest) updates) => super.copyWith((message) => updates(message as GetStateStreamRequest)) as GetStateStreamRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetStateStreamRequest create() => GetStateStreamRequest._();
+  GetStateStreamRequest createEmptyInstance() => create();
+  static $pb.PbList<GetStateStreamRequest> createRepeated() => $pb.PbList<GetStateStreamRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetStateStreamRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetStateStreamRequest>(create);
+  static GetStateStreamRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get matchId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set matchId($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasMatchId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMatchId() => clearField(1);
 }
 
 

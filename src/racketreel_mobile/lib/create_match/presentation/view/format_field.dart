@@ -38,7 +38,8 @@ class FormatHelpers {
     MatchFormat.bestOfThreeFinalSetTiebreak: "Best of three sets with a final set tiebreak",
     MatchFormat.bestOfFive: 'Best of five sets',
     MatchFormat.bestOfFiveFinalSetTiebreak: 'Best of five sets with a final set tiebreak',
-    MatchFormat.fastFour: 'FAST4'
+    MatchFormat.fastFour: 'FAST4',
+    MatchFormat.ltaCambridgeDoublesLeague: "LTA Cambridge doubles league (two sets)"
   };
 
   static String friendlyName(MatchFormat format) {

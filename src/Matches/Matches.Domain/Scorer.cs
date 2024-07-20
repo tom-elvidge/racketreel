@@ -23,6 +23,12 @@ public static class Scorer
             return true;
         }
 
+        // Draw allowed
+        if (format.Sets == SetsEnum._2Enum && state.Score.P1Sets == 1 && state.Score.P2Sets == 1)
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -39,6 +45,9 @@ public static class Scorer
         {
             case SetsEnum._1Enum:
                 if (set == 0) return true;
+                break;
+            case SetsEnum._2Enum:
+                if (set == 1) return true;
                 break;
             case SetsEnum._3Enum:
                 if (set == 2) return true;
@@ -103,6 +112,9 @@ public static class Scorer
         switch(format.Sets) {
             case SetsEnum._1Enum:
                 return 1;
+            case SetsEnum._2Enum:
+                // can only win if you win both sets
+                return 2;
             case SetsEnum._3Enum:
                 return 2;
             case SetsEnum._5Enum:

@@ -65,6 +65,10 @@ class MatchesClient extends $grpc.Client {
       '/RacketReel.Matches/ToggleHighlight',
       ($0.ToggleHighlightRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.ToggleHighlightReply.fromBuffer(value));
+  static final _$getStateStream = $grpc.ClientMethod<$0.GetStateStreamRequest, $0.State>(
+      '/RacketReel.Matches/GetStateStream',
+      ($0.GetStateStreamRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.State.fromBuffer(value));
 
   MatchesClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -114,6 +118,10 @@ class MatchesClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.ToggleHighlightReply> toggleHighlight($0.ToggleHighlightRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$toggleHighlight, request, options: options);
+  }
+
+  $grpc.ResponseStream<$0.State> getStateStream($0.GetStateStreamRequest request, {$grpc.CallOptions? options}) {
+    return $createStreamingCall(_$getStateStream, $async.Stream.fromIterable([request]), options: options);
   }
 }
 
@@ -199,6 +207,13 @@ abstract class MatchesServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.ToggleHighlightRequest.fromBuffer(value),
         ($0.ToggleHighlightReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.GetStateStreamRequest, $0.State>(
+        'GetStateStream',
+        getStateStream_Pre,
+        false,
+        true,
+        ($core.List<$core.int> value) => $0.GetStateStreamRequest.fromBuffer(value),
+        ($0.State value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.GetSummaryReply> getSummary_Pre($grpc.ServiceCall call, $async.Future<$0.GetSummaryRequest> request) async {
@@ -245,6 +260,10 @@ abstract class MatchesServiceBase extends $grpc.Service {
     return toggleHighlight(call, await request);
   }
 
+  $async.Stream<$0.State> getStateStream_Pre($grpc.ServiceCall call, $async.Future<$0.GetStateStreamRequest> request) async* {
+    yield* getStateStream(call, await request);
+  }
+
   $async.Future<$0.GetSummaryReply> getSummary($grpc.ServiceCall call, $0.GetSummaryRequest request);
   $async.Future<$0.GetSummariesReply> getSummaries($grpc.ServiceCall call, $0.GetSummariesRequest request);
   $async.Future<$0.GetSummaryV2Reply> getSummaryV2($grpc.ServiceCall call, $0.GetSummaryRequest request);
@@ -256,4 +275,5 @@ abstract class MatchesServiceBase extends $grpc.Service {
   $async.Future<$0.AddPointReply> addPoint($grpc.ServiceCall call, $0.AddPointRequest request);
   $async.Future<$0.UndoPointReply> undoPoint($grpc.ServiceCall call, $0.UndoPointRequest request);
   $async.Future<$0.ToggleHighlightReply> toggleHighlight($grpc.ServiceCall call, $0.ToggleHighlightRequest request);
+  $async.Stream<$0.State> getStateStream($grpc.ServiceCall call, $0.GetStateStreamRequest request);
 }
