@@ -94,6 +94,8 @@ class FeedItemRepository implements IFeedItemRepository {
         return "FAST4";
       case service.Format.TIEBREAK_TO_TEN:
         return "Tiebreak to 10";
+      case service.Format.LTA_CAMBRIDGE_DOUBLES_LEAGUE:
+        return "LTA Cambridge Doubles League";
       default:
         return "Unknown match format";
     }
@@ -123,7 +125,7 @@ class FeedItemRepository implements IFeedItemRepository {
         summary.teamTwoName,
         summary.teamOneSets.toString(),
         summary.teamTwoSets.toString(),
-        summary.teamOneSets > summary.teamTwoSets,
+        summary.teamOneSets == summary.teamTwoSets ? null : summary.teamOneSets > summary.teamTwoSets,
         summary.teamOneSetScores.map((e) => TeamSetScore(
             e.setNumber,
             e.games,

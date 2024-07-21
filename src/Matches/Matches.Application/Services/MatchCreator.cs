@@ -118,6 +118,10 @@ public static class MatchCreator
         {
             return Models_Match_Format.FastFour;
         }
+        if (format.Equals(LtaCambridgeDoublesLeague.Create()))
+        {
+            return Models_Match_Format.LtaCambridgeDoublesLeague;
+        }
         throw new ApplicationException($"format {format} is not recognized as an option");
     }
 }

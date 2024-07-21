@@ -107,12 +107,12 @@ class FeedItem extends StatelessWidget {
           ),
           FinalScoreRow(
               name: feedItem.teamOneName,
-              matchWon: feedItem.matchWonByTeamOne,
+              matchWon: feedItem.matchWonByTeamOne ?? false,
               totalSetsWon: feedItem.teamOneSets,
               setScores: feedItem.teamOneSetScores),
           FinalScoreRow(
               name: feedItem.teamTwoName,
-              matchWon: !feedItem.matchWonByTeamOne,
+              matchWon: !(feedItem.matchWonByTeamOne ?? true),
               totalSetsWon: feedItem.teamTwoSets,
               setScores: feedItem.teamTwoSetScores),
         ],

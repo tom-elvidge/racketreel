@@ -8,7 +8,7 @@ class FeedItemV2Entity {
   String teamTwoName;
   String teamOneSets;
   String teamTwoSets;
-  bool matchWonByTeamOne;
+  bool? matchWonByTeamOne;
   List<TeamSetScore> teamOneSetScores;
   List<TeamSetScore> teamTwoSetScores;
   String datetime;
