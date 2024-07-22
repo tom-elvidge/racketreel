@@ -4,50 +4,27 @@ import WatchConnectivity
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate, WCSessionDelegate {
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {}
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {}
+    
+    func sessionDidDeactivate(_ session: WCSession) {}
+    
     private var eventSink: FlutterEventSink?
     
     override init() {
         super.init()
+        
         if WCSession.isSupported() {
             WCSession.default.delegate = self
             WCSession.default.activate()
         }
     }
     
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
-        if let error = error {
-            print("WCSession activation failed with error: \(error.localizedDescription)")
-            return
-        }
-        print("WCSession activated with state: \(activationState.rawValue)")
-    }
-    
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        DispatchQueue.main.async {
-            let value = message["key"] as? String;
-            
-            if (value == nil) {
-                return;
-            }
-            
-            if (value == "pointToTeamOne" ||
-                value == "pointToTeamTwo" ||
-                value == "undo" ||
-                value == "toggleHighlight") {
-                self.eventSink?(value)
-                return;
-            }
-            
-            print("unhandled message: \(value!)")
-        }
-    }
-    
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        print("Session became inactive")
-    }
-    
-    func sessionDidDeactivate(_ session: WCSession) {
-        print("Session deactivated")
+    public func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
+        // Try send the message over the event channel
+        // Can do application level retries if needed here but should be stable
+        self.eventSink?(userInfo)
     }
     
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -65,29 +42,28 @@ import WatchConnectivity
         let methodChannel = FlutterMethodChannel(name: "com.racketreel.app/scoring_mc", binaryMessenger: controller.binaryMessenger)
         
         methodChannel.setMethodCallHandler { (call: FlutterMethodCall, result: @escaping FlutterResult) in
-            if (call.method != "newState") {
-                result(FlutterMethodNotImplemented)
+            print("update...")
+            
+            if (call.method != "UPDATE_STATE") {
+                let response = [ "Success": "false", "Error": "METHOD_NOT_IMPLEMENTED" ]
+                result(response)
                 return
             }
             
             let args = call.arguments as? [String: String]
             
             if (args == nil) {
-                result(FlutterError(code: "INVALID_ARGUMENT", message: "Could not cast args", details: nil))
+                let response = [ "Success": "false", "Error": "ARGUMENT_ERROR" ]
+                result(response)
                 return;
             }
             
-            if (!WCSession.default.isReachable) {
-                result("ok")
-                return;
-            }
+            // Message will be queued up for garuanteed delivery
+            // Can use the returned transfer object to cancel if needed
+            WCSession.default.transferUserInfo(args!)
             
-            WCSession.default.sendMessage(args!, replyHandler: nil) { (error) in
-                result(FlutterError(code: "WC_ERROR", message: "Could not forward message to watch", details: error))
-                return;
-            }
-            
-            result("ok")
+            let response = [ "Success": "true" ]
+            result(response)
         }
         
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)

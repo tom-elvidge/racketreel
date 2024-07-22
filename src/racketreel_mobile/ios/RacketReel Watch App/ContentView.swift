@@ -68,6 +68,14 @@ struct ContentView: View {
                             .font(.system(size: 12))
                     }
                 }
+                if (viewModel.isTransferring) {
+                    HStack {
+                        Image(systemName: "arrow.up")
+                            .font(.system(size: 10))
+                        Text("Messages transferring")
+                            .font(.system(size: 12))
+                    }
+                }
                 Spacer()
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.black)
@@ -188,6 +196,14 @@ struct ContentView: View {
                 Text("Create a match from your phone")
                     .multilineTextAlignment(.center)
                     .padding()
+                Button(action: { viewModel.isRecordingWorkout
+                    ? viewModel.endWorkout()
+                    : viewModel.startWorkout() }) {
+                    Text(viewModel.isRecordingWorkout ? "End workout" : "Start workout")
+                }
+                Button(action: { viewModel.refreshState() }) {
+                    Text("Refresh")
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }

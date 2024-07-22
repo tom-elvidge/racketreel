@@ -18,13 +18,20 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     @Published var showQuitConfirmation = false;
     @Published var isWaitingForState = false;
     @Published var isRecordingWorkout = false;
+    @Published var isTransferring = false;
     
     
     var healthStore: HKHealthStore?
     var workoutSession: HKWorkoutSession?
+    
+    var updateTransfersTimer: Timer = Timer()
+    var transfers: Array<WCSessionUserInfoTransfer> = Array()
 
     override init() {
         super.init()
+        
+        updateTransfersTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateTransfers), userInfo: nil, repeats: true)
+        
         if WCSession.isSupported() {
             let session = WCSession.default
             session.delegate = self
@@ -32,84 +39,70 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Swift.Error?) {
-        if let error = error {
-            print("WCSession activation failed with error: \(error.localizedDescription)")
-            return
-        }
-        print("WCSession activated with state: \(activationState.rawValue)")
+    @objc func updateTransfers() {
+        // remove all the complete transfers
+        transfers.removeAll(where: { !$0.isTransferring })
+        
+        isTransferring = transfers.count > 0
     }
     
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Swift.Error?) {}
+    
+    public func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
+        // Transfer user info queues up messages and garuantees delivery
+        // Note this does not work on a simulator so must be tested on device
+        var message = userInfo as! [String: String]
         DispatchQueue.main.async {
-            do {
-                self.teamOneName = message["teamOneName"] as! String;
-                self.teamTwoName = message["teamTwoName"] as! String;
-                self.teamOnePoints = message["teamOnePoints"] as! String;
-                self.teamTwoPoints = message["teamTwoPoints"] as! String;
-                self.teamOneGames = message["teamOneGames"] as! String;
-                self.teamTwoGames = message["teamTwoGames"] as! String;
-                self.teamOneSets = message["teamOneSets"] as! String;
-                self.teamTwoSets = message["teamTwoSets"] as! String;
-                self.isTeamOneServing = message["serving"] as! String == "1";
-                self.lastStateHighlighted = message["lastStateHighlighted"] as! String == "true";
-                self.hasState = true;
-                self.isWaitingForState = false;
-            } catch {
-                self.teamOneName = "";
-                self.teamTwoName = "";
-                self.teamOnePoints = "";
-                self.teamTwoPoints = "";
-                self.teamOneGames = "";
-                self.teamTwoGames = "";
-                self.teamOneSets = "";
-                self.teamTwoSets = "";
-                self.isTeamOneServing = false;
-                self.lastStateHighlighted = false;
-                self.hasState = false;
-                self.isWaitingForState = false;
-            }
+            self.teamOneName = message["teamOneName"]!;
+            self.teamTwoName = message["teamTwoName"]!;
+            self.teamOnePoints = message["teamOnePoints"]!;
+            self.teamTwoPoints = message["teamTwoPoints"]!;
+            self.teamOneGames = message["teamOneGames"]!;
+            self.teamTwoGames = message["teamTwoGames"]!;
+            self.teamOneSets = message["teamOneSets"]!;
+            self.teamTwoSets = message["teamTwoSets"]!;
+            self.isTeamOneServing = message["serving"]! == "1";
+            self.lastStateHighlighted = message["lastStateHighlighted"]! == "true";
+            self.hasState = true;
+            self.isWaitingForState = false;
         }
     }
     
     func pointToTeamOne() {
-        if WCSession.default.isReachable {
-            let message = ["key": "pointToTeamOne"]
-            WCSession.default.sendMessage(message, replyHandler: nil) { (error) in
-                print("Error sending message: \(error.localizedDescription)")
-            }
-            self.isWaitingForState = true;
-        }
+        let userInfo = [ "Method": "POINT_TO_TEAM_ONE" ]
+        WCSession.default.transferUserInfo(userInfo)
+        
+        self.isWaitingForState = true
     }
     
     func pointToTeamTwo() {
-        if WCSession.default.isReachable {
-            let message = ["key": "pointToTeamTwo"]
-            WCSession.default.sendMessage(message, replyHandler: nil) { (error) in
-                print("Error sending message: \(error.localizedDescription)")
-            }
-            self.isWaitingForState = true;
-        }
+        let userInfo = [ "Method": "POINT_TO_TEAM_TWO" ]
+        let transfer = WCSession.default.transferUserInfo(userInfo)
+        transfers.append(transfer)
+        
+        self.isWaitingForState = true
     }
     
     func undoLastPoint() {
-        if WCSession.default.isReachable {
-            let message = ["key": "undo"]
-            WCSession.default.sendMessage(message, replyHandler: nil) { (error) in
-                print("Error sending message: \(error.localizedDescription)")
-            }
-            self.isWaitingForState = true;
-        }
+        let userInfo = [ "Method": "UNDO" ]
+        let transfer = WCSession.default.transferUserInfo(userInfo)
+        transfers.append(transfer)
+        
+        self.isWaitingForState = true
     }
     
     func toggleHighlight() {
-        if WCSession.default.isReachable {
-            let message = ["key": "toggleHighlight"]
-            WCSession.default.sendMessage(message, replyHandler: nil) { (error) in
-                print("Error sending message: \(error.localizedDescription)")
-            }
-            self.isWaitingForState = true;
-        }
+        let userInfo = [ "Method": "TOGGLE_HIGHLIGHT" ]
+        let transfer = WCSession.default.transferUserInfo(userInfo)
+        transfers.append(transfer)
+        
+        self.isWaitingForState = true
+    }
+    
+    func refreshState() {
+        let userInfo = [ "Method": "REFRESH_STATE" ]
+        let transfer = WCSession.default.transferUserInfo(userInfo)
+        transfers.append(transfer)
     }
     
     func toggleShowHelp() {
@@ -134,8 +127,6 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
         self.hasState = false;
         self.showQuitConfirmation = false;
         self.showHelp = false;
-        
-        endWorkout()
     }
     
     func stopWaitingForState() {

@@ -25,22 +25,27 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
     on<UndoEvent>(_onUndoEvent);
     on<ToggleHighlightEvent>(_onToggleHighlightEvent);
 
-    eventChannel.receiveBroadcastStream().listen(_onNativeEvent);
+    eventChannel.receiveBroadcastStream().listen(_scoringEventChannelHandler);
   }
 
-  void _onNativeEvent(dynamic event) {
-    var eventStr = event.toString();
+  void _scoringEventChannelHandler(dynamic userInfoDynamic) async {
+    var userInfo = convertUserInfo(userInfoDynamic);
+    var method = userInfo["Method"];
 
-    if (eventStr == "pointToTeamOne") {
+    if (method == "POINT_TO_TEAM_ONE") {
       add(const PointToTeamOneEvent());
-    } else if (eventStr == "pointToTeamTwo") {
+    } else if (method == "POINT_TO_TEAM_TWO") {
       add(const PointToTeamTwoEvent());
-    } else if (eventStr == "undo") {
+    } else if (method == "UNDO") {
       add(const UndoEvent());
-    } else if (eventStr == "toggleHighlight") {
+    } else if (method == "TOGGLE_HIGHLIGHT") {
       add(const ToggleHighlightEvent());
-    } else {
-      print("Unhandled event $eventStr");
+    } else if (method == "REFRESH_STATE" && state.matchState != null) {
+      var result = await methodChannel.invokeMethod("UPDATE_STATE", _createMatchStateMap(state.matchState!, state.matchId!, state.isLastStateHighlighted));
+
+      if (result["Success"] != "true") {
+        print(result["Error"]);
+      }
     }
   }
 
@@ -55,10 +60,10 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
       return;
     }
 
-    try {
-      await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState, event.matchId, false));
-    } catch (e) {
-      print(e);
+    var result = await methodChannel.invokeMethod("UPDATE_STATE", _createMatchStateMap(matchState, event.matchId, false));
+
+    if (result["Success"] != "true") {
+      print(result["Error"]);
     }
 
     emit(state.copyWith(
@@ -89,10 +94,10 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
 
       var matchState = await scoring.getState(state.matchId!);
 
-      try {
-        await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState!, state.matchId!, false));
-      } catch (e) {
-        print(e);
+      var result = await methodChannel.invokeMethod("UPDATE_STATE", _createMatchStateMap(matchState!, state.matchId!, false));
+
+      if (result["Success"] != "true") {
+        print(result["Error"]);
       }
 
       emit(state.copyWith(
@@ -123,10 +128,10 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
 
       var lastMatchState = await scoring.getStateAtVersion(state.matchId!, matchState!.version - 1);
 
-      try {
-        await methodChannel.invokeMethod("newState", _createMatchStateMap(matchState, state.matchId!, lastMatchState!.highlighted));
-      } catch (e) {
-        print(e);
+      var result = await methodChannel.invokeMethod("UPDATE_STATE", _createMatchStateMap(matchState, state.matchId!, lastMatchState!.highlighted));
+
+      if (result["Success"] != "true") {
+        print(result["Error"]);
       }
 
       emit(state.copyWith(
@@ -154,10 +159,10 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
 
     if (await scoring.toggleHighlight(state.matchId!, version - 1))
     {
-      try {
-        await methodChannel.invokeMethod("newState", _createMatchStateMap(state.matchState!, state.matchId!, !state.isLastStateHighlighted));
-      } catch (e) {
-        print(e);
+      var result = await methodChannel.invokeMethod("UPDATE_STATE", _createMatchStateMap(state.matchState!, state.matchId!, !state.isLastStateHighlighted));
+
+      if (result["Success"] != "true") {
+        print(result["Error"]);
       }
 
       emit(state.copyWith(
@@ -183,4 +188,11 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
         "serving": matchState.servingTeam == Team.teamOne ? "1" : "2",
         "lastStateHighlighted": lastStateHighlighted ? "true" : "false"
       };
+
+  Map<String, String> convertUserInfo(dynamic dynamicObject) {
+    if (dynamicObject is Map) {
+      return dynamicObject.map((key, value) => MapEntry(key.toString(), value.toString()));
+    }
+    throw ArgumentError('Provided dynamic object is not a Map');
+  }
 }
