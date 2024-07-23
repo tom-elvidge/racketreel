@@ -10,6 +10,7 @@ using Matches.Application.Commands.UndoPoint;
 using Matches.Application.Errors;
 using Matches.Application.Models.Match;
 using Matches.Application.Queries.GetAllStates;
+using Matches.Application.Queries.GetInProgressMatches;
 using Matches.Application.Queries.GetLatestState;
 using Matches.Application.Queries.GetMatchById;
 using Matches.Application.Queries.GetMatches;
@@ -116,9 +117,9 @@ public class MatchesRpcService : Matches.MatchesBase
         };
     }
 
-    public override async Task<GetSummariesV2Reply> GetSummariesV2(GetSummariesRequest request, ServerCallContext context)
+    public override async Task<GetSummariesV2Reply> GetSummariesV2(GetSummariesV2Request request, ServerCallContext context)
     {
-        var result = await _sender.Send(new GetMatchesQuery(request.PageSize, request.PageNumber));
+        var result = await _sender.Send(new GetMatchesQuery(request.PageSize, request.PageNumber, request.AllUsers ? null : request.UserIds.ToArray()));
 
         if (result.IsFailure)
         {
@@ -134,7 +135,30 @@ public class MatchesRpcService : Matches.MatchesBase
             PageCount = result.Value.PageCount
         };
         
-        reply.Summaries.AddRange(result.Value.Page.Select(m => CreateSummaryV2(m)));
+        reply.Summaries.AddRange(result.Value.Page.Select(CreateSummaryV2));
+        
+        return reply;
+    }
+
+    public override async Task<GetInProgressReply> GetInProgress(GetInProgressRequest request, ServerCallContext context)
+    {
+        var result = await _sender.Send(new GetInProgressMatchesQuery(request.PageSize, request.PageNumber, request.AllUsers ? null : request.UserIds.ToArray()));
+
+        if (result.IsFailure)
+        {
+            return new GetInProgressReply
+            {
+                Success = false
+            };
+        }
+
+        var reply = new GetInProgressReply
+        {
+            Success = true,
+            PageCount = result.Value.PageCount
+        };
+        
+        reply.Matches.AddRange(result.Value.Page.Select(sm => CreateState(sm.Item2, sm.Item1)));
         
         return reply;
     }
@@ -432,7 +456,9 @@ public class MatchesRpcService : Matches.MatchesBase
                 ApplicationFormat.LtaCambridgeDoublesLeague => Format.LtaCambridgeDoublesLeague,
                 _ => throw new ArgumentOutOfRangeException($"Unexpected Format of {nameof(ApplicationFormat)}")
             },
-            StartedAtUtc = Timestamp.FromDateTime(metadata.CreatedAt)
+            StartedAtUtc = Timestamp.FromDateTime(metadata.CreatedAt),
+            MatchId = state.MatchId,
+            CreatorUserId = metadata.CreateByUserId
         };
     }
 

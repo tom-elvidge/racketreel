@@ -17,6 +17,7 @@ public interface IMatchRepository : IRepository<MatchEntity>
     /// <param name="pageNumber">The page of matches to get.</param>
     /// <param name="orderBy">How to order the collection of matches.</param>
     /// <param name="includeStates">Get all the states for each match.</param>
+    /// <param name="userIds">What users to get matches for. All users if null.</param>
     /// <returns>A tuple where the first element is the ordered collection of matches on the requested page, and the second element is the total number of pages.</returns>
-    Task<Tuple<IEnumerable<MatchEntity>, int>> GetAsync(int pageNumber, int pageSize, MatchesOrderByEnum orderBy, bool includeStates);
+    Task<Tuple<IEnumerable<MatchEntity>, int>> GetAsync(int pageNumber, int pageSize, MatchesOrderByEnum orderBy, bool includeStates, string[] userIds = null);
 }

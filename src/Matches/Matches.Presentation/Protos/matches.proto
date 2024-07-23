@@ -18,7 +18,10 @@ service Matches {
   rpc GetSummaryV2 (GetSummaryRequest) returns (GetSummaryV2Reply);
 
   // Get a page of summaries of completed matches
-  rpc GetSummariesV2 (GetSummariesRequest) returns (GetSummariesV2Reply);
+  rpc GetSummariesV2 (GetSummariesV2Request) returns (GetSummariesV2Reply);
+  
+  // Get a page of in progress matches
+  rpc GetInProgress (GetInProgressRequest) returns (GetInProgressReply);
   
   // Get the current state of an in-progress match
   rpc GetState (GetStateRequest) returns (GetStateReply);
@@ -196,6 +199,20 @@ message GetSummariesRequest {
   int32 page_number = 2;
 }
 
+message GetSummariesV2Request {
+  int32 page_size = 1;
+  int32 page_number = 2;
+  repeated string user_ids = 3;
+  bool all_users = 4;
+}
+
+message GetInProgressRequest {
+  int32 page_size = 1;
+  int32 page_number = 2;
+  repeated string user_ids = 3;
+  bool all_users = 4;
+}
+
 message GetSummariesReply {
   bool success = 1;
   int32 page_count = 2;
@@ -206,6 +223,12 @@ message GetSummariesV2Reply {
   bool success = 1;
   int32 page_count = 2;
   repeated SummaryV2 summaries = 3;
+}
+
+message GetInProgressReply {
+  bool success = 1;
+  int32 page_count = 2;
+  repeated State matches = 3;
 }
 
 message GetStateRequest {
@@ -232,7 +255,9 @@ message State {
   string team_two_sets = 12;
   bool completed = 13;
   google.protobuf.Timestamp started_at_utc = 14;
-  Format format = 15; 
+  Format format = 15;
+  int32 match_id = 16;
+  string creator_user_id = 17;
 }
 
 message GetStateHistoryRequest {

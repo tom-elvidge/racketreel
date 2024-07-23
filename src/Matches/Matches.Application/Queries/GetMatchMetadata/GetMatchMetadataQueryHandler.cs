@@ -32,7 +32,8 @@ public class GetMatchMetadataQueryHandler : IQueryHandler<GetMatchMetadataQuery,
             Format = MatchCreator.GetFormatAsEnum(matchEntity.Format),
             Id = matchEntity.Id,
             TeamOneName = matchEntity.ParticipantOne.Name,
-            TeamTwoName = matchEntity.ParticipantTwo.Name
+            TeamTwoName = matchEntity.ParticipantTwo.Name,
+            CreateByUserId = matchEntity.UserId
         });
     }
 }

@@ -15,12 +15,13 @@ public class MatchRepository : IMatchRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async Task<Tuple<IEnumerable<MatchEntity>, int>> GetAsync(int pageNumber, int pageSize, MatchesOrderByEnum orderBy, bool includeStates)
+    public async Task<Tuple<IEnumerable<MatchEntity>, int>> GetAsync(int pageNumber, int pageSize, MatchesOrderByEnum orderBy, bool includeStates, string[] userIds = null)
     {
         var matchesQuery = _context
             .Matches
             // only get completed matches if ordering by completed at date time
-            .Where(m => orderBy == MatchesOrderByEnum.CompletedAt ? m.CompletedAtDateTime != DateTime.MaxValue : true);
+            .Where(m => orderBy == MatchesOrderByEnum.CompletedAt ? m.CompletedAtDateTime != DateTime.MaxValue : true)
+            .Where(m => userIds == null || userIds.Contains(m.UserId));
 
         var matchesCount = await matchesQuery.CountAsync();
         int totalPages = (int) Math.Floor((double) matchesCount / pageSize);

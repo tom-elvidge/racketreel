@@ -1,29 +1,29 @@
 using FluentValidation;
 
-namespace Matches.Application.Queries.GetMatches;
+namespace Matches.Application.Queries.GetInProgressMatches;
 
-internal class GetMatchesQueryValidator : AbstractValidator<GetMatchesQuery>
+internal class GetInProgressMatchesQueryValidator : AbstractValidator<GetInProgressMatchesQuery>
 {
-    public GetMatchesQueryValidator()
+    public GetInProgressMatchesQueryValidator()
     {
         RuleFor(c => c.PageNumber)
             .NotNull()
-            .WithMessage($"{nameof(GetMatchesQuery.PageNumber)} cannot be null.");
+            .WithMessage($"{nameof(GetInProgressMatchesQuery.PageNumber)} cannot be null.");
 
         RuleFor(c => c.PageNumber)
             .GreaterThan(0)
-            .WithMessage($"{nameof(GetMatchesQuery.PageNumber)} must be greater than zero.");
+            .WithMessage($"{nameof(GetInProgressMatchesQuery.PageNumber)} must be greater than zero.");
 
         RuleFor(c => c.PageSize)
             .NotNull()
-            .WithMessage($"{nameof(GetMatchesQuery.PageSize)} cannot be null.");
+            .WithMessage($"{nameof(GetInProgressMatchesQuery.PageSize)} cannot be null.");
         
         RuleFor(c => c.PageSize)
             .GreaterThan(0)
-            .WithMessage($"{nameof(GetMatchesQuery.PageSize)} must be greater than zero.");
+            .WithMessage($"{nameof(GetInProgressMatchesQuery.PageSize)} must be greater than zero.");
 
         RuleFor(c => c.PageSize)
             .LessThanOrEqualTo(20)
-            .WithMessage($"{nameof(GetMatchesQuery.PageSize)} must be less than or equal to 20.");
+            .WithMessage($"{nameof(GetInProgressMatchesQuery.PageSize)} must be less than or equal to 20.");
     }
 }

@@ -3,9 +3,9 @@ using Matches.Application.Models;
 using Matches.Application.Models.Match;
 using Matches.Domain.AggregatesModel.MatchAggregate;
 
-namespace Matches.Application.Queries.GetMatches;
+namespace Matches.Application.Queries.GetInProgressMatches;
 
-public sealed record GetMatchesQuery(int PageSize, int PageNumber)
-    : IQuery<Paginated<Match>>
+public sealed record GetInProgressMatchesQuery(int PageSize, int PageNumber, string[]? UserIds)
+    : IQuery<Paginated<(Metadata, State)>>
 {
 }
