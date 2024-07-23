@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:racketreel/feed/domain/feed_item_v2_entity.dart';
 import 'package:racketreel/feed/presentation/view/final_score_row.dart';
+import 'package:racketreel/shared/domain/name_helper.dart';
 
 class FeedItem extends StatelessWidget {
   const FeedItem({super.key, required this.feedItem});
@@ -27,7 +28,7 @@ class FeedItem extends StatelessWidget {
             children: [
               CircleAvatar(
                 backgroundColor: Colors.blue.shade200,
-                child: Text(getInitials(feedItem.user)),
+                child: Text(NameHelper.getInitials(feedItem.user)),
               ),
               Container(
                 padding: const EdgeInsets.only(left: 5),
@@ -118,18 +119,5 @@ class FeedItem extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String getInitials(String name) {
-    // Split the name by spaces
-    List<String> words = name.split(' ');
-
-    // Filter out any empty strings (in case of multiple spaces)
-    words = words.where((word) => word.isNotEmpty).toList();
-
-    // Map each word to its first character, convert to uppercase, and join them
-    String initials = words.map((word) => word[0].toUpperCase()).join('');
-
-    return initials;
   }
 }

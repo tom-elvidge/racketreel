@@ -7,6 +7,7 @@ import 'package:racketreel/feed/domain/feed_item_entity.dart';
 import 'package:racketreel/feed/domain/i_feed_item_repository.dart';
 import 'package:racketreel/client/matches.pb.dart' as service;
 import 'package:racketreel/shared/data/repository_utils.dart';
+import 'package:racketreel/shared/domain/format_helper.dart';
 
 @Injectable(as: IFeedItemRepository)
 class FeedItemRepository implements IFeedItemRepository {
@@ -37,7 +38,7 @@ class FeedItemRepository implements IFeedItemRepository {
         summary.matchId,
         "${summary.teamOneName} vs ${summary.teamTwoName}",
         _getScoreText(summary),
-        _getFormatText(summary.format),
+        FormatHelper.getFormatText(summary.format),
         RepositoryUtils.getDateTimeString(summary.startedAtUtc.toDateTime()));
   }
 
@@ -78,29 +79,6 @@ class FeedItemRepository implements IFeedItemRepository {
     return buffer.toString();
   }
 
-  String _getFormatText(service.Format format) {
-    switch (format) {
-      case service.Format.BEST_OF_FIVE:
-        return "Best of five sets";
-      case service.Format.BEST_OF_FIVE_FST:
-        return "Best of five sets with a final set tiebreak";
-      case service.Format.BEST_OF_ONE:
-        return "Single set";
-      case service.Format.BEST_OF_THREE:
-        return "Best of three sets";
-      case service.Format.BEST_OF_THREE_FST:
-        return "Best of three sets with a final set tiebreak";
-      case service.Format.FAST4:
-        return "FAST4";
-      case service.Format.TIEBREAK_TO_TEN:
-        return "Tiebreak to 10";
-      case service.Format.LTA_CAMBRIDGE_DOUBLES_LEAGUE:
-        return "LTA Cambridge Doubles League";
-      default:
-        return "Unknown match format";
-    }
-  }
-
   @override
   Future<List<FeedItemV2Entity>> getFeedItemsV2(int pageNumber) async {
     List<service.SummaryV2> response = await _summaryDataSource.getSummariesV2(pageNumber);
@@ -120,7 +98,7 @@ class FeedItemRepository implements IFeedItemRepository {
     return FeedItemV2Entity(
         summary.matchId,
         userInfo?.displayName ?? "Unknown User",
-        _getFormatText(summary.format),
+        FormatHelper.getFormatText(summary.format),
         summary.teamOneName,
         summary.teamTwoName,
         summary.teamOneSets.toString(),

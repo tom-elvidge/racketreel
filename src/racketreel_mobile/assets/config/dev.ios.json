@@ -1,4 +1,6 @@
 {
   "grpcHost": "localhost",
-  "grpcPort": 7192
+  "grpcPort": 5001,
+  "usersGrpcHost": "localhost",
+  "usersGrpcPort": 5002
 }

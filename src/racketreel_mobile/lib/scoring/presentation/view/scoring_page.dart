@@ -46,9 +46,9 @@ class ScoringPage extends StatelessWidget {
                   return (await showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: const Text('Are you sure?'),
+                      title: const Text('Stop scoring?'),
                       content: const Text(
-                        'This will cancel the match as it has not yet been completed.'),
+                        'Matches can be resumed from your profile page.'),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(false),

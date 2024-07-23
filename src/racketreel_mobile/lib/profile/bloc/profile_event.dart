@@ -17,6 +17,8 @@ final class Initialize extends ProfileEvent {
   List<Object> get props => [userId ?? ""];
 }
 
+final class Refresh extends ProfileEvent {}
+
 final class SignOut extends ProfileEvent {}
 
 final class UpdateDisplayName extends ProfileEvent {
@@ -44,3 +46,7 @@ final class FetchFollowing extends ProfileEvent {}
 final class Follow extends ProfileEvent {}
 
 final class Unfollow extends ProfileEvent {}
+
+final class LiveMatchesFetchOlderEvent extends ProfileEvent {
+  const LiveMatchesFetchOlderEvent();
+}

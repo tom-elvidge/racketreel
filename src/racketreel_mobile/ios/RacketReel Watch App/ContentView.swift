@@ -68,11 +68,11 @@ struct ContentView: View {
                             .font(.system(size: 12))
                     }
                 }
-                if (viewModel.isTransferring) {
+                if (viewModel.transferringCount > 0) {
                     HStack {
                         Image(systemName: "arrow.up")
                             .font(.system(size: 10))
-                        Text("Messages transferring")
+                        Text("Transfering \(viewModel.transferringCount) messages")
                             .font(.system(size: 12))
                     }
                 }

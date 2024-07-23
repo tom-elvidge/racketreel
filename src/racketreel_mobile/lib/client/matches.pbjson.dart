@@ -4,7 +4,7 @@
 //
 // @dart = 2.12
 
-// ignore_for_file: annotate_overrides, camel_case_types, comment_references
+// ignore_for_file: annotate_overrides, camel_case_types
 // ignore_for_file: constant_identifier_names, library_prefixes
 // ignore_for_file: non_constant_identifier_names, prefer_final_fields
 // ignore_for_file: unnecessary_import, unnecessary_this, unused_import
@@ -431,6 +431,40 @@ final $typed_data.Uint8List getSummariesRequestDescriptor = $convert.base64Decod
     'ChNHZXRTdW1tYXJpZXNSZXF1ZXN0EhsKCXBhZ2Vfc2l6ZRgBIAEoBVIIcGFnZVNpemUSHwoLcG'
     'FnZV9udW1iZXIYAiABKAVSCnBhZ2VOdW1iZXI=');
 
+@$core.Deprecated('Use getSummariesV2RequestDescriptor instead')
+const GetSummariesV2Request$json = {
+  '1': 'GetSummariesV2Request',
+  '2': [
+    {'1': 'page_size', '3': 1, '4': 1, '5': 5, '10': 'pageSize'},
+    {'1': 'page_number', '3': 2, '4': 1, '5': 5, '10': 'pageNumber'},
+    {'1': 'user_ids', '3': 3, '4': 3, '5': 9, '10': 'userIds'},
+    {'1': 'all_users', '3': 4, '4': 1, '5': 8, '10': 'allUsers'},
+  ],
+};
+
+/// Descriptor for `GetSummariesV2Request`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getSummariesV2RequestDescriptor = $convert.base64Decode(
+    'ChVHZXRTdW1tYXJpZXNWMlJlcXVlc3QSGwoJcGFnZV9zaXplGAEgASgFUghwYWdlU2l6ZRIfCg'
+    'twYWdlX251bWJlchgCIAEoBVIKcGFnZU51bWJlchIZCgh1c2VyX2lkcxgDIAMoCVIHdXNlcklk'
+    'cxIbCglhbGxfdXNlcnMYBCABKAhSCGFsbFVzZXJz');
+
+@$core.Deprecated('Use getInProgressRequestDescriptor instead')
+const GetInProgressRequest$json = {
+  '1': 'GetInProgressRequest',
+  '2': [
+    {'1': 'page_size', '3': 1, '4': 1, '5': 5, '10': 'pageSize'},
+    {'1': 'page_number', '3': 2, '4': 1, '5': 5, '10': 'pageNumber'},
+    {'1': 'user_ids', '3': 3, '4': 3, '5': 9, '10': 'userIds'},
+    {'1': 'all_users', '3': 4, '4': 1, '5': 8, '10': 'allUsers'},
+  ],
+};
+
+/// Descriptor for `GetInProgressRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getInProgressRequestDescriptor = $convert.base64Decode(
+    'ChRHZXRJblByb2dyZXNzUmVxdWVzdBIbCglwYWdlX3NpemUYASABKAVSCHBhZ2VTaXplEh8KC3'
+    'BhZ2VfbnVtYmVyGAIgASgFUgpwYWdlTnVtYmVyEhkKCHVzZXJfaWRzGAMgAygJUgd1c2VySWRz'
+    'EhsKCWFsbF91c2VycxgEIAEoCFIIYWxsVXNlcnM=');
+
 @$core.Deprecated('Use getSummariesReplyDescriptor instead')
 const GetSummariesReply$json = {
   '1': 'GetSummariesReply',
@@ -462,6 +496,22 @@ final $typed_data.Uint8List getSummariesV2ReplyDescriptor = $convert.base64Decod
     'ChNHZXRTdW1tYXJpZXNWMlJlcGx5EhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3MSHQoKcGFnZV'
     '9jb3VudBgCIAEoBVIJcGFnZUNvdW50EjMKCXN1bW1hcmllcxgDIAMoCzIVLlJhY2tldFJlZWwu'
     'U3VtbWFyeVYyUglzdW1tYXJpZXM=');
+
+@$core.Deprecated('Use getInProgressReplyDescriptor instead')
+const GetInProgressReply$json = {
+  '1': 'GetInProgressReply',
+  '2': [
+    {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
+    {'1': 'page_count', '3': 2, '4': 1, '5': 5, '10': 'pageCount'},
+    {'1': 'matches', '3': 3, '4': 3, '5': 11, '6': '.RacketReel.State', '10': 'matches'},
+  ],
+};
+
+/// Descriptor for `GetInProgressReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getInProgressReplyDescriptor = $convert.base64Decode(
+    'ChJHZXRJblByb2dyZXNzUmVwbHkSGAoHc3VjY2VzcxgBIAEoCFIHc3VjY2VzcxIdCgpwYWdlX2'
+    'NvdW50GAIgASgFUglwYWdlQ291bnQSKwoHbWF0Y2hlcxgDIAMoCzIRLlJhY2tldFJlZWwuU3Rh'
+    'dGVSB21hdGNoZXM=');
 
 @$core.Deprecated('Use getStateRequestDescriptor instead')
 const GetStateRequest$json = {
@@ -511,6 +561,8 @@ const State$json = {
     {'1': 'completed', '3': 13, '4': 1, '5': 8, '10': 'completed'},
     {'1': 'started_at_utc', '3': 14, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startedAtUtc'},
     {'1': 'format', '3': 15, '4': 1, '5': 14, '6': '.RacketReel.Format', '10': 'format'},
+    {'1': 'match_id', '3': 16, '4': 1, '5': 5, '10': 'matchId'},
+    {'1': 'creator_user_id', '3': 17, '4': 1, '5': 9, '10': 'creatorUserId'},
   ],
 };
 
@@ -527,7 +579,8 @@ final $typed_data.Uint8List stateDescriptor = $convert.base64Decode(
     'DXRlYW1fdHdvX3NldHMYDCABKAlSC3RlYW1Ud29TZXRzEhwKCWNvbXBsZXRlZBgNIAEoCFIJY2'
     '9tcGxldGVkEkAKDnN0YXJ0ZWRfYXRfdXRjGA4gASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVz'
     'dGFtcFIMc3RhcnRlZEF0VXRjEioKBmZvcm1hdBgPIAEoDjISLlJhY2tldFJlZWwuRm9ybWF0Ug'
-    'Zmb3JtYXQ=');
+    'Zmb3JtYXQSGQoIbWF0Y2hfaWQYECABKAVSB21hdGNoSWQSJgoPY3JlYXRvcl91c2VyX2lkGBEg'
+    'ASgJUg1jcmVhdG9yVXNlcklk');
 
 @$core.Deprecated('Use getStateHistoryRequestDescriptor instead')
 const GetStateHistoryRequest$json = {

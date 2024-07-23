@@ -1,9 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:racketreel/profile/bloc/profile_bloc.dart';
+import 'package:racketreel/profile/view/live_match_item.dart';
+import 'package:racketreel/scoring/presentation/view/scoring_page.dart';
+import 'package:racketreel/shared/domain/name_helper.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
+  @override
+  ProfilePageState createState() => ProfilePageState();
+}
+
+class ProfilePageState extends State<ProfilePage> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isNearEndOfScroll()) {
+      context.read<ProfileBloc>().add(const LiveMatchesFetchOlderEvent());
+    }
+  }
+
+  bool _isNearEndOfScroll()
+  {
+    // remaining scroll is equal to the height of the viewport
+    var scrollOffset = _scrollController.offset;
+    var maxScroll = _scrollController.position.maxScrollExtent;
+    var viewportDimension = _scrollController.position.viewportDimension;
+    return scrollOffset >= (maxScroll - viewportDimension);
+  }
 
   @override
   Widget build(BuildContext context) => BlocBuilder<ProfileBloc, ProfileState>(
@@ -99,54 +138,88 @@ class ProfilePage extends StatelessWidget {
         ),
         body: SafeArea(
           child: state.isInitializing
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: CircleAvatar(
-                            child: state.displayName == null
-                                ? const Text("U")
-                                : Text(getInitials(state.displayName!)),
+            ? const Center(child: CircularProgressIndicator())
+            : RefreshIndicator(
+                displacement: 20.0,
+                onRefresh: () async => context
+                    .read<ProfileBloc>()
+                    .add(Refresh()),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: CircleAvatar(
+                              child: state.displayName == null
+                                  ? const Text("U")
+                                  : Text(NameHelper.getInitials(state.displayName!)),
+                            ),
                           ),
-                        ),
-                        Text(
-                          state.displayName ?? "No display name",
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ],
+                          Text(
+                            state.displayName ?? "No display name",
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  // Expanded(
-                  //   child: ListView(
-                  //     padding: const EdgeInsets.all(20),
-                  //     children: const [
-                  //       Text("user's matches here"),
-                  //     ]
-                  // ),
-                  // )
-                ],
-              )
+                    Expanded(
+                      child: Scrollbar(
+                        child: Builder(
+                          builder: (BuildContext newContext) {
+                            // Using the new context that has access to the BlocProvider
+                            return CustomScrollView(
+                              controller: _scrollController,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              slivers: <Widget>[
+                                // Load new feed items when coming back to this page
+                                SliverList(
+                                  delegate: SliverChildBuilderDelegate(
+                                        (BuildContext context, int index) {
+                                      final item = state.liveMatchesItems[index];
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                        child: InkWell(
+                                          child: LiveMatchItem(
+                                            liveMatchEntity: item,
+                                            userDisplayName: state.displayName ?? "",
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => ScoringPage(matchId: item.matchId),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    childCount: state.liveMatchesItems.length,
+                                  ),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: state.liveMatchesFetchingOlder
+                                      ? Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  )
+                                      : const SizedBox.shrink(),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+          )
         )
       )
     );
-
-  String getInitials(String name) {
-    // Split the name by spaces
-    List<String> words = name.split(' ');
-
-    // Filter out any empty strings (in case of multiple spaces)
-    words = words.where((word) => word.isNotEmpty).toList();
-
-    // Map each word to its first character, convert to uppercase, and join them
-    String initials = words.map((word) => word[0].toUpperCase()).join('');
-
-    return initials;
-  }
 }

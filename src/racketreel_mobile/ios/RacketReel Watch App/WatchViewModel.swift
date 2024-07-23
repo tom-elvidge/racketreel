@@ -18,7 +18,7 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     @Published var showQuitConfirmation = false;
     @Published var isWaitingForState = false;
     @Published var isRecordingWorkout = false;
-    @Published var isTransferring = false;
+    @Published var transferringCount = 0;
     
     
     var healthStore: HKHealthStore?
@@ -40,10 +40,12 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     }
     
     @objc func updateTransfers() {
-        // remove all the complete transfers
-        transfers.removeAll(where: { !$0.isTransferring })
-        
-        isTransferring = transfers.count > 0
+        DispatchQueue.main.async {
+            // remove all the complete transfers
+            self.transfers.removeAll(where: { !$0.isTransferring })
+            
+            self.transferringCount = self.transfers.count
+        }
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Swift.Error?) {}

@@ -4,7 +4,7 @@
 //
 // @dart = 2.12
 
-// ignore_for_file: annotate_overrides, camel_case_types, comment_references
+// ignore_for_file: annotate_overrides, camel_case_types
 // ignore_for_file: constant_identifier_names, library_prefixes
 // ignore_for_file: non_constant_identifier_names, prefer_final_fields
 // ignore_for_file: unnecessary_import, unnecessary_this, unused_import
@@ -33,10 +33,14 @@ class MatchesClient extends $grpc.Client {
       '/RacketReel.Matches/GetSummaryV2',
       ($0.GetSummaryRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetSummaryV2Reply.fromBuffer(value));
-  static final _$getSummariesV2 = $grpc.ClientMethod<$0.GetSummariesRequest, $0.GetSummariesV2Reply>(
+  static final _$getSummariesV2 = $grpc.ClientMethod<$0.GetSummariesV2Request, $0.GetSummariesV2Reply>(
       '/RacketReel.Matches/GetSummariesV2',
-      ($0.GetSummariesRequest value) => value.writeToBuffer(),
+      ($0.GetSummariesV2Request value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetSummariesV2Reply.fromBuffer(value));
+  static final _$getInProgress = $grpc.ClientMethod<$0.GetInProgressRequest, $0.GetInProgressReply>(
+      '/RacketReel.Matches/GetInProgress',
+      ($0.GetInProgressRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetInProgressReply.fromBuffer(value));
   static final _$getState = $grpc.ClientMethod<$0.GetStateRequest, $0.GetStateReply>(
       '/RacketReel.Matches/GetState',
       ($0.GetStateRequest value) => value.writeToBuffer(),
@@ -88,8 +92,12 @@ class MatchesClient extends $grpc.Client {
     return $createUnaryCall(_$getSummaryV2, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetSummariesV2Reply> getSummariesV2($0.GetSummariesRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.GetSummariesV2Reply> getSummariesV2($0.GetSummariesV2Request request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getSummariesV2, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.GetInProgressReply> getInProgress($0.GetInProgressRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getInProgress, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetStateReply> getState($0.GetStateRequest request, {$grpc.CallOptions? options}) {
@@ -151,13 +159,20 @@ abstract class MatchesServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetSummaryRequest.fromBuffer(value),
         ($0.GetSummaryV2Reply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetSummariesRequest, $0.GetSummariesV2Reply>(
+    $addMethod($grpc.ServiceMethod<$0.GetSummariesV2Request, $0.GetSummariesV2Reply>(
         'GetSummariesV2',
         getSummariesV2_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetSummariesRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.GetSummariesV2Request.fromBuffer(value),
         ($0.GetSummariesV2Reply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.GetInProgressRequest, $0.GetInProgressReply>(
+        'GetInProgress',
+        getInProgress_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.GetInProgressRequest.fromBuffer(value),
+        ($0.GetInProgressReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetStateRequest, $0.GetStateReply>(
         'GetState',
         getState_Pre,
@@ -228,8 +243,12 @@ abstract class MatchesServiceBase extends $grpc.Service {
     return getSummaryV2(call, await request);
   }
 
-  $async.Future<$0.GetSummariesV2Reply> getSummariesV2_Pre($grpc.ServiceCall call, $async.Future<$0.GetSummariesRequest> request) async {
+  $async.Future<$0.GetSummariesV2Reply> getSummariesV2_Pre($grpc.ServiceCall call, $async.Future<$0.GetSummariesV2Request> request) async {
     return getSummariesV2(call, await request);
+  }
+
+  $async.Future<$0.GetInProgressReply> getInProgress_Pre($grpc.ServiceCall call, $async.Future<$0.GetInProgressRequest> request) async {
+    return getInProgress(call, await request);
   }
 
   $async.Future<$0.GetStateReply> getState_Pre($grpc.ServiceCall call, $async.Future<$0.GetStateRequest> request) async {
@@ -267,7 +286,8 @@ abstract class MatchesServiceBase extends $grpc.Service {
   $async.Future<$0.GetSummaryReply> getSummary($grpc.ServiceCall call, $0.GetSummaryRequest request);
   $async.Future<$0.GetSummariesReply> getSummaries($grpc.ServiceCall call, $0.GetSummariesRequest request);
   $async.Future<$0.GetSummaryV2Reply> getSummaryV2($grpc.ServiceCall call, $0.GetSummaryRequest request);
-  $async.Future<$0.GetSummariesV2Reply> getSummariesV2($grpc.ServiceCall call, $0.GetSummariesRequest request);
+  $async.Future<$0.GetSummariesV2Reply> getSummariesV2($grpc.ServiceCall call, $0.GetSummariesV2Request request);
+  $async.Future<$0.GetInProgressReply> getInProgress($grpc.ServiceCall call, $0.GetInProgressRequest request);
   $async.Future<$0.GetStateReply> getState($grpc.ServiceCall call, $0.GetStateRequest request);
   $async.Future<$0.GetStateHistoryReply> getStateHistory($grpc.ServiceCall call, $0.GetStateHistoryRequest request);
   $async.Future<$0.GetStateReply> getStateAtVersion($grpc.ServiceCall call, $0.GetStateAtVersionRequest request);

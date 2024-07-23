@@ -38,7 +38,6 @@ class SummaryDataSource implements ISummaryDataSource
   Future<List<Summary>> getSummaries(int pageNumber) async {
     _client ??= _getClient();
 
-
     var request = GetSummariesRequest();
     request.pageNumber = pageNumber;
     request.pageSize = 10;
@@ -62,9 +61,10 @@ class SummaryDataSource implements ISummaryDataSource
   Future<List<SummaryV2>> getSummariesV2(int pageNumber) async {
     _client ??= _getClient();
 
-    var request = GetSummariesRequest();
+    var request = GetSummariesV2Request();
     request.pageNumber = pageNumber;
     request.pageSize = 10;
+    request.allUsers = true;
 
     var reply = await _client!.getSummariesV2(request);
     return reply.summaries;

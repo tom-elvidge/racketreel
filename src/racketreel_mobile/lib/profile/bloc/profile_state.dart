@@ -30,7 +30,6 @@ final class FollowedUser extends Equatable {
   List<Object?> get props => [userId, displayName, avatar];
 }
 
-
 @immutable
 final class ProfileState extends Equatable {
   final bool isInitializing;
@@ -44,6 +43,11 @@ final class ProfileState extends Equatable {
   final List<FollowedUser> following;
   final List<FollowerUser> followers;
 
+  final bool liveMatchesFetchingOlder;
+  final bool liveMatchesEndOfFeed;
+  final int liveMatchesLastPageFetched;
+  final List<LiveMatchEntity> liveMatchesItems;
+
   ProfileState({
     this.isInitializing = false,
     this.userId,
@@ -55,6 +59,10 @@ final class ProfileState extends Equatable {
     this.currentUserFollowsUser,
     this.following = const <FollowedUser>[],
     this.followers = const <FollowerUser>[],
+    this.liveMatchesFetchingOlder = false,
+    this.liveMatchesEndOfFeed = false,
+    this.liveMatchesLastPageFetched = -1,
+    this.liveMatchesItems = const <LiveMatchEntity>[],
   });
 
   ProfileState copyWith({
@@ -68,6 +76,10 @@ final class ProfileState extends Equatable {
     bool? currentUserFollowsUser,
     List<FollowedUser>? following,
     List<FollowerUser>? followers,
+    bool? liveMatchesFetchingOlder,
+    bool? liveMatchesEndOfFeed,
+    int? liveMatchesLastPageFetched,
+    List<LiveMatchEntity>? liveMatchesItems
   }) {
     return ProfileState(
       isInitializing: isInitializing ?? this.isInitializing,
@@ -80,6 +92,10 @@ final class ProfileState extends Equatable {
       currentUserFollowsUser: currentUserFollowsUser ?? this.currentUserFollowsUser,
       following: following ?? this.following,
       followers: followers ?? this.followers,
+      liveMatchesFetchingOlder: liveMatchesFetchingOlder ?? this.liveMatchesFetchingOlder,
+      liveMatchesEndOfFeed: liveMatchesEndOfFeed ?? this.liveMatchesEndOfFeed,
+      liveMatchesLastPageFetched: liveMatchesLastPageFetched ?? this.liveMatchesLastPageFetched,
+      liveMatchesItems: liveMatchesItems ?? this.liveMatchesItems
     );
   }
 
@@ -95,5 +111,9 @@ final class ProfileState extends Equatable {
     currentUserFollowsUser,
     following,
     followers,
+    liveMatchesFetchingOlder,
+    liveMatchesEndOfFeed,
+    liveMatchesLastPageFetched,
+    liveMatchesItems
   ];
 }
