@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Matches.Application.Commands.AddPoint;
 using Matches.Application.Commands.CreateMatch;
+using Matches.Application.Commands.DeleteMatch;
 using Matches.Application.Commands.ToggleHighlight;
 using Matches.Application.Commands.UndoPoint;
 using Matches.Application.Errors;
@@ -372,6 +373,42 @@ public class MatchesRpcService : Matches.MatchesBase
         {
             Success = false,
             Error = ToggleHighlightError.ToggleHighlightUnknown
+        };
+    }
+    
+    [Authorize]
+    public override async Task<DeleteMatchReply> DeleteMatch(DeleteMatchRequest request, ServerCallContext context)
+    {
+        var userId = context.GetUserId();
+        
+        var result = await _sender.Send(new DeleteMatchCommand(
+            userId,
+            request.MatchId));
+
+        if (!result.IsFailure)
+            return new DeleteMatchReply
+            {
+                Success = true
+            };
+        
+        if (result.Error == ApplicationErrors.Unauthorized)
+            return new DeleteMatchReply
+            {
+                Success = false,
+                Error = DeleteMatchError.DeleteMatchUnauthorized
+            };
+
+        if (result.Error == ApplicationErrors.NotFound)
+            return new DeleteMatchReply
+            {
+                Success = false,
+                Error = DeleteMatchError.DeleteMatchMatchDoesNotExist
+            };
+            
+        return new DeleteMatchReply
+        {
+            Success = false,
+            Error = DeleteMatchError.DeleteMatchUnknown
         };
     }
     

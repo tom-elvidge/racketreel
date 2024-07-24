@@ -15,6 +15,17 @@ public class MatchRepository : IMatchRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
+    public bool Delete(int matchId)
+    {
+        var matchEntity = _context.Matches.FirstOrDefault(m => m.Id.Equals(matchId));
+
+        if (matchEntity == null) return false;
+
+        _context.Matches.Remove(matchEntity);
+
+        return true;
+    }
+
     public async Task<Tuple<IEnumerable<MatchEntity>, int>> GetAsync(int pageNumber, int pageSize, MatchesOrderByEnum orderBy, bool includeStates, string[] userIds = null)
     {
         var matchesQuery = _context

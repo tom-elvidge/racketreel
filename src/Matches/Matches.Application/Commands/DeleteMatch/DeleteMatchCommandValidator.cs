@@ -1,13 +1,17 @@
 using FluentValidation;
 
-namespace Matches.Application.Commands.ToggleHighlight;
+namespace Matches.Application.Commands.DeleteMatch;
 
-internal class ToggleHighlightCommandValidator : AbstractValidator<ToggleHighlightCommand>
+internal class DeleteMatchCommandValidator : AbstractValidator<DeleteMatchCommand>
 {
-    public ToggleHighlightCommandValidator()
+    public DeleteMatchCommandValidator()
     {
         RuleFor(c => c.MatchId)
             .NotNull()
-            .WithMessage($"{nameof(ToggleHighlightCommand.MatchId)} cannot be null.");
+            .WithMessage($"{nameof(DeleteMatchCommand.MatchId)} cannot be null.");
+        
+        RuleFor(c => c.UserId)
+            .NotNull()
+            .WithMessage($"{nameof(DeleteMatchCommand.UserId)} cannot be null.");
     }
 }

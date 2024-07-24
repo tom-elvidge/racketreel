@@ -10,6 +10,8 @@ public interface IMatchRepository : IRepository<MatchEntity>
 
     Task<MatchEntity> GetAsync(int matchId, bool includeStates);
 
+    bool Delete(int matchId);
+
     /// <summary>
     /// Get a page of matches.
     /// </summary>

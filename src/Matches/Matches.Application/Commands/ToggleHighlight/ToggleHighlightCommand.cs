@@ -19,7 +19,7 @@ public sealed class ToggleHighlightCommand : ICommand
     public override string ToString()
     {
         var sb = new StringBuilder();
-        sb.Append("class UpdateLatestStateCommand {\n");
+        sb.Append("class ToggleHighlightCommand {\n");
         sb.Append("  UserId: ").Append(UserId).Append('\n');
         sb.Append("  MatchId: ").Append(MatchId).Append('\n');
         sb.Append("  Version: ").Append(Version).Append('\n');

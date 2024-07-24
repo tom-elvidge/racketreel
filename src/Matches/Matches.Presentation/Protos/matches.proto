@@ -46,6 +46,9 @@ service Matches {
   
   // Get the state steam for a match
   rpc GetStateStream(GetStateStreamRequest) returns (stream State);
+  
+  // Delete the match
+  rpc DeleteMatch(DeleteMatchRequest) returns (DeleteMatchReply);
 }
 
 message ConfigureRequest {
@@ -147,6 +150,21 @@ enum ToggleHighlightError {
   TOGGLE_HIGHLIGHT_UNKNOWN = 0;
   TOGGLE_HIGHLIGHT_STATE_DOES_NOT_EXIST = 1;
   TOGGLE_HIGHLIGHT_UNAUTHORIZED = 2;
+}
+
+message DeleteMatchRequest {
+  int32 match_id = 1;
+}
+
+message DeleteMatchReply {
+  bool success = 1;
+  optional DeleteMatchError error = 2;
+}
+
+enum DeleteMatchError {
+  DELETE_MATCH_UNKNOWN = 0;
+  DELETE_MATCH_MATCH_DOES_NOT_EXIST = 1;
+  DELETE_MATCH_UNAUTHORIZED = 2;
 }
 
 message Summary {
