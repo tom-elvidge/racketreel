@@ -18,15 +18,10 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     @Published var showQuitConfirmation = false;
     @Published var isWaitingForState = false;
     @Published var isRecordingWorkout = false;
-    @Published var transferringCount = 0;
-    
     
     var healthStore: HKHealthStore?
     var workoutSession: HKWorkoutSession?
     
-    var updateTransfersTimer: Timer = Timer()
-    var transfers: Array<WCSessionUserInfoTransfer> = Array()
-
     override init() {
         super.init()
         
@@ -36,15 +31,6 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
             let session = WCSession.default
             session.delegate = self
             session.activate()
-        }
-    }
-    
-    @objc func updateTransfers() {
-        DispatchQueue.main.async {
-            // remove all the complete transfers
-            self.transfers.removeAll(where: { !$0.isTransferring })
-            
-            self.transferringCount = self.transfers.count
         }
     }
     
@@ -72,40 +58,31 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     
     func pointToTeamOne() {
         let userInfo = [ "Method": "POINT_TO_TEAM_ONE" ]
-        let transfer = WCSession.default.transferUserInfo(userInfo)
-        transfers.append(transfer)
-        
+        WCSession.default.transferUserInfo(userInfo)
         self.isWaitingForState = true
     }
     
     func pointToTeamTwo() {
         let userInfo = [ "Method": "POINT_TO_TEAM_TWO" ]
-        let transfer = WCSession.default.transferUserInfo(userInfo)
-        transfers.append(transfer)
-        
+        WCSession.default.transferUserInfo(userInfo)
         self.isWaitingForState = true
     }
     
     func undoLastPoint() {
         let userInfo = [ "Method": "UNDO" ]
-        let transfer = WCSession.default.transferUserInfo(userInfo)
-        transfers.append(transfer)
-        
+        WCSession.default.transferUserInfo(userInfo)
         self.isWaitingForState = true
     }
     
     func toggleHighlight() {
         let userInfo = [ "Method": "TOGGLE_HIGHLIGHT" ]
-        let transfer = WCSession.default.transferUserInfo(userInfo)
-        transfers.append(transfer)
-        
+        WCSession.default.transferUserInfo(userInfo)
         self.isWaitingForState = true
     }
     
     func refreshState() {
         let userInfo = [ "Method": "REFRESH_STATE" ]
-        let transfer = WCSession.default.transferUserInfo(userInfo)
-        transfers.append(transfer)
+        WCSession.default.transferUserInfo(userInfo)
     }
     
     func toggleShowHelp() {
