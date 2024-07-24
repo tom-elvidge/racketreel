@@ -28,3 +28,6 @@ final class ToggleHighlightEvent extends ScoringEvent {
   const ToggleHighlightEvent();
 }
 
+final class DeleteMatchEvent extends ScoringEvent {
+  const DeleteMatchEvent();
+}

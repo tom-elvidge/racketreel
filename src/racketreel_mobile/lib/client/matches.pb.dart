@@ -625,6 +625,100 @@ class ToggleHighlightReply extends $pb.GeneratedMessage {
   void clearError() => clearField(2);
 }
 
+class DeleteMatchRequest extends $pb.GeneratedMessage {
+  factory DeleteMatchRequest() => create();
+  DeleteMatchRequest._() : super();
+  factory DeleteMatchRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DeleteMatchRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DeleteMatchRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'matchId', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  DeleteMatchRequest clone() => DeleteMatchRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  DeleteMatchRequest copyWith(void Function(DeleteMatchRequest) updates) => super.copyWith((message) => updates(message as DeleteMatchRequest)) as DeleteMatchRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static DeleteMatchRequest create() => DeleteMatchRequest._();
+  DeleteMatchRequest createEmptyInstance() => create();
+  static $pb.PbList<DeleteMatchRequest> createRepeated() => $pb.PbList<DeleteMatchRequest>();
+  @$core.pragma('dart2js:noInline')
+  static DeleteMatchRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DeleteMatchRequest>(create);
+  static DeleteMatchRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get matchId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set matchId($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasMatchId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMatchId() => clearField(1);
+}
+
+class DeleteMatchReply extends $pb.GeneratedMessage {
+  factory DeleteMatchReply() => create();
+  DeleteMatchReply._() : super();
+  factory DeleteMatchReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DeleteMatchReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DeleteMatchReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'RacketReel'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'success')
+    ..e<DeleteMatchError>(2, _omitFieldNames ? '' : 'error', $pb.PbFieldType.OE, defaultOrMaker: DeleteMatchError.DELETE_MATCH_UNKNOWN, valueOf: DeleteMatchError.valueOf, enumValues: DeleteMatchError.values)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  DeleteMatchReply clone() => DeleteMatchReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  DeleteMatchReply copyWith(void Function(DeleteMatchReply) updates) => super.copyWith((message) => updates(message as DeleteMatchReply)) as DeleteMatchReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static DeleteMatchReply create() => DeleteMatchReply._();
+  DeleteMatchReply createEmptyInstance() => create();
+  static $pb.PbList<DeleteMatchReply> createRepeated() => $pb.PbList<DeleteMatchReply>();
+  @$core.pragma('dart2js:noInline')
+  static DeleteMatchReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DeleteMatchReply>(create);
+  static DeleteMatchReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get success => $_getBF(0);
+  @$pb.TagNumber(1)
+  set success($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSuccess() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSuccess() => clearField(1);
+
+  @$pb.TagNumber(2)
+  DeleteMatchError get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(DeleteMatchError v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+}
+
 class Summary extends $pb.GeneratedMessage {
   factory Summary() => create();
   Summary._() : super();

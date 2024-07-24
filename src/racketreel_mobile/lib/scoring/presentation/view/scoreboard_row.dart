@@ -32,8 +32,7 @@ class ScoreboardRow extends StatelessWidget {
                   child: Text(
                     name,
                     style: TextStyle(
-                      color: Colors.blue.shade900,
-                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 18,
                     ),
                   ),
@@ -46,7 +45,7 @@ class ScoreboardRow extends StatelessWidget {
                     height: 8,
                     decoration: BoxDecoration(
                       color:
-                      serving ? Colors.blue.shade900 : Colors.transparent,
+                      serving ? Theme.of(context).colorScheme.primary : Colors.transparent,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -58,11 +57,11 @@ class ScoreboardRow extends StatelessWidget {
           Container(
             alignment: Alignment.center,
             width: 30,
-            color: Colors.blue.shade700,
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.75),
             child: Text(
               sets.toString(),
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
                 // fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
@@ -72,11 +71,11 @@ class ScoreboardRow extends StatelessWidget {
           Container(
             alignment: Alignment.center,
             width: 30,
-            color: Colors.blue.shade900,
+            color: Theme.of(context).colorScheme.primary,
             child: Text(
               games.toString(),
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
                 // fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
@@ -89,8 +88,7 @@ class ScoreboardRow extends StatelessWidget {
             child: Text(
               points,
               style: TextStyle(
-                color: Colors.blue.shade900,
-                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 18,
               ),
             ),

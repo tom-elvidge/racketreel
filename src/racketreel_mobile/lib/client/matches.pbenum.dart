@@ -136,5 +136,22 @@ class ToggleHighlightError extends $pb.ProtobufEnum {
   const ToggleHighlightError._($core.int v, $core.String n) : super(v, n);
 }
 
+class DeleteMatchError extends $pb.ProtobufEnum {
+  static const DeleteMatchError DELETE_MATCH_UNKNOWN = DeleteMatchError._(0, _omitEnumNames ? '' : 'DELETE_MATCH_UNKNOWN');
+  static const DeleteMatchError DELETE_MATCH_MATCH_DOES_NOT_EXIST = DeleteMatchError._(1, _omitEnumNames ? '' : 'DELETE_MATCH_MATCH_DOES_NOT_EXIST');
+  static const DeleteMatchError DELETE_MATCH_UNAUTHORIZED = DeleteMatchError._(2, _omitEnumNames ? '' : 'DELETE_MATCH_UNAUTHORIZED');
+
+  static const $core.List<DeleteMatchError> values = <DeleteMatchError> [
+    DELETE_MATCH_UNKNOWN,
+    DELETE_MATCH_MATCH_DOES_NOT_EXIST,
+    DELETE_MATCH_UNAUTHORIZED,
+  ];
+
+  static final $core.Map<$core.int, DeleteMatchError> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static DeleteMatchError? valueOf($core.int value) => _byValue[value];
+
+  const DeleteMatchError._($core.int v, $core.String n) : super(v, n);
+}
+
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

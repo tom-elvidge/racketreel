@@ -50,7 +50,7 @@ class FeedPageState extends State<FeedPage> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-              title: const Text('Matches'),
+              title: const Text('Home'),
               actions: [
                 IconButton(
                     icon: const Icon(Icons.add),

@@ -122,6 +122,22 @@ final $typed_data.Uint8List toggleHighlightErrorDescriptor = $convert.base64Deco
     'VUT0dHTEVfSElHSExJR0hUX1NUQVRFX0RPRVNfTk9UX0VYSVNUEAESIQodVE9HR0xFX0hJR0hM'
     'SUdIVF9VTkFVVEhPUklaRUQQAg==');
 
+@$core.Deprecated('Use deleteMatchErrorDescriptor instead')
+const DeleteMatchError$json = {
+  '1': 'DeleteMatchError',
+  '2': [
+    {'1': 'DELETE_MATCH_UNKNOWN', '2': 0},
+    {'1': 'DELETE_MATCH_MATCH_DOES_NOT_EXIST', '2': 1},
+    {'1': 'DELETE_MATCH_UNAUTHORIZED', '2': 2},
+  ],
+};
+
+/// Descriptor for `DeleteMatchError`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List deleteMatchErrorDescriptor = $convert.base64Decode(
+    'ChBEZWxldGVNYXRjaEVycm9yEhgKFERFTEVURV9NQVRDSF9VTktOT1dOEAASJQohREVMRVRFX0'
+    '1BVENIX01BVENIX0RPRVNfTk9UX0VYSVNUEAESHQoZREVMRVRFX01BVENIX1VOQVVUSE9SSVpF'
+    'RBAC');
+
 @$core.Deprecated('Use configureRequestDescriptor instead')
 const ConfigureRequest$json = {
   '1': 'ConfigureRequest',
@@ -305,6 +321,35 @@ final $typed_data.Uint8List toggleHighlightReplyDescriptor = $convert.base64Deco
     'ChRUb2dnbGVIaWdobGlnaHRSZXBseRIYCgdzdWNjZXNzGAEgASgIUgdzdWNjZXNzEjsKBWVycm'
     '9yGAIgASgOMiAuUmFja2V0UmVlbC5Ub2dnbGVIaWdobGlnaHRFcnJvckgAUgVlcnJvcogBAUII'
     'CgZfZXJyb3I=');
+
+@$core.Deprecated('Use deleteMatchRequestDescriptor instead')
+const DeleteMatchRequest$json = {
+  '1': 'DeleteMatchRequest',
+  '2': [
+    {'1': 'match_id', '3': 1, '4': 1, '5': 5, '10': 'matchId'},
+  ],
+};
+
+/// Descriptor for `DeleteMatchRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteMatchRequestDescriptor = $convert.base64Decode(
+    'ChJEZWxldGVNYXRjaFJlcXVlc3QSGQoIbWF0Y2hfaWQYASABKAVSB21hdGNoSWQ=');
+
+@$core.Deprecated('Use deleteMatchReplyDescriptor instead')
+const DeleteMatchReply$json = {
+  '1': 'DeleteMatchReply',
+  '2': [
+    {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
+    {'1': 'error', '3': 2, '4': 1, '5': 14, '6': '.RacketReel.DeleteMatchError', '9': 0, '10': 'error', '17': true},
+  ],
+  '8': [
+    {'1': '_error'},
+  ],
+};
+
+/// Descriptor for `DeleteMatchReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteMatchReplyDescriptor = $convert.base64Decode(
+    'ChBEZWxldGVNYXRjaFJlcGx5EhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3MSNwoFZXJyb3IYAi'
+    'ABKA4yHC5SYWNrZXRSZWVsLkRlbGV0ZU1hdGNoRXJyb3JIAFIFZXJyb3KIAQFCCAoGX2Vycm9y');
 
 @$core.Deprecated('Use summaryDescriptor instead')
 const Summary$json = {

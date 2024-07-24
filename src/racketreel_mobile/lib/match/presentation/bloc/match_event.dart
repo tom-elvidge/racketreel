@@ -13,3 +13,7 @@ final class FetchInitialEvent extends MatchEvent {
 final class FetchMatchStatesEvent extends MatchEvent {
   const FetchMatchStatesEvent();
 }
+
+final class DeleteMatchEvent extends MatchEvent {
+  const DeleteMatchEvent();
+}

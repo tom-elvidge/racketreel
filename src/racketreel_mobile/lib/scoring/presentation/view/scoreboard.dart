@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:racketreel/scoring/presentation/view/scoreboard_row.dart';
 import 'package:racketreel/shared/domain/team.dart';
+import 'package:racketreel/shared/view/color_helper.dart';
 
 class Scoreboard extends StatelessWidget {
   final String teamOneName;
@@ -32,20 +33,12 @@ class Scoreboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ColorHelper.lightenColor(Theme.of(context).colorScheme.surface, 0.035),
         border: Border.all(
-          color: Colors.blue.shade900, //color of border
-          width: 2, //width of border
+          color: Theme.of(context).colorScheme.primary,
+          width: 1,
         ),
         borderRadius: BorderRadius.circular(5),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: const Offset(0, 2),
-          )
-        ],
       ),
       child: Column(
         children: [

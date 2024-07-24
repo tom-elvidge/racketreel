@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:racketreel/feed/domain/feed_item_v2_entity.dart';
 import 'package:racketreel/feed/presentation/view/final_score_row.dart';
 import 'package:racketreel/shared/domain/name_helper.dart';
+import 'package:racketreel/shared/view/color_helper.dart';
 
 class FeedItem extends StatelessWidget {
   const FeedItem({super.key, required this.feedItem});
@@ -12,8 +13,7 @@ class FeedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.blue.shade50,
-          border: Border.all(width: 1, color: Colors.blue.shade400),
+          color: ColorHelper.lightenColor(Theme.of(context).colorScheme.surface, 0.035),
           borderRadius: const BorderRadius.all(Radius.circular(8))
       ),
       alignment: Alignment.center,
@@ -27,7 +27,7 @@ class FeedItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundColor: Colors.blue.shade200,
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 child: Text(NameHelper.getInitials(feedItem.user)),
               ),
               Container(
@@ -38,14 +38,14 @@ class FeedItem extends StatelessWidget {
                     Text(
                       feedItem.user,
                       style: TextStyle(
-                        color: Colors.blue.shade900,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 16,
                       ),
                     ),
                     Text(
                       feedItem.datetime,
                       style: TextStyle(
-                        color: Colors.blue.shade900,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 10,
                       ),
                     ),
@@ -59,14 +59,14 @@ class FeedItem extends StatelessWidget {
                   Text(
                     feedItem.format,
                     style: TextStyle(
-                      color: Colors.blue.shade900,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 10,
                     ),
                   ),
                   Text(
                     feedItem.duration,
                     style: TextStyle(
-                      color: Colors.blue.shade900,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 10,
                     ),
                   ),
@@ -85,7 +85,7 @@ class FeedItem extends StatelessWidget {
                 child: Text(
                   "SETS",
                   style: TextStyle(
-                    color: Colors.blue.shade900,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 8,
                   ),
                 ),
@@ -98,7 +98,7 @@ class FeedItem extends StatelessWidget {
                       child: Text(
                         e.setNumber.toString(),
                         style: TextStyle(
-                          color: Colors.blue.shade900,
+                          color: Theme.of(context).colorScheme.onSurface,
                           fontSize: 8,
                         ),
                       ),

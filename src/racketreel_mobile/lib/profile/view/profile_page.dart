@@ -48,6 +48,28 @@ class ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) => BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) => Scaffold(
         appBar: AppBar(
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(60.0),
+            child: state.isInitializing ? Container() : Container(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: CircleAvatar(
+                      child: state.displayName == null
+                          ? const Text("U")
+                          : Text(NameHelper.getInitials(state.displayName!)),
+                    ),
+                  ),
+                  Text(
+                    state.displayName ?? "No display name",
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            )
+          ),
           title: Text(
             state.isInitializing
               ? ""
@@ -144,79 +166,54 @@ class ProfilePageState extends State<ProfilePage> {
                 onRefresh: () async => context
                     .read<ProfileBloc>()
                     .add(Refresh()),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: CircleAvatar(
-                              child: state.displayName == null
-                                  ? const Text("U")
-                                  : Text(NameHelper.getInitials(state.displayName!)),
-                            ),
-                          ),
-                          Text(
-                            state.displayName ?? "No display name",
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Scrollbar(
-                        child: Builder(
-                          builder: (BuildContext newContext) {
-                            // Using the new context that has access to the BlocProvider
-                            return CustomScrollView(
-                              controller: _scrollController,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              slivers: <Widget>[
-                                // Load new feed items when coming back to this page
-                                SliverList(
-                                  delegate: SliverChildBuilderDelegate(
-                                        (BuildContext context, int index) {
-                                      final item = state.liveMatchesItems[index];
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                        child: InkWell(
-                                          child: LiveMatchItem(
-                                            liveMatchEntity: item,
-                                            userDisplayName: state.displayName ?? "",
-                                          ),
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => ScoringPage(matchId: item.matchId),
-                                              ),
-                                            );
-                                          },
+                child: Scrollbar(
+                  child: Builder(
+                    builder: (BuildContext newContext) {
+                      // Using the new context that has access to the BlocProvider
+                      return CustomScrollView(
+                        controller: _scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        slivers: <Widget>[
+                          // Load new feed items when coming back to this page
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                final item = state.liveMatchesItems[index];
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                  child: InkWell(
+                                    child: LiveMatchItem(
+                                      liveMatchEntity: item,
+                                      userDisplayName: state.displayName ?? "",
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ScoringPage(matchId: item.matchId),
                                         ),
                                       );
                                     },
-                                    childCount: state.liveMatchesItems.length,
                                   ),
-                                ),
-                                SliverToBoxAdapter(
-                                  child: state.liveMatchesFetchingOlder
-                                      ? Container(
-                                    padding: const EdgeInsets.all(20),
-                                    child: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  )
-                                      : const SizedBox.shrink(),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    )
-                  ],
+                                );
+                              },
+                              childCount: state.liveMatchesItems.length,
+                            ),
+                          ),
+                          SliverToBoxAdapter(
+                            child: state.liveMatchesFetchingOlder
+                                ? Container(
+                              padding: const EdgeInsets.all(20),
+                              child: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                                : const SizedBox.shrink(),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
           )
         )

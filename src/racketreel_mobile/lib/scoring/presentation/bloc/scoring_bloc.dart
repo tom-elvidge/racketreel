@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:logging/logging.dart';
 import 'package:racketreel/scoring/data/i_scoring_service.dart';
+import 'package:racketreel/shared/data/match_service.dart';
 import 'package:racketreel/shared/domain/match_state_entity.dart';
 import 'package:racketreel/shared/domain/team.dart';
 
@@ -13,17 +14,19 @@ part 'scoring_state.dart';
 @injectable
 class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
   final IScoringService scoring;
+  final IMatchService matchService;
   final logger = Logger((ScoringBloc).toString());
   
   static const methodChannel = MethodChannel('com.racketreel.app/scoring_mc');
   static const eventChannel = EventChannel('com.racketreel.app/scoring_ec');
 
-  ScoringBloc(this.scoring) : super(ScoringUpdate.initial()) {
+  ScoringBloc(this.scoring, this.matchService) : super(ScoringUpdate.initial()) {
     on<InitialScoringEvent>(_onInitialScoringEvent);
     on<PointToTeamOneEvent>(_onPointToTeamOneEvent);
     on<PointToTeamTwoEvent>(_onPointToTeamTwoEvent);
     on<UndoEvent>(_onUndoEvent);
     on<ToggleHighlightEvent>(_onToggleHighlightEvent);
+    on<DeleteMatchEvent>(_onDeleteMatchEvent);
 
     eventChannel.receiveBroadcastStream().listen(_scoringEventChannelHandler);
   }
@@ -169,6 +172,16 @@ class ScoringBloc extends Bloc<ScoringEvent, ScoringState> {
         isLastStateHighlighted: !state.isLastStateHighlighted
       ));
     }
+  }
+
+  void _onDeleteMatchEvent(DeleteMatchEvent event, Emitter<ScoringState> emit) async {
+    if (state.matchId == null)
+    {
+      logger.info("Cannot delete match without a match id");
+      return;
+    }
+
+    await matchService.deleteMatch(state.matchId!);
   }
 
   Map<String, String> _createMatchStateMap(

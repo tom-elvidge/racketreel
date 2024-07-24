@@ -62,7 +62,7 @@ class ScoringUpdate extends ScoringState {
       matchState: matchState ?? this.matchState,
       isUpdating: isUpdating ?? this.isUpdating,
       isLastStateHighlighted: isLastStateHighlighted ?? this.isLastStateHighlighted,
-      userErrorMessage: userErrorMessage ?? this.userErrorMessage
+      userErrorMessage: userErrorMessage ?? this.userErrorMessage,
     );
   }
 

@@ -5,6 +5,8 @@ import 'package:racketreel/profile/live_matches_service.dart';
 import 'package:racketreel/profile/user_service.dart';
 import 'package:racketreel/shared/domain/name_helper.dart';
 
+import '../../shared/view/color_helper.dart';
+
 class LiveMatchItem extends StatelessWidget {
   const LiveMatchItem({super.key, required this.liveMatchEntity, required this.userDisplayName});
 
@@ -15,8 +17,7 @@ class LiveMatchItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.blue.shade50,
-          border: Border.all(width: 1, color: Colors.blue.shade400),
+          color: ColorHelper.lightenColor(Theme.of(context).colorScheme.surface, 0.035),
           borderRadius: const BorderRadius.all(Radius.circular(8))
       ),
       alignment: Alignment.center,
@@ -30,7 +31,7 @@ class LiveMatchItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundColor: Colors.blue.shade200,
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 child: Text(NameHelper.getInitials(userDisplayName)),
               ),
               Container(
@@ -41,14 +42,14 @@ class LiveMatchItem extends StatelessWidget {
                     Text(
                       userDisplayName,
                       style: TextStyle(
-                        color: Colors.blue.shade900,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 16,
                       ),
                     ),
                     Text(
                       liveMatchEntity.datetime,
                       style: TextStyle(
-                        color: Colors.blue.shade900,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 10,
                       ),
                     ),
@@ -62,7 +63,7 @@ class LiveMatchItem extends StatelessWidget {
                   Text(
                     liveMatchEntity.format,
                     style: TextStyle(
-                      color: Colors.blue.shade900,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 10,
                     ),
                   ),
@@ -77,13 +78,11 @@ class LiveMatchItem extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        child: Text(
-                          liveMatchEntity.teamOneName,
-                          style: TextStyle(
-                            color: Colors.blue.shade900,
-                            fontSize: 16,
-                          ),
+                      Text(
+                        liveMatchEntity.teamOneName,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 16,
                         ),
                       ),
                     ],
@@ -97,7 +96,7 @@ class LiveMatchItem extends StatelessWidget {
                   child: Text(
                     liveMatchEntity.teamOneSets,
                     style: TextStyle(
-                      color: Colors.blue.shade900,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 16,
                     ),
                   ),
@@ -110,7 +109,7 @@ class LiveMatchItem extends StatelessWidget {
                   child: Text(
                     liveMatchEntity.teamOneGames,
                     style: TextStyle(
-                      color: Colors.blue.shade900,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 16,
                     ),
                   ),
@@ -123,7 +122,7 @@ class LiveMatchItem extends StatelessWidget {
                   child: Text(
                     liveMatchEntity.teamOnePoints,
                     style: TextStyle(
-                      color: Colors.blue.shade900,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 16,
                     ),
                   ),
@@ -138,13 +137,11 @@ class LiveMatchItem extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        child: Text(
-                          liveMatchEntity.teamTwoName,
-                          style: TextStyle(
-                            color: Colors.blue.shade900,
-                            fontSize: 16,
-                          ),
+                      Text(
+                        liveMatchEntity.teamTwoName,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 16,
                         ),
                       ),
                     ],
@@ -158,7 +155,7 @@ class LiveMatchItem extends StatelessWidget {
                   child: Text(
                     liveMatchEntity.teamTwoSets,
                     style: TextStyle(
-                      color: Colors.blue.shade900,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 16,
                     ),
                   ),
@@ -171,7 +168,7 @@ class LiveMatchItem extends StatelessWidget {
                   child: Text(
                     liveMatchEntity.teamTwoGames,
                     style: TextStyle(
-                      color: Colors.blue.shade900,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 16,
                     ),
                   ),
@@ -184,7 +181,7 @@ class LiveMatchItem extends StatelessWidget {
                   child: Text(
                     liveMatchEntity.teamTwoPoints,
                     style: TextStyle(
-                      color: Colors.blue.shade900,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 16,
                     ),
                   ),

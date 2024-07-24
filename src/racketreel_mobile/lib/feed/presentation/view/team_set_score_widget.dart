@@ -20,7 +20,7 @@ class TeamSetScoreContainer extends StatelessWidget {
           Text(
             teamSetScore.games.toString(),
             style: TextStyle(
-              color: Colors.blue.shade900,
+              color: Theme.of(context).colorScheme.onSurface,
               fontSize: 16,
             ),
           ),
@@ -31,7 +31,7 @@ class TeamSetScoreContainer extends StatelessWidget {
               style: TextStyle(
                 color: teamSetScore.tiebreakPoints == 0
                     ? Colors.transparent
-                    : Colors.blue.shade900,
+                    : Theme.of(context).colorScheme.onSurfaceVariant,
                 fontSize: 10,
               ),
             ),

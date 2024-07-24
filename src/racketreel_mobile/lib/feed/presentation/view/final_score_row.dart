@@ -28,19 +28,17 @@ class FinalScoreRow extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  child: Text(
-                    name,
-                    style: TextStyle(
-                      color: Colors.blue.shade900,
-                      fontSize: 16,
-                    ),
+                Text(
+                  name,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontSize: 16,
                   ),
                 ),
                 if (matchWon)
-                  const Icon(
+                  Icon(
                     Icons.check,
-                    color: Colors.green,
+                    color: Theme.of(context).colorScheme.primary,
                     size: 16.0,
                   ),
               ],
@@ -50,11 +48,11 @@ class FinalScoreRow extends StatelessWidget {
             alignment: Alignment.center,
             width: 70,
             height: 30,
-            padding: EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: Text(
               totalSetsWon.toString(),
               style: TextStyle(
-              color: Colors.blue.shade900,
+              color: Theme.of(context).colorScheme.onSurface,
               fontSize: 18,
               ),
             ),

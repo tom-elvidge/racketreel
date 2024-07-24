@@ -4,6 +4,7 @@ import 'package:racketreel/create_match/presentation/bloc/create_match_cubit.dar
 import 'package:racketreel/create_match/presentation/view/serving_first_field.dart';
 import 'package:racketreel/injection.dart';
 import 'package:racketreel/scoring/presentation/view/scoring_page.dart';
+import 'package:racketreel/shared/view/color_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'format_field.dart';
 import 'name_field.dart';
@@ -30,12 +31,20 @@ class _CreateMatchPageState extends State<CreateMatchPage> {
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   action: SnackBarAction(
+                    textColor: Theme.of(context).colorScheme.onSurface,
                     label: 'Report',
                     onPressed: () async {
                       await launchUrl(Uri.parse("https://github.com/racketreel/feedback/issues/new"));
                     },
                   ),
-                  content: const Text("Failed to create match."),
+                  content: Text(
+                    "Failed to create match",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface
+                    ),
+                  ),
+                  duration: const Duration(seconds: 5),
+                  backgroundColor: ColorHelper.lightenColor(Theme.of(context).colorScheme.surface, .03),
                 ));
           }
         },

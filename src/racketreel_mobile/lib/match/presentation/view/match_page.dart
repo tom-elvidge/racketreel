@@ -24,49 +24,85 @@ class MatchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<MatchBloc>()..add(FetchInitialEvent(matchId)),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Match"),
-        ),
-        body: BlocBuilder<MatchBloc, MatchState>(
-          builder: (context, state) {
-            // fetch next page when near the end of the scroll
-            var scrollController = PrimaryScrollController.of(context);
-            scrollController.addListener(() {
-              if (_isNearEndOfScroll(scrollController))
-              {
-                context
-                    .read<MatchBloc>()
-                    .add(const FetchMatchStatesEvent());
-              }
-            });
+      child: BlocBuilder<MatchBloc, MatchState>(
+        builder: (context, state) {
+          // fetch next page when near the end of the scroll
+          var scrollController = PrimaryScrollController.of(context);
 
-            return state.fetchingSummary
-                ? const Center(child: CircularProgressIndicator())
-                : Scrollbar(
-                    child: CustomScrollView(
-                      slivers: [
-                        // Summary
-                        SliverList(delegate: SliverChildListDelegate.fixed([
-                          // TODO: create a summary component
-                          Text(state.summary.datetime)
-                        ])),
-                        // Match states
-                        SliverList(delegate: state.fetchingStates
-                          ? SliverChildListDelegate.fixed([
-                            const Center(child: CircularProgressIndicator())
-                          ])
-                          : SliverChildListDelegate(
-                            state.states
-                              // TODO: create a state component
-                              .map((s) => Text(s.datetime))
-                              .toList()
-                            )),
-                      ],
-                    ),
-                  );
-          },
-        ),
+          scrollController.addListener(() {
+            if (_isNearEndOfScroll(scrollController)) {
+              context
+                  .read<MatchBloc>()
+                  .add(const FetchMatchStatesEvent());
+            }
+          });
+
+          return Scaffold(
+              appBar: AppBar(
+                title: const Text("Match"),
+                actions: <Widget>[
+                  IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    tooltip: 'More',
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (_)
+                        {
+                          return BlocProvider.value(
+                            value: BlocProvider.of<MatchBloc>(context),
+                            child: SafeArea(
+                              child: Wrap(
+                                children: [
+                                  ListTile(
+                                    title: const Text('Delete match'),
+                                    onTap: () {
+                                      context
+                                          .read<MatchBloc>()
+                                          .add(const DeleteMatchEvent());
+
+                                      if (!context.mounted) return;
+
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+              body: state.fetchingSummary
+                  ? const Center(child: CircularProgressIndicator())
+                  : Scrollbar(
+                child: CustomScrollView(
+                  slivers: [
+                    // Summary
+                    SliverList(delegate: SliverChildListDelegate.fixed([
+                      // TODO: create a summary component
+                      Text(state.summary.datetime)
+                    ])),
+                    // Match states
+                    SliverList(delegate: state.fetchingStates
+                        ? const SliverChildListDelegate.fixed([
+                      Center(child: CircularProgressIndicator())
+                    ])
+                        : SliverChildListDelegate(
+                        state.states
+                        // TODO: create a state component
+                            .map((s) => Text(s.datetime))
+                            .toList()
+                    )),
+                  ],
+                ),
+              )
+          );
+        }
       ),
     );
   }

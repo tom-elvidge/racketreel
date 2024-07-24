@@ -21,6 +21,7 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
+        indicatorColor: Theme.of(context).colorScheme.primary,
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;

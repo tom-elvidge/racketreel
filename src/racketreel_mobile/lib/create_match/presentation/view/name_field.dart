@@ -7,7 +7,6 @@ class NameField extends StatelessWidget {
 
   // example names to use as a hint
   static final List<String> _examples = [
-    // top 10 atp as of 02/12/2022
     'Carlos Alcaraz',
     'Rafael Nadal',
     'Casper Ruud',
@@ -18,7 +17,17 @@ class NameField extends StatelessWidget {
     'Andrey Rublev',
     'Taylor Fritz',
     'Hubert Hurkacz',
-    // top 10 wta as of 02/12/2022
+    'Jannik Sinner',
+    'Alexander Zverev',
+    'Alex de Minaur',
+    'Grigor Dimitrov',
+    'Andy Murray',
+    'Roger Federer',
+    'Tommy Paul',
+    'Ben Shelton',
+    'Ugo Humbert',
+    'Holger Rune',
+    'Lorenzo Musetti',
     'Iga Swiatek',
     'Ons Jabeur',
     'Jessica Pegula',
@@ -29,6 +38,22 @@ class NameField extends StatelessWidget {
     'Daria Kasatkina',
     'Veronika Kudermetova',
     'Simona Halep',
+    'Elena Rybakina',
+    'Jasmine Paolini',
+    'Qinwen Zheng',
+    'Jessica Pegula',
+    'Daniel Collins',
+    'Serena Williams',
+    'Venus Williams',
+    'Ash Barty',
+    'Barbora Krejcikova',
+    'Jelena Ostapenko',
+    'Daria Kasatkina',
+    'Emma Raducanu',
+    'Marta Kostyuk',
+    'Victoria Azarenka',
+    'Leylah Fernandez',
+    'Caroline Garcia'
   ];
 
   const NameField({

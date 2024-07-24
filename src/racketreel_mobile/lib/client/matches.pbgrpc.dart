@@ -73,6 +73,10 @@ class MatchesClient extends $grpc.Client {
       '/RacketReel.Matches/GetStateStream',
       ($0.GetStateStreamRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.State.fromBuffer(value));
+  static final _$deleteMatch = $grpc.ClientMethod<$0.DeleteMatchRequest, $0.DeleteMatchReply>(
+      '/RacketReel.Matches/DeleteMatch',
+      ($0.DeleteMatchRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.DeleteMatchReply.fromBuffer(value));
 
   MatchesClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -130,6 +134,10 @@ class MatchesClient extends $grpc.Client {
 
   $grpc.ResponseStream<$0.State> getStateStream($0.GetStateStreamRequest request, {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$getStateStream, $async.Stream.fromIterable([request]), options: options);
+  }
+
+  $grpc.ResponseFuture<$0.DeleteMatchReply> deleteMatch($0.DeleteMatchRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$deleteMatch, request, options: options);
   }
 }
 
@@ -229,6 +237,13 @@ abstract class MatchesServiceBase extends $grpc.Service {
         true,
         ($core.List<$core.int> value) => $0.GetStateStreamRequest.fromBuffer(value),
         ($0.State value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.DeleteMatchRequest, $0.DeleteMatchReply>(
+        'DeleteMatch',
+        deleteMatch_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.DeleteMatchRequest.fromBuffer(value),
+        ($0.DeleteMatchReply value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.GetSummaryReply> getSummary_Pre($grpc.ServiceCall call, $async.Future<$0.GetSummaryRequest> request) async {
@@ -283,6 +298,10 @@ abstract class MatchesServiceBase extends $grpc.Service {
     yield* getStateStream(call, await request);
   }
 
+  $async.Future<$0.DeleteMatchReply> deleteMatch_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteMatchRequest> request) async {
+    return deleteMatch(call, await request);
+  }
+
   $async.Future<$0.GetSummaryReply> getSummary($grpc.ServiceCall call, $0.GetSummaryRequest request);
   $async.Future<$0.GetSummariesReply> getSummaries($grpc.ServiceCall call, $0.GetSummariesRequest request);
   $async.Future<$0.GetSummaryV2Reply> getSummaryV2($grpc.ServiceCall call, $0.GetSummaryRequest request);
@@ -296,4 +315,5 @@ abstract class MatchesServiceBase extends $grpc.Service {
   $async.Future<$0.UndoPointReply> undoPoint($grpc.ServiceCall call, $0.UndoPointRequest request);
   $async.Future<$0.ToggleHighlightReply> toggleHighlight($grpc.ServiceCall call, $0.ToggleHighlightRequest request);
   $async.Stream<$0.State> getStateStream($grpc.ServiceCall call, $0.GetStateStreamRequest request);
+  $async.Future<$0.DeleteMatchReply> deleteMatch($grpc.ServiceCall call, $0.DeleteMatchRequest request);
 }
