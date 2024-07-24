@@ -72,7 +72,8 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     
     func pointToTeamOne() {
         let userInfo = [ "Method": "POINT_TO_TEAM_ONE" ]
-        WCSession.default.transferUserInfo(userInfo)
+        let transfer = WCSession.default.transferUserInfo(userInfo)
+        transfers.append(transfer)
         
         self.isWaitingForState = true
     }
