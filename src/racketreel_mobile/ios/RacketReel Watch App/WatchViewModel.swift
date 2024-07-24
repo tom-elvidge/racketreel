@@ -25,8 +25,6 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     override init() {
         super.init()
         
-        updateTransfersTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateTransfers), userInfo: nil, repeats: true)
-        
         if WCSession.isSupported() {
             let session = WCSession.default
             session.delegate = self
@@ -39,7 +37,7 @@ class WatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     public func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
         // Transfer user info queues up messages and garuantees delivery
         // Note this does not work on a simulator so must be tested on device
-        var message = userInfo as! [String: String]
+        let message = userInfo as! [String: String]
         DispatchQueue.main.async {
             self.teamOneName = message["teamOneName"]!;
             self.teamTwoName = message["teamTwoName"]!;
