@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:racketreel/injection.dart';
+import 'package:racketreel/profile/bloc/profile_bloc.dart';
 import 'package:racketreel/scoring/presentation/bloc/scoring_bloc.dart';
 import 'package:racketreel/scoring/presentation/view/scoreboard.dart';
 import 'package:racketreel/shared/domain/match_link_provider.dart';
@@ -69,6 +70,7 @@ class ScoringPage extends StatelessWidget {
                                               .read<ScoringBloc>()
                                               .add(const DeleteMatchEvent());
 
+                                          // todo: wait for response from bloc before popping the navigator
                                           if (!context.mounted) return;
 
                                           Navigator.pop(context);

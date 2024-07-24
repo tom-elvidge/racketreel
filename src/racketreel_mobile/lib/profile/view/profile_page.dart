@@ -192,7 +192,11 @@ class ProfilePageState extends State<ProfilePage> {
                                         MaterialPageRoute(
                                           builder: (context) => ScoringPage(matchId: item.matchId),
                                         ),
-                                      );
+                                      ).then((_) {
+                                        context
+                                            .read<ProfileBloc>()
+                                            .add(Refresh());
+                                      });
                                     },
                                   ),
                                 );

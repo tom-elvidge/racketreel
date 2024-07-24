@@ -79,6 +79,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         state.copyWith(
           isInitializing: false,
           isUserFound: true,
+          userId: event.userId,
           displayName: userInfo.displayName,
           avatar: userInfo.avatar,
           userIsCurrentUser: userIsCurrentUser,
@@ -106,6 +107,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     emit(state.copyWith(
       isInitializing: true,
+      liveMatchesLastPageFetched: -1,
+      liveMatchesItems: [],
+      liveMatchesEndOfFeed: false
     ));
 
     var liveMatchesItems = await liveMatches.getLiveMatches(1, state.userId!);
@@ -119,6 +123,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           state.copyWith(
               isInitializing: false,
               isUserFound: false,
+              displayName: userInfo!.displayName,
               userIsCurrentUser: userIsCurrentUser,
               liveMatchesLastPageFetched: 1,
               liveMatchesItems: liveMatchesItems,

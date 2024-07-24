@@ -46,7 +46,7 @@ class LiveMatchesService implements ILiveMatchesService {
     var request = GetInProgressRequest();
     request.pageNumber = pageNumber;
     request.pageSize = 10;
-    request.allUsers = true;
+    request.allUsers = false;
     request.userIds.add(userId);
 
     var reply = await _client!.getInProgress(request);

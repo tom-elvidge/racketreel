@@ -26,12 +26,14 @@ public class MatchRepository : IMatchRepository
         return true;
     }
 
-    public async Task<Tuple<IEnumerable<MatchEntity>, int>> GetAsync(int pageNumber, int pageSize, MatchesOrderByEnum orderBy, bool includeStates, string[] userIds = null)
+    public async Task<Tuple<IEnumerable<MatchEntity>, int>> GetAsync(int pageNumber, int pageSize, MatchesOrderByEnum orderBy, bool includeStates, MatchCompleteQueryStatus matchCompleteQueryStatus, string[] userIds = null)
     {
         var matchesQuery = _context
             .Matches
-            // only get completed matches if ordering by completed at date time
-            .Where(m => orderBy == MatchesOrderByEnum.CompletedAt ? m.CompletedAtDateTime != DateTime.MaxValue : true)
+            // filter complete matches
+            .Where(m => matchCompleteQueryStatus != MatchCompleteQueryStatus.Complete || m.CompletedAtDateTime != DateTime.MaxValue)
+            // filter incomplete matches
+            .Where(m => matchCompleteQueryStatus != MatchCompleteQueryStatus.Incomplete || m.CompletedAtDateTime == DateTime.MaxValue)
             .Where(m => userIds == null || userIds.Contains(m.UserId));
 
         var matchesCount = await matchesQuery.CountAsync();

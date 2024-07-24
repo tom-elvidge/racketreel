@@ -27,6 +27,7 @@ public class GetInProgressMatchesQueryHandler : IQueryHandler<GetInProgressMatch
                 query.PageSize,
                 MatchesOrderByEnum.CreatedAt,
                 true,
+                MatchCompleteQueryStatus.Incomplete,
                 query.UserIds);
         }
         catch (ArgumentException)

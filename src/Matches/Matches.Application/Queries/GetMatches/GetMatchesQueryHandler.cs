@@ -27,6 +27,7 @@ public class GetMatchesQueryHandler : IQueryHandler<GetMatchesQuery, Paginated<M
                 query.PageSize,
                 MatchesOrderByEnum.CompletedAt,
                 true,
+                MatchCompleteQueryStatus.Complete,
                 query.UserIds);
         }
         catch (ArgumentException)

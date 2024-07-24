@@ -61,6 +61,7 @@ class MatchPage extends StatelessWidget {
                                           .read<MatchBloc>()
                                           .add(const DeleteMatchEvent());
 
+                                      // todo: wait for response from bloc before popping the navigator
                                       if (!context.mounted) return;
 
                                       Navigator.pop(context);
